@@ -146,6 +146,8 @@ const AUDIENCE_OPTIONS = [
   { value: "outro", label: "Outro" },
 ];
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 export default function AdminDashboard() {
   const navigate = useNavigate();
 
@@ -458,7 +460,7 @@ export default function AdminDashboard() {
 
       const requesterUid = localStorage.getItem("adminUid");
 
-      const response = await fetch("http://localhost:8787/api/admin/create-admin", {
+      const response = await fetch(`${API_BASE_URL}/api/admin/create-admin`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -511,7 +513,7 @@ export default function AdminDashboard() {
       const requesterUid = localStorage.getItem("adminUid");
 
       const response = await fetch(
-        "http://localhost:8787/api/admin/toggle-admin-status",
+        `${API_BASE_URL}/api/admin/toggle-admin-status`,
         {
           method: "PATCH",
           headers: {
@@ -568,7 +570,7 @@ export default function AdminDashboard() {
 
       const requesterUid = localStorage.getItem("adminUid");
 
-      const response = await fetch("http://localhost:8787/api/admin/delete-admin", {
+      const response = await fetch(`${API_BASE_URL}/api/admin/delete-admin`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -595,7 +597,10 @@ export default function AdminDashboard() {
     }
   };
 
-  const toggleAssessment = async (assessmentId: string, currentStatus?: boolean) => {
+  const toggleAssessment = async (
+    assessmentId: string,
+    currentStatus?: boolean
+  ) => {
     try {
       const newStatus = currentStatus !== false ? false : true;
 
@@ -661,7 +666,7 @@ export default function AdminDashboard() {
       setConsolidatedAnalysis(null);
 
       const response = await fetch(
-        "http://localhost:8787/api/admin/consolidated-analysis",
+        `${API_BASE_URL}/api/admin/consolidated-analysis`,
         {
           method: "POST",
           headers: {
@@ -1406,7 +1411,12 @@ export default function AdminDashboard() {
             <div className="flex-1">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
-                  <Pie data={pieData} dataKey="value" innerRadius={50} outerRadius={80}>
+                  <Pie
+                    data={pieData}
+                    dataKey="value"
+                    innerRadius={50}
+                    outerRadius={80}
+                  >
                     {pieData.map((entry, i) => (
                       <Cell key={i} fill={STATUS_COLORS[i]} />
                     ))}
@@ -1458,7 +1468,10 @@ export default function AdminDashboard() {
                     interval={0}
                     angle={0}
                   />
-                  <YAxis tick={{ fill: "#cbd5f5", fontSize: 11 }} allowDecimals={false} />
+                  <YAxis
+                    tick={{ fill: "#cbd5f5", fontSize: 11 }}
+                    allowDecimals={false}
+                  />
                   <Tooltip
                     contentStyle={{
                       backgroundColor: "#0f172a",
@@ -1467,7 +1480,9 @@ export default function AdminDashboard() {
                       color: "#fff",
                     }}
                     formatter={(value: any, name: string) => [value, name]}
-                    labelFormatter={(_, payload) => payload?.[0]?.payload?.fullName || ""}
+                    labelFormatter={(_, payload) =>
+                      payload?.[0]?.payload?.fullName || ""
+                    }
                   />
                   <Bar dataKey="respostas" radius={[8, 8, 0, 0]} fill="#38bdf8" />
                 </BarChart>
@@ -1516,7 +1531,10 @@ export default function AdminDashboard() {
 
                           <span className="inline-flex items-center gap-1 rounded-full border border-fuchsia-500/30 bg-fuchsia-500/10 px-3 py-1 text-[11px] font-medium text-fuchsia-200">
                             <FolderKanban className="h-3.5 w-3.5" />
-                            {labelFromValue(OBJECTIVE_OPTIONS, assessment.objective)}
+                            {labelFromValue(
+                              OBJECTIVE_OPTIONS,
+                              assessment.objective
+                            )}
                           </span>
 
                           <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-[11px] font-medium text-emerald-200">
@@ -1560,12 +1578,16 @@ export default function AdminDashboard() {
 
                       <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3">
                         <p className="text-[11px] text-emerald-200">Concluídas</p>
-                        <p className="text-lg font-bold text-white">{stats.completed}</p>
+                        <p className="text-lg font-bold text-white">
+                          {stats.completed}
+                        </p>
                       </div>
 
                       <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3">
                         <p className="text-[11px] text-amber-200">Em andamento</p>
-                        <p className="text-lg font-bold text-white">{stats.inProgress}</p>
+                        <p className="text-lg font-bold text-white">
+                          {stats.inProgress}
+                        </p>
                       </div>
                     </div>
 
@@ -1585,7 +1607,9 @@ export default function AdminDashboard() {
                         </Button>
 
                         <Button
-                          onClick={() => toggleAssessment(assessment.id, assessment.active)}
+                          onClick={() =>
+                            toggleAssessment(assessment.id, assessment.active)
+                          }
                           className={`inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-white shadow-lg transition ${
                             assessment.active !== false
                               ? "bg-red-500 hover:bg-red-400"
