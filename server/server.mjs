@@ -72,7 +72,7 @@ app.use("/api/save-responses", saveResponsesRouter);
 app.use("/api/admin", adminRouter);
 app.use("/api/admin/consolidated-analysis", adminConsolidatedAnalysisRouter);
 
-app.all(/.*/, (_req, res) => {
+app.all("*", (_req, res) => {
   res.status(404).json({ error: "Rota não encontrada" });
 });
 
