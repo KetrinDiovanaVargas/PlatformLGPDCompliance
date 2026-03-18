@@ -2,6 +2,8 @@ const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 console.log("🌐 VITE_API_BASE_URL =", API_URL);
 
+
+
 export async function fetchStage(stage: number, context: any) {
   const url = `${API_URL}/api/generate-stage`;
 

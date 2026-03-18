@@ -455,7 +455,7 @@ export const QuestionnaireScreen = ({
                 : "Contexto não informado";
 
         const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/api/generate-stage`,
+  `${import.meta.env.VITE_API_BASE_URL}/api/generate-stage`,
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -738,7 +738,7 @@ export const QuestionnaireScreen = ({
         }))
         .sort((a, b) => a.questionId - b.questionId);
 
-      const resp = await fetch(`${import.meta.env.VITE_API_URL}/api/analyze`, {
+      const resp = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/analyze`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
