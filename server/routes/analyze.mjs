@@ -1,6 +1,6 @@
 import express from "express";
 import { generateFinalReportWithGroq } from "../groq/generateFinalReportGroq.mjs";
-import { saveFinalReport } from "../lib/saveFinalReport.js";
+import saveFinalReport from "../lib/saveFinalReport.js";
 import { adminDb } from "../firebaseAdmin.mjs";
 
 const router = express.Router();
