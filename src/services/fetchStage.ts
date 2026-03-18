@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8787";
+const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 export async function fetchStage(stage: number, context: any) {
   console.log("📡 Buscando etapa no backend:", stage);
