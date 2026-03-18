@@ -4,6 +4,13 @@ import { adminDb } from "../firebaseAdmin.mjs";
 
 const router = express.Router();
 
+router.options("/", (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", req.headers.origin || "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  return res.status(204).end();
+});
+
 function getGroqClient() {
   const apiKey = process.env.GROQ_API_KEY;
   if (!apiKey) throw new Error("GROQ_API_KEY não encontrada");
