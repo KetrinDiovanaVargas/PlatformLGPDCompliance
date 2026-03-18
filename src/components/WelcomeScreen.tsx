@@ -151,25 +151,16 @@ export const WelcomeScreen = ({
             </div>
           )}
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button
-              onClick={onStart}
-              size="lg"
-              className="text-lg px-8 py-6 shadow-elegant hover:shadow-glow transition-all duration-300 hover:scale-105"
-            >
-              Iniciar Avaliação
-              <FileCheck className="ml-2 w-5 h-5" />
-            </Button>
-
-            <Button
-              variant="outline"
-              onClick={() => navigate("/admin/login")}
-              size="lg"
-              className="text-lg px-8 py-6 border-white/20 text-white hover:bg-white/10"
-            >
-              Área administrativa
-            </Button>
-          </div>
+          <div className="flex justify-center">
+  <Button
+    onClick={() => navigate("/admin/login")}
+    size="lg"
+    className="text-lg px-10 py-6 bg-gradient-to-r from-blue-600 to-indigo-600 shadow-elegant hover:shadow-glow transition-all duration-300 hover:scale-105"
+  >
+    Iniciar Avaliação
+    <FileCheck className="ml-2 w-5 h-5" />
+  </Button>
+</div>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
