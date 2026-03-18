@@ -5,6 +5,7 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Carrega .env corretamente
 dotenv.config({
   path: path.resolve(__dirname, "../.env"),
 });
@@ -21,40 +22,36 @@ import adminConsolidatedAnalysisRouter from "./routes/adminConsolidatedAnalysis.
 const app = express();
 const PORT = process.env.PORT || 8787;
 
+// ✅ CORS CORRIGIDO (suporta Vercel + localhost)
 const allowedOrigins = [
   "http://localhost:5173",
   "https://platform-lgpd-compliance.vercel.app",
 ];
 
-const corsOptions = {
-  origin(origin, callback) {
-    if (!origin) {
-      return callback(null, true);
-    }
+app.use(
+  cors({
+    origin(origin, callback) {
+      if (!origin) return callback(null, true);
 
-    const isAllowed =
-      allowedOrigins.includes(origin) ||
-      origin.endsWith(".vercel.app") ||
-      origin.includes("vercel.app");
+      if (
+        allowedOrigins.includes(origin) ||
+        origin.includes("vercel.app")
+      ) {
+        return callback(null, true);
+      }
 
-    if (isAllowed) {
-      return callback(null, true);
-    }
+      return callback(new Error(`CORS bloqueado: ${origin}`));
+    },
+    methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  })
+);
 
-    console.error("❌ Origem bloqueada pelo CORS:", origin);
-    return callback(new Error(`Origem não permitida pelo CORS: ${origin}`));
-  },
-  methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true,
-  optionsSuccessStatus: 204,
-};
-
-app.use(cors(corsOptions));
-app.options(/.*/, cors(corsOptions));
-
+// Middleware
 app.use(express.json());
 
+// Health check
 app.get("/", (_req, res) => {
   res.json({
     status: "ok",
@@ -66,16 +63,22 @@ app.get("/health", (_req, res) => {
   res.json({ status: "ok" });
 });
 
+// Rotas
 app.use("/api/generate-stage", generateStageRouter);
 app.use("/api/analyze", analyzeRouter);
 app.use("/api/save-responses", saveResponsesRouter);
 app.use("/api/admin", adminRouter);
-app.use("/api/admin/consolidated-analysis", adminConsolidatedAnalysisRouter);
+app.use(
+  "/api/admin/consolidated-analysis",
+  adminConsolidatedAnalysisRouter
+);
 
+// ✅ FIX EXPRESS 5 (ANTES ERA /.*/)
 app.all("*", (_req, res) => {
   res.status(404).json({ error: "Rota não encontrada" });
 });
 
+// Start server
 app.listen(PORT, () => {
   console.log("🔑 GROQ_API_KEY carregada:", !!process.env.GROQ_API_KEY);
   console.log(`🚀 Backend rodando na porta ${PORT}`);
