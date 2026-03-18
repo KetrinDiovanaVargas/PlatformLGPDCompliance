@@ -10,7 +10,6 @@ dotenv.config({
 });
 
 import express from "express";
-import cors from "cors";
 
 import generateStageRouter from "./routes/generateStage.mjs";
 import analyzeRouter from "./routes/analyze.mjs";
@@ -26,22 +25,24 @@ const allowedOrigins = [
   "http://localhost:5173",
 ];
 
-const corsOptions = {
-  origin(origin, callback) {
-    if (!origin) return callback(null, true);
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
 
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    }
+  if (origin && allowedOrigins.includes(origin)) {
+    res.header("Access-Control-Allow-Origin", origin);
+  }
 
-    return callback(new Error(`Origem não permitida por CORS: ${origin}`));
-  },
-  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: false,
-};
+  res.header("Vary", "Origin");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
-app.use(cors({ origin: true }));
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(204);
+  }
+
+  next();
+});
+
 app.use(express.json());
 
 app.get("/", (_req, res) => {
