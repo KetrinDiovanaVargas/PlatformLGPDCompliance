@@ -631,6 +631,15 @@ async function loadAssessmentMetadata(assessmentId) {
   };
 }
 
+router.get("/", (_req, res) => {
+  res.json({
+    status: "ok",
+    route: "/api/generate-stage",
+    method: "POST",
+    message: "Use esta rota com POST para gerar a etapa.",
+  });
+});
+
 router.post("/", async (req, res) => {
   try {
     const {

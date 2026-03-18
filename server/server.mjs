@@ -21,8 +21,28 @@ import adminConsolidatedAnalysisRouter from "./routes/adminConsolidatedAnalysis.
 const app = express();
 const PORT = process.env.PORT || 8787;
 
-// CORS aberto para evitar bloqueio entre Vercel e Render
-app.use(cors());
+const allowedOrigins = [
+  "https://platform-lgpd-compliance.vercel.app",
+  "http://localhost:5173",
+];
+
+const corsOptions = {
+  origin(origin, callback) {
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    return callback(new Error(`Origem não permitida por CORS: ${origin}`));
+  },
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: false,
+};
+
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 
 app.use(express.json());
 
