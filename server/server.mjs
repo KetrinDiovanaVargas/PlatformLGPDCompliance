@@ -41,7 +41,7 @@ const corsOptions = {
   credentials: false,
 };
 
-app.use(cors(corsOptions));
+app.use(cors({ origin: true }));
 app.use(express.json());
 
 app.get("/", (_req, res) => {
