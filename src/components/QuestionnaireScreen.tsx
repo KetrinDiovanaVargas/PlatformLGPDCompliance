@@ -43,14 +43,46 @@ interface Stage {
   questions: Question[];
 }
 
+interface Assessment {
+  id: string;
+  title?: string;
+  description?: string;
+  context?: string;
+  formType?: string;
+  objective?: string;
+  targetAudience?: string;
+  active?: boolean;
+  deleted?: boolean;
+  [key: string]: unknown;
+}
+
+interface QuestionnaireCompletePayload {
+  sessionId: string;
+  assessmentId: string | null;
+  responses: Array<{
+    questionId: number;
+    question: string;
+    answer: unknown;
+  }>;
+  report: string;
+  metrics: Record<string, unknown> | null;
+  reportMode?: string;
+  reportNotice?: string;
+  risks?: unknown;
+  score?: number;
+  summary?: string;
+  controls?: unknown[];
+  strengths?: unknown[];
+  attentionPoints?: unknown[];
+  criticalIssues?: unknown[];
+  controlsStatus?: unknown[];
+  recommendations?: unknown[];
+}
+
 interface QuestionnaireScreenProps {
-  onComplete: (data: any) => void;
+  onComplete: (data: QuestionnaireCompletePayload) => void;
   onBack: () => void;
-  assessmentId?: string;
-  assessmentContext?: string;
-  assessmentTitle?: string;
-  assessmentFormType?: string;
-  assessmentObjective?: string;
+  assessment?: Assessment | null;
 }
 
 /* ======================================================
@@ -78,7 +110,7 @@ const DEMO_USER_ID = "usuario_demo";
 
 type ResponseEntry = {
   question: string;
-  answer: any;
+  answer: unknown;
 };
 
 /* ======================================================
@@ -103,9 +135,6 @@ const isOtherLikeOption = (label?: string) => {
   );
 };
 
-/* ======================================================
-   CONTAGEM ESPERADA
-====================================================== */
 const expectedQuestionsForStage = (stageIndex: number) => {
   if (stageIndex === 0) return 1;
   if (stageIndex === 1) return 4;
@@ -133,20 +162,23 @@ const hasOtherOption = (q?: Question) => {
   return q.options.some((o) => isOtherLikeOption(o));
 };
 
-const isOtherSelected = (q: Question | undefined, answer: any) => {
+const isOtherSelected = (q: Question | undefined, answer: unknown) => {
   if (!q || !hasOtherOption(q)) return false;
 
   if (q.type === "select") {
     if (answer && typeof answer === "object" && "selected" in answer) {
-      return isOtherLikeOption(String((answer as any).selected ?? ""));
+      return isOtherLikeOption(String((answer as { selected?: string }).selected ?? ""));
     }
     return isOtherLikeOption(String(answer ?? ""));
   }
 
   if (q.type === "checkbox") {
     const selected =
-      answer && typeof answer === "object" && Array.isArray(answer.selected)
-        ? answer.selected
+      answer &&
+      typeof answer === "object" &&
+      "selected" in answer &&
+      Array.isArray((answer as { selected?: string[] }).selected)
+        ? (answer as { selected: string[] }).selected
         : Array.isArray(answer)
           ? answer
           : [];
@@ -225,12 +257,14 @@ function AssessmentInlineLoading({
 export const QuestionnaireScreen = ({
   onComplete,
   onBack,
-  assessmentId,
-  assessmentContext,
-  assessmentTitle,
-  assessmentFormType,
-  assessmentObjective,
+  assessment,
 }: QuestionnaireScreenProps) => {
+  const assessmentId = assessment?.id ?? null;
+  const assessmentContext = String(assessment?.context ?? "");
+  const assessmentTitle = String(assessment?.title ?? "");
+  const assessmentFormType = String(assessment?.formType ?? "");
+  const assessmentObjective = String(assessment?.objective ?? "");
+
   const [stages, setStages] = useState<Stage[]>([]);
   const [currentStage, setCurrentStage] = useState(0);
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -323,7 +357,7 @@ export const QuestionnaireScreen = ({
   }, [currentStage]);
 
   const buildContextObjectForStage = (stageIndex: number) => {
-    const ctx: Record<string, any> = {};
+    const ctx: Record<string, unknown> = {};
     const startIdx = startGlobalIndexOfStage(stageIndex);
 
     Object.keys(responses)
@@ -339,14 +373,15 @@ export const QuestionnaireScreen = ({
     return ctx;
   };
 
-  const normalizeStageFromBackend = (data: any, stageIndex: number): Stage => {
+  const normalizeStageFromBackend = (data: unknown, stageIndex: number): Stage => {
     const expected = expectedQuestionsForStage(stageIndex);
+    const raw = (data ?? {}) as Partial<Stage>;
 
     const base: Stage = {
       id: stageIndex,
-      title: data?.title ?? `Etapa ${stageIndex}`,
-      description: data?.description ?? "Perguntas adaptativas",
-      questions: Array.isArray(data?.questions) ? data.questions : [],
+      title: raw.title ?? `Etapa ${stageIndex}`,
+      description: raw.description ?? "Perguntas adaptativas",
+      questions: Array.isArray(raw.questions) ? raw.questions : [],
     };
 
     if (stageIndex > 0 && base.questions.length > expected) {
@@ -403,9 +438,21 @@ export const QuestionnaireScreen = ({
         const respondentContext =
           typeof initialContextAnswer === "string"
             ? initialContextAnswer
-            : initialContextAnswer?.selected ??
-              initialContextAnswer?.answer ??
-              "Contexto não informado";
+            : initialContextAnswer &&
+                typeof initialContextAnswer === "object" &&
+                "selected" in initialContextAnswer
+              ? String(
+                  (initialContextAnswer as { selected?: string }).selected ??
+                    "Contexto não informado"
+                )
+              : initialContextAnswer &&
+                  typeof initialContextAnswer === "object" &&
+                  "answer" in initialContextAnswer
+                ? String(
+                    (initialContextAnswer as { answer?: string }).answer ??
+                      "Contexto não informado"
+                  )
+                : "Contexto não informado";
 
         const response = await fetch(
           `${import.meta.env.VITE_API_URL}/api/generate-stage`,
@@ -416,11 +463,11 @@ export const QuestionnaireScreen = ({
               stage: currentStage,
               userId: DEMO_USER_ID,
               sessionId,
-              assessmentId: assessmentId ?? null,
-              assessmentContext: assessmentContext ?? "",
-              assessmentTitle: assessmentTitle ?? "",
-              assessmentFormType: assessmentFormType ?? "",
-              assessmentObjective: assessmentObjective ?? "",
+              assessmentId,
+              assessmentContext,
+              assessmentTitle,
+              assessmentFormType,
+              assessmentObjective,
               profile: respondentContext,
               respondentContext,
               context: buildContextObjectForStage(currentStage),
@@ -482,7 +529,7 @@ export const QuestionnaireScreen = ({
     setStages((prev) => prev.slice(0, changedStage + 1));
   };
 
-  const setAnswerAtCurrent = (finalAnswer: any) => {
+  const setAnswerAtCurrent = (finalAnswer: unknown) => {
     if (!question) return;
 
     setResponses((prev) => ({
@@ -491,11 +538,11 @@ export const QuestionnaireScreen = ({
     }));
   };
 
-  const handleResponse = (value: any) => {
+  const handleResponse = (value: unknown) => {
     if (!question) return;
 
     const prevAnswer = responses[globalIndex]?.answer;
-    let finalAnswer: any = value;
+    let finalAnswer: unknown = value;
 
     if (question.type === "select" && hasOtherOption(question)) {
       const isOther = isOtherLikeOption(String(value));
@@ -538,8 +585,8 @@ export const QuestionnaireScreen = ({
 
     if (question.type === "select") {
       const selected =
-        currentAnswer && typeof currentAnswer === "object"
-          ? currentAnswer.selected
+        currentAnswer && typeof currentAnswer === "object" && "selected" in currentAnswer
+          ? (currentAnswer as { selected?: string }).selected
           : "Outro";
 
       setAnswerAtCurrent({ selected, description: text });
@@ -550,8 +597,9 @@ export const QuestionnaireScreen = ({
       const selected =
         currentAnswer &&
         typeof currentAnswer === "object" &&
-        Array.isArray(currentAnswer.selected)
-          ? currentAnswer.selected
+        "selected" in currentAnswer &&
+        Array.isArray((currentAnswer as { selected?: string[] }).selected)
+          ? (currentAnswer as { selected: string[] }).selected
           : Array.isArray(currentAnswer)
             ? currentAnswer
             : ["Outro"];
@@ -560,7 +608,7 @@ export const QuestionnaireScreen = ({
     }
   };
 
-  const validateAnswer = (currentQuestionItem: Question, answer: any) => {
+  const validateAnswer = (currentQuestionItem: Question, answer: unknown) => {
     if (!currentQuestionItem.required) return true;
 
     if (currentQuestionItem.type === "textarea") {
@@ -569,8 +617,11 @@ export const QuestionnaireScreen = ({
 
     if (currentQuestionItem.type === "checkbox") {
       const arr =
-        answer && typeof answer === "object" && Array.isArray(answer.selected)
-          ? answer.selected
+        answer &&
+        typeof answer === "object" &&
+        "selected" in answer &&
+        Array.isArray((answer as { selected?: string[] }).selected)
+          ? (answer as { selected: string[] }).selected
           : Array.isArray(answer)
             ? answer
             : [];
@@ -580,7 +631,7 @@ export const QuestionnaireScreen = ({
 
     if (currentQuestionItem.type === "select") {
       if (answer && typeof answer === "object" && "selected" in answer) {
-        return String(answer.selected ?? "").trim() !== "";
+        return String((answer as { selected?: string }).selected ?? "").trim() !== "";
       }
       return String(answer ?? "").trim() !== "";
     }
@@ -627,7 +678,7 @@ export const QuestionnaireScreen = ({
         await saveResponsesStage(
           DEMO_USER_ID,
           sessionId,
-          assessmentId ?? null,
+          assessmentId,
           currentStageResponses,
           currentStage
         );
@@ -693,7 +744,7 @@ export const QuestionnaireScreen = ({
         body: JSON.stringify({
           userId: DEMO_USER_ID,
           sessionId,
-          assessmentId: assessmentId ?? null,
+          assessmentId,
           responses: payloadResponses,
         }),
       });
@@ -708,27 +759,27 @@ export const QuestionnaireScreen = ({
       const result = await resp.json();
 
       onComplete({
-  sessionId,
-  assessmentId: assessmentId ?? null,
-  responses: payloadResponses,
-  report: result.report,
-  metrics: result.metrics,
-  reportMode: result.reportMode,
-  reportNotice: result.reportNotice,
-  risks: result.risks ?? result.metrics?.risks ?? {},
-  score: result.score ?? result.metrics?.score ?? 0,
-  summary: result.summary ?? "",
-  controls: result.controls ?? [],
-  strengths: result.strengths ?? result.metrics?.strengths ?? [],
-  attentionPoints:
-    result.attentionPoints ?? result.metrics?.attentionPoints ?? [],
-  criticalIssues:
-    result.criticalIssues ?? result.metrics?.criticalIssues ?? [],
-  controlsStatus:
-    result.controlsStatus ?? result.metrics?.controlsStatus ?? [],
-  recommendations:
-    result.recommendations ?? result.metrics?.recommendations ?? [],
-});
+        sessionId,
+        assessmentId,
+        responses: payloadResponses,
+        report: result.report,
+        metrics: result.metrics,
+        reportMode: result.reportMode,
+        reportNotice: result.reportNotice,
+        risks: result.risks ?? result.metrics?.risks ?? {},
+        score: result.score ?? result.metrics?.score ?? 0,
+        summary: result.summary ?? "",
+        controls: result.controls ?? [],
+        strengths: result.strengths ?? result.metrics?.strengths ?? [],
+        attentionPoints:
+          result.attentionPoints ?? result.metrics?.attentionPoints ?? [],
+        criticalIssues:
+          result.criticalIssues ?? result.metrics?.criticalIssues ?? [],
+        controlsStatus:
+          result.controlsStatus ?? result.metrics?.controlsStatus ?? [],
+        recommendations:
+          result.recommendations ?? result.metrics?.recommendations ?? [],
+      });
 
       toast.success("Análise gerada com sucesso!");
     } catch (e) {
@@ -781,9 +832,9 @@ export const QuestionnaireScreen = ({
 
     if (question.type === "select") {
       const selectedValue =
-        value && typeof value === "object" && value.selected
-          ? value.selected
-          : value ?? "";
+        value && typeof value === "object" && "selected" in value
+          ? String((value as { selected?: string }).selected ?? "")
+          : String(value ?? "");
 
       const showOther = isOtherSelected(question, value);
 
@@ -820,8 +871,11 @@ export const QuestionnaireScreen = ({
 
     if (question.type === "checkbox") {
       const arr: string[] =
-        value && typeof value === "object" && Array.isArray(value.selected)
-          ? value.selected
+        value &&
+        typeof value === "object" &&
+        "selected" in value &&
+        Array.isArray((value as { selected?: string[] }).selected)
+          ? (value as { selected: string[] }).selected
           : Array.isArray(value)
             ? value
             : [];
@@ -871,7 +925,7 @@ export const QuestionnaireScreen = ({
       typeof value === "string"
         ? value
         : value && typeof value === "object" && "description" in value
-          ? String(value.description ?? "")
+          ? String((value as { description?: string }).description ?? "")
           : "";
 
     return (

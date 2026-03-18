@@ -9,19 +9,23 @@ import {
   Lock,
   CheckCircle,
   AlertTriangle,
+  Users,
 } from "lucide-react";
 import { db } from "@/lib/firebase";
 import { collection, getDocs } from "firebase/firestore";
 
 interface WelcomeScreenProps {
   onStart: () => void;
+  title?: string;
+  description?: string;
+  target?: string;
 }
 
 export const getAllResponses = async () => {
   const querySnapshot = await getDocs(collection(db, "responses"));
-  const data = querySnapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
+  const data = querySnapshot.docs.map((docItem) => ({
+    id: docItem.id,
+    ...docItem.data(),
   }));
 
   console.log("📄 Dados:", data);
@@ -32,10 +36,10 @@ export const getAllResponses2 = async () => {
   const querySnapshot = await getDocs(collection(db, "respostas"));
 
   const data = querySnapshot.docs
-    .map((doc) => ({
-      id: doc.id,
+    .map((docItem) => ({
+      id: docItem.id,
       answers: [],
-      ...doc.data(),
+      ...docItem.data(),
     }))
     .filter((item) => Array.isArray(item.answers) && item.answers.length > 0);
 
@@ -43,12 +47,24 @@ export const getAllResponses2 = async () => {
   return data;
 };
 
-export const WelcomeScreen = ({ onStart }: WelcomeScreenProps) => {
+export const WelcomeScreen = ({
+  onStart,
+  title,
+  description,
+  target,
+}: WelcomeScreenProps) => {
   const navigate = useNavigate();
+
+  const isInvitationMode = Boolean(title || description || target);
+
+  const heroTitle = title || "Análise de Conformidade LGPD";
+
+  const heroDescription =
+    description ||
+    "Avalie sua conformidade com a Lei Geral de Proteção de Dados e identifique riscos baseados na ISO/IEC 27001";
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#0a0e1a] via-[#0d1526] to-[#000000] relative overflow-hidden">
-      {/* Animated background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 left-10 w-96 h-96 bg-primary/30 rounded-full blur-3xl animate-pulse" />
         <div
@@ -61,13 +77,9 @@ export const WelcomeScreen = ({ onStart }: WelcomeScreenProps) => {
         />
       </div>
 
-      {/* CONTENT CONTAINER */}
       <div className="container relative z-10 px-4 py-12 mx-auto max-w-7xl">
-        {/* HERO SECTION */}
         <div className="text-center mb-16 animate-fade-up">
-          {/* BADGES */}
-          <div className="flex justify-center gap-3 mb-6">
-            {/* BADGE 3 – PPGES */}
+          <div className="flex justify-center gap-3 mb-6 flex-wrap">
             <div
               className="inline-flex items-center gap-2 px-4 py-2
               bg-orange-400/10 rounded-full border border-orange-400/40"
@@ -80,13 +92,10 @@ export const WelcomeScreen = ({ onStart }: WelcomeScreenProps) => {
                 strokeWidth="2"
               >
                 <path d="M32 6c-12 0-22 10-22 22s10 22 22 22c2 0 4 0 6-1v9l8-4v-9c5-4 8-11 8-17 0-12-10-22-22-22z" />
-
                 <circle cx="22" cy="24" r="2" className="fill-orange-300" />
                 <path d="M22 26v6" />
-
                 <circle cx="32" cy="20" r="2" className="fill-orange-300" />
                 <path d="M32 22v10" />
-
                 <circle cx="42" cy="28" r="2" className="fill-orange-300" />
                 <path d="M42 30v4" />
               </svg>
@@ -94,7 +103,6 @@ export const WelcomeScreen = ({ onStart }: WelcomeScreenProps) => {
               <span className="text-sm font-medium text-orange-300">PPGES</span>
             </div>
 
-            {/* BADGE 1 */}
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full border border-primary/20">
               <Shield className="w-4 h-4 text-primary" />
               <span className="text-sm font-medium text-primary">
@@ -102,7 +110,6 @@ export const WelcomeScreen = ({ onStart }: WelcomeScreenProps) => {
               </span>
             </div>
 
-            {/* BADGE 2 */}
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-400/10 rounded-full border border-green-400/40">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -116,31 +123,55 @@ export const WelcomeScreen = ({ onStart }: WelcomeScreenProps) => {
                 UNIPAMPA
               </span>
             </div>
+
+            {isInvitationMode && (
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-cyan-400/10 rounded-full border border-cyan-400/30">
+                <FileCheck className="w-4 h-4 text-cyan-300" />
+                <span className="text-sm font-medium text-cyan-300">
+                  Você foi convidado(a) para responder este formulário
+                </span>
+              </div>
+            )}
           </div>
 
-          {/* Título */}
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-white">
-            Análise de Conformidade LGPD
+            {heroTitle}
           </h1>
 
-          {/* Subtítulo */}
           <p className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto mb-8">
-            Avalie sua conformidade com a Lei Geral de Proteção de Dados e
-            identifique riscos baseados na ISO/IEC 27001
+            {heroDescription}
           </p>
 
-          {/* Botão */}
-          <Button
-            onClick={() => navigate("/admin/login")}
-            size="lg"
-            className="text-lg px-8 py-6 shadow-elegant hover:shadow-glow transition-all duration-300 hover:scale-105"
-          >
-            Iniciar Avaliação
-            <FileCheck className="ml-2 w-5 h-5" />
-          </Button>
+          {target && (
+            <div className="flex justify-center mb-8">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-fuchsia-500/30 bg-fuchsia-500/10 text-fuchsia-200 text-sm">
+                <Users className="w-4 h-4" />
+                Público-alvo: {target}
+              </div>
+            </div>
+          )}
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Button
+              onClick={onStart}
+              size="lg"
+              className="text-lg px-8 py-6 shadow-elegant hover:shadow-glow transition-all duration-300 hover:scale-105"
+            >
+              Iniciar Avaliação
+              <FileCheck className="ml-2 w-5 h-5" />
+            </Button>
+
+            <Button
+              variant="outline"
+              onClick={() => navigate("/admin/login")}
+              size="lg"
+              className="text-lg px-8 py-6 border-white/20 text-white hover:bg-white/10"
+            >
+              Área administrativa
+            </Button>
+          </div>
         </div>
 
-        {/* FEATURES GRID */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
           <Card
             className="p-6 bg-card/10 backdrop-blur-sm border-border/50 shadow-card hover:shadow-elegant hover:bg-card/10 transition-all duration-300 hover:-translate-y-1 animate-fade-up"
@@ -153,7 +184,7 @@ export const WelcomeScreen = ({ onStart }: WelcomeScreenProps) => {
               Questionário Dinâmico
             </h3>
             <p className="text-white/80">
-              Perguntas adaptativas baseadas no seu setor e perfil profissional
+              Perguntas adaptativas baseadas no seu setor, contexto e perfil de resposta.
             </p>
           </Card>
 
@@ -168,7 +199,7 @@ export const WelcomeScreen = ({ onStart }: WelcomeScreenProps) => {
               Análise Inteligente
             </h3>
             <p className="text-white/80">
-              Processamento avançado das respostas para diagnóstico preciso
+              Processamento avançado das respostas para diagnóstico mais preciso.
             </p>
           </Card>
 
@@ -183,7 +214,7 @@ export const WelcomeScreen = ({ onStart }: WelcomeScreenProps) => {
               Dashboard Completo
             </h3>
             <p className="text-white/80">
-              Visualização detalhada com gráficos e recomendações personalizadas
+              Visualização detalhada com gráficos, score e recomendações personalizadas.
             </p>
           </Card>
 
@@ -198,7 +229,7 @@ export const WelcomeScreen = ({ onStart }: WelcomeScreenProps) => {
               ISO/IEC 27001
             </h3>
             <p className="text-white/80">
-              Recomendações alinhadas com controles internacionais de segurança
+              Recomendações alinhadas com controles internacionais de segurança.
             </p>
           </Card>
 
@@ -213,7 +244,7 @@ export const WelcomeScreen = ({ onStart }: WelcomeScreenProps) => {
               Análise de Riscos
             </h3>
             <p className="text-white/80">
-              Identificação e classificação de riscos por categoria e prioridade
+              Identificação e classificação de riscos por categoria e prioridade.
             </p>
           </Card>
 
@@ -228,12 +259,11 @@ export const WelcomeScreen = ({ onStart }: WelcomeScreenProps) => {
               Dados Seguros
             </h3>
             <p className="text-white/80">
-              Suas respostas são armazenadas com segurança e criptografia
+              Suas respostas são armazenadas com segurança e tratamento adequado.
             </p>
           </Card>
         </div>
 
-        {/* TIMELINE */}
         <TimelineComoFunciona />
       </div>
     </div>
