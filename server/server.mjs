@@ -42,8 +42,6 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-// app.options("/*", cors(corsOptions)); // só adicione se precisar mesmo
-
 app.use(express.json());
 
 app.get("/", (_req, res) => {
