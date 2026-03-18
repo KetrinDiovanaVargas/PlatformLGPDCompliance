@@ -49,6 +49,7 @@ import {
   AlertTriangle,
   Flame,
   Target,
+  MessageCircle,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -285,6 +286,38 @@ export default function AdminDashboard() {
   const formatChartLabel = (assessment: Assessment) => {
     const titleLabel = formatAssessmentTitle(assessment);
     return titleLabel.length > 24 ? `${titleLabel.slice(0, 24)}...` : titleLabel;
+  };
+
+  const buildInviteMessage = (assessment: Assessment) => {
+    const link = `${window.location.origin}/assessment/${assessment.id}`;
+    const title = formatAssessmentTitle(assessment);
+
+    return `Olá! Você foi convidado(a) a responder o formulário "${title}".
+
+Sua participação é muito importante e leva apenas alguns minutos.
+
+Acesse pelo link:
+${link}
+
+Agradecemos pela sua colaboração.`;
+  };
+
+  const copyInviteMessage = async (assessment: Assessment) => {
+    try {
+      const message = buildInviteMessage(assessment);
+      await navigator.clipboard.writeText(message);
+      toast.success("Mensagem de convite copiada!");
+    } catch (error) {
+      console.error(error);
+      toast.error("Não foi possível copiar a mensagem.");
+    }
+  };
+
+  const shareOnWhatsApp = (assessment: Assessment) => {
+    const message = buildInviteMessage(assessment);
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappUrl = `https://wa.me/?text=${encodedMessage}`;
+    window.open(whatsappUrl, "_blank");
   };
 
   const loadData = async () => {
@@ -1162,12 +1195,20 @@ export default function AdminDashboard() {
         </section>
 
         {role !== "MASTER" && (
-          <section className="rounded-3xl bg-white/[0.04] border border-slate-800/80 p-8 shadow-[0_0_60px_rgba(99,102,241,0.14)] space-y-5">
-            <div className="flex items-center gap-2">
-              <PlusCircle className="h-4 w-4 text-cyan-300" />
-              <h3 className="text-sm font-semibold text-slate-200 tracking-tight">
-                Criar nova avaliação
-              </h3>
+          <section className="rounded-3xl bg-white/[0.04] border border-slate-800/80 p-8 shadow-[0_0_60px_rgba(99,102,241,0.14)] space-y-6">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div>
+                <div className="flex items-center gap-2">
+                  <PlusCircle className="h-4 w-4 text-cyan-300" />
+                  <h3 className="text-sm font-semibold text-slate-200 tracking-tight">
+                    Criar nova avaliação
+                  </h3>
+                </div>
+                <p className="mt-1 text-sm text-slate-400">
+                  Defina o nome, tipo, objetivo, público, texto de introdução e
+                  contexto do formulário para disponibilizar uma nova avaliação.
+                </p>
+              </div>
             </div>
 
             <div className="grid gap-4 md:grid-cols-3">
@@ -1494,7 +1535,9 @@ export default function AdminDashboard() {
         <section className="rounded-3xl bg-white/[0.04] border border-slate-800/80 p-8 shadow-[0_0_60px_rgba(99,102,241,0.14)] space-y-6">
           <h3 className="flex items-center gap-2 text-sm font-semibold text-slate-200 tracking-tight">
             <Activity className="h-4 w-4 text-fuchsia-400" />
-            {role === "MASTER" ? "Monitoramento das Avaliações" : "Minhas Avaliações"}
+            {role === "MASTER"
+              ? "Monitoramento das Avaliações"
+              : "Minhas Avaliações"}
           </h3>
 
           {loading ? (
@@ -1572,7 +1615,9 @@ export default function AdminDashboard() {
 
                     <div className="grid md:grid-cols-3 gap-3">
                       <div className="rounded-xl border border-sky-500/30 bg-sky-500/10 px-4 py-3">
-                        <p className="text-[11px] text-sky-200">Total de respostas</p>
+                        <p className="text-[11px] text-sky-200">
+                          Total de respostas
+                        </p>
                         <p className="text-lg font-bold text-white">{stats.total}</p>
                       </div>
 
@@ -1591,10 +1636,19 @@ export default function AdminDashboard() {
                       </div>
                     </div>
 
-                    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 pt-2 border-t border-slate-700/60">
+                    <div className="flex flex-col gap-4 pt-2 border-t border-slate-700/60">
                       <div className="flex items-center gap-2 text-xs text-cyan-300 break-all">
                         <Link2 className="h-3.5 w-3.5" />
                         {link}
+                      </div>
+
+                      <div className="rounded-xl border border-white/10 bg-black/20 px-4 py-3">
+                        <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-400 mb-2">
+                          Mensagem para compartilhar
+                        </p>
+                        <p className="text-xs text-slate-300 whitespace-pre-line leading-relaxed">
+                          {buildInviteMessage(assessment)}
+                        </p>
                       </div>
 
                       <div className="flex flex-wrap items-center gap-2">
@@ -1604,6 +1658,22 @@ export default function AdminDashboard() {
                         >
                           <Copy className="h-4 w-4" />
                           Copiar Link
+                        </Button>
+
+                        <Button
+                          onClick={() => copyInviteMessage(assessment)}
+                          className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-fuchsia-500 via-purple-500 to-pink-500 px-5 py-2 text-sm font-semibold text-white shadow-lg hover:brightness-110 transition"
+                        >
+                          <Copy className="h-4 w-4" />
+                          Copiar Convite
+                        </Button>
+
+                        <Button
+                          onClick={() => shareOnWhatsApp(assessment)}
+                          className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-emerald-500 via-green-500 to-teal-500 px-5 py-2 text-sm font-semibold text-white shadow-lg hover:brightness-110 transition"
+                        >
+                          <MessageCircle className="h-4 w-4" />
+                          Compartilhar no WhatsApp
                         </Button>
 
                         <Button
