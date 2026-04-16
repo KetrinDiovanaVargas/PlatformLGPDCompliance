@@ -147,7 +147,25 @@ const AUDIENCE_OPTIONS = [
   { value: "outro", label: "Outro" },
 ];
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+// Em dev, o Vite já faz proxy de /api -> http://localhost:8787 (vite.config.ts).
+// Se VITE_API_BASE_URL não estiver definido, usamos "" para manter URLs relativas.
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL ?? "").replace(/\/$/, "");
+
+async function readJsonResponse(response: Response): Promise<any> {
+  const text = await response.text();
+  if (!text) return null;
+
+  try {
+    return JSON.parse(text);
+  } catch {
+    return { raw: text };
+  }
+}
+
+function getApiErrorMessage(data: any, fallback: string) {
+  const msg = data?.error;
+  return typeof msg === "string" && msg.trim() ? msg : fallback;
+}
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
@@ -507,10 +525,10 @@ Agradecemos pela sua colaboração.`;
         }),
       });
 
-      const data = await response.json();
+      const data = await readJsonResponse(response);
 
       if (!response.ok) {
-        throw new Error(data.error || "Erro ao criar administrador.");
+        throw new Error(getApiErrorMessage(data, "Erro ao criar administrador."));
       }
 
       toast.success("Administrador criado com sucesso.");
@@ -560,10 +578,12 @@ Agradecemos pela sua colaboração.`;
         }
       );
 
-      const data = await response.json();
+      const data = await readJsonResponse(response);
 
       if (!response.ok) {
-        throw new Error(data.error || "Erro ao atualizar status do usuário.");
+        throw new Error(
+          getApiErrorMessage(data, "Erro ao atualizar status do usuário.")
+        );
       }
 
       toast.success(
@@ -614,10 +634,10 @@ Agradecemos pela sua colaboração.`;
         }),
       });
 
-      const data = await response.json();
+      const data = await readJsonResponse(response);
 
       if (!response.ok) {
-        throw new Error(data.error || "Erro ao excluir usuário.");
+        throw new Error(getApiErrorMessage(data, "Erro ao excluir usuário."));
       }
 
       toast.success("Usuário excluído com sucesso.");
@@ -711,10 +731,12 @@ Agradecemos pela sua colaboração.`;
         }
       );
 
-      const data = await response.json();
+      const data = await readJsonResponse(response);
 
       if (!response.ok) {
-        throw new Error(data.error || "Erro ao gerar análise consolidada.");
+        throw new Error(
+          getApiErrorMessage(data, "Erro ao gerar análise consolidada.")
+        );
       }
 
       setConsolidatedAnalysis(data);

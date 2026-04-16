@@ -1,5 +1,6 @@
 import admin from "firebase-admin";
 import dotenv from "dotenv";
+import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -17,38 +18,61 @@ dotenv.config({
 });
 
 // ======================================================
-// VALIDATION (evita erro silencioso)
+// CREDENTIAL RESOLUTION
+// - Prefer env vars (FIREBASE_*)
+// - Fallback to serviceAccountKey.json (local dev)
 // ======================================================
-if (!process.env.FIREBASE_PROJECT_ID) {
-  throw new Error("❌ FIREBASE_PROJECT_ID não definido no .env");
+function firstEnv(...names) {
+  for (const name of names) {
+    const v = process.env[name];
+    if (v && String(v).trim().length > 0) return v;
+  }
+  return undefined;
 }
 
-if (!process.env.FIREBASE_CLIENT_EMAIL) {
-  throw new Error("❌ FIREBASE_CLIENT_EMAIL não definido no .env");
-}
+function getFirebaseAdminCredential() {
+  const projectId = firstEnv("FIREBASE_PROJECT_ID", "VITE_FIREBASE_PROJECT_ID");
+  const clientEmail = firstEnv("FIREBASE_CLIENT_EMAIL", "VITE_FIREBASE_CLIENT_EMAIL");
+  const privateKeyRaw = firstEnv("FIREBASE_PRIVATE_KEY", "VITE_FIREBASE_PRIVATE_KEY");
 
-if (!process.env.FIREBASE_PRIVATE_KEY) {
-  throw new Error("❌ FIREBASE_PRIVATE_KEY não definido no .env");
-}
+  // 1) Env-based credentials
+  if (projectId && clientEmail && privateKeyRaw) {
+    const privateKey = privateKeyRaw.replace(/\\n/g, "\n");
+    return admin.credential.cert({ projectId, clientEmail, privateKey });
+  }
 
-// ======================================================
-// PRIVATE KEY FIX (\n)
-// ======================================================
-const privateKey = process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n");
+  // 2) File-based credentials (service account JSON)
+  const serviceAccountPath = path.resolve(__dirname, "serviceAccountKey.json");
+  if (fs.existsSync(serviceAccountPath)) {
+    const raw = fs.readFileSync(serviceAccountPath, "utf8");
+    const serviceAccount = JSON.parse(raw);
+    return admin.credential.cert(serviceAccount);
+  }
+
+  // 3) Fail with actionable message
+  throw new Error(
+    [
+      "❌ Credenciais do Firebase Admin não configuradas.",
+      "",
+      "Este backend usa o Firebase Admin SDK e precisa de uma Service Account (client_email + private_key).",
+      "As variáveis VITE_FIREBASE_* (apiKey/authDomain/etc) são do SDK de navegador e NÃO substituem isso.",
+      "",
+      "Opções:",
+      "  A) Coloque server/serviceAccountKey.json (gerado no Firebase Console) no servidor.",
+      "  B) Ou defina no server/.env: FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, FIREBASE_PRIVATE_KEY.",
+      "",
+      "Firebase Console → Project settings → Service accounts → Generate new private key.",
+    ].join("\n")
+  );
+}
 
 // ======================================================
 // INIT FIREBASE ADMIN
 // ======================================================
 if (!admin.apps.length) {
   admin.initializeApp({
-    credential: admin.credential.cert({
-      projectId: process.env.FIREBASE_PROJECT_ID,
-      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-      privateKey,
-    }),
+    credential: getFirebaseAdminCredential(),
   });
-
-  console.log("🔥 Firebase Admin inicializado com sucesso");
 }
 
 // ======================================================

@@ -24,6 +24,10 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { saveResponsesStage } from "@/services/saveResponsesStage";
 
+// Em dev, o Vite já faz proxy de /api -> http://localhost:8787 (vite.config.ts).
+// Se VITE_API_BASE_URL não estiver definido, usamos "" para manter URLs relativas.
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL ?? "").replace(/\/$/, "");
+
 /* ======================================================
    TIPOS
 ====================================================== */
@@ -455,7 +459,7 @@ export const QuestionnaireScreen = ({
                 : "Contexto não informado";
 
         const response = await fetch(
-  `${import.meta.env.VITE_API_BASE_URL}/api/generate-stage`,
+          `${API_BASE_URL}/api/generate-stage`,
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -738,7 +742,7 @@ export const QuestionnaireScreen = ({
         }))
         .sort((a, b) => a.questionId - b.questionId);
 
-      const resp = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/analyze`, {
+      const resp = await fetch(`${API_BASE_URL}/api/analyze`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
