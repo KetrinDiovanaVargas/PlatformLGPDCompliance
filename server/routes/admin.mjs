@@ -1,5 +1,5 @@
 import express from "express";
-import { adminAuth, adminDb } from "../firebaseAdmin.mjs";
+import { getAdminAuth, getAdminDb } from "../firebaseAdmin.mjs";
 
 const router = express.Router();
 
@@ -16,7 +16,7 @@ function normalizeRole(role) {
   return normalized === "MASTER" ? "MASTER" : "ADMIN";
 }
 
-async function getAdminDoc(uid) {
+async function getAdminDoc(adminDb, uid) {
   const ref = adminDb.collection("admins").doc(uid);
   const snap = await ref.get();
 
@@ -29,8 +29,8 @@ async function getAdminDoc(uid) {
   };
 }
 
-async function validateMasterRequester(requesterUid) {
-  const requester = await getAdminDoc(requesterUid);
+async function validateMasterRequester(adminDb, requesterUid) {
+  const requester = await getAdminDoc(adminDb, requesterUid);
 
   if (!requester) {
     return {
@@ -63,6 +63,7 @@ async function validateMasterRequester(requesterUid) {
 }
 
 async function countActiveMasters() {
+  const adminDb = getAdminDb();
   const mastersSnap = await adminDb
     .collection("admins")
     .where("role", "==", "MASTER")
@@ -74,6 +75,19 @@ async function countActiveMasters() {
 
 router.post("/create-admin", async (req, res) => {
   try {
+    let adminDb;
+    let adminAuth;
+
+    try {
+      adminDb = getAdminDb();
+      adminAuth = getAdminAuth();
+    } catch (err) {
+      return res.status(503).json({
+        error: "Firebase Admin não configurado no backend.",
+        details: err?.message || String(err),
+      });
+    }
+
     const { requesterUid, name, email, password, role } = req.body;
 
     if (!requesterUid || !name || !email || !password) {
@@ -92,7 +106,10 @@ router.post("/create-admin", async (req, res) => {
     const normalizedName = safeString(name);
     const normalizedRole = normalizeRole(role);
 
-    const requesterValidation = await validateMasterRequester(requesterUid);
+    const requesterValidation = await validateMasterRequester(
+      adminDb,
+      requesterUid
+    );
 
     if (!requesterValidation.ok) {
       return res.status(requesterValidation.status).json({
@@ -149,6 +166,19 @@ router.post("/create-admin", async (req, res) => {
 
 router.patch("/toggle-admin-status", async (req, res) => {
   try {
+    let adminDb;
+    let adminAuth;
+
+    try {
+      adminDb = getAdminDb();
+      adminAuth = getAdminAuth();
+    } catch (err) {
+      return res.status(503).json({
+        error: "Firebase Admin não configurado no backend.",
+        details: err?.message || String(err),
+      });
+    }
+
     const { requesterUid, targetUid, active } = req.body;
 
     if (!requesterUid || !targetUid || typeof active !== "boolean") {
@@ -157,7 +187,10 @@ router.patch("/toggle-admin-status", async (req, res) => {
       });
     }
 
-    const requesterValidation = await validateMasterRequester(requesterUid);
+    const requesterValidation = await validateMasterRequester(
+      adminDb,
+      requesterUid
+    );
 
     if (!requesterValidation.ok) {
       return res.status(requesterValidation.status).json({
@@ -171,7 +204,7 @@ router.patch("/toggle-admin-status", async (req, res) => {
       });
     }
 
-    const targetAdmin = await getAdminDoc(targetUid);
+    const targetAdmin = await getAdminDoc(adminDb, targetUid);
 
     if (!targetAdmin) {
       return res.status(404).json({
@@ -231,6 +264,19 @@ router.patch("/toggle-admin-status", async (req, res) => {
 
 router.delete("/delete-admin", async (req, res) => {
   try {
+    let adminDb;
+    let adminAuth;
+
+    try {
+      adminDb = getAdminDb();
+      adminAuth = getAdminAuth();
+    } catch (err) {
+      return res.status(503).json({
+        error: "Firebase Admin não configurado no backend.",
+        details: err?.message || String(err),
+      });
+    }
+
     const { requesterUid, targetUid } = req.body;
 
     if (!requesterUid || !targetUid) {
@@ -239,7 +285,10 @@ router.delete("/delete-admin", async (req, res) => {
       });
     }
 
-    const requesterValidation = await validateMasterRequester(requesterUid);
+    const requesterValidation = await validateMasterRequester(
+      adminDb,
+      requesterUid
+    );
 
     if (!requesterValidation.ok) {
       return res.status(requesterValidation.status).json({
@@ -253,7 +302,7 @@ router.delete("/delete-admin", async (req, res) => {
       });
     }
 
-    const targetAdmin = await getAdminDoc(targetUid);
+    const targetAdmin = await getAdminDoc(adminDb, targetUid);
 
     if (!targetAdmin) {
       return res.status(404).json({

@@ -1,6 +1,6 @@
 import express from "express";
 import Groq from "groq-sdk";
-import { adminDb } from "../firebaseAdmin.mjs";
+import { getAdminDb } from "../firebaseAdmin.mjs";
 import { generateStagePrompt } from "../promptGroq.mjs";
 
 const router = express.Router();
@@ -601,7 +601,7 @@ function isGroqRateLimitError(err) {
   );
 }
 
-async function loadAssessmentMetadata(assessmentId) {
+async function loadAssessmentMetadata(adminDb, assessmentId) {
   if (!assessmentId) {
     return null;
   }
@@ -674,7 +674,17 @@ router.post("/", async (req, res) => {
     let officialAssessment = null;
 
     if (assessmentId) {
-      officialAssessment = await loadAssessmentMetadata(assessmentId);
+      let adminDb;
+      try {
+        adminDb = getAdminDb();
+      } catch (err) {
+        return res.status(503).json({
+          error: "Firebase Admin não configurado no backend.",
+          details: err?.message || String(err),
+        });
+      }
+
+      officialAssessment = await loadAssessmentMetadata(adminDb, assessmentId);
 
       if (!officialAssessment) {
         return res.status(404).json({ error: "Avaliação não encontrada" });

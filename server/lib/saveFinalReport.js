@@ -1,8 +1,49 @@
 import express from "express";
 import Groq from "groq-sdk";
-import { adminDb } from "../firebaseAdmin.mjs";
+import admin from "firebase-admin";
+import { getAdminDb } from "../firebaseAdmin.mjs";
 
 const router = express.Router();
+
+// Used by routes that generate and then persist the final report.
+export async function saveFinalReport(userId, sessionId, assessmentId, payload) {
+  const db = getAdminDb();
+
+  if (!userId) throw new Error("userId é obrigatório");
+  if (!sessionId) throw new Error("sessionId é obrigatório");
+
+  const sessionRef = db.collection("assessment_sessions").doc(String(sessionId));
+  const reportRef = sessionRef.collection("final_report").doc("latest");
+
+  const now = admin.firestore.FieldValue.serverTimestamp();
+
+  await sessionRef.set(
+    {
+      sessionId: String(sessionId),
+      userId: String(userId),
+      assessmentId: assessmentId ? String(assessmentId) : null,
+      status: "completed",
+      updatedAt: now,
+      completedAt: now,
+      createdAt: now,
+    },
+    { merge: true }
+  );
+
+  await reportRef.set(
+    {
+      sessionId: String(sessionId),
+      userId: String(userId),
+      assessmentId: assessmentId ? String(assessmentId) : null,
+      ...(payload && typeof payload === "object" ? payload : { payload }),
+      updatedAt: now,
+      createdAt: now,
+    },
+    { merge: true }
+  );
+
+  return { ok: true, sessionId: String(sessionId) };
+}
 
 router.options("/", (req, res) => {
   res.setHeader("Access-Control-Allow-Origin", req.headers.origin || "*");
@@ -192,6 +233,16 @@ ${JSON.stringify(compactReports).slice(0, 12000)}
 
 router.post("/", async (req, res) => {
   try {
+    let adminDb;
+    try {
+      adminDb = getAdminDb();
+    } catch (err) {
+      return res.status(503).json({
+        error: "Firebase Admin não configurado no backend.",
+        details: err?.message || String(err),
+      });
+    }
+
     const { assessmentId } = req.body;
 
     if (!assessmentId) {

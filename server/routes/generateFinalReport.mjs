@@ -2,7 +2,7 @@
 import express from "express";
 import { generateFinalReportWithGroq } from "../groq/generateFinalReportGroq.mjs";
 import { saveFinalReport } from "../lib/saveFinalReport.js";
-import { adminDb } from "../firebaseAdmin.mjs";
+import { getAdminDb } from "../firebaseAdmin.mjs";
 
 const router = express.Router();
 
@@ -10,7 +10,7 @@ function safeString(value, fallback = "") {
   return String(value ?? fallback).trim();
 }
 
-async function loadAssessmentMetadata(assessmentId) {
+async function loadAssessmentMetadata(adminDb, assessmentId) {
   if (!assessmentId) return null;
 
   const snap = await adminDb
@@ -75,6 +75,15 @@ function buildSafeMetrics(input = {}) {
 
 router.post("/", async (req, res) => {
   try {
+    let adminDb = null;
+    let firebaseAdminNotice = "";
+    try {
+      adminDb = getAdminDb();
+    } catch (err) {
+      firebaseAdminNotice =
+        "Aviso: backend sem Firebase Admin configurado; relatório não será persistido.";
+    }
+
     const { userId, sessionId, assessmentId, responses } = req.body;
 
     if (!userId) {
@@ -96,7 +105,14 @@ router.post("/", async (req, res) => {
     let officialAssessment = null;
 
     if (assessmentId) {
-      officialAssessment = await loadAssessmentMetadata(assessmentId);
+      if (!adminDb) {
+        return res.status(503).json({
+          error:
+            "Firebase Admin não configurado no backend (necessário para buscar metadados da avaliação).",
+        });
+      }
+
+      officialAssessment = await loadAssessmentMetadata(adminDb, assessmentId);
 
       if (!officialAssessment) {
         return res.status(404).json({ error: "Avaliação não encontrada" });
@@ -157,12 +173,17 @@ router.post("/", async (req, res) => {
       createdAt: new Date(),
     };
 
-    await saveFinalReport(
-      userId,
-      sessionId,
-      officialMetadata.assessmentId,
-      finalAnalysis
-    );
+    if (adminDb) {
+      await saveFinalReport(
+        userId,
+        sessionId,
+        officialMetadata.assessmentId,
+        finalAnalysis
+      );
+    } else {
+      finalAnalysis.reportMode = "no_persist";
+      finalAnalysis.reportNotice = firebaseAdminNotice;
+    }
 
     console.log("✅ Relatório salvo", {
       sessionId,

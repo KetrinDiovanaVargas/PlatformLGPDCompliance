@@ -1,6 +1,5 @@
 import admin from "../firebase.mjs";
-
-const db = admin.firestore();
+import { getAdminDb } from "../firebaseAdmin.mjs";
 
 function sanitize(value) {
   if (value === undefined) return null;
@@ -22,6 +21,8 @@ function sanitize(value) {
 }
 
 export async function saveStage(userId, sessionId, stage, data = {}) {
+  const db = getAdminDb();
+
   if (!userId) throw new Error("userId é obrigatório");
   if (!sessionId) throw new Error("sessionId é obrigatório");
   if (stage === undefined || stage === null) throw new Error("stage é obrigatório");

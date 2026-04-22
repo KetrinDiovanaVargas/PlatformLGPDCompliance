@@ -1,6 +1,6 @@
 import express from "express";
 import Groq from "groq-sdk";
-import { adminDb } from "../firebaseAdmin.mjs";
+import { getAdminDb } from "../firebaseAdmin.mjs";
 
 const router = express.Router();
 
@@ -337,6 +337,16 @@ async function tryGroqConsolidation({ assessment, reports }) {
 
 router.post("/", async (req, res) => {
   try {
+    let adminDb;
+    try {
+      adminDb = getAdminDb();
+    } catch (err) {
+      return res.status(503).json({
+        error: "Firebase Admin não configurado no backend.",
+        details: err?.message || String(err),
+      });
+    }
+
     const { assessmentId } = req.body || {};
 
     if (!assessmentId) {

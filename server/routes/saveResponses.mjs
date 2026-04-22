@@ -1,13 +1,23 @@
 import express from "express";
 import admin from "../firebase.mjs";
+import { getAdminDb } from "../firebaseAdmin.mjs";
 import { saveStage } from "../services/firestoreStages.mjs";
 
 const router = express.Router();
-const db = admin.firestore();
 
 // ✅ Salva respostas de qualquer etapa
 router.post("/", async (req, res) => {
   try {
+    let db;
+    try {
+      db = getAdminDb();
+    } catch (err) {
+      return res.status(503).json({
+        error: "Firebase Admin não configurado no backend.",
+        details: err?.message || String(err),
+      });
+    }
+
     const {
       stage,
       answers,
