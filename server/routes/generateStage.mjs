@@ -128,6 +128,11 @@ function normalizeQuestion(question, index) {
     normalizedOptions
   );
 
+  const defaultHelp =
+    normalizedType === "textarea"
+      ? "Explique com base no seu dia a dia. Se não souber responder, escreva: 'Não sei informar'."
+      : "Escolha a opção que mais se aproxima da sua realidade. Se não souber, selecione 'Não sei informar' (quando disponível).";
+
   return {
     id: safeString(question?.id, `q${index + 1}`),
     type: normalizedType,
@@ -135,7 +140,7 @@ function normalizeQuestion(question, index) {
       question?.question,
       "Descreva sua experiência ou entendimento sobre este tema."
     ),
-    description: safeString(question?.description),
+    description: safeString(question?.description, defaultHelp),
     options:
       normalizedType === "select" || normalizedType === "checkbox"
         ? normalizedOptions.length > 0

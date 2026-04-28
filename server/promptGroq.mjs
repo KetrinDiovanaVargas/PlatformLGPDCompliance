@@ -294,6 +294,34 @@ export function generateStagePrompt(stage, ctxOrResponses = "", metadata = {}) {
   const initialUserContext = extractInitialUserContext(ctx);
   const perfilInferido = inferProfileFromInitialContext(initialUserContext);
 
+  const LOW_KNOWLEDGE_MARKERS = [
+    "nao sei",
+    "não sei",
+    "nao tenho certeza",
+    "não tenho certeza",
+    "desconheco",
+    "desconheço",
+    "nao entendo",
+    "não entendo",
+    "nao lembro",
+    "não lembro",
+    "nunca ouvi",
+    "nao se aplica",
+    "não se aplica",
+    "sem certeza",
+    "nao possuo",
+    "não possuo",
+  ];
+
+  const lowKnowledgeExamples = historicoRespostas
+    .filter((ans) => {
+      const n = normalize(ans);
+      return LOW_KNOWLEDGE_MARKERS.some((m) => n.includes(normalize(m)));
+    })
+    .slice(0, 6);
+
+  const lowKnowledge = lowKnowledgeExamples.length > 0;
+
   const totalPerguntas = etapa === 1 ? 4 : 5;
 
   const assessmentTitle = String(metadata.assessmentTitle || "").trim();
@@ -348,6 +376,13 @@ ${historicoPerguntas.length ? historicoPerguntas.join("\n") : "Nenhuma."}
 HISTÓRICO DE RESPOSTAS:
 ${historicoRespostas.length ? historicoRespostas.join("\n") : "Nenhuma."}
 
+==================== SINAIS DE BAIXO CONHECIMENTO (CAMINHO TRISTE) ====================
+
+BAIXO CONHECIMENTO DETECTADO: ${lowKnowledge ? "SIM" : "NÃO"}
+
+Exemplos detectados (se houver):
+${lowKnowledgeExamples.length ? lowKnowledgeExamples.map((x) => `- ${x}`).join("\n") : "Nenhum."}
+
 ==================== AUTORIDADE DO ADMINISTRADOR ====================
 
 - As definições do administrador são obrigatórias e possuem prioridade máxima.
@@ -380,6 +415,23 @@ Quando houver conflito, siga esta ordem de prioridade:
 - Se uma pergunta candidata investigar o mesmo assunto central já coberto, DESCARTE e gere outra.
 - Não use sinônimos para mascarar repetição.
 - O histórico de perguntas acima deve ser tratado como bloqueio real de conteúdo já explorado.
+
+==================== ACESSIBILIDADE / SEM PONTAS SOLTAS (OBRIGATÓRIO) ====================
+
+- Cada pergunta precisa ser respondível por alguém que NÃO domina LGPD.
+- Evite jargões. Se um termo técnico for inevitável, explique em 1 frase no campo "description".
+- Pergunte sobre ações observáveis (rotina, ferramentas, quem acessa, onde guarda, como compartilha, como decide).
+- Para reduzir bloqueios do usuário:
+  - Prefira "select" ou "checkbox" quando for possível guiar a resposta.
+  - Em TODA pergunta do tipo "select": inclua SEMPRE as opções "Não sei informar" e "Não se aplica".
+  - Em TODA pergunta do tipo "checkbox": inclua SEMPRE a opção "Não sei informar".
+  - Use "Outro (especifique)" somente quando realmente fizer sentido.
+  - Em TODA pergunta do tipo "textarea": inclua SEMPRE "description" dizendo explicitamente:
+    "Se não souber responder, escreva: 'Não sei informar'."
+
+- Se BAIXO CONHECIMENTO DETECTADO = SIM:
+  - Faça perguntas ainda mais concretas, curtas e guiadas (menos abertas).
+  - Não exija evidências formais; foque no que a pessoa consegue relatar do dia a dia.
 
 ==================== REGRAS GERAIS ====================
 
