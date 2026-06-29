@@ -439,11 +439,7 @@ export default function UserQuestionnaire() {
         <QuestionnaireScreen
           onBack={() => navigate("/")}
           onComplete={(data) => setCompletedData(data)}
-          assessmentId={assessment.id}
-          assessmentContext={assessment.context}
-          assessmentTitle={assessmentTitle}
-          assessmentFormType={formTypeLabel}
-          assessmentObjective={objectiveLabel}
+          assessment={assessment}
         />
       </div>
     </div>
