@@ -25,6 +25,7 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
+  Legend,
 } from "recharts";
 import {
   BarChart3,
@@ -204,6 +205,17 @@ export default function AdminDashboard() {
   const [loadingConsolidated, setLoadingConsolidated] = useState(false);
   const [consolidatedAnalysis, setConsolidatedAnalysis] =
     useState<ConsolidatedAnalysis | null>(null);
+
+  const [formOpen, setFormOpen] = useState(false);
+  const [expandedMessages, setExpandedMessages] = useState<Set<string>>(new Set());
+
+  const toggleMessage = (id: string) => {
+    setExpandedMessages(prev => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  };
 
   useEffect(() => {
     const storedRole = (
@@ -888,19 +900,33 @@ Agradecemos pela sua colaboração.`;
               </div>
             </div>
 
-            <div className="flex items-center gap-3 flex-wrap justify-end">
-              <span className="rounded-full border border-cyan-500/30 bg-cyan-500/10 px-4 py-2 text-xs font-semibold text-cyan-200">
-                {role || "SEM PERFIL"}
-              </span>
-
-              <div className="rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-2">
-                <p className="text-[11px] uppercase tracking-[0.16em] text-slate-500">
-                  Sessão ativa
-                </p>
+            <div className="flex items-center gap-2 flex-wrap justify-end">
+              <div className="rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-2 flex items-center gap-3">
+                <span className="rounded-full border border-cyan-500/30 bg-cyan-500/10 px-3 py-1 text-[11px] font-semibold text-cyan-200">
+                  {role || "SEM PERFIL"}
+                </span>
                 <p className="text-sm font-medium text-slate-200">
                   {adminName ? `Olá, ${adminName}` : "Administrador"}
                 </p>
               </div>
+
+              <Button
+                onClick={loadData}
+                className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] px-4 py-2 text-xs font-medium text-slate-300 transition"
+                title="Atualizar dados"
+              >
+                <RefreshCw className="h-3.5 w-3.5" />
+                Atualizar
+              </Button>
+
+              <Button
+                onClick={handleLogout}
+                disabled={loggingOut}
+                className="inline-flex items-center gap-1.5 rounded-full border border-red-500/20 bg-red-500/10 hover:bg-red-500/20 px-4 py-2 text-xs font-medium text-red-300 transition"
+              >
+                <LogOut className="h-3.5 w-3.5" />
+                {loggingOut ? "Saindo..." : "Sair"}
+              </Button>
             </div>
           </div>
         </header>
@@ -1218,7 +1244,10 @@ Agradecemos pela sua colaboração.`;
 
         {role !== "MASTER" && (
           <section className="rounded-3xl bg-white/[0.04] border border-slate-800/80 p-8 shadow-[0_0_60px_rgba(99,102,241,0.14)] space-y-6">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <button
+              onClick={() => setFormOpen(v => !v)}
+              className="w-full flex flex-col md:flex-row md:items-center md:justify-between gap-4 text-left"
+            >
               <div>
                 <div className="flex items-center gap-2">
                   <PlusCircle className="h-4 w-4 text-cyan-300" />
@@ -1231,9 +1260,12 @@ Agradecemos pela sua colaboração.`;
                   contexto do formulário para disponibilizar uma nova avaliação.
                 </p>
               </div>
-            </div>
+              <span className="shrink-0 rounded-full border border-white/10 bg-white/[0.04] px-4 py-1.5 text-xs text-slate-400">
+                {formOpen ? "▲ Fechar" : "▼ Nova avaliação"}
+              </span>
+            </button>
 
-            <div className="grid gap-4 md:grid-cols-3">
+            {formOpen && <><div className="grid gap-4 md:grid-cols-3">
               <input
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
@@ -1324,7 +1356,7 @@ Agradecemos pela sua colaboração.`;
                 <PlusCircle className="h-4 w-4" />
                 {creatingAssessment ? "Criando..." : "Criar Avaliação"}
               </Button>
-            </div>
+            </div></>}
           </section>
         )}
 
@@ -1477,13 +1509,26 @@ Agradecemos pela sua colaboração.`;
                   <Pie
                     data={pieData}
                     dataKey="value"
-                    innerRadius={50}
-                    outerRadius={80}
+                    innerRadius={55}
+                    outerRadius={85}
+                    paddingAngle={3}
+                    label={({ value }) => value > 0 ? value : ""}
+                    labelLine={false}
                   >
                     {pieData.map((entry, i) => (
                       <Cell key={i} fill={STATUS_COLORS[i]} />
                     ))}
                   </Pie>
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: "#0f172a",
+                      border: "1px solid #334155",
+                      borderRadius: "12px",
+                      color: "#fff",
+                      fontSize: 12,
+                    }}
+                    formatter={(value: any, name: string) => [value, name]}
+                  />
                 </PieChart>
               </ResponsiveContainer>
             </div>
@@ -1658,20 +1703,30 @@ Agradecemos pela sua colaboração.`;
                       </div>
                     </div>
 
-                    <div className="flex flex-col gap-4 pt-2 border-t border-slate-700/60">
-                      <div className="flex items-center gap-2 text-xs text-cyan-300 break-all">
-                        <Link2 className="h-3.5 w-3.5" />
-                        {link}
+                    <div className="flex flex-col gap-3 pt-2 border-t border-slate-700/60">
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="flex items-center gap-2 text-xs text-cyan-300 min-w-0">
+                          <Link2 className="h-3.5 w-3.5 shrink-0" />
+                          <span className="truncate max-w-xs">/assessment/{assessment.id}</span>
+                        </div>
+                        <button
+                          onClick={() => toggleMessage(assessment.id)}
+                          className="shrink-0 text-[11px] text-slate-400 border border-white/10 rounded-full px-3 py-1 hover:bg-white/[0.04] transition"
+                        >
+                          {expandedMessages.has(assessment.id) ? "▲ Ocultar convite" : "▼ Ver convite"}
+                        </button>
                       </div>
 
-                      <div className="rounded-xl border border-white/10 bg-black/20 px-4 py-3">
-                        <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-400 mb-2">
-                          Mensagem para compartilhar
-                        </p>
-                        <p className="text-xs text-slate-300 whitespace-pre-line leading-relaxed">
-                          {buildInviteMessage(assessment)}
-                        </p>
-                      </div>
+                      {expandedMessages.has(assessment.id) && (
+                        <div className="rounded-xl border border-white/10 bg-black/20 px-4 py-3">
+                          <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-400 mb-2">
+                            Mensagem para compartilhar
+                          </p>
+                          <p className="text-xs text-slate-300 whitespace-pre-line leading-relaxed">
+                            {buildInviteMessage(assessment)}
+                          </p>
+                        </div>
+                      )}
 
                       <div className="flex flex-wrap items-center gap-2">
                         <Button
@@ -1728,41 +1783,16 @@ Agradecemos pela sua colaboração.`;
           )}
         </section>
 
-        <div className="mx-auto max-w-6xl mt-12">
-          <div className="h-px w-full bg-gradient-to-r from-transparent via-slate-700 to-transparent mb-6" />
-
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3 items-center">
-            <div className="flex justify-center md:justify-start">
-              <div className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-purple-600 via-fuchsia-500 to-pink-500 px-5 py-2 text-sm font-semibold text-white shadow-lg">
-                <ShieldCheck className="h-4 w-4" />
-                {role === "MASTER" ? "Governança Global" : "Governança Ativa"}
-              </div>
+        <div className="mt-10">
+          <div className="h-px w-full bg-gradient-to-r from-transparent via-slate-700 to-transparent mb-5" />
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-purple-600 via-fuchsia-500 to-pink-500 px-4 py-1.5 text-xs font-semibold text-white shadow">
+              <ShieldCheck className="h-3.5 w-3.5" />
+              {role === "MASTER" ? "Governança Global" : "Governança Ativa"}
             </div>
-
-            <div className="flex justify-center">
-              <p className="text-[11px] text-slate-500 text-center">
-                © {new Date().getFullYear()} Plataforma LGPD — Painel Administrativo.
-              </p>
-            </div>
-
-            <div className="flex justify-center md:justify-end gap-3">
-              <Button
-                onClick={loadData}
-                className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-sky-500 via-cyan-400 to-indigo-500 px-5 py-2 text-sm font-semibold text-white shadow-lg hover:brightness-110 transition"
-              >
-                <RefreshCw className="h-4 w-4" />
-                Atualizar Painel
-              </Button>
-
-              <Button
-                onClick={handleLogout}
-                disabled={loggingOut}
-                className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-red-500 via-rose-500 to-pink-500 px-5 py-2 text-sm font-semibold text-white shadow-lg hover:brightness-110 transition"
-              >
-                <LogOut className="h-4 w-4" />
-                {loggingOut ? "Saindo..." : "Sair do painel"}
-              </Button>
-            </div>
+            <p className="text-[11px] text-slate-600">
+              © {new Date().getFullYear()} Plataforma LGPD — Painel Administrativo
+            </p>
           </div>
         </div>
       </div>
