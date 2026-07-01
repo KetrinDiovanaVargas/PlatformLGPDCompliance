@@ -1,0 +1,487 @@
+{
+  "meta": {
+    "persona_id": "P42",
+    "persona_arquivo": "P42_Startup_CEO.md",
+    "data_execucao": "2026-07-01",
+    "sessao_numero": 1,
+    "modelo_llm": "llama-3.3-70b-versatile",
+    "temperatura": 0.2,
+    "executor": "simular_persona.mjs (automatizado)"
+  },
+  "estagios": [
+    {
+      "estagio": 1,
+      "titulo": "Diagnóstico de Conformidade LGPD",
+      "modo": "groq",
+      "perguntas": [
+        {
+          "id": "q1",
+          "texto": "Qual é o seu nível de envolvimento com dados pessoais no trabalho?",
+          "opcoes": [
+            "Frequente",
+            "Ocasional",
+            "Raro",
+            "Não sei informar",
+            "Não se aplica"
+          ]
+        },
+        {
+          "id": "q2",
+          "texto": "Quais das seguintes atividades você realiza com dados pessoais?",
+          "opcoes": [
+            "Coleta",
+            "Armazenamento",
+            "Acesso",
+            "Compartilhamento",
+            "Não sei informar"
+          ]
+        },
+        {
+          "id": "q3",
+          "texto": "Descreva como você lida com dados pessoais sensíveis no seu trabalho diário",
+          "opcoes": []
+        },
+        {
+          "id": "q4",
+          "texto": "Você recebeu treinamento sobre LGPD e proteção de dados?",
+          "opcoes": [
+            "Sim",
+            "Não",
+            "Não sei informar",
+            "Não se aplica"
+          ]
+        }
+      ],
+      "respostas": [
+        {
+          "pergunta_id": "q1",
+          "resposta": "Frequente\n\nComo CEO e Co-fundador da Startup Alfa Tech, estou constantemente envolvido com dados pessoais, seja através da nossa plataforma SaaS, interagindo com colaboradores, prospects e clientes. A natureza do nosso negócio exige que eu tenha um conhecimento detalhado sobre como esses dados são coletados, armazenados e utilizados, garantindo que tudo seja feito de acordo com as regulamentações de privacidade, como a LGPD."
+        },
+        {
+          "pergunta_id": "q2",
+          "resposta": "Coleta | Armazenamento | Acesso | Compartilhamento\n\nNo meu papel, estou envolvido em todas essas atividades. A coleta de dados ocorre quando novos usuários se registram em nossa plataforma ou quando colaboradores são contratados. O armazenamento é feito através de nossos sistemas de gestão de dados, garantindo a segurança e a conformidade. Acesso a esses dados é necessário para operações diárias, como suporte a clientes e gestão de recursos humanos. O compartilhamento de dados pode ocorrer com fornecedores que trabalham conosco, sempre sob a égide de acordos de confidencialidade e proteção de dados (DPA)."
+        },
+        {
+          "pergunta_id": "q3",
+          "resposta": "No meu trabalho diário, lido com dados pessoais sensíveis de maneira extremamente cuidadosa. Isso inclui informações de identificação pessoal, como nomes, endereços e números de documentos, além de dados financeiros de nossos clientes e colaboradores. Para garantir a proteção desses dados, implementamos políticas rigorosas de acesso, criptografia e anonimização, sempre que possível. Além disso, realizamos auditorias regulares para garantir que nossos processos estejam alinhados com as melhores práticas de segurança da informação e conformidade com a LGPD. Treinamentos semestrais são oferecidos à equipe para reforçar a importância da proteção de dados e como lidar corretamente com informações sensíveis."
+        },
+        {
+          "pergunta_id": "q4",
+          "resposta": "Sim\n\nRecebi treinamento sobre LGPD e proteção de dados, o que foi fundamental para garantir que a Startup Alfa Tech esteja em conformidade com as regulamentações de privacidade. Além disso, contratamos um DPO (Data Protection Officer) especializado para nos ajudar a navegar pelas complexidades da LGPD e implementar as melhores práticas em proteção de dados. Essa experiência foi valiosa, especialmente durante o processo de due diligence com investidores, que exigiram uma adequação rigorosa à LGPD."
+        }
+      ]
+    },
+    {
+      "estagio": 2,
+      "titulo": "Diagnóstico de Conformidade LGPD",
+      "modo": "groq",
+      "perguntas": [
+        {
+          "id": "q5",
+          "texto": "Quem tem acesso aos dados pessoais que você lida no trabalho?",
+          "opcoes": [
+            "Eu mesmo",
+            "Meus colegas de equipe",
+            "Meu gerente",
+            "Outros departamentos",
+            "Não sei informar",
+            "Não se aplica"
+          ]
+        },
+        {
+          "id": "q6",
+          "texto": "Quais das seguintes medidas de segurança você adota para proteger os dados pessoais?",
+          "opcoes": [
+            "Criptografia",
+            "Autenticação de dois fatores",
+            "Firewall",
+            "Atualizações de software regulares",
+            "Não sei informar"
+          ]
+        },
+        {
+          "id": "q7",
+          "texto": "Descreva como você lida com uma situação em que um dado pessoal foi compartilhado indevidamente.",
+          "opcoes": []
+        },
+        {
+          "id": "q8",
+          "texto": "Qual é o procedimento para notificar os titulares dos dados em caso de violação de dados?",
+          "opcoes": [
+            "Notificação imediata",
+            "Notificação dentro de 72 horas",
+            "Não sei informar",
+            "Não se aplica"
+          ]
+        },
+        {
+          "id": "q9",
+          "texto": "Quais das seguintes políticas de segurança de dados você segue?",
+          "opcoes": [
+            "Política de acesso",
+            "Política de armazenamento",
+            "Política de compartilhamento",
+            "Política de eliminação de dados",
+            "Não sei informar"
+          ]
+        }
+      ],
+      "respostas": [
+        {
+          "pergunta_id": "q5",
+          "resposta": "Quem tem acesso aos dados pessoais que você lida no trabalho?\nEu tenho acesso, assim como meus colegas de equipe e outros departamentos, mas apenas dentro do escopo de suas responsabilidades e com as devidas autorizações. Nossa empresa adota o princípio do mínimo acesso necessário, garantindo que apenas as pessoas que realmente precisam dos dados para realizar suas funções tenham acesso a eles."
+        },
+        {
+          "pergunta_id": "q6",
+          "resposta": "Quais das seguintes medidas de segurança você adota para proteger os dados pessoais?\nNossa empresa adota várias medidas de segurança, incluindo criptografia, autenticação de dois fatores, firewall e atualizações de software regulares. Acreditamos que a segurança é um processo contínuo e, por isso, também realizamos auditorias de segurança e testes de penetração regularmente para garantir que nossos sistemas estejam sempre protegidos."
+        },
+        {
+          "pergunta_id": "q7",
+          "resposta": "Descreva como você lida com uma situação em que um dado pessoal foi compartilhado indevidamente.\nSe um dado pessoal for compartilhado indevidamente, nossa primeira ação é conter o dano, ou seja, impedir que o compartilhamento indevido continue. Em seguida, notificamos imediatamente o titular dos dados e as autoridades competentes, se necessário. Realizamos uma investigação interna para entender como o incidente ocorreu e tomamos medidas corretivas para evitar que algo semelhante aconteça no futuro. Também oferecemos suporte ao titular dos dados, caso necessário, e revisamos nossas políticas e procedimentos para garantir que estejam alinhados com as melhores práticas de privacidade."
+        },
+        {
+          "pergunta_id": "q8",
+          "resposta": "Qual é o procedimento para notificar os titulares dos dados em caso de violação de dados?\nNossa política é notificar os titulares dos dados dentro de 72 horas após a descoberta da violação, conforme exigido pela LGPD. Acreditamos na transparência e na comunicação clara com nossos usuários e, portanto, nos esforçamos para informá-los o mais rápido possível sobre qualquer incidente que possa afetar seus dados pessoais."
+        },
+        {
+          "pergunta_id": "q9",
+          "resposta": "Quais das seguintes políticas de segurança de dados você segue?\nSeguimos uma política de acesso, que define quem pode acessar quais dados e sob que circunstâncias. Também temos uma política de armazenamento, que estabelece como os dados são armazenados e por quanto tempo. Além disso, nossa política de compartilhamento define as condições sob as quais os dados podem ser compartilhados com terceiros, e nossa política de eliminação de dados garante que os dados sejam eliminados de forma segura quando não forem mais necessários. Essas políticas são fundamentais para manter a confiança de nossos usuários e garantir a proteção de seus dados pessoais."
+        }
+      ]
+    },
+    {
+      "estagio": 3,
+      "titulo": "Diagnóstico de Conformidade LGPD",
+      "modo": "groq",
+      "perguntas": [
+        {
+          "id": "q10",
+          "texto": "Quem é responsável por garantir a segurança dos dados pessoais no seu local de trabalho?",
+          "opcoes": [
+            "Eu mesmo",
+            "Meu supervisor",
+            "Departamento de TI",
+            "Não sei informar",
+            "Não se aplica"
+          ]
+        },
+        {
+          "id": "q11",
+          "texto": "Quais das seguintes medidas de segurança você adota para proteger os dados pessoais?",
+          "opcoes": [
+            "Criptografia",
+            "Autenticação de dois fatores",
+            "Firewall",
+            "Atualizações de software regulares",
+            "Não sei informar"
+          ]
+        },
+        {
+          "id": "q12",
+          "texto": "Descreva como você lida com uma situação em que um dado pessoal foi perdido ou extraviado no trabalho.",
+          "opcoes": []
+        },
+        {
+          "id": "q13",
+          "texto": "Qual é o procedimento para notificar os titulares dos dados em caso de violação de dados?",
+          "opcoes": [
+            "Notificação imediata",
+            "Notificação dentro de 72 horas",
+            "Notificação dentro de uma semana",
+            "Não sei informar",
+            "Não se aplica"
+          ]
+        },
+        {
+          "id": "q14",
+          "texto": "Quais das seguintes políticas de segurança de dados você segue?",
+          "opcoes": [
+            "Política de privacidade",
+            "Política de segurança da informação",
+            "Política de gestão de riscos",
+            "Não sei informar"
+          ]
+        }
+      ],
+      "respostas": [
+        {
+          "pergunta_id": "q10",
+          "resposta": "Quem é responsável por garantir a segurança dos dados pessoais no seu local de trabalho?\nEu mesmo. Como CEO e co-fundador da Startup Alfa Tech, tenho uma responsabilidade direta em garantir que a segurança dos dados pessoais seja uma prioridade. Além disso, contratamos um DPO (Data Protection Officer) especializado para nos ajudar a cumprir com as regulamentações de privacidade, incluindo a LGPD."
+        },
+        {
+          "pergunta_id": "q11",
+          "resposta": "Quais das seguintes medidas de segurança você adota para proteger os dados pessoais?\nCriptografia, Autenticação de dois fatores, Firewall e Atualizações de software regulares. Implementamos uma combinação dessas medidas para garantir a proteção dos dados pessoais. A criptografia é usada para proteger os dados em repouso e em trânsito, a autenticação de dois fatores adiciona uma camada extra de segurança para acessar nossos sistemas, o firewall ajuda a bloquear acessos não autorizados e as atualizações de software regulares garantem que estamos sempre com as últimas correções de segurança."
+        },
+        {
+          "pergunta_id": "q12",
+          "resposta": "Descreva como você lida com uma situação em que um dado pessoal foi perdido ou extraviado no trabalho.\nEm caso de perda ou extravio de um dado pessoal, seguimos um procedimento rigoroso para minimizar o impacto. Primeiro, notificamos imediatamente o nosso DPO, que então dispara um protocolo de resposta a incidentes. Isso inclui a identificação do tipo de dado perdido, a avaliação do risco e a implementação de medidas para mitigar qualquer dano potencial. Se necessário, notificamos os titulares dos dados e as autoridades competentes, de acordo com as regulamentações aplicáveis. Além disso, revisamos nossos processos internos para evitar que incidentes semelhantes ocorram no futuro."
+        },
+        {
+          "pergunta_id": "q13",
+          "resposta": "Qual é o procedimento para notificar os titulares dos dados em caso de violação de dados?\nNotificação dentro de 72 horas. De acordo com a LGPD, é fundamental notificar os titulares dos dados e as autoridades competentes em caso de violação de dados. Nossa política é notificar os titulares dos dados dentro de 72 horas após a descoberta da violação, fornecendo-lhes informações claras sobre o que aconteceu, quais dados foram afetados e quais medidas estamos tomando para mitigar o dano."
+        },
+        {
+          "pergunta_id": "q14",
+          "resposta": "Quais das seguintes políticas de segurança de dados você segue?\nPolítica de privacidade e Política de segurança da informação. Na Startup Alfa Tech, temos uma política de privacidade abrangente que detalha como coletamos, armazenamos e protegemos os dados pessoais. Além disso, nossa política de segurança da informação estabelece diretrizes para a gestão de riscos de segurança, incluindo a implementação de controles de segurança, a realização de auditorias regulares e a formação de nossos funcionários sobre práticas de segurança. Essas políticas são revisadas regularmente para garantir que estejamos alinhados com as melhores práticas e as regulamentações aplicáveis."
+        }
+      ]
+    },
+    {
+      "estagio": 4,
+      "titulo": "Diagnóstico de Conformidade LGPD",
+      "modo": "groq",
+      "perguntas": [
+        {
+          "id": "q15",
+          "texto": "Quais medidas de segurança você adota para proteger os dados pessoais em dispositivos móveis?",
+          "opcoes": [
+            "Criptografia",
+            "Autenticação de dois fatores",
+            "Firewall",
+            "Atualizações de segurança regulares",
+            "Não sei informar",
+            "Não se aplica"
+          ]
+        },
+        {
+          "id": "q16",
+          "texto": "Quais das seguintes políticas de segurança de dados você segue?",
+          "opcoes": [
+            "Política de acesso",
+            "Política de armazenamento",
+            "Política de compartilhamento",
+            "Política de eliminação",
+            "Não sei informar"
+          ]
+        },
+        {
+          "id": "q17",
+          "texto": "Descreva como você lida com uma situação em que um dado pessoal foi perdido ou extraviado no trabalho.",
+          "opcoes": []
+        },
+        {
+          "id": "q18",
+          "texto": "Quem é responsável por garantir a segurança dos dados pessoais no seu local de trabalho?",
+          "opcoes": [
+            "Eu mesmo",
+            "Meu supervisor",
+            "Departamento de TI",
+            "Departamento de Segurança",
+            "Não sei informar",
+            "Não se aplica"
+          ]
+        },
+        {
+          "id": "q19",
+          "texto": "Quais das seguintes medidas de segurança você adota para proteger os dados pessoais em caso de violação de dados?",
+          "opcoes": [
+            "Notificação imediata aos titulares dos dados",
+            "Análise de impacto",
+            "Medidas corretivas",
+            "Medidas preventivas",
+            "Não sei informar"
+          ]
+        }
+      ],
+      "respostas": [
+        {
+          "pergunta_id": "q15",
+          "resposta": "Quais medidas de segurança você adota para proteger os dados pessoais em dispositivos móveis?\nEu adoto a criptografia e a autenticação de dois fatores. A criptografia garante que os dados sejam ilegíveis em caso de acesso não autorizado, enquanto a autenticação de dois fatores adiciona uma camada extra de segurança para acessar os dispositivos e os dados. Além disso, também realizamos atualizações de segurança regulares para garantir que os dispositivos móveis estejam protegidos contra as últimas ameaças."
+        },
+        {
+          "pergunta_id": "q16",
+          "resposta": "Quais das seguintes políticas de segurança de dados você segue?\nSeguimos uma política de acesso, armazenamento, compartilhamento e eliminação. A política de acesso define quem pode acessar quais dados e sob quais condições. A política de armazenamento estabelece como os dados devem ser armazenados de forma segura. A política de compartilhamento regula como os dados podem ser compartilhados interna e externamente. E a política de eliminação define como os dados devem ser eliminados de forma segura quando não forem mais necessários."
+        },
+        {
+          "pergunta_id": "q17",
+          "resposta": "Descreva como você lida com uma situação em que um dado pessoal foi perdido ou extraviado no trabalho.\nSe um dado pessoal for perdido ou extraviado no trabalho, primeiro notificamos imediatamente o nosso Departamento de Segurança da Informação e o nosso DPO (Data Protection Officer). Em seguida, realizamos uma investigação para determinar a causa do incidente e avaliar o impacto. Se necessário, notificamos os titulares dos dados afetados e as autoridades competentes, de acordo com a LGPD. Além disso, tomamos medidas corretivas para evitar que incidentes semelhantes ocorram no futuro, como treinamento adicional para os funcionários e revisão das políticas de segurança."
+        },
+        {
+          "pergunta_id": "q18",
+          "resposta": "Quem é responsável por garantir a segurança dos dados pessoais no seu local de trabalho?\nEu mesmo, como CEO, tenho uma responsabilidade geral pela segurança dos dados pessoais, mas a responsabilidade operacional é compartilhada com o nosso Departamento de TI e o nosso DPO. O Departamento de TI é responsável pela implementação e manutenção das medidas de segurança técnicas, enquanto o DPO é responsável por garantir que as políticas de segurança estejam alinhadas com a LGPD e outras leis de privacidade aplicáveis."
+        },
+        {
+          "pergunta_id": "q19",
+          "resposta": "Quais das seguintes medidas de segurança você adota para proteger os dados pessoais em caso de violação de dados?\nAdotamos todas as medidas listadas: notificação imediata aos titulares dos dados, análise de impacto, medidas corretivas e medidas preventivas. A notificação imediata é crucial para que os titulares dos dados possam tomar medidas para proteger-se. A análise de impacto ajuda a entender a extensão do incidente e a identificar áreas para melhoria. As medidas corretivas são implementadas para resolver o problema imediato, e as medidas preventivas são adotadas para evitar que violações semelhantes ocorram no futuro."
+        }
+      ]
+    }
+  ],
+  "relatorio_final": {
+    "report": "\nAnálise simplificada gerada automaticamente.\n\nDevido a um limite temporário do serviço de IA, este relatório foi construído com base em padrões estruturados de avaliação.\n\nResumo:\n- Total de respostas analisadas: 19\n- Foram identificados pontos de melhoria em governança, controle e segurança da informação.\n\nRecomendações:\n- Formalizar políticas de proteção de dados\n- Revisar controles de acesso\n- Implementar rotinas de monitoramento\n- Estruturar plano de resposta a incidentes\n\nAssim que o sistema estiver totalmente disponível, uma análise mais detalhada poderá ser gerada.\n    ",
+    "summary": "Relatório gerado em modo de contingência",
+    "metrics": {
+      "score": 65,
+      "risks": {
+        "conforme": 5,
+        "parcial": 7,
+        "naoConforme": 5
+      },
+      "strengths": [
+        "Processos iniciais definidos"
+      ],
+      "attentionPoints": [
+        "Falta de formalização de políticas"
+      ],
+      "criticalIssues": [
+        "Ausência de monitoramento contínuo"
+      ],
+      "controlsStatus": [
+        {
+          "name": "Criptografia",
+          "value": 40
+        },
+        {
+          "name": "Acesso",
+          "value": 50
+        },
+        {
+          "name": "Backup",
+          "value": 60
+        },
+        {
+          "name": "Monitoramento",
+          "value": 30
+        },
+        {
+          "name": "Documentação",
+          "value": 45
+        }
+      ],
+      "recommendations": [
+        "Implementar políticas LGPD",
+        "Criar plano de resposta a incidentes",
+        "Melhorar controle de acesso"
+      ]
+    },
+    "responses": [
+      {
+        "questionId": "q1",
+        "question": "Qual é o seu nível de envolvimento com dados pessoais no trabalho?",
+        "answer": "Frequente\n\nComo CEO e Co-fundador da Startup Alfa Tech, estou constantemente envolvido com dados pessoais, seja através da nossa plataforma SaaS, interagindo com colaboradores, prospects e clientes. A natureza do nosso negócio exige que eu tenha um conhecimento detalhado sobre como esses dados são coletados, armazenados e utilizados, garantindo que tudo seja feito de acordo com as regulamentações de privacidade, como a LGPD."
+      },
+      {
+        "questionId": "q2",
+        "question": "Quais das seguintes atividades você realiza com dados pessoais?",
+        "answer": "Coleta | Armazenamento | Acesso | Compartilhamento\n\nNo meu papel, estou envolvido em todas essas atividades. A coleta de dados ocorre quando novos usuários se registram em nossa plataforma ou quando colaboradores são contratados. O armazenamento é feito através de nossos sistemas de gestão de dados, garantindo a segurança e a conformidade. Acesso a esses dados é necessário para operações diárias, como suporte a clientes e gestão de recursos humanos. O compartilhamento de dados pode ocorrer com fornecedores que trabalham conosco, sempre sob a égide de acordos de confidencialidade e proteção de dados (DPA)."
+      },
+      {
+        "questionId": "q3",
+        "question": "Descreva como você lida com dados pessoais sensíveis no seu trabalho diário",
+        "answer": "No meu trabalho diário, lido com dados pessoais sensíveis de maneira extremamente cuidadosa. Isso inclui informações de identificação pessoal, como nomes, endereços e números de documentos, além de dados financeiros de nossos clientes e colaboradores. Para garantir a proteção desses dados, implementamos políticas rigorosas de acesso, criptografia e anonimização, sempre que possível. Além disso, realizamos auditorias regulares para garantir que nossos processos estejam alinhados com as melhores práticas de segurança da informação e conformidade com a LGPD. Treinamentos semestrais são oferecidos à equipe para reforçar a importância da proteção de dados e como lidar corretamente com informações sensíveis."
+      },
+      {
+        "questionId": "q4",
+        "question": "Você recebeu treinamento sobre LGPD e proteção de dados?",
+        "answer": "Sim\n\nRecebi treinamento sobre LGPD e proteção de dados, o que foi fundamental para garantir que a Startup Alfa Tech esteja em conformidade com as regulamentações de privacidade. Além disso, contratamos um DPO (Data Protection Officer) especializado para nos ajudar a navegar pelas complexidades da LGPD e implementar as melhores práticas em proteção de dados. Essa experiência foi valiosa, especialmente durante o processo de due diligence com investidores, que exigiram uma adequação rigorosa à LGPD."
+      },
+      {
+        "questionId": "q5",
+        "question": "Quem tem acesso aos dados pessoais que você lida no trabalho?",
+        "answer": "Quem tem acesso aos dados pessoais que você lida no trabalho?\nEu tenho acesso, assim como meus colegas de equipe e outros departamentos, mas apenas dentro do escopo de suas responsabilidades e com as devidas autorizações. Nossa empresa adota o princípio do mínimo acesso necessário, garantindo que apenas as pessoas que realmente precisam dos dados para realizar suas funções tenham acesso a eles."
+      },
+      {
+        "questionId": "q6",
+        "question": "Quais das seguintes medidas de segurança você adota para proteger os dados pessoais?",
+        "answer": "Quais das seguintes medidas de segurança você adota para proteger os dados pessoais?\nNossa empresa adota várias medidas de segurança, incluindo criptografia, autenticação de dois fatores, firewall e atualizações de software regulares. Acreditamos que a segurança é um processo contínuo e, por isso, também realizamos auditorias de segurança e testes de penetração regularmente para garantir que nossos sistemas estejam sempre protegidos."
+      },
+      {
+        "questionId": "q7",
+        "question": "Descreva como você lida com uma situação em que um dado pessoal foi compartilhado indevidamente.",
+        "answer": "Descreva como você lida com uma situação em que um dado pessoal foi compartilhado indevidamente.\nSe um dado pessoal for compartilhado indevidamente, nossa primeira ação é conter o dano, ou seja, impedir que o compartilhamento indevido continue. Em seguida, notificamos imediatamente o titular dos dados e as autoridades competentes, se necessário. Realizamos uma investigação interna para entender como o incidente ocorreu e tomamos medidas corretivas para evitar que algo semelhante aconteça no futuro. Também oferecemos suporte ao titular dos dados, caso necessário, e revisamos nossas políticas e procedimentos para garantir que estejam alinhados com as melhores práticas de privacidade."
+      },
+      {
+        "questionId": "q8",
+        "question": "Qual é o procedimento para notificar os titulares dos dados em caso de violação de dados?",
+        "answer": "Qual é o procedimento para notificar os titulares dos dados em caso de violação de dados?\nNossa política é notificar os titulares dos dados dentro de 72 horas após a descoberta da violação, conforme exigido pela LGPD. Acreditamos na transparência e na comunicação clara com nossos usuários e, portanto, nos esforçamos para informá-los o mais rápido possível sobre qualquer incidente que possa afetar seus dados pessoais."
+      },
+      {
+        "questionId": "q9",
+        "question": "Quais das seguintes políticas de segurança de dados você segue?",
+        "answer": "Quais das seguintes políticas de segurança de dados você segue?\nSeguimos uma política de acesso, que define quem pode acessar quais dados e sob que circunstâncias. Também temos uma política de armazenamento, que estabelece como os dados são armazenados e por quanto tempo. Além disso, nossa política de compartilhamento define as condições sob as quais os dados podem ser compartilhados com terceiros, e nossa política de eliminação de dados garante que os dados sejam eliminados de forma segura quando não forem mais necessários. Essas políticas são fundamentais para manter a confiança de nossos usuários e garantir a proteção de seus dados pessoais."
+      },
+      {
+        "questionId": "q10",
+        "question": "Quem é responsável por garantir a segurança dos dados pessoais no seu local de trabalho?",
+        "answer": "Quem é responsável por garantir a segurança dos dados pessoais no seu local de trabalho?\nEu mesmo. Como CEO e co-fundador da Startup Alfa Tech, tenho uma responsabilidade direta em garantir que a segurança dos dados pessoais seja uma prioridade. Além disso, contratamos um DPO (Data Protection Officer) especializado para nos ajudar a cumprir com as regulamentações de privacidade, incluindo a LGPD."
+      },
+      {
+        "questionId": "q11",
+        "question": "Quais das seguintes medidas de segurança você adota para proteger os dados pessoais?",
+        "answer": "Quais das seguintes medidas de segurança você adota para proteger os dados pessoais?\nCriptografia, Autenticação de dois fatores, Firewall e Atualizações de software regulares. Implementamos uma combinação dessas medidas para garantir a proteção dos dados pessoais. A criptografia é usada para proteger os dados em repouso e em trânsito, a autenticação de dois fatores adiciona uma camada extra de segurança para acessar nossos sistemas, o firewall ajuda a bloquear acessos não autorizados e as atualizações de software regulares garantem que estamos sempre com as últimas correções de segurança."
+      },
+      {
+        "questionId": "q12",
+        "question": "Descreva como você lida com uma situação em que um dado pessoal foi perdido ou extraviado no trabalho.",
+        "answer": "Descreva como você lida com uma situação em que um dado pessoal foi perdido ou extraviado no trabalho.\nEm caso de perda ou extravio de um dado pessoal, seguimos um procedimento rigoroso para minimizar o impacto. Primeiro, notificamos imediatamente o nosso DPO, que então dispara um protocolo de resposta a incidentes. Isso inclui a identificação do tipo de dado perdido, a avaliação do risco e a implementação de medidas para mitigar qualquer dano potencial. Se necessário, notificamos os titulares dos dados e as autoridades competentes, de acordo com as regulamentações aplicáveis. Além disso, revisamos nossos processos internos para evitar que incidentes semelhantes ocorram no futuro."
+      },
+      {
+        "questionId": "q13",
+        "question": "Qual é o procedimento para notificar os titulares dos dados em caso de violação de dados?",
+        "answer": "Qual é o procedimento para notificar os titulares dos dados em caso de violação de dados?\nNotificação dentro de 72 horas. De acordo com a LGPD, é fundamental notificar os titulares dos dados e as autoridades competentes em caso de violação de dados. Nossa política é notificar os titulares dos dados dentro de 72 horas após a descoberta da violação, fornecendo-lhes informações claras sobre o que aconteceu, quais dados foram afetados e quais medidas estamos tomando para mitigar o dano."
+      },
+      {
+        "questionId": "q14",
+        "question": "Quais das seguintes políticas de segurança de dados você segue?",
+        "answer": "Quais das seguintes políticas de segurança de dados você segue?\nPolítica de privacidade e Política de segurança da informação. Na Startup Alfa Tech, temos uma política de privacidade abrangente que detalha como coletamos, armazenamos e protegemos os dados pessoais. Além disso, nossa política de segurança da informação estabelece diretrizes para a gestão de riscos de segurança, incluindo a implementação de controles de segurança, a realização de auditorias regulares e a formação de nossos funcionários sobre práticas de segurança. Essas políticas são revisadas regularmente para garantir que estejamos alinhados com as melhores práticas e as regulamentações aplicáveis."
+      },
+      {
+        "questionId": "q15",
+        "question": "Quais medidas de segurança você adota para proteger os dados pessoais em dispositivos móveis?",
+        "answer": "Quais medidas de segurança você adota para proteger os dados pessoais em dispositivos móveis?\nEu adoto a criptografia e a autenticação de dois fatores. A criptografia garante que os dados sejam ilegíveis em caso de acesso não autorizado, enquanto a autenticação de dois fatores adiciona uma camada extra de segurança para acessar os dispositivos e os dados. Além disso, também realizamos atualizações de segurança regulares para garantir que os dispositivos móveis estejam protegidos contra as últimas ameaças."
+      },
+      {
+        "questionId": "q16",
+        "question": "Quais das seguintes políticas de segurança de dados você segue?",
+        "answer": "Quais das seguintes políticas de segurança de dados você segue?\nSeguimos uma política de acesso, armazenamento, compartilhamento e eliminação. A política de acesso define quem pode acessar quais dados e sob quais condições. A política de armazenamento estabelece como os dados devem ser armazenados de forma segura. A política de compartilhamento regula como os dados podem ser compartilhados interna e externamente. E a política de eliminação define como os dados devem ser eliminados de forma segura quando não forem mais necessários."
+      },
+      {
+        "questionId": "q17",
+        "question": "Descreva como você lida com uma situação em que um dado pessoal foi perdido ou extraviado no trabalho.",
+        "answer": "Descreva como você lida com uma situação em que um dado pessoal foi perdido ou extraviado no trabalho.\nSe um dado pessoal for perdido ou extraviado no trabalho, primeiro notificamos imediatamente o nosso Departamento de Segurança da Informação e o nosso DPO (Data Protection Officer). Em seguida, realizamos uma investigação para determinar a causa do incidente e avaliar o impacto. Se necessário, notificamos os titulares dos dados afetados e as autoridades competentes, de acordo com a LGPD. Além disso, tomamos medidas corretivas para evitar que incidentes semelhantes ocorram no futuro, como treinamento adicional para os funcionários e revisão das políticas de segurança."
+      },
+      {
+        "questionId": "q18",
+        "question": "Quem é responsável por garantir a segurança dos dados pessoais no seu local de trabalho?",
+        "answer": "Quem é responsável por garantir a segurança dos dados pessoais no seu local de trabalho?\nEu mesmo, como CEO, tenho uma responsabilidade geral pela segurança dos dados pessoais, mas a responsabilidade operacional é compartilhada com o nosso Departamento de TI e o nosso DPO. O Departamento de TI é responsável pela implementação e manutenção das medidas de segurança técnicas, enquanto o DPO é responsável por garantir que as políticas de segurança estejam alinhadas com a LGPD e outras leis de privacidade aplicáveis."
+      },
+      {
+        "questionId": "q19",
+        "question": "Quais das seguintes medidas de segurança você adota para proteger os dados pessoais em caso de violação de dados?",
+        "answer": "Quais das seguintes medidas de segurança você adota para proteger os dados pessoais em caso de violação de dados?\nAdotamos todas as medidas listadas: notificação imediata aos titulares dos dados, análise de impacto, medidas corretivas e medidas preventivas. A notificação imediata é crucial para que os titulares dos dados possam tomar medidas para proteger-se. A análise de impacto ajuda a entender a extensão do incidente e a identificar áreas para melhoria. As medidas corretivas são implementadas para resolver o problema imediato, e as medidas preventivas são adotadas para evitar que violações semelhantes ocorram no futuro."
+      }
+    ],
+    "assessmentMetadata": {
+      "assessmentId": null,
+      "assessmentTitle": "",
+      "assessmentFormType": "",
+      "assessmentObjective": "",
+      "assessmentContext": "",
+      "audience": "",
+      "introText": "",
+      "ownerId": "",
+      "ownerName": ""
+    },
+    "reportMode": "fallback",
+    "reportNotice": "O sistema atingiu o limite temporário da IA. Exibindo versão simplificada.",
+    "createdAt": "2026-07-01T00:42:10.926Z"
+  },
+  "avaliacao_vs_oraculo": {
+    "nivel_risco_esperado": "baixo",
+    "nivel_risco_detectado": "moderado",
+    "score_plataforma": 65,
+    "fragilidades_esperadas": [],
+    "fragilidades_detectadas": [],
+    "falso_positivo": true,
+    "falso_negativo": false,
+    "pontuacao_rubrica": {
+      "deteccao_fragilidade_central": 3,
+      "profundidade_perguntas": 1,
+      "classificacao_risco_correta": 1,
+      "ausencia_falso_positivo": 0,
+      "total": 5,
+      "maximo": 12
+    },
+    "observacoes": ""
+  }
+}

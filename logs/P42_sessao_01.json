@@ -1,0 +1,335 @@
+{
+  "meta": {
+    "persona_id": "P42",
+    "persona_arquivo": "P42_Startup_CEO.md",
+    "data_execucao": "2026-07-01",
+    "sessao_numero": 1,
+    "modelo_llm": "llama-3.3-70b-versatile",
+    "temperatura": 0.2,
+    "executor": "simular_persona.mjs (automatizado)"
+  },
+  "estagios": [
+    {
+      "estagio": 1,
+      "titulo": "Diagnóstico de Conformidade LGPD",
+      "modo": "groq",
+      "perguntas": [
+        {
+          "id": "q1",
+          "texto": "Qual é o seu nível de envolvimento com o tratamento de dados pessoais no ambiente organizacional?",
+          "opcoes": [
+            "Frequente",
+            "Ocasional",
+            "Raro",
+            "Não sei informar",
+            "Não se aplica"
+          ]
+        },
+        {
+          "id": "q2",
+          "texto": "Quais das seguintes atividades você realiza com dados pessoais?",
+          "opcoes": [
+            "Coleta",
+            "Armazenamento",
+            "Acesso",
+            "Compartilhamento",
+            "Não sei informar"
+          ]
+        },
+        {
+          "id": "q3",
+          "texto": "Descreva como você lida com a segurança dos dados pessoais em sua rotina de trabalho",
+          "opcoes": []
+        },
+        {
+          "id": "q4",
+          "texto": "Você recebeu treinamento ou orientação sobre a LGPD e o tratamento de dados pessoais?",
+          "opcoes": [
+            "Sim",
+            "Não",
+            "Não sei informar",
+            "Não se aplica"
+          ]
+        }
+      ],
+      "respostas": [
+        {
+          "pergunta_id": "q1",
+          "resposta": "Frequente. Como CEO e Co-fundador da Startup Alfa Tech, estou constantemente envolvido com o tratamento de dados pessoais, seja através da definição de estratégias de coleta e armazenamento, seja garantindo que nossos processos estejam alinhados com as regulamentações de privacidade, como a LGPD."
+        },
+        {
+          "pergunta_id": "q2",
+          "resposta": "Coleta, Armazenamento, Acesso e Compartilhamento. Em nossa plataforma SaaS, coletamos dados de usuários para melhorar a experiência do usuário e personalizar os serviços. Armazenamos esses dados de forma segura, utilizando tecnologias de criptografia e controle de acesso. Acesso é controlado e monitorado, com logs de acesso individuais para toda a equipe técnica. Compartilhamento de dados ocorre de forma controlada, apenas com fornecedores que têm DPA (Acordo de Processamento de Dados) firmado conosco, garantindo que eles também estejam em conformidade com a LGPD."
+        },
+        {
+          "pergunta_id": "q3",
+          "resposta": "A segurança dos dados pessoais é uma prioridade absoluta em nossa rotina de trabalho. Implementamos processos formais de gestão de privacidade, utilizando ferramentas como o sistema de gestão de privacidade OneTrust, que nos ajuda a monitorar e gerenciar o tratamento de dados pessoais. Além disso, realizamos treinamentos semestrais para a equipe sobre a importância da privacidade e como lidar com dados pessoais de forma segura. Temos também um canal formal para o exercício de direitos dos titulares dos dados, garantindo que possamos atender às solicitações de forma eficiente e dentro dos prazos legais. Nossa equipe técnica está ciente da importância de manter a confidencialidade e integridade dos dados, e todos os acessos são monitorados e registrados."
+        },
+        {
+          "pergunta_id": "q4",
+          "resposta": "Sim. Como parte do nosso compromisso com a conformidade à LGPD, especialmente após uma rodada de investimento que exigiu adequação à regulamentação, contratamos um DPO (Oficial de Proteção de Dados) especializado. Além disso, realizamos treinamentos internos para garantir que toda a equipe esteja ciente das suas responsabilidades em relação ao tratamento de dados pessoais. Esses treinamentos são semestrais e abordam tanto as bases legais para o tratamento de dados quanto as melhores práticas para garantir a segurança e privacidade dos dados."
+        }
+      ]
+    },
+    {
+      "estagio": 2,
+      "titulo": "Diagnóstico de Conformidade LGPD",
+      "modo": "groq",
+      "perguntas": [
+        {
+          "id": "q5",
+          "texto": "Quem tem acesso aos dados pessoais coletados em sua organização?",
+          "opcoes": [
+            "Equipe de marketing",
+            "Equipe de vendas",
+            "Equipe de suporte",
+            "Fornecedores",
+            "Não sei informar",
+            "Não se aplica"
+          ]
+        },
+        {
+          "id": "q6",
+          "texto": "Quais das seguintes medidas de segurança são implementadas para proteger os dados pessoais em sua organização?",
+          "opcoes": [
+            "Criptografia",
+            "Controle de acesso",
+            "Firewall",
+            "Atualizações de segurança regulares",
+            "Não sei informar"
+          ]
+        },
+        {
+          "id": "q7",
+          "texto": "Descreva como sua organização lida com solicitações de exclusão de dados pessoais.",
+          "opcoes": []
+        },
+        {
+          "id": "q9",
+          "texto": "Quais das seguintes políticas de privacidade sua organização segue?",
+          "opcoes": [
+            "LGPD",
+            "GDPR",
+            "Outras",
+            "Não sei informar"
+          ]
+        },
+        {
+          "id": "q1",
+          "texto": "Com que frequência dados pessoais são coletados ou utilizados nesse contexto?",
+          "opcoes": [
+            "Frequentemente",
+            "Às vezes",
+            "Raramente",
+            "Nunca"
+          ]
+        }
+      ],
+      "respostas": [
+        {
+          "pergunta_id": "q5",
+          "resposta": "Quem tem acesso aos dados pessoais coletados em sua organização?\nA resposta correta é: Equipe de suporte. No entanto, é importante esclarecer que, na Alfa Tech, o acesso aos dados pessoais é estritamente controlado e limitado às equipes que realmente necessitam desses dados para realizar suas funções. Isso inclui a equipe de suporte, que pode precisar acessar informações de clientes para resolver problemas ou questões técnicas. Além disso, todos os membros da equipe que têm acesso a dados pessoais passam por treinamentos regulares sobre privacidade e segurança de dados, e assinam acordos de confidencialidade."
+        },
+        {
+          "pergunta_id": "q6",
+          "resposta": "Quais das seguintes medidas de segurança são implementadas para proteger os dados pessoais em sua organização?\nA resposta correta é: Todas as opções listadas (Criptografia | Controle de acesso | Firewall | Atualizações de segurança regulares). Na Alfa Tech, levamos a segurança dos dados muito a sério. Implementamos criptografia para proteger os dados em trânsito e em repouso, controle de acesso para garantir que apenas as pessoas autorizadas possam acessar os dados, firewalls para proteger contra ameaças externas, e atualizações de segurança regulares para garantir que nossos sistemas estejam sempre atualizados e protegidos contra as últimas ameaças."
+        },
+        {
+          "pergunta_id": "q7",
+          "resposta": "Descreva como sua organização lida com solicitações de exclusão de dados pessoais.\nNa Alfa Tech, temos um processo claro e transparente para lidar com solicitações de exclusão de dados pessoais. Quando recebemos uma solicitação, nossa equipe de privacidade e segurança de dados é notificada e começa a trabalhar imediatamente para atender à solicitação. Primeiro, verificamos a identidade do solicitante para garantir que a solicitação seja legítima. Em seguida, identificamos todos os dados pessoais que precisam ser excluídos e tomamos as medidas necessárias para excluí-los de todos os nossos sistemas e registros. Também notificamos o solicitante sobre o andamento da solicitação e confirmamos quando a exclusão estiver concluída. Além disso, mantemos registros de todas as solicitações de exclus"
+        },
+        {
+          "pergunta_id": "q9",
+          "resposta": "Quais das seguintes políticas de privacidade sua organização segue?\nA resposta correta é: LGPD. Como uma empresa brasileira, a Alfa Tech segue estritamente a Lei Geral de Proteção de Dados (LGPD) e garantimos que todas as nossas práticas de coleta, armazenamento e uso de dados pessoais estejam em conformidade com essa lei. Além disso, também consideramos as melhores práticas internacionais de privacidade e segurança de dados para garantir que nossos padrões sejam altos, independentemente da jurisdição."
+        },
+        {
+          "pergunta_id": "q1",
+          "resposta": "Com que frequência dados pessoais são coletados ou utilizados nesse contexto?\nA resposta correta é: Frequentemente. Na Alfa Tech, coletamos e utilizamos dados pessoais regularmente como parte de nossas operações normais. Isso inclui a coleta de dados de usuários de nossa plataforma SaaS, dados de colaboradores, e dados de prospects e clientes. No entanto, sempre garantimos que a coleta e o uso de dados pessoais sejam feitos de forma transparente, com o consentimento adequado, e em conformidade com as leis de privacidade aplicáveis."
+        }
+      ]
+    },
+    {
+      "estagio": 3,
+      "titulo": "Diagnóstico de Conformidade LGPD",
+      "modo": "groq",
+      "perguntas": [
+        {
+          "id": "q1",
+          "texto": "Quem é responsável por garantir a conformidade com a LGPD em sua organização?",
+          "opcoes": [
+            "CEO",
+            "DPO (Oficial de Proteção de Dados)",
+            "Equipe de TI",
+            "Departamento Jurídico",
+            "Não sei informar",
+            "Não se aplica"
+          ]
+        },
+        {
+          "id": "q2",
+          "texto": "Quais das seguintes medidas de segurança são implementadas para proteger os dados pessoais em sua organização?",
+          "opcoes": [
+            "Criptografia",
+            "Controle de acesso",
+            "Firewall",
+            "Atualizações de software regulares",
+            "Não sei informar"
+          ]
+        },
+        {
+          "id": "q3",
+          "texto": "Descreva como sua organização lida com incidentes de segurança relacionados a dados pessoais.",
+          "opcoes": []
+        },
+        {
+          "id": "q4",
+          "texto": "Com que frequência sua organização realiza auditorias de segurança para garantir a conformidade com a LGPD?",
+          "opcoes": [
+            "Mensalmente",
+            "Trimestralmente",
+            "Semestralmente",
+            "Anualmente",
+            "Não sei informar",
+            "Não se aplica"
+          ]
+        },
+        {
+          "id": "q5",
+          "texto": "Quais das seguintes políticas de privacidade sua organização segue?",
+          "opcoes": [
+            "Política de Privacidade Geral",
+            "Política de Cookies",
+            "Política de Segurança da Informação",
+            "Política de Proteção de Dados Pessoais",
+            "Não sei informar"
+          ]
+        }
+      ],
+      "respostas": [
+        {
+          "pergunta_id": "q1",
+          "resposta": "Quem é responsável por garantir a conformidade com a LGPD em sua organização?\nResposta: DPO (Oficial de Proteção de Dados). Embora como CEO eu tenha uma visão geral e esteja envolvido na estratégia da empresa, contratamos um DPO especializado para garantir que estamos em conformidade com a LGPD. Ele é responsável por monitorar e implementar as políticas de privacidade e segurança de dados em nossa organização."
+        },
+        {
+          "pergunta_id": "q2",
+          "resposta": "Quais das seguintes medidas de segurança são implementadas para proteger os dados pessoais em sua organização?\nResposta: Controle de acesso. Implementamos um sistema de controle de acesso rigoroso para garantir que apenas os funcionários autorizados tenham acesso aos dados pessoais. Além disso, também utilizamos criptografia para proteger os dados em trânsito e em repouso, e realizamos atualizações de software regulares para garantir que nossos sistemas estejam atualizados e seguros. No entanto, dentre as opções fornecidas, o controle de acesso é uma das medidas mais críticas que implementamos."
+        },
+        {
+          "pergunta_id": "q3",
+          "resposta": "Descreva como sua organização lida com incidentes de segurança relacionados a dados pessoais.\nNossa organização tem um plano de resposta a incidentes de segurança bem definido. Quando ocorre um incidente, nossa equipe de segurança é notificada imediatamente e inicia uma investigação para determinar a extensão do incidente. Se o incidente envolver dados pessoais, notificamos os afetados e as autoridades competentes dentro do prazo estabelecido pela LGPD. Além disso, realizamos uma análise pós-incidente para identificar as causas raiz e implementar medidas para prevenir incidentes semelhantes no futuro. Nosso DPO também está envolvido em todo o processo para garantir que estamos em conformidade com as regulamentações de privacidade."
+        },
+        {
+          "pergunta_id": "q4",
+          "resposta": "Com que frequência sua organização realiza auditorias de segurança para garantir a conformidade com a LGPD?\nResposta: Semestralmente. Realizamos auditorias de segurança internas semestralmente para garantir que nossos sistemas e processos estejam em conformidade com a LGPD e com as melhores práticas de segurança. Além disso, também realizamos auditorias externas anualmente com empresas especializadas para obter uma visão independente de nossas práticas de segurança e privacidade."
+        },
+        {
+          "pergunta_id": "q5",
+          "resposta": "Quais das seguintes políticas de privacidade sua organização segue?\nResposta: Política de Proteção de Dados Pessoais. Nossa organização segue uma política de proteção de dados pessoais abrangente que define como coletamos, armazenamos, processamos e protegemos os dados pessoais. Essa política é baseada nos princípios da LGPD e é revisada regularmente para garantir que esteja alinhada com as últimas regulamentações e melhores práticas de privacidade. Além disso, também temos políticas específicas para cookies e segurança da informação, mas a política de proteção de dados pessoais é a mais abrangente e fundamental para nossa organização."
+        }
+      ]
+    },
+    {
+      "estagio": 4,
+      "titulo": "Diagnóstico de Conformidade LGPD",
+      "modo": "groq",
+      "perguntas": [
+        {
+          "id": "q1",
+          "texto": "Quais medidas de segurança sua organização implementa para proteger os dados pessoais contra acessos não autorizados?",
+          "opcoes": [
+            "Autenticação de dois fatores",
+            "Criptografia de dados",
+            "Firewall",
+            "Controle de acesso físico",
+            "Não sei informar",
+            "Não se aplica"
+          ]
+        },
+        {
+          "id": "q2",
+          "texto": "Quais das seguintes políticas de privacidade sua organização segue?",
+          "opcoes": [
+            "Política de Privacidade Geral",
+            "Política de Cookies",
+            "Política de Uso de Dados Pessoais",
+            "Política de Segurança da Informação",
+            "Não sei informar"
+          ]
+        },
+        {
+          "id": "q3",
+          "texto": "Descreva como sua organização lida com incidentes de segurança relacionados a dados pessoais.",
+          "opcoes": []
+        },
+        {
+          "id": "q4",
+          "texto": "Com que frequência sua organização realiza auditorias de segurança para garantir a conformidade com a LGPD?",
+          "opcoes": [
+            "Mensalmente",
+            "Trimestralmente",
+            "Semestralmente",
+            "Anualmente",
+            "Não sei informar",
+            "Não se aplica"
+          ]
+        },
+        {
+          "id": "q5",
+          "texto": "Quais das seguintes medidas sua organização adota para garantir a transparência no tratamento de dados pessoais?",
+          "opcoes": [
+            "Comunicação clara sobre o uso de dados",
+            "Acesso fácil a informações sobre o tratamento de dados",
+            "Mecanismos para exercício de direitos dos titulares",
+            "Não sei informar"
+          ]
+        }
+      ],
+      "respostas": [
+        {
+          "pergunta_id": "q1",
+          "resposta": "** Quais medidas de segurança sua organização implementa para proteger os dados pessoais contra acessos não autorizados?\n\nNossa organização, a Startup Alfa Tech, implementa várias medidas de segurança para proteger os dados pessoais contra acessos não autorizados. Incluímos a autenticação de dois fatores para todos os acessos ao nosso sistema, criptografia de dados tanto em repouso quanto em trânsito, e um firewall robusto para proteger nossas redes. Além disso, temos um controle de acesso físico rigoroso para nossos servidores e equipamentos, garantindo que apenas pessoas autorizadas tenham acesso físico a esses dispositivos. Portanto, escolheria as opções: Autenticação de dois fatores, Criptografia de dados, Firewall e Controle de acesso físico.\n\n**"
+        },
+        {
+          "pergunta_id": "q2",
+          "resposta": "** Quais das seguintes políticas de privacidade sua organização segue?\n\nNossa organização segue uma política de privacidade abrangente que engloba várias áreas. Temos uma Política de Privacidade Geral que define como coletamos, usamos e protegemos os dados pessoais de nossos usuários e colaboradores. Além disso, implementamos uma Política de Cookies para garantir a transparência no uso de cookies em nosso site e aplicativos. Também contamos com uma Política de Uso de Dados Pessoais que detalha como tratamos os dados pessoais e uma Política de Segurança da Informação que aborda a proteção de todos os dados, incluindo os pessoais, contra acessos não autorizados e incidentes de segurança. Portanto, as opções que melhor se aplicam são: Política de Privacidade Geral, Política de Cookies, Políti"
+        },
+        {
+          "pergunta_id": "q3",
+          "resposta": "** Descreva como sua organização lida com incidentes de segurança relacionados a dados pessoais.\n\nEm caso de incidentes de segurança relacionados a dados pessoais, nossa organização tem um plano de resposta a incidentes bem definido. Primeiramente, identificamos e contenemos o incidente para minimizar o dano. Em seguida, realizamos uma investigação detalhada para entender a causa raiz do incidente e quais dados foram afetados. Se necessário, notificamos os titulares dos dados e as autoridades competentes dentro do prazo estabelecido pela LGPD. Além disso, implementamos medidas corretivas para evitar que incidentes semelhantes ocorram no futuro, o que pode incluir atualizações de software, treinamento adicional para a equipe e revisões de nossas políticas de segurança. Mantemos registros de"
+        },
+        {
+          "pergunta_id": "q4",
+          "resposta": "** Com que frequência sua organização realiza auditorias de segurança para garantir a conformidade com a LGPD?\n\nNossa organização realiza auditorias de segurança semestralmente para garantir a conformidade com a LGPD e outras regulamentações de privacidade relevantes. Essas auditorias são conduzidas por equipes internas e, periodicamente, por auditores externos independentes, para garantir uma avaliação objetiva e abrangente de nossas práticas de segurança da informação e privacidade. Além disso, nosso DPO (Data Protection Officer) realiza monitoramento contínuo e revisões regulares de nossas políticas e procedimentos para garantir que estejamos sempre em conformidade com as exigências legais e regulamentares.\n\n**"
+        },
+        {
+          "pergunta_id": "q5",
+          "resposta": "** Quais das seguintes medidas sua organização adota para garantir a transparência no tratamento de dados pessoais?\n\nPara garantir a transparência no tratamento de dados pessoais, nossa organização adota várias medidas. Primeiramente, proporcionamos comunicação clara sobre o uso de dados, garantindo que os titulares dos dados entendam como seus dados são coletados, usados e compartilhados. Além disso, oferecemos acesso fácil a informações sobre o tratamento de dados, incluindo detalhes sobre quais dados são coletados, para que finalidades e como os titulares podem exercer seus direitos. Também implementamos mecanismos para o exercício de direitos dos titulares, como canais para solicitação de acesso, retificação, anonimização ou eliminação de dados, sempre respeitando os prazos legais para"
+        }
+      ]
+    }
+  ],
+  "relatorio_final": {
+    "metrics": {
+      "score": 0
+    },
+    "report": "Falha na geração do relatório."
+  },
+  "avaliacao_vs_oraculo": {
+    "nivel_risco_esperado": "baixo",
+    "nivel_risco_detectado": "critico",
+    "score_plataforma": 0,
+    "fragilidades_esperadas": [],
+    "fragilidades_detectadas": [],
+    "falso_positivo": true,
+    "falso_negativo": false,
+    "pontuacao_rubrica": {
+      "deteccao_fragilidade_central": 3,
+      "profundidade_perguntas": 1,
+      "classificacao_risco_correta": 0,
+      "ausencia_falso_positivo": 0,
+      "total": 4,
+      "maximo": 12
+    },
+    "observacoes": ""
+  }
+}

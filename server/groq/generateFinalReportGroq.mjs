@@ -1,16 +1,4 @@
-import Groq from "groq-sdk";
-
-function getGroqClient() {
-  const apiKey = process.env.GROQ_API_KEY;
-
-  if (!apiKey) {
-    throw new Error(
-      "GROQ_API_KEY ausente no backend (verifique .env e dotenv.config no server.mjs)"
-    );
-  }
-
-  return new Groq({ apiKey });
-}
+import { chatCompletion } from "../lib/ai-client.mjs";
 
 function extractJson(text) {
   if (!text) return null;
@@ -513,8 +501,6 @@ ${JSON.stringify(responses, null, 2)}
 }
 
 export async function generateFinalReportWithGroq(input) {
-  const groq = getGroqClient();
-
   const responses = Array.isArray(input?.responses) ? input.responses : [];
   const metadata = input?.metadata ?? {};
 
@@ -525,24 +511,13 @@ export async function generateFinalReportWithGroq(input) {
   const prompt = buildPrompt({ responses, metadata });
 
   try {
-    const completion = await groq.chat.completions.create({
-      model: "llama-3.3-70b-versatile",
-      messages: [
-        {
-          role: "system",
-          content:
-            "Siga rigorosamente as instruções recebidas e retorne apenas JSON válido.",
-        },
-        {
-          role: "user",
-          content: prompt,
-        },
+    const raw = await chatCompletion(
+      [
+        { role: "system", content: "Siga rigorosamente as instruções recebidas e retorne apenas JSON válido." },
+        { role: "user",   content: prompt },
       ],
-      temperature: 0.2,
-      response_format: { type: "json_object" },
-    });
-
-    const raw = completion?.choices?.[0]?.message?.content || "";
+      { temperature: 0.2, jsonMode: true }
+    );
     const parsed = extractJson(raw);
 
     if (!parsed) {

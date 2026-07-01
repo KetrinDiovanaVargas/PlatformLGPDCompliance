@@ -21,6 +21,7 @@ import analyzeRouter from "./routes/analyze.mjs";
 import saveResponsesRouter from "./routes/saveResponses.mjs";
 import adminRouter from "./routes/admin.mjs";
 import adminConsolidatedAnalysisRouter from "./routes/adminConsolidatedAnalysis.mjs";
+import aiStatusRouter from "./routes/aiStatus.mjs";
 
 const app = express();
 const PORT = process.env.PORT || 8787;
@@ -69,6 +70,7 @@ app.get("/health", (_req, res) => {
   res.json({ status: "ok" });
 });
 
+app.use("/api/ai-status", aiStatusRouter);
 app.use("/api/generate-stage", generateStageRouter);
 app.use("/api/analyze", analyzeRouter);
 app.use("/api/save-responses", saveResponsesRouter);

@@ -1,7 +1,7 @@
 import express from "express";
-import Groq from "groq-sdk";
 import admin from "firebase-admin";
 import { getAdminDb } from "../firebaseAdmin.mjs";
+import { chatCompletion } from "./ai-client.mjs";
 
 const router = express.Router();
 
@@ -52,11 +52,6 @@ router.options("/", (req, res) => {
   return res.status(204).end();
 });
 
-function getGroqClient() {
-  const apiKey = process.env.GROQ_API_KEY;
-  if (!apiKey) throw new Error("GROQ_API_KEY não encontrada");
-  return new Groq({ apiKey });
-}
 
 function safeString(v) {
   return String(v ?? "").trim();
@@ -171,8 +166,6 @@ function extractJson(text) {
 }
 
 async function generateWithGroq(reports, assessmentTitle = "") {
-  const groq = getGroqClient();
-
   const compactReports = reports.map((report) => ({
     assessmentId: report.assessmentId ?? null,
     sessionId: report.sessionId ?? null,
@@ -211,17 +204,14 @@ RELATÓRIOS:
 ${JSON.stringify(compactReports).slice(0, 12000)}
 `.trim();
 
-  const completion = await groq.chat.completions.create({
-    model: "llama-3.3-70b-versatile",
-    messages: [
+  const raw = await chatCompletion(
+    [
       { role: "system", content: "Retorne apenas JSON válido." },
-      { role: "user", content: prompt },
+      { role: "user",   content: prompt },
     ],
-    temperature: 0.2,
-    response_format: { type: "json_object" },
-  });
+    { temperature: 0.2, jsonMode: true }
+  );
 
-  const raw = completion?.choices?.[0]?.message?.content || "";
   const parsed = extractJson(raw);
 
   if (!parsed) {
