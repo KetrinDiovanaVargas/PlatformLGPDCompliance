@@ -104,7 +104,7 @@ async function askPersonaGroq(groq, personaSystemPrompt, conversationHistory, us
   return completion.choices[0].message.content
 }
 
-async function askPersonaGemini(personaSystemPrompt, conversationHistory, userMessage) {
+async function askPersonaGemini(personaSystemPrompt, conversationHistory, userMessage, tentativa = 1) {
   const key = process.env.GEMINI_API_KEY
   if (!key) throw new Error('GEMINI_API_KEY ausente')
   const genai = new GoogleGenerativeAI(key)
@@ -117,8 +117,21 @@ async function askPersonaGemini(personaSystemPrompt, conversationHistory, userMe
 
   const chat = model.startChat({ history })
   const fullPrompt = `${personaSystemPrompt}\n\n${userMessage}`
-  const result = await chat.sendMessage(fullPrompt)
-  return result.response.text()
+
+  try {
+    const result = await chat.sendMessage(fullPrompt)
+    return result.response.text()
+  } catch (err) {
+    if (err?.status === 429 && tentativa <= 5) {
+      const retryDelay = err?.errorDetails?.find(d => d['@type']?.includes('RetryInfo'))?.retryDelay
+      const segundos = parseInt(retryDelay ?? '60') + 5
+      const minutos = Math.ceil(segundos / 60)
+      console.log(`  ⏳ Gemini rate limit. Aguardando ${minutos} min (tentativa ${tentativa}/5)...`)
+      await sleep(segundos * 1000)
+      return askPersonaGemini(personaSystemPrompt, conversationHistory, userMessage, tentativa + 1)
+    }
+    throw err
+  }
 }
 
 async function askPersona(groq, personaSystemPrompt, conversationHistory, questions) {

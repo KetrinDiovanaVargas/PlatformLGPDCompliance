@@ -87,6 +87,20 @@ export async function chatCompletion(messages, { temperature = 0.2, jsonMode = f
   const fullPrompt = systemMsg ? `${systemMsg}\n\n${lastMsg}` : lastMsg
 
   const chat = model.startChat({ history })
-  const result = await chat.sendMessage(fullPrompt)
-  return result.response.text()
+
+  for (let tentativa = 1; tentativa <= 5; tentativa++) {
+    try {
+      const result = await chat.sendMessage(fullPrompt)
+      return result.response.text()
+    } catch (err) {
+      if (err?.status === 429 && tentativa < 5) {
+        const retryDelay = err?.errorDetails?.find(d => d['@type']?.includes('RetryInfo'))?.retryDelay
+        const segundos = (parseInt(retryDelay ?? '60') + 5)
+        console.warn(`⚠️  Gemini rate limit. Aguardando ${Math.ceil(segundos / 60)} min (tentativa ${tentativa}/5)...`)
+        await new Promise(r => setTimeout(r, segundos * 1000))
+      } else {
+        throw err
+      }
+    }
+  }
 }
