@@ -40,6 +40,60 @@ function getGeminiClient() {
  * @param {boolean} opts.jsonMode  - pede response_format json_object no Groq
  * @returns {Promise<string>}      - texto da resposta
  */
+/**
+ * Testa se um provedor de IA está disponível e com tokens.
+ * Retorna { available: bool, provider, model, error? }
+ */
+export async function checkAIStatus() {
+  const probe = [{ role: 'user', content: 'ok' }]
+
+  const groq = getGroqClient()
+  if (groq) {
+    try {
+      await groq.chat.completions.create({ model: GROQ_MODEL, messages: probe, max_tokens: 1 })
+      return { available: true, provider: 'groq', model: GROQ_MODEL }
+    } catch (err) {
+      const rateLimited = isRateLimit(err)
+      const groqStatus = { available: false, provider: 'groq', model: GROQ_MODEL,
+        error: rateLimited ? 'rate_limit' : err?.message }
+
+      // Groq caiu — testa Gemini
+      const genai = getGeminiClient()
+      if (genai) {
+        try {
+          const model = genai.getGenerativeModel({ model: GEMINI_MODEL })
+          await model.generateContent('ok')
+          return { available: true, provider: 'gemini', model: GEMINI_MODEL, groq: groqStatus }
+        } catch (geminiErr) {
+          return {
+            available: false,
+            provider: null,
+            error: 'both_unavailable',
+            groq: groqStatus,
+            gemini: { available: false, provider: 'gemini', model: GEMINI_MODEL,
+              error: geminiErr?.status === 429 ? 'rate_limit' : geminiErr?.message },
+          }
+        }
+      }
+
+      return { available: false, provider: null, error: 'gemini_key_missing', groq: groqStatus }
+    }
+  }
+
+  // Sem chave Groq — testa só Gemini
+  const genai = getGeminiClient()
+  if (!genai) {
+    return { available: false, provider: null, error: 'no_keys_configured' }
+  }
+  try {
+    const model = genai.getGenerativeModel({ model: GEMINI_MODEL })
+    await model.generateContent('ok')
+    return { available: true, provider: 'gemini', model: GEMINI_MODEL }
+  } catch (err) {
+    return { available: false, provider: null, error: err?.status === 429 ? 'rate_limit' : err?.message }
+  }
+}
+
 export async function chatCompletion(messages, { temperature = 0.2, jsonMode = false } = {}) {
   const groq = getGroqClient()
 

@@ -306,6 +306,22 @@ function compareWithOracle(relatorio, oracle) {
 
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
+async function checkAIAvailability() {
+  const res = await fetch(`${BACKEND_URL}/api/ai-status`).catch(() => null)
+  if (!res?.ok) {
+    // Backend fora — faz checagem local
+    const groqOk = !!process.env.GROQ_API_KEY
+    const geminiOk = !!process.env.GEMINI_API_KEY
+    if (!groqOk && !geminiOk) throw new Error('Nenhuma chave de IA configurada no .env (GROQ_API_KEY ou GEMINI_API_KEY)')
+    return { provider: groqOk ? 'groq' : 'gemini' }
+  }
+  const status = await res.json()
+  if (!status.available) {
+    throw new Error(`Nenhuma IA disponível no momento: ${status.error ?? 'ambos os provedores estão com rate limit'}`)
+  }
+  return status
+}
+
 async function main() {
   const [, , personaId, sessaoArg] = process.argv
 
@@ -316,6 +332,11 @@ async function main() {
 
   const sessaoNum = parseInt(sessaoArg ?? '1')
   const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
+
+  // Verifica disponibilidade de IA antes de iniciar
+  process.stdout.write('  Verificando disponibilidade de IA... ')
+  const aiStatus = await checkAIAvailability()
+  console.log(`✓ ${aiStatus.provider} (${aiStatus.model ?? ''})`)
 
   console.log(`\n━━━ Iniciando simulação: ${personaId} | Sessão ${sessaoNum} ━━━\n`)
 
