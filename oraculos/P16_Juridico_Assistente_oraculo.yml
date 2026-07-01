@@ -1,0 +1,54 @@
+persona_id: P16
+setor: Jurídico
+cargo: Assistente Jurídico
+nivel_risco_esperado: alto
+
+fragilidade_central:
+  descricao: Envio de documentos com dados pessoais sensíveis para escritórios externos por e-mail sem criptografia, sem cláusulas de DPA nos contratos com parceiros e uso de Google Drive pessoal.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 2
+  armazenamento_pessoal: 2
+  retencao_excessiva: 0
+  coleta_excessiva: 0
+  acesso_excessivo: 0
+  dados_sensiveis: 2
+  terceiros_sem_controle: 3
+  incidente_mal_tratado: 0
+
+categorias_lgpd_esperadas:
+  - codigo: F8
+    categoria: Terceiros sem controle
+    severidade: alta
+    evidencia_esperada: "escritórios externos recebem dados pessoais sem cláusulas formais de proteção"
+    perguntas_que_deveriam_detectar:
+      - "Os contratos com escritórios externos têm cláusulas de proteção de dados?"
+      - "Você tem controle sobre o que o escritório faz com os documentos enviados?"
+
+  - codigo: F1
+    categoria: Compartilhamento informal
+    severidade: alta
+    evidencia_esperada: "envia documentos sensíveis por e-mail sem criptografia"
+    perguntas_que_deveriam_detectar:
+      - "Como você envia documentos para escritórios parceiros?"
+      - "Esses e-mails têm algum tipo de proteção ou criptografia?"
+
+  - codigo: F2
+    categoria: Armazenamento indevido
+    severidade: moderada
+    evidencia_esperada: "organiza documentos jurídicos sensíveis no Google Drive pessoal"
+    perguntas_que_deveriam_detectar:
+      - "Como você organiza documentos quando trabalha remotamente?"
+      - "Você usa serviços pessoais de nuvem para guardar arquivos do trabalho?"
+
+comportamentos_observaveis:
+  - "justifica e-mail simples como prática padrão do mercado jurídico"
+  - "menciona Google Drive pessoal ao falar de trabalho remoto"
+
+nao_deve_ser_detectado:
+  - "coleta excessiva de dados de clientes"
+  - "exposição de inadimplência"
+
+criterio_de_sucesso:
+  minimo: "detectar envio de dados sensíveis sem controle para terceiros"
+  ideal: "detectar ausência de DPA com parceiros, e-mail sem criptografia e Drive pessoal"

@@ -1,0 +1,38 @@
+persona_id: P41
+setor: Farmacêutico / Varejo
+cargo: Atendente de Farmácia
+nivel_risco_esperado: alto
+
+fragilidade_central:
+  descricao: Coleta indiscriminada de CPF e uso de histórico de medicamentos (dado de saúde implícito) para promoções, além de livro de receituário exposto no balcão.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 1
+  armazenamento_pessoal: 0
+  retencao_excessiva: 1
+  coleta_excessiva: 3
+  acesso_excessivo: 2
+  dados_sensiveis: 3
+  terceiros_sem_controle: 0
+  uso_secundario: 2
+
+categorias_lgpd_esperadas:
+  - codigo: F4
+    categoria: Coleta excessiva
+    severidade: alta
+    evidencia_esperada: "coleta CPF em todas as vendas, mesmo sem programa de fidelidade ativo"
+    perguntas_que_deveriam_detectar:
+      - "Você pede CPF para todas as vendas?"
+      - "É necessário o CPF mesmo quando o cliente não quer participar do programa de fidelidade?"
+
+  - codigo: F9
+    categoria: Dados sensíveis sem salvaguarda
+    severidade: alta
+    evidencia_esperada: "livro de receituário controlado exposto no balcão visível a outros clientes"
+    perguntas_que_deveriam_detectar:
+      - "O livro de receituário fica onde durante o atendimento?"
+      - "Outros clientes podem ver as informações do receituário?"
+
+criterio_de_sucesso:
+  minimo: "detectar coleta de CPF sem necessidade ou dado de saúde exposto"
+  ideal: "detectar coleta excessiva, receituário exposto e uso de histórico de medicamentos para promoções"

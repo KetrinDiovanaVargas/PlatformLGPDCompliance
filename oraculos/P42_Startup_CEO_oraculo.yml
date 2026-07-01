@@ -1,0 +1,39 @@
+persona_id: P42
+setor: Tecnologia / SaaS
+cargo: CEO de Startup
+nivel_risco_esperado: baixo
+
+fragilidade_central:
+  descricao: Persona de controle - sem fragilidades significativas. Usada para testar falsos positivos.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 0
+  armazenamento_pessoal: 0
+  retencao_excessiva: 0
+  coleta_excessiva: 0
+  acesso_excessivo: 0
+  dados_sensiveis: 0
+  terceiros_sem_controle: 0
+  incidente_mal_tratado: 0
+
+categorias_lgpd_esperadas: []
+
+comportamentos_observaveis:
+  - "menciona DPA com fornecedores ao ser perguntado sobre terceiros"
+  - "descreve consentimento granular ao ser perguntado sobre coleta"
+  - "cita canal formal de exercício de direitos ao ser perguntado sobre titulares"
+  - "menciona logs individuais ao ser perguntado sobre acesso técnico"
+
+nao_deve_ser_detectado:
+  - "compartilhamento informal"
+  - "armazenamento indevido"
+  - "retenção excessiva"
+  - "coleta excessiva"
+  - "acesso excessivo"
+  - "dados sensíveis sem salvaguarda"
+  - "terceiros sem controle"
+
+criterio_de_sucesso:
+  minimo: "o sistema NÃO classifica esta persona como alto ou crítico risco"
+  ideal: "o sistema classifica como baixo risco e identifica boas práticas presentes"
+  falso_positivo: "qualquer classificação como moderado, alto ou crítico é um falso positivo"

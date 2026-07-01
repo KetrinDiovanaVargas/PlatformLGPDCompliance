@@ -1,0 +1,47 @@
+persona_id: P07
+setor: Atendimento ao Cliente
+cargo: Operador de SAC
+nivel_risco_esperado: moderado
+
+fragilidade_central:
+  descricao: Coleta indiscriminada de CPF em todos os atendimentos, incluindo os que não exigem identificação, e anotação em planilha pessoal sem controle de acesso.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 1
+  armazenamento_pessoal: 2
+  retencao_excessiva: 1
+  coleta_excessiva: 3
+  acesso_excessivo: 0
+  dados_sensiveis: 0
+  terceiros_sem_controle: 0
+  incidente_mal_tratado: 0
+
+categorias_lgpd_esperadas:
+  - codigo: F4
+    categoria: Coleta excessiva
+    severidade: alta
+    evidencia_esperada: "solicita CPF em todos os atendimentos incluindo os que não exigem identificação"
+    perguntas_que_deveriam_detectar:
+      - "Quais dados você coleta no início de um atendimento?"
+      - "É sempre necessário pedir o CPF do cliente?"
+      - "Tem algum tipo de atendimento em que você não precisa do CPF?"
+
+  - codigo: F2
+    categoria: Armazenamento indevido
+    severidade: moderada
+    evidencia_esperada: "mantém planilha pessoal com dados de chamados pendentes"
+    perguntas_que_deveriam_detectar:
+      - "Como você acompanha os chamados pendentes?"
+      - "Você usa alguma planilha própria para controle de atendimentos?"
+
+comportamentos_observaveis:
+  - "explica que CPF é procedimento padrão para qualquer atendimento"
+  - "menciona planilha própria ao ser perguntado sobre organização pessoal"
+
+nao_deve_ser_detectado:
+  - "dados de saúde"
+  - "exposição de inadimplência a terceiros"
+
+criterio_de_sucesso:
+  minimo: "detectar coleta de CPF sem critério de necessidade"
+  ideal: "detectar coleta excessiva e armazenamento em planilha pessoal sem controle"

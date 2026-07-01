@@ -1,0 +1,39 @@
+persona_id: P45
+setor: Telemarketing / Vendas por Telefone
+cargo: Operador de Telemarketing Ativo
+nivel_risco_esperado: alto
+
+fragilidade_central:
+  descricao: Coleta de dados pessoais em redes sociais para abordagem comercial sem consentimento e follow-up por WhatsApp pessoal sem autorização do canal.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 2
+  armazenamento_pessoal: 1
+  retencao_excessiva: 0
+  coleta_excessiva: 3
+  acesso_excessivo: 0
+  dados_sensiveis: 0
+  terceiros_sem_controle: 0
+  incidente_mal_tratado: 0
+  falta_transparencia: 3
+
+categorias_lgpd_esperadas:
+  - codigo: F4
+    categoria: Coleta excessiva
+    severidade: alta
+    evidencia_esperada: "pesquisa de perfil em redes sociais para abordagem sem consentimento"
+    perguntas_que_deveriam_detectar:
+      - "Como você se prepara antes de ligar para um cliente?"
+      - "Você pesquisa informações sobre o cliente antes de ligar?"
+      - "De onde você tira essas informações pessoais?"
+
+  - codigo: F6
+    categoria: Falta de transparência
+    severidade: alta
+    evidencia_esperada: "usa informações pessoais sem informar ao cliente de onde as obteve"
+    perguntas_que_deveriam_detectar:
+      - "Você conta ao cliente de onde tirou as informações pessoais que mencionou na ligação?"
+
+criterio_de_sucesso:
+  minimo: "detectar uso de dados pessoais coletados sem consentimento para abordagem comercial"
+  ideal: "detectar pesquisa em redes sociais, falta de transparência sobre origem dos dados e WhatsApp não autorizado"

@@ -1,0 +1,39 @@
+persona_id: P40
+setor: Saúde Mental
+cargo: Psicóloga Clínica
+nivel_risco_esperado: critico
+
+fragilidade_central:
+  descricao: Dados de saúde mental (o dado mais sensível) armazenados em celular pessoal sem criptografia, laudos enviados por e-mail pessoal e ausência de processo de descarte de prontuários.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 2
+  armazenamento_pessoal: 3
+  retencao_excessiva: 2
+  coleta_excessiva: 0
+  acesso_excessivo: 0
+  dados_sensiveis: 3
+  terceiros_sem_controle: 0
+  incidente_mal_tratado: 1
+
+categorias_lgpd_esperadas:
+  - codigo: F9
+    categoria: Dados sensíveis sem salvaguarda
+    severidade: critica
+    evidencia_esperada: "anotações de sessão em app de notas de celular pessoal sem criptografia"
+    perguntas_que_deveriam_detectar:
+      - "Como você registra o conteúdo das sessões?"
+      - "Essas anotações ficam no seu celular pessoal?"
+      - "O celular tem criptografia ou proteção específica para esses dados?"
+
+  - codigo: F1
+    categoria: Compartilhamento informal
+    severidade: alta
+    evidencia_esperada: "laudos psicológicos enviados por e-mail pessoal sem criptografia"
+    perguntas_que_deveriam_detectar:
+      - "Como você envia laudos para outros profissionais ou para o paciente?"
+      - "Esse e-mail tem alguma criptografia ou proteção adicional?"
+
+criterio_de_sucesso:
+  minimo: "detectar dado de saúde mental armazenado em dispositivo pessoal sem proteção"
+  ideal: "detectar celular pessoal sem criptografia, e-mail pessoal para laudos e prontuários sem política de descarte"

@@ -1,0 +1,38 @@
+persona_id: P27
+setor: RH / Benefícios
+cargo: Assistente Social Corporativo
+nivel_risco_esperado: critico
+
+fragilidade_central:
+  descricao: Dados altamente sensíveis (violência, saúde mental, dívidas) registrados em planilha compartilhada com toda a equipe de RH e gestor, muito além do necessário.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 2
+  armazenamento_pessoal: 1
+  retencao_excessiva: 1
+  coleta_excessiva: 1
+  acesso_excessivo: 3
+  dados_sensiveis: 3
+  terceiros_sem_controle: 0
+  incidente_mal_tratado: 0
+
+categorias_lgpd_esperadas:
+  - codigo: F9
+    categoria: Dados sensíveis sem salvaguarda
+    severidade: critica
+    evidencia_esperada: "dados de violência, saúde mental e situação financeira acessíveis a toda a equipe de RH"
+    perguntas_que_deveriam_detectar:
+      - "Quem tem acesso às informações dos casos que você acompanha?"
+      - "O gestor do colaborador vê os detalhes dos casos sociais?"
+      - "Esses dados ficam em planilha compartilhada?"
+
+  - codigo: F5
+    categoria: Acesso excessivo
+    severidade: alta
+    evidencia_esperada: "informações sensíveis acessíveis além do necessário para o apoio"
+    perguntas_que_deveriam_detectar:
+      - "Além de você, quem precisa conhecer os detalhes do caso para apoiar o colaborador?"
+
+criterio_de_sucesso:
+  minimo: "detectar dados altamente sensíveis com acesso além do necessário"
+  ideal: "detectar planilha compartilhada com dados de saúde mental e violência, acesso excessivo e WhatsApp pessoal"

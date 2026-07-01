@@ -1,0 +1,39 @@
+persona_id: P38
+setor: Alimentação / Varejo
+cargo: Gerente de Restaurante
+nivel_risco_esperado: moderado_alto
+
+fragilidade_central:
+  descricao: Uso secundário de dados do programa de fidelidade para promoções e compartilhamento da lista de clientes com fornecedores parceiros sem consentimento.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 1
+  armazenamento_pessoal: 0
+  retencao_excessiva: 1
+  coleta_excessiva: 1
+  acesso_excessivo: 0
+  dados_sensiveis: 0
+  terceiros_sem_controle: 2
+  incidente_mal_tratado: 0
+  uso_secundario: 3
+
+categorias_lgpd_esperadas:
+  - codigo: F7
+    categoria: Uso secundário
+    severidade: alta
+    evidencia_esperada: "dados coletados para fidelidade usados para envio de promoções sem consentimento específico"
+    perguntas_que_deveriam_detectar:
+      - "Para que você usa os dados coletados no programa de fidelidade?"
+      - "Os clientes são informados que receberão promoções ao se cadastrar?"
+
+  - codigo: F8
+    categoria: Terceiros sem controle
+    severidade: alta
+    evidencia_esperada: "lista de e-mails compartilhada com fornecedores parceiros sem consentimento do cliente"
+    perguntas_que_deveriam_detectar:
+      - "Você compartilha dados dos clientes com parceiros ou fornecedores?"
+      - "Os clientes sabem que isso pode acontecer?"
+
+criterio_de_sucesso:
+  minimo: "detectar uso secundário de dados do programa de fidelidade"
+  ideal: "detectar uso secundário e compartilhamento com terceiros sem consentimento"

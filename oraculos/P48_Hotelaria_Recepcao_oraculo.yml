@@ -1,0 +1,39 @@
+persona_id: P48
+setor: Hotelaria / Turismo
+cargo: Recepcionista de Hotel
+nivel_risco_esperado: alto
+
+fragilidade_central:
+  descricao: Cópias físicas de documentos de hóspedes (incluindo passaportes) em pasta sem controle e sem prazo de descarte, e dados de cartão anotados em papel.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 0
+  armazenamento_pessoal: 0
+  retencao_excessiva: 3
+  coleta_excessiva: 2
+  acesso_excessivo: 2
+  dados_sensiveis: 1
+  terceiros_sem_controle: 0
+  incidente_mal_tratado: 1
+
+categorias_lgpd_esperadas:
+  - codigo: F3
+    categoria: Retenção excessiva
+    severidade: alta
+    evidencia_esperada: "cópias de documentos de hóspedes arquivadas sem prazo de descarte"
+    perguntas_que_deveriam_detectar:
+      - "O que acontece com as cópias dos documentos após o check-out do hóspede?"
+      - "Por quanto tempo vocês guardam essas cópias?"
+      - "Existe alguma política de descarte?"
+
+  - codigo: F5
+    categoria: Acesso excessivo
+    severidade: moderada
+    evidencia_esperada: "pasta com documentos de hóspedes sem controle de acesso na recepção"
+    perguntas_que_deveriam_detectar:
+      - "Onde ficam arquivadas as cópias dos documentos?"
+      - "Qualquer funcionário do hotel pode acessar essa pasta?"
+
+criterio_de_sucesso:
+  minimo: "detectar retenção de documentos físicos sem prazo ou controle"
+  ideal: "detectar cópias sem prazo de descarte, pasta sem controle de acesso e dados de cartão em papel"

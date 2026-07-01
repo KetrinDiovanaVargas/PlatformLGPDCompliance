@@ -1,0 +1,47 @@
+persona_id: P11
+setor: TI
+cargo: Técnico de Suporte Interno
+nivel_risco_esperado: alto
+
+fragilidade_central:
+  descricao: Uso de conta administrativa genérica compartilhada entre toda a equipe de TI, impossibilitando rastreabilidade individual de ações.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 1
+  armazenamento_pessoal: 0
+  retencao_excessiva: 0
+  coleta_excessiva: 0
+  acesso_excessivo: 3
+  dados_sensiveis: 1
+  terceiros_sem_controle: 0
+  incidente_mal_tratado: 2
+
+categorias_lgpd_esperadas:
+  - codigo: F5
+    categoria: Acesso excessivo
+    severidade: alta
+    evidencia_esperada: "usa conta de administrador genérica compartilhada com toda a equipe"
+    perguntas_que_deveriam_detectar:
+      - "Que tipo de perfil de acesso você usa para resolver chamados?"
+      - "Todos os técnicos usam o mesmo login para acesso administrativo?"
+      - "É possível saber quem fez cada ação no sistema?"
+
+  - codigo: F10
+    categoria: Incidente mal tratado
+    severidade: moderada
+    evidencia_esperada: "sem log individual impossibilita rastrear ações em caso de incidente"
+    perguntas_que_deveriam_detectar:
+      - "Se ocorrer um problema de acesso indevido, como vocês investigam?"
+      - "Existe registro de quem acessou o quê?"
+
+comportamentos_observaveis:
+  - "menciona conta compartilhada ao ser perguntado sobre acesso administrativo"
+  - "demonstra impaciência ao questionar rastreabilidade como burocracia"
+
+nao_deve_ser_detectado:
+  - "compartilhamento de dados de clientes externos"
+  - "dados de saúde"
+
+criterio_de_sucesso:
+  minimo: "detectar uso de credencial administrativa compartilhada"
+  ideal: "detectar conta compartilhada, ausência de log individual e visualização de dados além do necessário"

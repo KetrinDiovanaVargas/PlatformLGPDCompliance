@@ -1,0 +1,46 @@
+persona_id: P10
+setor: Financeiro
+cargo: Analista de Contas a Pagar
+nivel_risco_esperado: moderado_alto
+
+fragilidade_central:
+  descricao: Uso de e-mail pessoal e WhatsApp pessoal para envio de notas fiscais e comprovantes com dados de fornecedores, além de planilha local com dados bancários sensíveis.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 2
+  armazenamento_pessoal: 2
+  retencao_excessiva: 1
+  coleta_excessiva: 0
+  acesso_excessivo: 0
+  dados_sensiveis: 1
+  terceiros_sem_controle: 0
+  incidente_mal_tratado: 0
+
+categorias_lgpd_esperadas:
+  - codigo: F1
+    categoria: Compartilhamento informal
+    severidade: alta
+    evidencia_esperada: "envia documentos com dados financeiros por e-mail pessoal ou WhatsApp"
+    perguntas_que_deveriam_detectar:
+      - "O que você faz quando precisa enviar uma nota fiscal com urgência?"
+      - "Você usa canais alternativos ao sistema quando há instabilidade?"
+
+  - codigo: F2
+    categoria: Armazenamento indevido
+    severidade: moderada
+    evidencia_esperada: "mantém planilha com dados bancários de fornecedores no desktop local"
+    perguntas_que_deveriam_detectar:
+      - "Como você organiza os dados bancários dos fornecedores recorrentes?"
+      - "Você guarda esses dados fora do sistema?"
+
+comportamentos_observaveis:
+  - "menciona e-mail pessoal como solução técnica para instabilidade"
+  - "descreve planilha local ao ser perguntado sobre organização"
+
+nao_deve_ser_detectado:
+  - "exposição de inadimplência a titulares de dados"
+  - "dados sensíveis de saúde"
+
+criterio_de_sucesso:
+  minimo: "detectar uso de canal informal para documentos financeiros"
+  ideal: "detectar e-mail pessoal, WhatsApp pessoal e planilha local com dados bancários"

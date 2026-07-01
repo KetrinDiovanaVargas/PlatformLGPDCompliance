@@ -1,0 +1,38 @@
+persona_id: P32
+setor: Mercado Imobiliário
+cargo: Corretor de Imóveis
+nivel_risco_esperado: alto
+
+fragilidade_central:
+  descricao: Coleta informal de dados financeiros sensíveis em caderno físico e compartilhamento com outros corretores sem transparência ao titular.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 2
+  armazenamento_pessoal: 3
+  retencao_excessiva: 1
+  coleta_excessiva: 2
+  acesso_excessivo: 0
+  dados_sensiveis: 1
+  terceiros_sem_controle: 1
+  incidente_mal_tratado: 0
+  falta_transparencia: 2
+
+categorias_lgpd_esperadas:
+  - codigo: F2
+    categoria: Armazenamento indevido
+    severidade: alta
+    evidencia_esperada: "dados financeiros anotados em caderno físico sem controle"
+    perguntas_que_deveriam_detectar:
+      - "Como você anota as informações dos clientes durante o atendimento?"
+      - "Essas anotações ficam em algum sistema ou só no caderno?"
+
+  - codigo: F6
+    categoria: Falta de transparência
+    severidade: moderada
+    evidencia_esperada: "cliente não é informado sobre armazenamento e compartilhamento dos dados"
+    perguntas_que_deveriam_detectar:
+      - "Você informa ao cliente que vai guardar e possivelmente compartilhar essas informações?"
+
+criterio_de_sucesso:
+  minimo: "detectar armazenamento de dados financeiros em meio físico sem controle"
+  ideal: "detectar caderno físico, compartilhamento com outros corretores e falta de transparência"

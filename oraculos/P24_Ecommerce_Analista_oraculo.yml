@@ -1,0 +1,39 @@
+persona_id: P24
+setor: E-commerce / Digital
+cargo: Analista de E-commerce
+nivel_risco_esperado: alto
+
+fragilidade_central:
+  descricao: Rastreamento de comportamento de usuários com Meta Pixel e Google Analytics sem consentimento adequado, e criação de audiências de remarketing sem base legal clara.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 1
+  armazenamento_pessoal: 1
+  retencao_excessiva: 1
+  coleta_excessiva: 2
+  acesso_excessivo: 0
+  dados_sensiveis: 0
+  terceiros_sem_controle: 3
+  incidente_mal_tratado: 0
+  falta_transparencia: 3
+
+categorias_lgpd_esperadas:
+  - codigo: F6
+    categoria: Falta de transparência
+    severidade: alta
+    evidencia_esperada: "Meta Pixel e GA instalados sem banner de consentimento adequado"
+    perguntas_que_deveriam_detectar:
+      - "O site tem banner de consentimento de cookies?"
+      - "Os usuários são informados sobre o rastreamento de comportamento?"
+
+  - codigo: F8
+    categoria: Terceiros sem controle
+    severidade: alta
+    evidencia_esperada: "dados de comportamento enviados ao Meta sem avaliação de base legal"
+    perguntas_que_deveriam_detectar:
+      - "O que você compartilha com o Meta Ads ou Google através de pixels?"
+      - "Os usuários consentem com o envio desses dados para plataformas externas?"
+
+criterio_de_sucesso:
+  minimo: "detectar rastreamento sem consentimento adequado"
+  ideal: "detectar ausência de banner, dados enviados a terceiros sem base legal e falta de transparência"

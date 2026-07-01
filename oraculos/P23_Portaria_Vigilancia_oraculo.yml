@@ -1,0 +1,38 @@
+persona_id: P23
+setor: Segurança Patrimonial
+cargo: Vigilante / Porteiro
+nivel_risco_esperado: moderado
+
+fragilidade_central:
+  descricao: Fotografar RG de visitantes com celular pessoal sem prazo de exclusão, e livro de registro físico visível a qualquer pessoa na portaria.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 0
+  armazenamento_pessoal: 3
+  retencao_excessiva: 2
+  coleta_excessiva: 1
+  acesso_excessivo: 2
+  dados_sensiveis: 0
+  terceiros_sem_controle: 0
+  incidente_mal_tratado: 0
+
+categorias_lgpd_esperadas:
+  - codigo: F2
+    categoria: Armazenamento indevido
+    severidade: alta
+    evidencia_esperada: "fotos de RG de visitantes salvas na galeria do celular pessoal"
+    perguntas_que_deveriam_detectar:
+      - "Como você registra a entrada de visitantes?"
+      - "Você fotografa o documento deles? Com qual aparelho?"
+      - "O que acontece com essas fotos depois?"
+
+  - codigo: F5
+    categoria: Acesso excessivo
+    severidade: moderada
+    evidencia_esperada: "livro de registro visível a qualquer pessoa na portaria"
+    perguntas_que_deveriam_detectar:
+      - "O livro de registro fica aberto na portaria? Qualquer um pode ver?"
+
+criterio_de_sucesso:
+  minimo: "detectar armazenamento de documentos em dispositivo pessoal"
+  ideal: "detectar celular pessoal, galeria sem exclusão e registro físico exposto"

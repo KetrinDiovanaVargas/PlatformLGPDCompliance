@@ -1,0 +1,49 @@
+persona_id: P04
+setor: Comercial
+cargo: Vendedor externo
+nivel_risco_esperado: alto
+
+fragilidade_central:
+  descricao: Uso de celular pessoal, WhatsApp e agenda própria para tratar dados de clientes fora do controle corporativo.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 2
+  armazenamento_pessoal: 3
+  retencao_excessiva: 1
+  coleta_excessiva: 0
+  acesso_excessivo: 0
+  dados_sensiveis: 0
+  terceiros_sem_controle: 1
+  incidente_mal_tratado: 0
+  uso_secundario: 3
+
+categorias_lgpd_esperadas:
+  - codigo: F1
+    categoria: Compartilhamento informal
+    severidade: moderada
+    evidencia_esperada: "usa WhatsApp pessoal para contato e envio de informações comerciais"
+
+  - codigo: F2
+    categoria: Armazenamento indevido
+    severidade: alta
+    evidencia_esperada: "salva contatos e conversas no celular pessoal com backup pessoal"
+
+  - codigo: F7
+    categoria: Uso secundário
+    severidade: alta
+    evidencia_esperada: "usa contatos antigos para novas campanhas ou entende que os contatos pertencem ao vendedor"
+
+perguntas_que_deveriam_detectar:
+  - "Você usa apenas o CRM ou também outros meios?"
+  - "Onde ficam salvos os contatos dos clientes?"
+  - "O que acontece com esses contatos se você trocar de aparelho?"
+  - "Você usa contatos antigos para novas abordagens?"
+  - "Ao sair da empresa, o que acontece com sua agenda de clientes?"
+
+nao_deve_ser_detectado:
+  - "dados sensíveis de saúde"
+  - "exposição financeira a terceiros"
+
+criterio_de_sucesso:
+  minimo: "detectar armazenamento em dispositivo pessoal"
+  ideal: "detectar dispositivo pessoal, backup pessoal e uso secundário"

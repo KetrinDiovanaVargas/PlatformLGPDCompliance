@@ -1,0 +1,48 @@
+persona_id: P06
+setor: Marketing
+cargo: Analista de Marketing Digital
+nivel_risco_esperado: moderado_alto
+
+fragilidade_central:
+  descricao: Uso de listas de leads de parceiros e listas antigas sem verificação de consentimento, além de upload de dados de clientes para plataformas de terceiros sem avaliação de base legal.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 1
+  armazenamento_pessoal: 1
+  retencao_excessiva: 2
+  coleta_excessiva: 1
+  acesso_excessivo: 0
+  dados_sensiveis: 0
+  terceiros_sem_controle: 2
+  incidente_mal_tratado: 0
+  uso_secundario: 3
+
+categorias_lgpd_esperadas:
+  - codigo: F7
+    categoria: Uso secundário
+    severidade: alta
+    evidencia_esperada: "usa listas antigas ou de parceiros sem base legal verificada"
+    perguntas_que_deveriam_detectar:
+      - "De onde vêm as listas de contatos usadas nas campanhas?"
+      - "Você verifica se há consentimento para cada tipo de campanha?"
+      - "Essas listas foram coletadas com qual finalidade original?"
+
+  - codigo: F8
+    categoria: Terceiros sem controle
+    severidade: moderada
+    evidencia_esperada: "faz upload de dados de clientes no Meta Ads sem avaliar finalidade"
+    perguntas_que_deveriam_detectar:
+      - "Como você usa os dados de clientes nas plataformas de anúncios?"
+      - "Existe algum controle sobre os dados enviados ao Meta ou Google?"
+
+comportamentos_observaveis:
+  - "descreve audiências semelhantes como estratégia padrão"
+  - "não menciona consentimento ao falar de listas de parceiros"
+
+nao_deve_ser_detectado:
+  - "dados de saúde"
+  - "exposição financeira direta"
+
+criterio_de_sucesso:
+  minimo: "detectar uso de lista sem verificação de consentimento"
+  ideal: "detectar uso secundário e envio de dados para plataformas externas sem controle"

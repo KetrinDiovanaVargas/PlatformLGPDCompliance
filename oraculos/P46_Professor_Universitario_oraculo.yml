@@ -1,0 +1,37 @@
+persona_id: P46
+setor: Educação Superior / Pesquisa
+cargo: Professor Universitário e Pesquisador
+nivel_risco_esperado: moderado
+
+fragilidade_central:
+  descricao: TCLE genérico que não especifica todos os usos dos dados, compartilhamento de base não anonimizada com orientandos e retenção indefinida de dados de pesquisas antigas.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 1
+  armazenamento_pessoal: 0
+  retencao_excessiva: 3
+  coleta_excessiva: 1
+  acesso_excessivo: 2
+  dados_sensiveis: 1
+  terceiros_sem_controle: 1
+  incidente_mal_tratado: 0
+
+categorias_lgpd_esperadas:
+  - codigo: F6
+    categoria: Falta de transparência
+    severidade: moderada
+    evidencia_esperada: "TCLE genérico que não detalha todos os usos dos dados coletados"
+    perguntas_que_deveriam_detectar:
+      - "O termo de consentimento detalha todos os fins para os quais os dados serão usados?"
+      - "Os participantes sabem que os dados podem ser usados em pesquisas futuras?"
+
+  - codigo: F5
+    categoria: Acesso excessivo
+    severidade: moderada
+    evidencia_esperada: "base de dados de participantes compartilhada com orientandos sem anonimização"
+    perguntas_que_deveriam_detectar:
+      - "Os orientandos têm acesso à base com dados identificados ou anonimizados?"
+
+criterio_de_sucesso:
+  minimo: "detectar TCLE insuficiente ou compartilhamento não anonimizado"
+  ideal: "detectar TCLE genérico, base identificada com orientandos e retenção indefinida"

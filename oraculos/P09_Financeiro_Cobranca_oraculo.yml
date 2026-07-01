@@ -1,0 +1,53 @@
+persona_id: P09
+setor: Financeiro
+cargo: Analista de cobrança
+nivel_risco_esperado: critico
+
+fragilidade_central:
+  descricao: Possível exposição de situação financeira ou inadimplência a terceiros durante cobranças.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 3
+  armazenamento_pessoal: 0
+  retencao_excessiva: 0
+  coleta_excessiva: 1
+  acesso_excessivo: 0
+  dados_sensiveis: 0
+  terceiros_sem_controle: 3
+  incidente_mal_tratado: 1
+
+categorias_lgpd_esperadas:
+  - codigo: F1
+    categoria: Compartilhamento informal
+    severidade: alta
+    evidencia_esperada: "envia boleto ou informações financeiras por WhatsApp"
+
+  - codigo: F4
+    categoria: Coleta ou confirmação insuficiente
+    severidade: alta
+    evidencia_esperada: "confirma poucos dados antes de enviar informações"
+
+  - codigo: F6
+    categoria: Falta de transparência/controle
+    severidade: moderada
+    evidencia_esperada: "não há procedimento claro para validar identidade do titular"
+
+  - codigo: F8
+    categoria: Terceiros sem base/controle
+    severidade: critica
+    evidencia_esperada: "fala com familiares, sócios ou contatos alternativos sobre pendência"
+
+perguntas_que_deveriam_detectar:
+  - "O que você faz quando não consegue contato com o titular?"
+  - "Você fala com contatos alternativos?"
+  - "Que informações pode mencionar para outra pessoa?"
+  - "Como confirma que está falando com o titular?"
+  - "Por quais canais envia boletos ou acordos?"
+
+nao_deve_ser_detectado:
+  - "dados de saúde"
+  - "uso de dispositivo pessoal para armazenamento"
+
+criterio_de_sucesso:
+  minimo: "detectar contato com terceiros ou envio inseguro de boleto"
+  ideal: "detectar exposição de inadimplência, falha de autenticação e uso de WhatsApp"

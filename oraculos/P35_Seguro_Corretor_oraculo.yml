@@ -1,0 +1,38 @@
+persona_id: P35
+setor: Seguros
+cargo: Corretor de Seguros
+nivel_risco_esperado: critico
+
+fragilidade_central:
+  descricao: Coleta de histórico médico detalhado por WhatsApp sem formulário formal, armazenamento em planilha local e retenção de dados de quem não fechou apólice.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 2
+  armazenamento_pessoal: 3
+  retencao_excessiva: 3
+  coleta_excessiva: 1
+  acesso_excessivo: 0
+  dados_sensiveis: 3
+  terceiros_sem_controle: 0
+  incidente_mal_tratado: 0
+
+categorias_lgpd_esperadas:
+  - codigo: F9
+    categoria: Dados sensíveis sem salvaguarda
+    severidade: critica
+    evidencia_esperada: "histórico médico coletado e armazenado em planilha local sem controle"
+    perguntas_que_deveriam_detectar:
+      - "Como você coleta o histórico de saúde do cliente para cotação?"
+      - "Isso é feito por WhatsApp ou por formulário formal?"
+
+  - codigo: F3
+    categoria: Retenção excessiva
+    severidade: alta
+    evidencia_esperada: "dados de saúde de clientes que não fecharam apólice mantidos indefinidamente"
+    perguntas_que_deveriam_detectar:
+      - "O que acontece com os dados de quem fez cotação mas não fechou?"
+      - "Você mantém esses dados por quanto tempo?"
+
+criterio_de_sucesso:
+  minimo: "detectar dado de saúde coletado por canal informal"
+  ideal: "detectar coleta de histórico médico por WhatsApp, planilha local e retenção indefinida"

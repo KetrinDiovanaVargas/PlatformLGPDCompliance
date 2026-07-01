@@ -1,0 +1,48 @@
+persona_id: P13
+setor: Segurança da Informação
+cargo: Analista de Segurança da Informação
+nivel_risco_esperado: moderado
+
+fragilidade_central:
+  descricao: Coleta de logs extensivos com dados pessoais de colaboradores sem minimização, sem prazo de descarte e sem transparência para os titulares.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 0
+  armazenamento_pessoal: 0
+  retencao_excessiva: 2
+  coleta_excessiva: 3
+  acesso_excessivo: 1
+  dados_sensiveis: 0
+  terceiros_sem_controle: 0
+  incidente_mal_tratado: 0
+  falta_transparencia: 2
+
+categorias_lgpd_esperadas:
+  - codigo: F4
+    categoria: Coleta excessiva
+    severidade: moderada
+    evidencia_esperada: "coleta logs de comportamento de colaboradores além do necessário para segurança"
+    perguntas_que_deveriam_detectar:
+      - "Que tipo de dado você coleta nos logs de monitoramento?"
+      - "Você registra comportamento de navegação ou conteúdo de e-mails?"
+      - "Os colaboradores sabem o que é monitorado?"
+
+  - codigo: F6
+    categoria: Falta de transparência
+    severidade: moderada
+    evidencia_esperada: "colaboradores não são informados sobre o escopo do monitoramento"
+    perguntas_que_deveriam_detectar:
+      - "Os colaboradores são informados sobre o que é monitorado?"
+      - "Existe política de monitoramento comunicada a todos?"
+
+comportamentos_observaveis:
+  - "justifica coleta ampla como necessidade de investigação retroativa"
+  - "não menciona comunicação ao colaborador sobre monitoramento"
+
+nao_deve_ser_detectado:
+  - "compartilhamento com terceiros externos"
+  - "dados de saúde"
+
+criterio_de_sucesso:
+  minimo: "detectar coleta de dados além do necessário ou falta de transparência"
+  ideal: "detectar coleta excessiva, retenção indefinida e ausência de informação ao titular"

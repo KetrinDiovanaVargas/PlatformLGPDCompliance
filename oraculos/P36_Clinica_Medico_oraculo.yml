@@ -1,0 +1,39 @@
+persona_id: P36
+setor: Saúde
+cargo: Médico Clínico Geral
+nivel_risco_esperado: critico
+
+fragilidade_central:
+  descricao: Compartilhamento de dados clínicos identificados de pacientes por WhatsApp pessoal com especialistas e em grupos médicos, sem consentimento explícito.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 3
+  armazenamento_pessoal: 1
+  retencao_excessiva: 0
+  coleta_excessiva: 0
+  acesso_excessivo: 0
+  dados_sensiveis: 3
+  terceiros_sem_controle: 2
+  incidente_mal_tratado: 0
+  falta_transparencia: 2
+
+categorias_lgpd_esperadas:
+  - codigo: F9
+    categoria: Dados sensíveis sem salvaguarda
+    severidade: critica
+    evidencia_esperada: "exames e dados clínicos enviados por WhatsApp pessoal com identificação do paciente"
+    perguntas_que_deveriam_detectar:
+      - "Quando você precisa de uma segunda opinião, como você compartilha os dados do paciente?"
+      - "Você fotografa exames para enviar a especialistas? Por qual canal?"
+      - "O paciente sabe que você vai compartilhar os dados dele com outro médico?"
+
+  - codigo: F6
+    categoria: Falta de transparência
+    severidade: alta
+    evidencia_esperada: "compartilhamento sem consentimento explícito do paciente"
+    perguntas_que_deveriam_detectar:
+      - "Você pede autorização do paciente antes de compartilhar o caso com colegas?"
+
+criterio_de_sucesso:
+  minimo: "detectar dado de saúde compartilhado por canal informal sem consentimento"
+  ideal: "detectar WhatsApp pessoal com exames identificados e ausência de consentimento do titular"

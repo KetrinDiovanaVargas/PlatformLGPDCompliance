@@ -1,0 +1,37 @@
+persona_id: P26
+setor: Produção / Manufatura
+cargo: Líder de Produção
+nivel_risco_esperado: alto
+
+fragilidade_central:
+  descricao: Caderno físico com dados de saúde de operadores exposto na linha de produção, e compartilhamento de dados de absenteísmo individual por WhatsApp com outros líderes.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 2
+  armazenamento_pessoal: 2
+  retencao_excessiva: 1
+  coleta_excessiva: 0
+  acesso_excessivo: 3
+  dados_sensiveis: 2
+  terceiros_sem_controle: 0
+  incidente_mal_tratado: 0
+
+categorias_lgpd_esperadas:
+  - codigo: F5
+    categoria: Acesso excessivo
+    severidade: alta
+    evidencia_esperada: "caderno com dados de faltas e motivos de saúde exposto na bancada da linha"
+    perguntas_que_deveriam_detectar:
+      - "Como você controla as faltas da sua equipe?"
+      - "Esse caderno fica guardado ou em local de acesso de todos?"
+
+  - codigo: F1
+    categoria: Compartilhamento informal
+    severidade: moderada
+    evidencia_esperada: "dados individuais de absenteísmo compartilhados por WhatsApp com outros líderes"
+    perguntas_que_deveriam_detectar:
+      - "Você compartilha dados de faltas com outros líderes? Por qual canal?"
+
+criterio_de_sucesso:
+  minimo: "detectar dado de saúde em registro físico exposto"
+  ideal: "detectar caderno exposto, compartilhamento por WhatsApp e dado de saúde sem salvaguarda"

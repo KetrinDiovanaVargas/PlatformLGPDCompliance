@@ -1,0 +1,37 @@
+persona_id: P31
+setor: Publicidade / Marketing Externo
+cargo: Analista de Mídia Paga (Agência)
+nivel_risco_esperado: alto
+
+fragilidade_central:
+  descricao: Armazenamento de bases de clientes em Google Drive pessoal sem controle, sem DPA com o contratante e retenção de bases após encerramento de campanhas.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 1
+  armazenamento_pessoal: 3
+  retencao_excessiva: 2
+  coleta_excessiva: 0
+  acesso_excessivo: 0
+  dados_sensiveis: 0
+  terceiros_sem_controle: 3
+  incidente_mal_tratado: 0
+
+categorias_lgpd_esperadas:
+  - codigo: F8
+    categoria: Terceiros sem controle
+    severidade: alta
+    evidencia_esperada: "agência não tem DPA com cliente contratante e armazena dados sem controle"
+    perguntas_que_deveriam_detectar:
+      - "Existe contrato ou DPA com as empresas clientes sobre o uso das bases?"
+      - "Você retorna ou apaga as bases após o fim da campanha?"
+
+  - codigo: F2
+    categoria: Armazenamento indevido
+    severidade: alta
+    evidencia_esperada: "bases de dados de clientes armazenadas no Google Drive pessoal"
+    perguntas_que_deveriam_detectar:
+      - "Onde você guarda as bases de dados recebidas dos clientes?"
+
+criterio_de_sucesso:
+  minimo: "detectar armazenamento de base de clientes fora de ambiente controlado"
+  ideal: "detectar Drive pessoal, ausência de DPA e retenção pós-campanha"
