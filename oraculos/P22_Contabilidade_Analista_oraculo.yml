@@ -1,0 +1,37 @@
+persona_id: P22
+setor: Contabilidade / Fiscal
+cargo: Analista Contábil
+nivel_risco_esperado: moderado_alto
+
+fragilidade_central:
+  descricao: Envio de dados pessoais e fiscais ao escritório externo por e-mail simples sem DPA, e armazenamento em pendrive pessoal.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 2
+  armazenamento_pessoal: 2
+  retencao_excessiva: 1
+  coleta_excessiva: 0
+  acesso_excessivo: 0
+  dados_sensiveis: 1
+  terceiros_sem_controle: 3
+  incidente_mal_tratado: 0
+
+categorias_lgpd_esperadas:
+  - codigo: F8
+    categoria: Terceiros sem controle
+    severidade: alta
+    evidencia_esperada: "escritório externo recebe dados pessoais sem DPA verificado"
+    perguntas_que_deveriam_detectar:
+      - "O escritório externo tem contrato com cláusula de proteção de dados?"
+      - "Você sabe o que eles fazem com os dados após a obrigação fiscal?"
+
+  - codigo: F1
+    categoria: Compartilhamento informal
+    severidade: moderada
+    evidencia_esperada: "usa e-mail pessoal como canal alternativo para envio de dados fiscais"
+    perguntas_que_deveriam_detectar:
+      - "O que você faz quando o portal do escritório está indisponível?"
+
+criterio_de_sucesso:
+  minimo: "detectar envio para terceiro sem verificação de DPA"
+  ideal: "detectar ausência de DPA, canal alternativo informal e pendrive pessoal"

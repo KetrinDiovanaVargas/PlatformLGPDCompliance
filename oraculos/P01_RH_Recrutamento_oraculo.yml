@@ -1,0 +1,55 @@
+persona_id: P01
+setor: RH
+cargo: Analista de Recrutamento
+nivel_risco_esperado: alto
+
+fragilidade_central:
+  descricao: Compartilhamento informal de currículos e documentos de candidatos por WhatsApp e manutenção de cópias para uso futuro.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 3
+  armazenamento_pessoal: 2
+  retencao_excessiva: 2
+  coleta_excessiva: 0
+  acesso_excessivo: 0
+  dados_sensiveis: 1
+  terceiros_sem_controle: 1
+  incidente_mal_tratado: 0
+
+categorias_lgpd_esperadas:
+  - codigo: F1
+    categoria: Compartilhamento informal
+    severidade: alta
+    evidencia_esperada: "envia currículos ou documentos por WhatsApp para gestores"
+    perguntas_que_deveriam_detectar:
+      - "Como você compartilha currículos com gestores?"
+      - "Quais canais usa quando há urgência?"
+      - "Você envia documentos de candidatos fora do sistema de RH?"
+
+  - codigo: F3
+    categoria: Retenção excessiva
+    severidade: moderada
+    evidencia_esperada: "mantém currículos antigos para vagas futuras"
+    perguntas_que_deveriam_detectar:
+      - "Por quanto tempo você mantém currículos recebidos?"
+      - "O que acontece com dados de candidatos não aprovados?"
+
+  - codigo: F9
+    categoria: Dados sensíveis sem salvaguarda
+    severidade: alta
+    evidencia_esperada: "recebe informações sobre deficiência ou restrição de saúde sem fluxo diferenciado claro"
+    perguntas_que_deveriam_detectar:
+      - "Vocês tratam candidatos PcD?"
+      - "Como são armazenados documentos ou laudos?"
+
+comportamentos_observaveis:
+  - "envia currículo por WhatsApp ao ser perguntado sobre canais de urgência"
+  - "menciona pasta local ou planilha própria ao falar de organização"
+
+nao_deve_ser_detectado:
+  - "cobrança indevida"
+  - "compartilhamento com birôs de crédito"
+
+criterio_de_sucesso:
+  minimo: "identificar compartilhamento informal ou retenção excessiva"
+  ideal: "identificar compartilhamento informal, retenção excessiva e risco com dado sensível"

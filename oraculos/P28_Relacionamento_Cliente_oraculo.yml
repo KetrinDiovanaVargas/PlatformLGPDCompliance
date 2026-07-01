@@ -1,0 +1,39 @@
+persona_id: P28
+setor: Customer Success / CRM
+cargo: Analista de Relacionamento com Cliente
+nivel_risco_esperado: moderado_alto
+
+fragilidade_central:
+  descricao: Registro de dados pessoais informais (vida pessoal, hobbies) de contatos de clientes no CRM sem transparência, e uso de WhatsApp pessoal para comunicação profissional.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 2
+  armazenamento_pessoal: 1
+  retencao_excessiva: 2
+  coleta_excessiva: 3
+  acesso_excessivo: 0
+  dados_sensiveis: 0
+  terceiros_sem_controle: 0
+  incidente_mal_tratado: 0
+  falta_transparencia: 2
+
+categorias_lgpd_esperadas:
+  - codigo: F4
+    categoria: Coleta excessiva
+    severidade: alta
+    evidencia_esperada: "registra informações pessoais informais de clientes no CRM sem necessidade para a relação comercial"
+    perguntas_que_deveriam_detectar:
+      - "Que tipo de informação você registra no CRM após uma conversa com o cliente?"
+      - "Você anota coisas que o cliente menciona sobre a vida pessoal dele?"
+      - "Para que você usa essas informações?"
+
+  - codigo: F6
+    categoria: Falta de transparência
+    severidade: moderada
+    evidencia_esperada: "contatos não sabem que informações pessoais estão sendo armazenadas no CRM"
+    perguntas_que_deveriam_detectar:
+      - "O cliente sabe que você anota essas informações?"
+
+criterio_de_sucesso:
+  minimo: "detectar coleta de dados pessoais além do necessário para a relação comercial"
+  ideal: "detectar coleta excessiva de dados informais, falta de transparência e WhatsApp pessoal"

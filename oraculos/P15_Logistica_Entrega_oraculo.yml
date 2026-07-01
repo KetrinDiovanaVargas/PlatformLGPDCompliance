@@ -1,0 +1,48 @@
+persona_id: P15
+setor: Logística
+cargo: Assistente de Logística e Roteirização
+nivel_risco_esperado: alto
+
+fragilidade_central:
+  descricao: Compartilhamento de lista com nome, endereço e telefone de clientes em grupo de WhatsApp com motoristas terceirizados, sem controle sobre uso posterior dos dados.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 3
+  armazenamento_pessoal: 1
+  retencao_excessiva: 1
+  coleta_excessiva: 0
+  acesso_excessivo: 0
+  dados_sensiveis: 0
+  terceiros_sem_controle: 3
+  incidente_mal_tratado: 1
+
+categorias_lgpd_esperadas:
+  - codigo: F1
+    categoria: Compartilhamento informal
+    severidade: alta
+    evidencia_esperada: "envia lista de clientes com endereço e telefone no grupo de WhatsApp"
+    perguntas_que_deveriam_detectar:
+      - "Como você passa as rotas para os motoristas?"
+      - "Você usa algum grupo de WhatsApp para isso?"
+      - "O que é compartilhado nesse grupo?"
+
+  - codigo: F8
+    categoria: Terceiros sem controle
+    severidade: alta
+    evidencia_esperada: "motoristas terceirizados recebem dados de clientes sem instrução de descarte"
+    perguntas_que_deveriam_detectar:
+      - "Os motoristas são funcionários da empresa ou terceirizados?"
+      - "Depois da entrega, o que acontece com a lista?"
+      - "Você instrui os motoristas a apagar os dados?"
+
+comportamentos_observaveis:
+  - "descreve grupo de WhatsApp como ferramenta padrão de roteirização"
+  - "não menciona instrução de descarte ao falar de listas"
+
+nao_deve_ser_detectado:
+  - "dados de saúde"
+  - "dados financeiros pessoais"
+
+criterio_de_sucesso:
+  minimo: "detectar compartilhamento de dados de clientes em grupo informal"
+  ideal: "detectar grupo com terceirizados, ausência de instrução de descarte e risco de uso posterior"

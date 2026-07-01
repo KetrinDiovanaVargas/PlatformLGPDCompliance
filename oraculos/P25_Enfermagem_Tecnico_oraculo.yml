@@ -1,0 +1,38 @@
+persona_id: P25
+setor: Saúde Ocupacional
+cargo: Técnico de Enfermagem
+nivel_risco_esperado: alto
+
+fragilidade_central:
+  descricao: Fotografar atestados com CID no celular pessoal para envio ao RH, e comunicar dados de saúde por WhatsApp pessoal ao médico, sem canal seguro.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 2
+  armazenamento_pessoal: 3
+  retencao_excessiva: 1
+  coleta_excessiva: 0
+  acesso_excessivo: 1
+  dados_sensiveis: 3
+  terceiros_sem_controle: 0
+  incidente_mal_tratado: 0
+
+categorias_lgpd_esperadas:
+  - codigo: F9
+    categoria: Dados sensíveis sem salvaguarda
+    severidade: critica
+    evidencia_esperada: "dados de saúde (CID, diagnóstico) transmitidos por WhatsApp pessoal"
+    perguntas_que_deveriam_detectar:
+      - "Como você comunica ao médico sobre um atendimento urgente?"
+      - "Você usa WhatsApp ou outro canal para descrever o quadro clínico do colaborador?"
+
+  - codigo: F2
+    categoria: Armazenamento indevido
+    severidade: alta
+    evidencia_esperada: "atestados com CID fotografados e salvos no celular pessoal"
+    perguntas_que_deveriam_detectar:
+      - "Como você envia atestados ao RH quando o scanner não funciona?"
+      - "Essas fotos ficam salvas no seu celular?"
+
+criterio_de_sucesso:
+  minimo: "detectar dado de saúde transitando por canal inseguro"
+  ideal: "detectar WhatsApp pessoal com CID, celular pessoal e registro físico exposto"

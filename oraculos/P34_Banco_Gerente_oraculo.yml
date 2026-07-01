@@ -1,0 +1,38 @@
+persona_id: P34
+setor: Serviços Financeiros
+cargo: Gerente de Relacionamento Bancário (PJ)
+nivel_risco_esperado: alto
+
+fragilidade_central:
+  descricao: Envio de propostas de crédito e dados financeiros por WhatsApp pessoal, e manutenção de planilha com dados sensíveis de clientes no notebook pessoal.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 3
+  armazenamento_pessoal: 2
+  retencao_excessiva: 1
+  coleta_excessiva: 0
+  acesso_excessivo: 1
+  dados_sensiveis: 2
+  terceiros_sem_controle: 0
+  incidente_mal_tratado: 0
+
+categorias_lgpd_esperadas:
+  - codigo: F1
+    categoria: Compartilhamento informal
+    severidade: alta
+    evidencia_esperada: "envia propostas de crédito e dados financeiros por WhatsApp pessoal"
+    perguntas_que_deveriam_detectar:
+      - "Como você envia propostas para clientes VIP?"
+      - "Você usa WhatsApp para enviar documentos com dados financeiros?"
+
+  - codigo: F2
+    categoria: Armazenamento indevido
+    severidade: alta
+    evidencia_esperada: "planilha com dados sensíveis de clientes no notebook pessoal"
+    perguntas_que_deveriam_detectar:
+      - "Como você organiza os dados da sua carteira de clientes?"
+      - "Você guarda essas informações no computador pessoal?"
+
+criterio_de_sucesso:
+  minimo: "detectar dados financeiros enviados por canal informal"
+  ideal: "detectar WhatsApp pessoal, notebook pessoal e dados financeiros sensíveis sem controle"

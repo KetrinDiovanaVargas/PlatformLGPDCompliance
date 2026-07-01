@@ -1,0 +1,39 @@
+persona_id: P29
+setor: TI / Desenvolvimento
+cargo: Desenvolvedor Full Stack
+nivel_risco_esperado: alto
+
+fragilidade_central:
+  descricao: Uso de dumps de banco de dados de produção com dados reais de clientes no ambiente de desenvolvimento, e logs com dados pessoais expostos no Slack da equipe.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 2
+  armazenamento_pessoal: 3
+  retencao_excessiva: 1
+  coleta_excessiva: 0
+  acesso_excessivo: 2
+  dados_sensiveis: 1
+  terceiros_sem_controle: 0
+  incidente_mal_tratado: 0
+
+categorias_lgpd_esperadas:
+  - codigo: F2
+    categoria: Armazenamento indevido
+    severidade: alta
+    evidencia_esperada: "banco de dados de produção copiado para ambiente de desenvolvimento local"
+    perguntas_que_deveriam_detectar:
+      - "Como você testa novas funcionalidades? Usa dados reais ou dados fictícios?"
+      - "Os ambientes de desenvolvimento têm dados de clientes reais?"
+      - "Como você depura erros de produção?"
+
+  - codigo: F1
+    categoria: Compartilhamento informal
+    severidade: alta
+    evidencia_esperada: "logs com dados pessoais de clientes compartilhados no Slack"
+    perguntas_que_deveriam_detectar:
+      - "Quando você posta um log no Slack para pedir ajuda, o que aparece nele?"
+      - "Os logs de erro contêm dados de clientes?"
+
+criterio_de_sucesso:
+  minimo: "detectar uso de dados reais em ambiente de desenvolvimento"
+  ideal: "detectar dump de produção em dev, logs com dados pessoais no Slack e ausência de mascaramento"

@@ -1,0 +1,47 @@
+persona_id: P17
+setor: Gestão
+cargo: Gerente de Unidade
+nivel_risco_esperado: moderado_alto
+
+fragilidade_central:
+  descricao: Solicitação de relatórios nominais com dados de colaboradores e clientes para finalidades gerenciais onde dados agregados seriam suficientes, configurando coleta e acesso excessivos.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 0
+  armazenamento_pessoal: 1
+  retencao_excessiva: 1
+  coleta_excessiva: 3
+  acesso_excessivo: 2
+  dados_sensiveis: 1
+  terceiros_sem_controle: 0
+  incidente_mal_tratado: 0
+
+categorias_lgpd_esperadas:
+  - codigo: F4
+    categoria: Coleta excessiva
+    severidade: alta
+    evidencia_esperada: "solicita relatórios nominais quando dados agregados resolveriam a análise"
+    perguntas_que_deveriam_detectar:
+      - "Que tipo de relatório você usa para acompanhar a performance da equipe?"
+      - "Você costuma ver dados individuais ou é suficiente ver totais e médias?"
+      - "Para que você usa os dados nominais nesses relatórios?"
+
+  - codigo: F5
+    categoria: Acesso excessivo
+    severidade: moderada
+    evidencia_esperada: "acessa dados de colaboradores e clientes além do necessário para a decisão"
+    perguntas_que_deveriam_detectar:
+      - "Quem mais tem acesso a esses relatórios nominais?"
+      - "Esses dados são compartilhados em apresentações para outras áreas?"
+
+comportamentos_observaveis:
+  - "justifica relatório nominal como prerrogativa da gestão"
+  - "questiona a ideia de usar dados agregados como limitação operacional"
+
+nao_deve_ser_detectado:
+  - "compartilhamento informal por WhatsApp com dados de clientes"
+  - "dados de saúde ocupacional"
+
+criterio_de_sucesso:
+  minimo: "detectar solicitação de dados nominais além do necessário"
+  ideal: "detectar coleta excessiva e acesso excessivo motivados por conveniência gerencial"

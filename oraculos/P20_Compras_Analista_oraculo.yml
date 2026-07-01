@@ -1,0 +1,38 @@
+persona_id: P20
+setor: Compras / Suprimentos
+cargo: Analista de Compras
+nivel_risco_esperado: moderado
+
+fragilidade_central:
+  descricao: Coleta de dados pessoais excessivos de representantes de fornecedores PF além do necessário para a relação contratual.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 0
+  armazenamento_pessoal: 1
+  retencao_excessiva: 2
+  coleta_excessiva: 3
+  acesso_excessivo: 0
+  dados_sensiveis: 0
+  terceiros_sem_controle: 0
+  incidente_mal_tratado: 0
+
+categorias_lgpd_esperadas:
+  - codigo: F4
+    categoria: Coleta excessiva
+    severidade: alta
+    evidencia_esperada: "solicita RG, comprovante de residência e dados pessoais além do necessário para o contrato"
+    perguntas_que_deveriam_detectar:
+      - "O que você solicita para cadastrar um fornecedor pessoa física?"
+      - "É necessário o endereço residencial para todos os fornecedores?"
+      - "Esses dados todos são usados no processo de compra?"
+
+  - codigo: F3
+    categoria: Retenção excessiva
+    severidade: moderada
+    evidencia_esperada: "planilha de fornecedores sem revisão periódica de atualização ou descarte"
+    perguntas_que_deveriam_detectar:
+      - "Com que frequência você atualiza ou limpa o cadastro de fornecedores?"
+
+criterio_de_sucesso:
+  minimo: "detectar coleta de dados além do necessário para a relação contratual"
+  ideal: "detectar coleta excessiva e retenção sem critério de revisão"

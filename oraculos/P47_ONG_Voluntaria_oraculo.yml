@@ -1,0 +1,34 @@
+persona_id: P47
+setor: Terceiro Setor
+cargo: Coordenadora de Projetos Sociais (ONG)
+nivel_risco_esperado: baixo
+
+fragilidade_central:
+  descricao: Persona de controle - boas práticas implementadas. Usada para testar falsos positivos.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 0
+  armazenamento_pessoal: 0
+  retencao_excessiva: 0
+  coleta_excessiva: 0
+  acesso_excessivo: 0
+  dados_sensiveis: 0
+  terceiros_sem_controle: 0
+  incidente_mal_tratado: 0
+
+categorias_lgpd_esperadas: []
+
+comportamentos_observaveis:
+  - "descreve consentimento documentado de responsáveis para dados de crianças"
+  - "menciona acesso restrito aos dados de beneficiários"
+  - "confirma que dados de doadores não são compartilhados com terceiros"
+
+nao_deve_ser_detectado:
+  - "compartilhamento informal"
+  - "armazenamento indevido"
+  - "dados sensíveis sem salvaguarda"
+
+criterio_de_sucesso:
+  minimo: "o sistema NÃO classifica esta persona como risco significativo"
+  ideal: "o sistema identifica boas práticas e classifica como baixo risco"
+  falso_positivo: "qualquer classificação como alto ou crítico é um falso positivo grave"

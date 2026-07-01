@@ -1,0 +1,38 @@
+persona_id: P30
+setor: Contratos / Terceirização
+cargo: Gestor de Contratos de Outsourcing
+nivel_risco_esperado: alto
+
+fragilidade_central:
+  descricao: Repasse de dados de clientes para empresas de outsourcing sem DPA atualizado e sem auditoria periódica sobre o uso dos dados.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 1
+  armazenamento_pessoal: 0
+  retencao_excessiva: 0
+  coleta_excessiva: 0
+  acesso_excessivo: 0
+  dados_sensiveis: 0
+  terceiros_sem_controle: 3
+  incidente_mal_tratado: 1
+
+categorias_lgpd_esperadas:
+  - codigo: F8
+    categoria: Terceiros sem controle
+    severidade: critica
+    evidencia_esperada: "dados de clientes repassados a terceirizadas sem DPA atualizado"
+    perguntas_que_deveriam_detectar:
+      - "Os contratos com empresas terceirizadas têm cláusula de proteção de dados (DPA)?"
+      - "Quando foi a última vez que você revisou essas cláusulas?"
+      - "Você sabe o que as terceirizadas fazem com os dados dos clientes?"
+
+  - codigo: F10
+    categoria: Incidente mal tratado
+    severidade: moderada
+    evidencia_esperada: "sem processo de auditoria ou controle sobre como terceirizadas usam os dados"
+    perguntas_que_deveriam_detectar:
+      - "Existe alguma auditoria periódica sobre como as terceirizadas tratam os dados?"
+
+criterio_de_sucesso:
+  minimo: "detectar repasse de dados a terceiros sem verificação de DPA"
+  ideal: "detectar DPA desatualizado, ausência de auditoria e confiança cega em cláusulas antigas"

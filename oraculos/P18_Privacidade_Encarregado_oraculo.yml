@@ -1,0 +1,51 @@
+persona_id: P18
+setor: Privacidade / Compliance
+cargo: Encarregado de Proteção de Dados (DPO)
+nivel_risco_esperado: moderado
+
+fragilidade_central:
+  descricao: Ausência de processo formal para resposta a titulares dentro do prazo legal, canal de exercício de direitos não divulgado e ROPA desatualizado.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 0
+  armazenamento_pessoal: 0
+  retencao_excessiva: 0
+  coleta_excessiva: 0
+  acesso_excessivo: 0
+  dados_sensiveis: 0
+  terceiros_sem_controle: 0
+  incidente_mal_tratado: 1
+  falta_transparencia: 3
+  processo_inadequado: 3
+
+categorias_lgpd_esperadas:
+  - codigo: F6
+    categoria: Falta de transparência
+    severidade: moderada
+    evidencia_esperada: "não há canal oficial divulgado para exercício de direitos pelos titulares"
+    perguntas_que_deveriam_detectar:
+      - "Como os titulares podem solicitar acesso, correção ou exclusão de seus dados?"
+      - "Existe um canal oficial divulgado para esse fim?"
+      - "Como você recebe essas solicitações hoje?"
+
+  - codigo: F10
+    categoria: Processo inadequado de resposta a incidentes/solicitações
+    severidade: moderada
+    evidencia_esperada: "sem processo formal para responder em 15 dias; encaminhamentos informais por e-mail"
+    perguntas_que_deveriam_detectar:
+      - "Qual é o prazo que vocês têm para responder a uma solicitação de titular?"
+      - "Já aconteceu de uma solicitação não ser respondida a tempo?"
+      - "Como você garante que todas as áreas respondam dentro do prazo?"
+
+comportamentos_observaveis:
+  - "descreve processo informal de encaminhamento por e-mail"
+  - "demonstra desconforto ao ser questionada sobre prazos específicos"
+  - "admite ROPA incompleto quando perguntada diretamente"
+
+nao_deve_ser_detectado:
+  - "compartilhamento informal de dados de clientes"
+  - "uso de dispositivos pessoais"
+
+criterio_de_sucesso:
+  minimo: "detectar ausência de canal formal para titulares ou processo de resposta inadequado"
+  ideal: "detectar falta de canal divulgado, processo informal e ROPA desatualizado"

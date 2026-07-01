@@ -1,0 +1,39 @@
+persona_id: P43
+setor: Saúde / Fisioterapia
+cargo: Fisioterapeuta
+nivel_risco_esperado: alto
+
+fragilidade_central:
+  descricao: Fotos corporais de pacientes (dado biométrico e de saúde) armazenadas na galeria pessoal misturadas com fotos pessoais, sem consentimento formal e sem segregação.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 2
+  armazenamento_pessoal: 3
+  retencao_excessiva: 1
+  coleta_excessiva: 0
+  acesso_excessivo: 0
+  dados_sensiveis: 3
+  terceiros_sem_controle: 0
+  incidente_mal_tratado: 1
+
+categorias_lgpd_esperadas:
+  - codigo: F9
+    categoria: Dados sensíveis sem salvaguarda
+    severidade: critica
+    evidencia_esperada: "fotos corporais de pacientes em galeria pessoal do celular sem separação"
+    perguntas_que_deveriam_detectar:
+      - "Como você documenta a evolução postural dos pacientes?"
+      - "Você fotografa os pacientes? Com qual dispositivo?"
+      - "Essas fotos ficam onde? Na galeria do celular pessoal?"
+
+  - codigo: F2
+    categoria: Armazenamento indevido
+    severidade: alta
+    evidencia_esperada: "imagens médicas de pacientes misturadas com fotos pessoais no celular"
+    perguntas_que_deveriam_detectar:
+      - "As fotos de pacientes ficam separadas das suas fotos pessoais?"
+      - "O paciente assinou algum consentimento para uso das imagens?"
+
+criterio_de_sucesso:
+  minimo: "detectar imagem corporal de paciente em celular pessoal sem controle"
+  ideal: "detectar dado biométrico/saúde, galeria pessoal sem segregação e ausência de consentimento"

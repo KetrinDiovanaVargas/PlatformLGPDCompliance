@@ -1,0 +1,37 @@
+persona_id: P37
+setor: Sindicato / Entidade de Classe
+cargo: Assistente Administrativo
+nivel_risco_esperado: alto
+
+fragilidade_central:
+  descricao: Dado de filiação sindical (dado sensível) compartilhado com advogados parceiros sem DPA, e lista de votação publicada no site sem controle de acesso.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 2
+  armazenamento_pessoal: 0
+  retencao_excessiva: 2
+  coleta_excessiva: 0
+  acesso_excessivo: 2
+  dados_sensiveis: 3
+  terceiros_sem_controle: 3
+  incidente_mal_tratado: 0
+
+categorias_lgpd_esperadas:
+  - codigo: F9
+    categoria: Dados sensíveis sem salvaguarda
+    severidade: critica
+    evidencia_esperada: "dado de filiação sindical compartilhado com terceiros sem salvaguarda"
+    perguntas_que_deveriam_detectar:
+      - "Você compartilha a lista de associados com advogados parceiros?"
+      - "O que é compartilhado nessa lista? Inclui informação de filiação sindical?"
+
+  - codigo: F8
+    categoria: Terceiros sem controle
+    severidade: alta
+    evidencia_esperada: "lista com CPF e filiação enviada por e-mail simples para escritório externo"
+    perguntas_que_deveriam_detectar:
+      - "Existe contrato de proteção de dados com o escritório de advocacia parceiro?"
+
+criterio_de_sucesso:
+  minimo: "detectar dado de filiação sindical compartilhado sem controle"
+  ideal: "detectar dado sensível de filiação, ausência de DPA com advogado parceiro e lista pública de votação"

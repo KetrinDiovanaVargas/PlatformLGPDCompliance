@@ -1,0 +1,39 @@
+persona_id: P39
+setor: Administração Condominial
+cargo: Síndico
+nivel_risco_esperado: alto
+
+fragilidade_central:
+  descricao: Exposição pública de inadimplentes por nome em mural e grupo de WhatsApp, e coleta de biometria sem informação adequada ao titular.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 3
+  armazenamento_pessoal: 0
+  retencao_excessiva: 2
+  coleta_excessiva: 1
+  acesso_excessivo: 2
+  dados_sensiveis: 2
+  terceiros_sem_controle: 0
+  incidente_mal_tratado: 1
+
+categorias_lgpd_esperadas:
+  - codigo: F1
+    categoria: Compartilhamento informal
+    severidade: alta
+    evidencia_esperada: "nome de inadimplentes publicado em mural físico e grupo de WhatsApp"
+    perguntas_que_deveriam_detectar:
+      - "Como você comunica a inadimplência no condomínio?"
+      - "Você divulga o nome dos moradores inadimplentes?"
+      - "Isso é feito em mural ou em algum grupo de WhatsApp?"
+
+  - codigo: F9
+    categoria: Dados sensíveis sem salvaguarda
+    severidade: alta
+    evidencia_esperada: "biometria coletada sem política de finalidade, acesso e descarte"
+    perguntas_que_deveriam_detectar:
+      - "O condomínio coleta biometria de quem?"
+      - "Os moradores são informados sobre a finalidade e por quanto tempo fica armazenado?"
+
+criterio_de_sucesso:
+  minimo: "detectar exposição de inadimplência com identificação de titular"
+  ideal: "detectar lista nominal pública, biometria sem política e CFTV sem controle de acesso"

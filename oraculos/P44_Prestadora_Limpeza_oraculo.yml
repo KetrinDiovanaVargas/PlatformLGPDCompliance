@@ -1,0 +1,38 @@
+persona_id: P44
+setor: Serviços / Terceirização
+cargo: Supervisora de Limpeza Terceirizada
+nivel_risco_esperado: moderado
+
+fragilidade_central:
+  descricao: Planilha com dados bancários de colaboradoras no celular pessoal e ausência de instrução para lidar com documentos expostos nas instalações do cliente.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 1
+  armazenamento_pessoal: 3
+  retencao_excessiva: 1
+  coleta_excessiva: 0
+  acesso_excessivo: 2
+  dados_sensiveis: 1
+  terceiros_sem_controle: 0
+  incidente_mal_tratado: 1
+
+categorias_lgpd_esperadas:
+  - codigo: F2
+    categoria: Armazenamento indevido
+    severidade: alta
+    evidencia_esperada: "planilha com dados bancários de colaboradoras no celular pessoal"
+    perguntas_que_deveriam_detectar:
+      - "Como você controla os dados das suas colaboradoras?"
+      - "Você guarda dados bancários delas em algum lugar? No celular?"
+
+  - codigo: F5
+    categoria: Acesso excessivo
+    severidade: moderada
+    evidencia_esperada: "equipe de limpeza sem restrição de acesso a áreas com documentos sensíveis expostos"
+    perguntas_que_deveriam_detectar:
+      - "Sua equipe tem acesso a quais áreas das empresas clientes?"
+      - "Elas passam por escritórios com documentos ou telas expostas?"
+
+criterio_de_sucesso:
+  minimo: "detectar armazenamento de dados de colaboradoras em celular pessoal"
+  ideal: "detectar celular pessoal com dados bancários e acesso não restrito a áreas com dados de clientes"

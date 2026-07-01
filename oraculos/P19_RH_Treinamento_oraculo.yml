@@ -1,0 +1,38 @@
+persona_id: P19
+setor: RH / T&D
+cargo: Analista de Treinamento e Desenvolvimento
+nivel_risco_esperado: moderado
+
+fragilidade_central:
+  descricao: Compartilhamento de planilha com dados de colaboradores com facilitadores externos sem DPA, e formulários sem prazo de encerramento.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 1
+  armazenamento_pessoal: 0
+  retencao_excessiva: 2
+  coleta_excessiva: 1
+  acesso_excessivo: 1
+  dados_sensiveis: 0
+  terceiros_sem_controle: 3
+  incidente_mal_tratado: 0
+
+categorias_lgpd_esperadas:
+  - codigo: F8
+    categoria: Terceiros sem controle
+    severidade: alta
+    evidencia_esperada: "facilitadores externos recebem dados de colaboradores sem contrato de DPA"
+    perguntas_que_deveriam_detectar:
+      - "O que você compartilha com os facilitadores externos?"
+      - "Existe contrato ou cláusula de proteção de dados com esses facilitadores?"
+
+  - codigo: F3
+    categoria: Retenção excessiva
+    severidade: moderada
+    evidencia_esperada: "formulários e planilhas ficam abertos por tempo indeterminado"
+    perguntas_que_deveriam_detectar:
+      - "Por quanto tempo os formulários de avaliação ficam abertos?"
+      - "Existe prazo para encerrar o acesso aos dados após o treinamento?"
+
+criterio_de_sucesso:
+  minimo: "detectar compartilhamento com facilitadores externos sem controle"
+  ideal: "detectar ausência de DPA, retenção indefinida e acesso além do necessário"

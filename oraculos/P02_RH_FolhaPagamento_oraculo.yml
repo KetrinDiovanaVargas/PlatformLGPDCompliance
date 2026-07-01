@@ -1,0 +1,54 @@
+persona_id: P02
+setor: RH
+cargo: Analista de Folha de Pagamento
+nivel_risco_esperado: alto
+
+fragilidade_central:
+  descricao: Retenção indefinida de planilhas com dados financeiros e pessoais de ex-colaboradores, backup em pendrive pessoal e uso de e-mail pessoal em urgências.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 2
+  armazenamento_pessoal: 3
+  retencao_excessiva: 3
+  coleta_excessiva: 0
+  acesso_excessivo: 0
+  dados_sensiveis: 2
+  terceiros_sem_controle: 0
+  incidente_mal_tratado: 1
+
+categorias_lgpd_esperadas:
+  - codigo: F3
+    categoria: Retenção excessiva
+    severidade: alta
+    evidencia_esperada: "mantém dados de desligados há mais de 5 anos sem critério claro"
+    perguntas_que_deveriam_detectar:
+      - "Por quanto tempo você guarda os dados de colaboradores desligados?"
+      - "Existe uma política de descarte para folhas antigas?"
+
+  - codigo: F2
+    categoria: Armazenamento indevido
+    severidade: alta
+    evidencia_esperada: "usa pendrive pessoal para backup da folha"
+    perguntas_que_deveriam_detectar:
+      - "Como você faz backup dos arquivos de folha?"
+      - "Você usa dispositivos próprios para guardar arquivos do trabalho?"
+
+  - codigo: F1
+    categoria: Compartilhamento informal
+    severidade: moderada
+    evidencia_esperada: "envia planilha com dados de folha pelo e-mail pessoal em urgências"
+    perguntas_que_deveriam_detectar:
+      - "O que você faz quando precisa enviar algo com urgência fora do sistema?"
+      - "Você já usou e-mail pessoal para enviar arquivos do trabalho?"
+
+comportamentos_observaveis:
+  - "justifica retenção longa como precaução trabalhista"
+  - "menciona pendrive ao ser perguntado sobre backup"
+
+nao_deve_ser_detectado:
+  - "compartilhamento com terceiros externos"
+  - "coleta excessiva de dados"
+
+criterio_de_sucesso:
+  minimo: "identificar retenção excessiva ou armazenamento em dispositivo pessoal"
+  ideal: "identificar os três eixos: retenção excessiva, pendrive pessoal e e-mail pessoal"

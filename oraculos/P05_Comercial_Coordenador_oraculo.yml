@@ -1,0 +1,55 @@
+persona_id: P05
+setor: Comercial
+cargo: Coordenador Comercial
+nivel_risco_esperado: alto
+
+fragilidade_central:
+  descricao: Exportação de base de clientes para planilhas pessoais e uso de listas antigas sem verificação de consentimento vigente para novas campanhas.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 1
+  armazenamento_pessoal: 2
+  retencao_excessiva: 2
+  coleta_excessiva: 0
+  acesso_excessivo: 0
+  dados_sensiveis: 0
+  terceiros_sem_controle: 1
+  incidente_mal_tratado: 0
+  uso_secundario: 3
+
+categorias_lgpd_esperadas:
+  - codigo: F7
+    categoria: Uso secundário
+    severidade: alta
+    evidencia_esperada: "reutiliza bases coletadas antes da LGPD ou para finalidade diferente"
+    perguntas_que_deveriam_detectar:
+      - "De onde vêm as listas usadas nas campanhas?"
+      - "Você verifica se há consentimento antes de usar uma base para e-mail marketing?"
+      - "Essas listas foram coletadas especificamente para esse tipo de campanha?"
+
+  - codigo: F2
+    categoria: Armazenamento indevido
+    severidade: moderada
+    evidencia_esperada: "exporta base completa para planilha pessoal"
+    perguntas_que_deveriam_detectar:
+      - "Você exporta dados do CRM para planilhas externas?"
+      - "Onde você guarda as listas de campanhas?"
+
+  - codigo: F3
+    categoria: Retenção excessiva
+    severidade: moderada
+    evidencia_esperada: "mantém listas de clientes antigas sem revisão de validade"
+    perguntas_que_deveriam_detectar:
+      - "Por quanto tempo você mantém listas de clientes inativas?"
+
+comportamentos_observaveis:
+  - "justifica uso de base antiga como 'reaproveitamento de investimento'"
+  - "descreve segmentação por perfil sem mencionar origem ou consentimento"
+
+nao_deve_ser_detectado:
+  - "dados de saúde"
+  - "exposição financeira pessoal"
+
+criterio_de_sucesso:
+  minimo: "detectar uso de base antiga sem verificação de consentimento"
+  ideal: "detectar uso secundário, exportação para planilha pessoal e retenção sem critério"

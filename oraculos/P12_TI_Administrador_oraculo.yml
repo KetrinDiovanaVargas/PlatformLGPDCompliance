@@ -1,0 +1,47 @@
+persona_id: P12
+setor: TI
+cargo: Administrador de Sistemas
+nivel_risco_esperado: alto
+
+fragilidade_central:
+  descricao: Manutenção de backups indefinidos de sistemas descontinuados com dados pessoais e ausência de política formal de descarte e segregação.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 0
+  armazenamento_pessoal: 0
+  retencao_excessiva: 3
+  coleta_excessiva: 0
+  acesso_excessivo: 2
+  dados_sensiveis: 2
+  terceiros_sem_controle: 0
+  incidente_mal_tratado: 1
+
+categorias_lgpd_esperadas:
+  - codigo: F3
+    categoria: Retenção excessiva
+    severidade: alta
+    evidencia_esperada: "mantém backups de sistemas descontinuados por tempo indeterminado"
+    perguntas_que_deveriam_detectar:
+      - "Por quanto tempo você mantém os backups dos sistemas?"
+      - "O que acontece com backups de sistemas que foram desativados?"
+      - "Existe alguma política de descarte de backups antigos?"
+
+  - codigo: F5
+    categoria: Acesso excessivo
+    severidade: moderada
+    evidencia_esperada: "backups não segregados incluem dados sensíveis de saúde junto com outros dados"
+    perguntas_que_deveriam_detectar:
+      - "Você separa backups por tipo ou sensibilidade dos dados?"
+      - "Quem tem acesso aos volumes de backup?"
+
+comportamentos_observaveis:
+  - "justifica retenção longa como precaução operacional"
+  - "não menciona critério de descarte ao descrever rotina de backup"
+
+nao_deve_ser_detectado:
+  - "compartilhamento informal com terceiros"
+  - "coleta excessiva de dados"
+
+criterio_de_sucesso:
+  minimo: "detectar ausência de política de descarte de backups"
+  ideal: "detectar retenção indefinida, falta de segregação e ausência de política formal"

@@ -1,0 +1,46 @@
+persona_id: P08
+setor: Atendimento ao Cliente
+cargo: Supervisor de Atendimento
+nivel_risco_esperado: alto
+
+fragilidade_central:
+  descricao: Compartilhamento de prints de chamados contendo dados pessoais de clientes em grupo de WhatsApp de supervisores.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 3
+  armazenamento_pessoal: 1
+  retencao_excessiva: 0
+  coleta_excessiva: 0
+  acesso_excessivo: 1
+  dados_sensiveis: 0
+  terceiros_sem_controle: 0
+  incidente_mal_tratado: 1
+
+categorias_lgpd_esperadas:
+  - codigo: F1
+    categoria: Compartilhamento informal
+    severidade: alta
+    evidencia_esperada: "envia prints de chamados com dados de clientes no grupo de WhatsApp"
+    perguntas_que_deveriam_detectar:
+      - "Como você comunica casos urgentes para sua equipe?"
+      - "Você costuma enviar prints ou imagens para resolver problemas com colegas?"
+      - "Quais canais usa quando precisa de ajuda rápida com um caso difícil?"
+
+  - codigo: F5
+    categoria: Acesso excessivo
+    severidade: moderada
+    evidencia_esperada: "dados do cliente expostos a toda a equipe de supervisores além do necessário"
+    perguntas_que_deveriam_detectar:
+      - "Quantas pessoas têm acesso ao grupo onde você compartilha esses casos?"
+
+comportamentos_observaveis:
+  - "menciona grupo de WhatsApp ao ser perguntado sobre comunicação de urgências"
+  - "descreve prints como forma de dar contexto rápido"
+
+nao_deve_ser_detectado:
+  - "dados de saúde"
+  - "uso de dispositivos pessoais para armazenamento"
+
+criterio_de_sucesso:
+  minimo: "detectar compartilhamento de dados de clientes por canal informal"
+  ideal: "detectar prints com dados pessoais em grupo de WhatsApp e exposição a múltiplos usuários"

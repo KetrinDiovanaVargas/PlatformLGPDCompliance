@@ -1,0 +1,34 @@
+persona_id: P50
+setor: Governança de Dados / Privacidade
+cargo: DPO Sênior
+nivel_risco_esperado: baixo
+
+fragilidade_central:
+  descricao: Persona de controle com máxima maturidade de privacidade. Sem fragilidades. Usada para teste de falsos positivos de nível crítico.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 0
+  armazenamento_pessoal: 0
+  retencao_excessiva: 0
+  coleta_excessiva: 0
+  acesso_excessivo: 0
+  dados_sensiveis: 0
+  terceiros_sem_controle: 0
+  incidente_mal_tratado: 0
+
+categorias_lgpd_esperadas: []
+
+comportamentos_observaveis:
+  - "descreve ROPA atualizado ao ser perguntado sobre registro de tratamento"
+  - "menciona DPA com todos os fornecedores ao ser perguntado sobre terceiros"
+  - "cita canal formal e prazo de 15 dias ao ser perguntado sobre solicitações de titulares"
+  - "descreve política de retenção documentada ao ser perguntado sobre descarte"
+  - "menciona DPIAs ao ser perguntado sobre processos de alto risco"
+
+nao_deve_ser_detectado:
+  - "qualquer categoria de fragilidade F1 a F10"
+
+criterio_de_sucesso:
+  minimo: "o sistema classifica como baixo risco"
+  ideal: "o sistema identifica maturidade de programa de privacidade e não detecta fragilidades"
+  falso_positivo: "qualquer detecção de fragilidade ou classificação acima de baixo risco indica problema grave no questionário"

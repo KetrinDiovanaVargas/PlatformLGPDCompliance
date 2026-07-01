@@ -1,0 +1,39 @@
+persona_id: P21
+setor: Saúde / Recepção
+cargo: Recepcionista de Ambulatório
+nivel_risco_esperado: alto
+
+fragilidade_central:
+  descricao: Exposição de fichas físicas com dados de saúde na bancada de recepção e agenda aberta com motivo de consulta visível a qualquer pessoa.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 1
+  armazenamento_pessoal: 0
+  retencao_excessiva: 1
+  coleta_excessiva: 2
+  acesso_excessivo: 3
+  dados_sensiveis: 3
+  terceiros_sem_controle: 0
+  incidente_mal_tratado: 0
+
+categorias_lgpd_esperadas:
+  - codigo: F9
+    categoria: Dados sensíveis sem salvaguarda
+    severidade: critica
+    evidencia_esperada: "fichas com dados de saúde expostas na bancada acessível ao público"
+    perguntas_que_deveriam_detectar:
+      - "Como você organiza os documentos na recepção durante o atendimento?"
+      - "As fichas dos pacientes ficam visíveis na bancada?"
+      - "Quem consegue ver as informações dos colaboradores quando estão aguardando?"
+
+  - codigo: F5
+    categoria: Acesso excessivo
+    severidade: alta
+    evidencia_esperada: "agenda com motivo de consulta visível a pessoas não autorizadas"
+    perguntas_que_deveriam_detectar:
+      - "A agenda de consultas é física ou digital?"
+      - "Ela fica aberta onde outras pessoas podem ver?"
+
+criterio_de_sucesso:
+  minimo: "detectar exposição física de dados de saúde"
+  ideal: "detectar fichas expostas, agenda aberta e coleta além do necessário"

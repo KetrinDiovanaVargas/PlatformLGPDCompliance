@@ -1,0 +1,53 @@
+persona_id: P03
+setor: RH / Saúde Ocupacional
+cargo: Técnico de Saúde Ocupacional
+nivel_risco_esperado: critico
+
+fragilidade_central:
+  descricao: Compartilhamento de dados de saúde (laudos, CID, atestados) por WhatsApp e em planilha compartilhada com múltiplos setores, sem salvaguardas proporcionais à sensibilidade dos dados.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 3
+  armazenamento_pessoal: 2
+  retencao_excessiva: 2
+  coleta_excessiva: 0
+  acesso_excessivo: 1
+  dados_sensiveis: 3
+  terceiros_sem_controle: 0
+  incidente_mal_tratado: 1
+
+categorias_lgpd_esperadas:
+  - codigo: F9
+    categoria: Dados sensíveis sem salvaguarda
+    severidade: critica
+    evidencia_esperada: "envia laudos ou CID por WhatsApp pessoal para gestores"
+    perguntas_que_deveriam_detectar:
+      - "Como você comunica ao gestor sobre restrições de saúde do colaborador?"
+      - "Que tipo de informação você compartilha quando há afastamento?"
+
+  - codigo: F1
+    categoria: Compartilhamento informal
+    severidade: alta
+    evidencia_esperada: "usa WhatsApp pessoal para enviar informações médicas"
+    perguntas_que_deveriam_detectar:
+      - "Quais canais você usa para avisar gestores com urgência?"
+
+  - codigo: F5
+    categoria: Acesso excessivo
+    severidade: moderada
+    evidencia_esperada: "planilha com CID compartilhada com setores além do RH"
+    perguntas_que_deveriam_detectar:
+      - "Quem tem acesso à planilha de controle de exames?"
+      - "Outros departamentos conseguem ver dados de saúde dos colaboradores?"
+
+comportamentos_observaveis:
+  - "menciona WhatsApp ao ser perguntado sobre comunicação urgente com gestores"
+  - "descreve planilha de controle de vencimentos acessível a múltiplos setores"
+
+nao_deve_ser_detectado:
+  - "cobrança a terceiros"
+  - "uso secundário de dados comerciais"
+
+criterio_de_sucesso:
+  minimo: "identificar dado sensível de saúde compartilhado sem controle adequado"
+  ideal: "identificar exposição de CID/laudos, canal informal e acesso excessivo à planilha"

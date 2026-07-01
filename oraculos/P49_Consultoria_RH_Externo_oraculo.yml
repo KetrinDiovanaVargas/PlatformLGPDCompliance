@@ -1,0 +1,47 @@
+persona_id: P49
+setor: Consultoria de RH
+cargo: Consultora de RH Freelancer
+nivel_risco_esperado: critico
+
+fragilidade_central:
+  descricao: Dados de candidatos e colaboradores de múltiplos clientes misturados no mesmo Google Drive pessoal, sem DPA, com retenção indefinida e uso para benchmarks sem desidentificação.
+
+vetor_de_fragilidade:
+  compartilhamento_informal: 1
+  armazenamento_pessoal: 3
+  retencao_excessiva: 3
+  coleta_excessiva: 0
+  acesso_excessivo: 1
+  dados_sensiveis: 2
+  terceiros_sem_controle: 3
+  incidente_mal_tratado: 0
+  uso_secundario: 2
+
+categorias_lgpd_esperadas:
+  - codigo: F8
+    categoria: Terceiros sem controle
+    severidade: critica
+    evidencia_esperada: "atua como operadora de dados sem DPA com nenhum cliente contratante"
+    perguntas_que_deveriam_detectar:
+      - "Existe algum contrato formal de proteção de dados com seus clientes?"
+      - "Os clientes sabem onde e como você armazena os dados deles?"
+
+  - codigo: F2
+    categoria: Armazenamento indevido
+    severidade: alta
+    evidencia_esperada: "dados de múltiplos clientes misturados em Google Drive pessoal"
+    perguntas_que_deveriam_detectar:
+      - "Como você organiza os dados de projetos de clientes diferentes?"
+      - "Você usa o mesmo Drive para todos os clientes?"
+
+  - codigo: F7
+    categoria: Uso secundário
+    severidade: alta
+    evidencia_esperada: "resultados de assessments usados para benchmarks sem desidentificação"
+    perguntas_que_deveriam_detectar:
+      - "Você usa dados de projetos anteriores para criar materiais ou benchmarks?"
+      - "Esses dados são anonimizados antes do uso?"
+
+criterio_de_sucesso:
+  minimo: "detectar ausência de DPA com cliente ou mistura de dados de múltiplos clientes"
+  ideal: "detectar Drive pessoal sem segregação, ausência de DPA, retenção indefinida e uso secundário sem anonimização"
