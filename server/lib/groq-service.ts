@@ -1,13 +1,8 @@
-import Groq from 'groq-sdk';
 import { headroomService } from './headroom';
-
-const groq = new Groq({
-  apiKey: process.env.GROQ_API_KEY,
-});
+// @ts-ignore
+import { chatCompletion } from './ai-client.mjs';
 
 export class GroqHeadroomService {
-  private model = process.env.GROQ_MODEL || 'llama-3.3-70b-versatile';
-
   async analyzeLGPDCompliance(
     questions: any[],
     responses: Record<string, any>,
@@ -33,20 +28,14 @@ export class GroqHeadroomService {
 Dados:
 ${compressed}`;
 
-      const message = await groq.chat.completions.create({
-        model: this.model,
-        messages: [{
-          role: 'system',
-          content: 'Especialista em LGPD. Sempre JSON válido.'
-        }, {
-          role: 'user',
-          content: analysisPrompt
-        }],
-        temperature: 0.7,
-        max_tokens: 1000,
-      });
+      const responseText = await chatCompletion(
+        [
+          { role: 'system', content: 'Especialista em LGPD. Sempre JSON válido.' },
+          { role: 'user',   content: analysisPrompt },
+        ],
+        { temperature: 0.7 }
+      );
 
-      const responseText = message.choices[0].message.content || '{}';
       const jsonMatch = responseText.match(/\{[\s\S]*\}/);
       const analysis = jsonMatch ? JSON.parse(jsonMatch[0]) : {};
 
@@ -54,8 +43,7 @@ ${compressed}`;
         success: true,
         analysis,
         metadata: {
-          tokensUsed: message.usage?.total_tokens ?? 0,
-          model: this.model,
+          model: 'ai-client (groq/gemini)',
           timestamp: new Date().toISOString(),
         },
       };

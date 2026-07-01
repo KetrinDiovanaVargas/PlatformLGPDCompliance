@@ -21,16 +21,23 @@ import { readFileSync, writeFileSync, readdirSync, mkdirSync } from 'fs'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 import Groq from 'groq-sdk'
+import { GoogleGenerativeAI } from '@google/generative-ai'
 import yaml from 'js-yaml'
-import 'dotenv/config'
+import dotenv from 'dotenv'
 
-const __dirname = dirname(fileURLToPath(import.meta.url))
-const ROOT = join(__dirname, '..')
+const __dirnameEarly = dirname(fileURLToPath(import.meta.url))
+const ROOT_EARLY = join(__dirnameEarly, '..')
+dotenv.config({ path: join(ROOT_EARLY, 'server', '.env') })
+dotenv.config({ path: join(ROOT_EARLY, '.env') })
+
+const __dirname = __dirnameEarly
+const ROOT = ROOT_EARLY
 
 // ─── Config ──────────────────────────────────────────────────────────────────
 
-const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:3000'
-const GROQ_MODEL  = 'llama-3.3-70b-versatile'
+const BACKEND_URL  = process.env.BACKEND_URL || 'http://localhost:8787'
+const GROQ_MODEL   = 'llama-3.3-70b-versatile'
+const GEMINI_MODEL = 'gemini-2.0-flash'
 const TEMPERATURE = 0.2
 
 const ASSESSMENT_META = {
@@ -77,6 +84,43 @@ Quando for dissertativa, responda como a persona responderia naturalmente — in
 ${personaMd}`
 }
 
+async function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
+
+function isRateLimit(err) {
+  return err?.status === 429 ||
+    String(err?.message ?? '').toLowerCase().includes('rate limit') ||
+    String(err?.message ?? '').toLowerCase().includes('tokens per day')
+}
+
+async function askPersonaGroq(groq, personaSystemPrompt, conversationHistory, userMessage) {
+  const messages = [
+    { role: 'system', content: personaSystemPrompt },
+    ...conversationHistory,
+    { role: 'user', content: userMessage },
+  ]
+  const completion = await groq.chat.completions.create({ model: GROQ_MODEL, messages, temperature: TEMPERATURE })
+  return completion.choices[0].message.content
+}
+
+async function askPersonaGemini(personaSystemPrompt, conversationHistory, userMessage) {
+  const key = process.env.GEMINI_API_KEY
+  if (!key) throw new Error('GEMINI_API_KEY ausente')
+  const genai = new GoogleGenerativeAI(key)
+  const model = genai.getGenerativeModel({ model: GEMINI_MODEL })
+
+  const history = conversationHistory.map(m => ({
+    role: m.role === 'assistant' ? 'model' : 'user',
+    parts: [{ text: m.content }],
+  }))
+
+  const chat = model.startChat({ history })
+  const fullPrompt = `${personaSystemPrompt}\n\n${userMessage}`
+  const result = await chat.sendMessage(fullPrompt)
+  return result.response.text()
+}
+
 async function askPersona(groq, personaSystemPrompt, conversationHistory, questions) {
   const questionsText = questions.map((q, i) => {
     let text = `Pergunta ${i + 1}: ${q.question}`
@@ -88,19 +132,18 @@ async function askPersona(groq, personaSystemPrompt, conversationHistory, questi
 
   const userMessage = `Por favor, responda as seguintes perguntas do questionário:\n\n${questionsText}\n\nResponda cada pergunta separadamente, identificando-as por número.`
 
-  const messages = [
-    { role: 'system', content: personaSystemPrompt },
-    ...conversationHistory,
-    { role: 'user', content: userMessage },
-  ]
+  let responseText
+  try {
+    responseText = await askPersonaGroq(groq, personaSystemPrompt, conversationHistory, userMessage)
+  } catch (err) {
+    if (isRateLimit(err)) {
+      console.warn('  ⚠️  Groq rate limit — usando Gemini para esta persona')
+      responseText = await askPersonaGemini(personaSystemPrompt, conversationHistory, userMessage)
+    } else {
+      throw err
+    }
+  }
 
-  const completion = await groq.chat.completions.create({
-    model: GROQ_MODEL,
-    messages,
-    temperature: TEMPERATURE,
-  })
-
-  const responseText = completion.choices[0].message.content
   conversationHistory.push({ role: 'user', content: userMessage })
   conversationHistory.push({ role: 'assistant', content: responseText })
 
@@ -124,13 +167,15 @@ async function generateStage(stage, context) {
   return res.json()
 }
 
-async function generateFinalReport(allResponses) {
+async function generateFinalReport(allResponses, personaId, sessaoNum) {
   const res = await fetch(`${BACKEND_URL}/api/analyze`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
+      userId: `simulacao-automatizada`,
+      sessionId: `${personaId}-sessao-${sessaoNum}-${Date.now()}`,
       responses: allResponses,
-      metadata: ASSESSMENT_META,
+      ...ASSESSMENT_META,
     }),
   })
 
@@ -314,7 +359,7 @@ async function main() {
   console.log('\n  → Gerando relatório final...')
   let relatorio = null
   try {
-    relatorio = await generateFinalReport(allResponses)
+    relatorio = await generateFinalReport(allResponses, personaId.toUpperCase(), sessaoNum)
   } catch (err) {
     console.warn('  ⚠ Relatório final falhou, usando fallback:', err.message)
     relatorio = { metrics: { score: 0 }, report: 'Falha na geração do relatório.' }
@@ -324,6 +369,7 @@ async function main() {
   const avaliacao = compareWithOracle(relatorio, oracle)
 
   // Montar log
+  const hoje = new Date().toISOString().split('T')[0]
   const nomeArquivo = `${personaId.toUpperCase()}_sessao_${String(sessaoNum).padStart(2, '0')}.json`
   const log = {
     meta: {
@@ -340,8 +386,9 @@ async function main() {
     avaliacao_vs_oraculo: avaliacao,
   }
 
-  mkdirSync(join(ROOT, 'logs'), { recursive: true })
-  const logPath = join(ROOT, 'logs', nomeArquivo)
+  const pastaLog = join(ROOT, 'logs', hoje)
+  mkdirSync(pastaLog, { recursive: true })
+  const logPath = join(pastaLog, nomeArquivo)
   writeFileSync(logPath, JSON.stringify(log, null, 2), 'utf8')
 
   // Resultado no terminal

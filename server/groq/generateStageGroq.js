@@ -1,22 +1,5 @@
 // server/groq/generateStageGroq.js
-import Groq from "groq-sdk";
-
-let groqClient = null;
-
-function getGroqClient() {
-  if (!process.env.GROQ_API_KEY) {
-    console.warn("⚠️ GROQ_API_KEY ausente — usando fallback");
-    return null;
-  }
-
-  if (!groqClient) {
-    groqClient = new Groq({
-      apiKey: process.env.GROQ_API_KEY,
-    });
-  }
-
-  return groqClient;
-}
+import { chatCompletion } from "../lib/ai-client.mjs";
 
 const STAGE_META = {
   1: {
@@ -89,16 +72,10 @@ ${readableContext}
 `.trim();
 
   try {
-    const groq = getGroqClient();
-    if (!groq) throw new Error("Groq indisponível");
-
-    const completion = await groq.chat.completions.create({
-      model: "llama-3.3-70b-versatile",
-      temperature: 0.3,
-      messages: [{ role: "user", content: prompt }],
-    });
-
-    const raw = completion.choices?.[0]?.message?.content;
+    const raw = await chatCompletion(
+      [{ role: "user", content: prompt }],
+      { temperature: 0.3 }
+    );
     if (!raw) throw new Error("Resposta vazia");
 
     const match = raw.match(/\{[\s\S]*\}/);
