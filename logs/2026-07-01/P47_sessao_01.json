@@ -1,0 +1,560 @@
+{
+  "meta": {
+    "persona_id": "P47",
+    "persona_arquivo": "P47_ONG_Voluntaria.md",
+    "data_execucao": "2026-07-01",
+    "sessao_numero": 1,
+    "modelo_llm": "llama-3.3-70b-versatile",
+    "temperatura": 0.2,
+    "executor": "simular_persona.mjs (automatizado)"
+  },
+  "estagios": [
+    {
+      "estagio": 1,
+      "titulo": "Diagnóstico de Conformidade LGPD",
+      "modo": "groq",
+      "perguntas": [
+        {
+          "id": "q1",
+          "texto": "Quais canais você usa quando precisa compartilhar informações com colegas de trabalho?",
+          "opcoes": [
+            "E-mail corporativo",
+            "WhatsApp",
+            "Plataformas de colaboração online",
+            "Outro (especifique)",
+            "Não sei informar",
+            "Não se aplica"
+          ]
+        },
+        {
+          "id": "q2",
+          "texto": "Quais tipos de dados pessoais você lida no seu trabalho diário?",
+          "opcoes": [
+            "Nomes e sobrenomes",
+            "Endereços",
+            "Telefones",
+            "E-mails",
+            "Dados financeiros",
+            "Outro (especifique)",
+            "Não sei informar"
+          ]
+        },
+        {
+          "id": "q3",
+          "texto": "Descreva como você armazena e protege os dados pessoais que lida no trabalho.",
+          "opcoes": []
+        },
+        {
+          "id": "q4",
+          "texto": "Quem tem acesso aos dados pessoais que você lida no trabalho?",
+          "opcoes": [
+            "Apenas eu",
+            "Meu time de trabalho",
+            "Outros departamentos",
+            "Fornecedores externos",
+            "Outro (especifique)",
+            "Não sei informar",
+            "Não se aplica"
+          ]
+        }
+      ],
+      "respostas": [
+        {
+          "pergunta_id": "q1",
+          "resposta": "Quando preciso compartilhar informações com colegas de trabalho, uso principalmente o e-mail institucional. Isso porque é um canal seguro e oficial, o que é importante para manter a confidencialidade e a integridade das informações, especialmente quando se trata de dados de beneficiários vulneráveis. Além disso, também utilizamos uma plataforma de gestão de projetos interna que permite a colaboração e o compartilhamento de informações de forma segura."
+        },
+        {
+          "pergunta_id": "q2",
+          "resposta": "No meu trabalho diário, lido com vários tipos de dados pessoais, incluindo nomes e sobrenomes, endereços, telefones, e-mails, e em alguns casos, dados financeiros relacionados a doações ou apoio financeiro a beneficiários. Também lido com informações sensíveis sobre a situação social e econômica das famílias e crianças atendidas pela ONG, o que exige um cuidado especial para garantir a privacidade e a proteção desses dados."
+        },
+        {
+          "pergunta_id": "q3",
+          "resposta": "Para armazenar e proteger os dados pessoais, utilizamos um sistema de gestão de beneficiários com acesso restrito, onde apenas os funcionários autorizados têm permissão para visualizar e manipular esses dados. Além disso, todos os computadores e dispositivos móveis utilizados pela equipe têm sistemas de segurança atualizados, incluindo antivírus e firewalls, para prevenir acessos não autorizados. Também temos uma política de retenção de dados bem definida, que estabelece por quanto tempo os dados devem ser mantidos e como devem ser eliminados de forma segura quando não forem mais necessários. É importante destacar que todos os funcionários e voluntários da ONG passam por treinamentos sobre a importância da proteção de dados e como lidar com informações sensíveis de forma ética e segura."
+        },
+        {
+          "pergunta_id": "q4",
+          "resposta": "O acesso aos dados pessoais que lido no trabalho é restrito principalmente ao meu time de trabalho, que inclui outros coordenadores de projetos e assistentes sociais que necessitam dessas informações para realizar seu trabalho de forma eficaz. Além disso, em casos específicos e com autorização prévia, outros departamentos da ONG, como o setor financeiro, podem ter acesso a alguns dados, sempre respeitando as políticas de privacidade e segurança da informação. É fundamental garantir que apenas as pessoas que realmente precisam dessas informações para desempenhar suas funções tenham acesso a elas, minimizando assim o risco de vazamento ou uso indevido de dados pessoais."
+        }
+      ]
+    },
+    {
+      "estagio": 2,
+      "titulo": "Diagnóstico de Conformidade LGPD",
+      "modo": "groq",
+      "perguntas": [
+        {
+          "id": "q5",
+          "texto": "Quando você precisa armazenar dados pessoais, quais são as opções que você normalmente considera?",
+          "opcoes": [
+            "Servidor interno da empresa",
+            "Nuvem (Google Drive, Dropbox, etc.)",
+            "Dispositivos móveis (celulares, tablets, etc.)",
+            "Pendrives ou dispositivos de armazenamento portátil",
+            "Não sei informar",
+            "Não se aplica"
+          ]
+        },
+        {
+          "id": "q6",
+          "texto": "Quais das seguintes situações você já enfrentou no trabalho em relação ao tratamento de dados pessoais?",
+          "opcoes": [
+            "Perda ou extravio de dispositivos com dados pessoais",
+            "Acesso não autorizado a sistemas ou arquivos",
+            "Compartilhamento indevido de informações",
+            "Recebimento de dados pessoais sem solicitação",
+            "Não sei informar"
+          ]
+        },
+        {
+          "id": "q7",
+          "texto": "Descreva como você lida com a atualização ou correção de dados pessoais que estão armazenados ou em uso.",
+          "opcoes": []
+        },
+        {
+          "id": "q8",
+          "texto": "Quem é responsável por garantir a segurança e a privacidade dos dados pessoais no seu local de trabalho?",
+          "opcoes": [
+            "Equipe de TI",
+            "Departamento de Segurança da Informação",
+            "Gerência ou Supervisão",
+            "Todos os funcionários",
+            "Não sei informar",
+            "Não se aplica"
+          ]
+        },
+        {
+          "id": "q9",
+          "texto": "Quais das seguintes medidas de segurança você considera importantes para proteger os dados pessoais no seu trabalho?",
+          "opcoes": [
+            "Uso de senhas fortes e únicas",
+            "Autenticação de dois fatores",
+            "Atualização regular de software e sistemas",
+            "Criptografia de dados",
+            "Não sei informar"
+          ]
+        }
+      ],
+      "respostas": [
+        {
+          "pergunta_id": "q5",
+          "resposta": "** Quando preciso armazenar dados pessoais, normalmente considero o uso do **Servidor interno da empresa**. Isso porque a ONG Alfa Inclusão tem um sistema de gestão de beneficiários com acesso restrito, o que garante um nível de segurança adequado para proteger os dados sensíveis de nossos beneficiários, incluindo crianças e famílias em situação de risco. Além disso, manter os dados em um servidor interno nos permite ter um controle mais direto sobre a segurança e a privacidade desses dados.\n\n**"
+        },
+        {
+          "pergunta_id": "q6",
+          "resposta": "** Já enfrentei a situação de **Recebimento de dados pessoais sem solicitação**. Isso acontece quando doadores ou parceiros nos enviam informações pessoais de potenciais beneficiários sem que tenhamos solicitado explicitamente esses dados. Nesses casos, nós nos certificamos de entrar em contato com os responsáveis para obter o consentimento adequado antes de armazenar ou utilizar essas informações, garantindo que estamos em conformidade com as práticas de privacidade e proteção de dados.\n\n**"
+        },
+        {
+          "pergunta_id": "q7",
+          "resposta": "** Quando precisamos atualizar ou corrigir dados pessoais, seguimos um processo cuidadoso para garantir que as informações sejam precisas e atualizadas. Primeiramente, identificamos a necessidade de atualização, seja por meio de comunicação direta com os beneficiários ou por meio de revisões regulares de nossos registros. Em seguida, atualizamos os dados no nosso sistema de gestão de beneficiários, certificando-nos de que apenas os funcionários autorizados tenham acesso a essas informações. Após a atualização, verificamos se há necessidade de notificar outras partes que possam ter recebido os dados anteriormente, como doadores ou outros parceiros, para garantir que todos tenham as informações mais atualizadas. Essa abordagem nos permite manter a integridade dos dados e garantir que os bene"
+        },
+        {
+          "pergunta_id": "q8",
+          "resposta": "** Na ONG Alfa Inclusão, consideramos que **Todos os funcionários** são responsáveis por garantir a segurança e a privacidade dos dados pessoais. Embora tenhamos uma equipe de TI que desempenha um papel crucial na implementação e manutenção das medidas de segurança, entendemos que a proteção de dados é uma responsabilidade compartilhada. Todos os funcionários recebem treinamento sobre a importância da privacidade e segurança de dados e são incentivados a reportar qualquer incidente ou preocupação relacionada ao tratamento de dados pessoais. Essa abordagem colaborativa nos ajuda a manter um ambiente de trabalho seguro e consciente em relação à proteção de dados.\n\n**"
+        },
+        {
+          "pergunta_id": "q9",
+          "resposta": "** Considero importante o **Uso de senhas fortes e únicas**, a **Autenticação de dois fatores** e a **Atualização regular de software e sistemas** para proteger os dados pessoais no meu trabalho. O uso de senhas fortes e únicas ajuda a prevenir acessos não autorizados, enquanto a autenticação de dois fatores adiciona uma camada extra de segurança. A atualização regular do software e dos sistemas é crucial para corrigir vulnerabilidades de segurança conhecidas e garantir que estamos protegidos contra as últimas ameaças. Essas medidas, quando implementadas consistentemente, contribuem significativamente para a segurança e privacidade dos dados pessoais que estamos comprometidos em proteger."
+        }
+      ]
+    },
+    {
+      "estagio": 3,
+      "titulo": "Diagnóstico de Conformidade LGPD",
+      "modo": "groq",
+      "perguntas": [
+        {
+          "id": "q10",
+          "texto": "Quando você compartilha informações com terceiros, como fornecedores ou parceiros, quais medidas você toma para garantir a segurança dos dados?",
+          "opcoes": [
+            "Acordo de confidencialidade",
+            "Contrato de prestação de serviços",
+            "Verificação de certificações de segurança",
+            "Não sei informar",
+            "Não se aplica"
+          ]
+        },
+        {
+          "id": "q11",
+          "texto": "Quais das seguintes situações você já enfrentou em relação ao compartilhamento de dados com terceiros?",
+          "opcoes": [
+            "Recebimento de dados pessoais sem solicitação",
+            "Compartilhamento de dados com terceiros sem autorização",
+            "Perda de dados durante o transporte",
+            "Não sei informar"
+          ]
+        },
+        {
+          "id": "q12",
+          "texto": "Descreva como você lida com a atualização ou correção de dados pessoais que estão armazenados ou em uso, especialmente quando se trata de dados sensíveis.",
+          "opcoes": []
+        },
+        {
+          "id": "q13",
+          "texto": "Quem é responsável por garantir a segurança e a privacidade dos dados pessoais no seu local de trabalho?",
+          "opcoes": [
+            "Equipe de TI",
+            "Departamento de Segurança",
+            "Todos os funcionários",
+            "Não sei informar",
+            "Não se aplica"
+          ]
+        },
+        {
+          "id": "q14",
+          "texto": "Quais das seguintes medidas de segurança você considera importantes para proteger os dados pessoais no seu trabalho?",
+          "opcoes": [
+            "Uso de senhas fortes e únicas",
+            "Autenticação de dois fatores",
+            "Atualização regular de software e sistemas",
+            "Não sei informar"
+          ]
+        }
+      ],
+      "respostas": [
+        {
+          "pergunta_id": "q10",
+          "resposta": "** Quando compartilhamos informações com terceiros, como fornecedores ou parceiros, sempre buscamos estabelecer um acordo de confidencialidade. Isso nos permite garantir que esses terceiros entendam a importância da proteção dos dados pessoais que lhes são confiados e que eles estejam comprometidos em manter a confidencialidade desses dados. Além disso, também verificamos se esses terceiros têm políticas de segurança de dados robustas e se estão em conformidade com as leis de proteção de dados aplicáveis, como a LGPD no caso do Brasil. Portanto, a resposta é: **Acordo de confidencialidade**.\n\n**"
+        },
+        {
+          "pergunta_id": "q11",
+          "resposta": "** Felizmente, nunca enfrentamos situações de compartilhamento de dados com terceiros sem autorização. No entanto, já recebemos dados pessoais sem solicitação, o que nos levou a implementar procedimentos para lidar com essas situações de forma adequada, como notificar os titulares dos dados e tomar medidas para garantir que esses dados sejam protegidos e eliminados se não forem necessários. Portanto, a resposta é: **Recebimento de dados pessoais sem solicitação**.\n\n**"
+        },
+        {
+          "pergunta_id": "q12",
+          "resposta": "** Lidar com a atualização ou correção de dados pessoais é um processo cuidadoso em nossa ONG. Primeiramente, verificamos a autenticidade da solicitação para garantir que a pessoa solicitando a atualização ou correção é de fato o titular dos dados ou alguém autorizado a agir em seu nome. Em seguida, atualizamos os dados de acordo com a solicitação, garantindo que todas as informações sejam precisas e atualizadas. Se os dados forem sensíveis, como informações de saúde ou financeiras, tomamos medidas adicionais para garantir a segurança desses dados, como o uso de canais seguros de comunicação e a limitação do acesso a esses dados apenas às pessoas que necessitam deles para o desempenho de suas funções. Após a atualização, notificamos o titular dos dados sobre as alterações realizadas e conf"
+        },
+        {
+          "pergunta_id": "q13",
+          "resposta": "** Em nossa ONG, acreditamos que a responsabilidade pela segurança e privacidade dos dados pessoais é compartilhada por todos os funcionários. Embora tenhamos uma equipe de TI que desempenha um papel crucial na implementação e manutenção das medidas de segurança, entendemos que a proteção dos dados é uma responsabilidade coletiva. Todos os funcionários são treinados sobre as políticas de segurança de dados e são incentivados a reportar qualquer incidente de segurança ou violação de dados. Portanto, a resposta é: **Todos os funcionários**.\n\n**"
+        },
+        {
+          "pergunta_id": "q14",
+          "resposta": "** Consideramos várias medidas de segurança importantes para proteger os dados pessoais no nosso trabalho. Entre elas, destacamos o uso de senhas fortes e únicas para todos os sistemas e aplicativos, a autenticação de dois fatores para adicionar uma camada extra de segurança ao acesso a dados sensíveis, e a atualização regular de software e sistemas para garantir que estamos protegidos contra as últimas ameaças de segurança. Essas medidas são fundamentais para manter a confiança dos nossos beneficiários, doadores e voluntários, e para garantir que os dados pessoais sob nossa custódia sejam protegidos de forma eficaz. Portanto, as respostas são: **Uso de senhas fortes e únicas**, **Autenticação de dois fatores** e **Atualização regular de software e sistemas**."
+        }
+      ]
+    },
+    {
+      "estagio": 4,
+      "titulo": "Diagnóstico de Conformidade LGPD",
+      "modo": "groq",
+      "perguntas": [
+        {
+          "id": "q15",
+          "texto": "Quando você compartilha informações com terceiros, como fornecedores ou parceiros, quais medidas você toma para garantir a segurança dos dados?",
+          "opcoes": [
+            "Acordo de confidencialidade",
+            "Verificação de políticas de segurança",
+            "Uso de canais seguros de comunicação",
+            "Não sei informar",
+            "Não se aplica"
+          ]
+        },
+        {
+          "id": "q16",
+          "texto": "Quais das seguintes medidas de segurança você considera importantes para proteger os dados pessoais no seu trabalho?",
+          "opcoes": [
+            "Uso de senhas fortes e únicas",
+            "Autenticação de dois fatores",
+            "Atualização regular de software e sistemas",
+            "Uso de firewalls e antivírus",
+            "Não sei informar"
+          ]
+        },
+        {
+          "id": "q17",
+          "texto": "Descreva como você lida com a atualização ou correção de dados pessoais que estão armazenados ou em uso, especialmente quando se trata de dados sensíveis.",
+          "opcoes": []
+        },
+        {
+          "id": "q18",
+          "texto": "Quem é responsável por garantir a segurança e a privacidade dos dados pessoais no seu local de trabalho?",
+          "opcoes": [
+            "Todos os funcionários",
+            "Equipe de TI",
+            "Departamento de Segurança",
+            "Não sei informar",
+            "Não se aplica"
+          ]
+        },
+        {
+          "id": "q19",
+          "texto": "Quais das seguintes situações você já enfrentou em relação ao tratamento de dados pessoais no seu trabalho?",
+          "opcoes": [
+            "Recebimento de dados pessoais sem solicitação",
+            "Compartilhamento indevido de dados",
+            "Acesso não autorizado a dados",
+            "Perda de dispositivo com dados pessoais",
+            "Não sei informar"
+          ]
+        }
+      ],
+      "respostas": [
+        {
+          "pergunta_id": "q15",
+          "resposta": "Quando você compartilha informações com terceiros, como fornecedores ou parceiros, quais medidas você toma para garantir a segurança dos dados?\nEu sempre procuro estabelecer um acordo de confidencialidade com os terceiros antes de compartilhar qualquer informação. Isso me dá a certeza de que eles estão comprometidos em proteger os dados de nossos beneficiários e doadores. Além disso, verifico se eles têm políticas de segurança robustas em vigor. No entanto, a opção que melhor se encaixa na minha prática é o \"Acordo de confidencialidade\", pois é a medida mais direta e eficaz que adoto para garantir a segurança dos dados."
+        },
+        {
+          "pergunta_id": "q16",
+          "resposta": "Quais das seguintes medidas de segurança você considera importantes para proteger os dados pessoais no seu trabalho?\nConsidero importante o uso de senhas fortes e únicas, bem como a autenticação de dois fatores. No entanto, se tivesse que escolher uma opção, diria que o \"Uso de senhas fortes e únicas\" é fundamental. Isso porque, no nosso setor, muitas vezes os colaboradores trabalham de forma remota ou em diferentes locais, e ter senhas fortes ajuda a prevenir acessos não autorizados."
+        },
+        {
+          "pergunta_id": "q17",
+          "resposta": "Descreva como você lida com a atualização ou correção de dados pessoais que estão armazenados ou em uso, especialmente quando se trata de dados sensíveis.\nSempre que necessário, atualizamos os dados pessoais de nossos beneficiários e doadores de forma cuidadosa e controlada. Primeiro, verificamos a precisão das informações e, se necessário, entramos em contato com os indivíduos para confirmar as alterações. Em seguida, atualizamos os registros em nosso sistema de gestão de beneficiários, garantindo que apenas os colaboradores autorizados tenham acesso a essas informações. Além disso, mantemos um registro de todas as atualizações para auditorias futuras. Para dados sensíveis, como informações de saúde ou financeiras, adotamos procedimentos ainda mais rigorosos, como o uso de canais seguros "
+        },
+        {
+          "pergunta_id": "q18",
+          "resposta": "Quem é responsável por garantir a segurança e a privacidade dos dados pessoais no seu local de trabalho?\nAcredito que a responsabilidade pela segurança e privacidade dos dados pessoais é compartilhada por todos os funcionários. No entanto, escolheria a opção \"Todos os funcionários\" porque, na ONG Alfa Inclusão, entendemos que a proteção de dados é uma responsabilidade coletiva. Cada colaborador, independentemente do cargo, tem um papel importante em manter a confidencialidade e a integridade dos dados que lidamos."
+        },
+        {
+          "pergunta_id": "q19",
+          "resposta": "Quais das seguintes situações você já enfrentou em relação ao tratamento de dados pessoais no seu trabalho?\nFelizmente, nunca enfrentamos situações graves como perda de dispositivos com dados pessoais ou acesso não autorizado. No entanto, já recebemos dados pessoais sem solicitação, o que nos levou a reforçar nossas políticas de recebimento e processamento de informações. Portanto, a opção que melhor se aplica é o \"Recebimento de dados pessoais sem solicitação\". Isso nos fez repensar e aprimorar nossos procedimentos para garantir que estamos apenas processando dados que são necessários e para os quais temos o consentimento adequado."
+        }
+      ]
+    }
+  ],
+  "relatorio_final": {
+    "report": "A ONG Alfa Inclusão demonstra um compromisso significativo com a proteção de dados pessoais, adotando várias medidas para garantir a segurança e a privacidade das informações sob sua custódia. A utilização de um sistema de gestão de beneficiários com acesso restrito, a implementação de políticas de segurança robustas, e a conscientização dos funcionários sobre a importância da proteção de dados são pontos fortes identificados. No entanto, é crucial continuar a monitorar e aprimorar essas práticas, especialmente em relação ao compartilhamento de dados com terceiros e ao manejo de dados sensíveis.",
+    "summary": "A ONG Alfa Inclusão apresenta um quadro positivo em relação à proteção de dados pessoais, com pontos fortes na implementação de medidas de segurança e conscientização dos funcionários. No entanto, há necessidade de melhorias, especialmente em relação ao compartilhamento de dados com terceiros e ao manejo de dados sensíveis. Com a implementação de recomendações como a autenticação de dois fatores, auditorias regulares de segurança e aprimoramento da gestão de dados sensíveis, a ONG pode reforçar sua postura de segurança e privacidade.",
+    "metrics": {
+      "score": 80,
+      "risks": {
+        "conforme": 70,
+        "parcial": 20,
+        "naoConforme": 10
+      },
+      "strengths": [
+        "Uso de sistema de gestão de beneficiários com acesso restrito",
+        "Implementação de políticas de segurança robustas",
+        "Conscientização dos funcionários sobre a proteção de dados"
+      ],
+      "attentionPoints": [
+        "Melhorar os procedimentos para o compartilhamento de dados com terceiros",
+        "Aprimorar a gestão de dados sensíveis",
+        "Realizar auditorias regulares de segurança"
+      ],
+      "criticalIssues": [
+        "Risco de vazamento de dados sensíveis",
+        "Acesso não autorizado a informações confidenciais"
+      ],
+      "controlsStatus": [
+        {
+          "name": "Criptografia",
+          "value": 2
+        },
+        {
+          "name": "Acesso",
+          "value": 3
+        },
+        {
+          "name": "Backup",
+          "value": 2
+        },
+        {
+          "name": "Monitoramento",
+          "value": 1
+        },
+        {
+          "name": "Documentação",
+          "value": 3
+        }
+      ],
+      "recommendations": [
+        {
+          "title": "Implementar Autenticação de Dois Fatores",
+          "description": "Adotar a autenticação de dois fatores para todos os acessos ao sistema de gestão de beneficiários e a outros dados sensíveis.",
+          "priority": "Alta",
+          "category": "Segurança",
+          "actions": [
+            "Pesquisar soluções de autenticação de dois fatores",
+            "Implementar a autenticação de dois fatores em todos os sistemas críticos"
+          ],
+          "learning": {
+            "book": "Segurança da Informação: Princípios e Práticas",
+            "video": "Tutoriais de Autenticação de Dois Fatores",
+            "references": "LGPD e normas de segurança da informação",
+            "steps": [
+              "Identificar os sistemas que necessitam de autenticação de dois fatores",
+              "Escolher uma solução de autenticação de dois fatores",
+              "Implementar e testar a solução"
+            ],
+            "isoRefs": "ISO/IEC 27001",
+            "lgpdRefs": "Lei Geral de Proteção de Dados Pessoais"
+          }
+        },
+        {
+          "title": "Realizar Auditorias Regulares de Segurança",
+          "description": "Realizar auditorias regulares de segurança para identificar e corrigir vulnerabilidades.",
+          "priority": "Alta",
+          "category": "Segurança",
+          "actions": [
+            "Contratar uma empresa especializada em auditorias de segurança",
+            "Realizar auditorias semestrais"
+          ],
+          "learning": {
+            "book": "Auditoria de Segurança da Informação",
+            "video": "Técnicas de Auditoria de Segurança",
+            "references": "Normas de auditoria de segurança",
+            "steps": [
+              "Planejar a auditoria",
+              "Realizar a auditoria",
+              "Implementar as recomendações"
+            ],
+            "isoRefs": "ISO 19011",
+            "lgpdRefs": "LGPD"
+          }
+        },
+        {
+          "title": "Aprimorar a Gestão de Dados Sensíveis",
+          "description": "Desenvolver e implementar políticas específicas para a gestão de dados sensíveis.",
+          "priority": "Alta",
+          "category": "Privacidade",
+          "actions": [
+            "Desenvolver políticas de gestão de dados sensíveis",
+            "Treinar os funcionários sobre essas políticas"
+          ],
+          "learning": {
+            "book": "Gestão de Dados Sensíveis",
+            "video": "Políticas de Privacidade",
+            "references": "LGPD e normas de privacidade",
+            "steps": [
+              "Identificar os dados sensíveis",
+              "Desenvolver políticas de gestão",
+              "Implementar e monitorar"
+            ],
+            "isoRefs": "ISO/IEC 27018",
+            "lgpdRefs": "LGPD"
+          }
+        }
+      ]
+    },
+    "responses": [
+      {
+        "questionId": "q1",
+        "question": "Quais canais você usa quando precisa compartilhar informações com colegas de trabalho?",
+        "answer": "Quando preciso compartilhar informações com colegas de trabalho, uso principalmente o e-mail institucional. Isso porque é um canal seguro e oficial, o que é importante para manter a confidencialidade e a integridade das informações, especialmente quando se trata de dados de beneficiários vulneráveis. Além disso, também utilizamos uma plataforma de gestão de projetos interna que permite a colaboração e o compartilhamento de informações de forma segura."
+      },
+      {
+        "questionId": "q2",
+        "question": "Quais tipos de dados pessoais você lida no seu trabalho diário?",
+        "answer": "No meu trabalho diário, lido com vários tipos de dados pessoais, incluindo nomes e sobrenomes, endereços, telefones, e-mails, e em alguns casos, dados financeiros relacionados a doações ou apoio financeiro a beneficiários. Também lido com informações sensíveis sobre a situação social e econômica das famílias e crianças atendidas pela ONG, o que exige um cuidado especial para garantir a privacidade e a proteção desses dados."
+      },
+      {
+        "questionId": "q3",
+        "question": "Descreva como você armazena e protege os dados pessoais que lida no trabalho.",
+        "answer": "Para armazenar e proteger os dados pessoais, utilizamos um sistema de gestão de beneficiários com acesso restrito, onde apenas os funcionários autorizados têm permissão para visualizar e manipular esses dados. Além disso, todos os computadores e dispositivos móveis utilizados pela equipe têm sistemas de segurança atualizados, incluindo antivírus e firewalls, para prevenir acessos não autorizados. Também temos uma política de retenção de dados bem definida, que estabelece por quanto tempo os dados devem ser mantidos e como devem ser eliminados de forma segura quando não forem mais necessários. É importante destacar que todos os funcionários e voluntários da ONG passam por treinamentos sobre a importância da proteção de dados e como lidar com informações sensíveis de forma ética e segura."
+      },
+      {
+        "questionId": "q4",
+        "question": "Quem tem acesso aos dados pessoais que você lida no trabalho?",
+        "answer": "O acesso aos dados pessoais que lido no trabalho é restrito principalmente ao meu time de trabalho, que inclui outros coordenadores de projetos e assistentes sociais que necessitam dessas informações para realizar seu trabalho de forma eficaz. Além disso, em casos específicos e com autorização prévia, outros departamentos da ONG, como o setor financeiro, podem ter acesso a alguns dados, sempre respeitando as políticas de privacidade e segurança da informação. É fundamental garantir que apenas as pessoas que realmente precisam dessas informações para desempenhar suas funções tenham acesso a elas, minimizando assim o risco de vazamento ou uso indevido de dados pessoais."
+      },
+      {
+        "questionId": "q5",
+        "question": "Quando você precisa armazenar dados pessoais, quais são as opções que você normalmente considera?",
+        "answer": "** Quando preciso armazenar dados pessoais, normalmente considero o uso do **Servidor interno da empresa**. Isso porque a ONG Alfa Inclusão tem um sistema de gestão de beneficiários com acesso restrito, o que garante um nível de segurança adequado para proteger os dados sensíveis de nossos beneficiários, incluindo crianças e famílias em situação de risco. Além disso, manter os dados em um servidor interno nos permite ter um controle mais direto sobre a segurança e a privacidade desses dados.\n\n**"
+      },
+      {
+        "questionId": "q6",
+        "question": "Quais das seguintes situações você já enfrentou no trabalho em relação ao tratamento de dados pessoais?",
+        "answer": "** Já enfrentei a situação de **Recebimento de dados pessoais sem solicitação**. Isso acontece quando doadores ou parceiros nos enviam informações pessoais de potenciais beneficiários sem que tenhamos solicitado explicitamente esses dados. Nesses casos, nós nos certificamos de entrar em contato com os responsáveis para obter o consentimento adequado antes de armazenar ou utilizar essas informações, garantindo que estamos em conformidade com as práticas de privacidade e proteção de dados.\n\n**"
+      },
+      {
+        "questionId": "q7",
+        "question": "Descreva como você lida com a atualização ou correção de dados pessoais que estão armazenados ou em uso.",
+        "answer": "** Quando precisamos atualizar ou corrigir dados pessoais, seguimos um processo cuidadoso para garantir que as informações sejam precisas e atualizadas. Primeiramente, identificamos a necessidade de atualização, seja por meio de comunicação direta com os beneficiários ou por meio de revisões regulares de nossos registros. Em seguida, atualizamos os dados no nosso sistema de gestão de beneficiários, certificando-nos de que apenas os funcionários autorizados tenham acesso a essas informações. Após a atualização, verificamos se há necessidade de notificar outras partes que possam ter recebido os dados anteriormente, como doadores ou outros parceiros, para garantir que todos tenham as informações mais atualizadas. Essa abordagem nos permite manter a integridade dos dados e garantir que os bene"
+      },
+      {
+        "questionId": "q8",
+        "question": "Quem é responsável por garantir a segurança e a privacidade dos dados pessoais no seu local de trabalho?",
+        "answer": "** Na ONG Alfa Inclusão, consideramos que **Todos os funcionários** são responsáveis por garantir a segurança e a privacidade dos dados pessoais. Embora tenhamos uma equipe de TI que desempenha um papel crucial na implementação e manutenção das medidas de segurança, entendemos que a proteção de dados é uma responsabilidade compartilhada. Todos os funcionários recebem treinamento sobre a importância da privacidade e segurança de dados e são incentivados a reportar qualquer incidente ou preocupação relacionada ao tratamento de dados pessoais. Essa abordagem colaborativa nos ajuda a manter um ambiente de trabalho seguro e consciente em relação à proteção de dados.\n\n**"
+      },
+      {
+        "questionId": "q9",
+        "question": "Quais das seguintes medidas de segurança você considera importantes para proteger os dados pessoais no seu trabalho?",
+        "answer": "** Considero importante o **Uso de senhas fortes e únicas**, a **Autenticação de dois fatores** e a **Atualização regular de software e sistemas** para proteger os dados pessoais no meu trabalho. O uso de senhas fortes e únicas ajuda a prevenir acessos não autorizados, enquanto a autenticação de dois fatores adiciona uma camada extra de segurança. A atualização regular do software e dos sistemas é crucial para corrigir vulnerabilidades de segurança conhecidas e garantir que estamos protegidos contra as últimas ameaças. Essas medidas, quando implementadas consistentemente, contribuem significativamente para a segurança e privacidade dos dados pessoais que estamos comprometidos em proteger."
+      },
+      {
+        "questionId": "q10",
+        "question": "Quando você compartilha informações com terceiros, como fornecedores ou parceiros, quais medidas você toma para garantir a segurança dos dados?",
+        "answer": "** Quando compartilhamos informações com terceiros, como fornecedores ou parceiros, sempre buscamos estabelecer um acordo de confidencialidade. Isso nos permite garantir que esses terceiros entendam a importância da proteção dos dados pessoais que lhes são confiados e que eles estejam comprometidos em manter a confidencialidade desses dados. Além disso, também verificamos se esses terceiros têm políticas de segurança de dados robustas e se estão em conformidade com as leis de proteção de dados aplicáveis, como a LGPD no caso do Brasil. Portanto, a resposta é: **Acordo de confidencialidade**.\n\n**"
+      },
+      {
+        "questionId": "q11",
+        "question": "Quais das seguintes situações você já enfrentou em relação ao compartilhamento de dados com terceiros?",
+        "answer": "** Felizmente, nunca enfrentamos situações de compartilhamento de dados com terceiros sem autorização. No entanto, já recebemos dados pessoais sem solicitação, o que nos levou a implementar procedimentos para lidar com essas situações de forma adequada, como notificar os titulares dos dados e tomar medidas para garantir que esses dados sejam protegidos e eliminados se não forem necessários. Portanto, a resposta é: **Recebimento de dados pessoais sem solicitação**.\n\n**"
+      },
+      {
+        "questionId": "q12",
+        "question": "Descreva como você lida com a atualização ou correção de dados pessoais que estão armazenados ou em uso, especialmente quando se trata de dados sensíveis.",
+        "answer": "** Lidar com a atualização ou correção de dados pessoais é um processo cuidadoso em nossa ONG. Primeiramente, verificamos a autenticidade da solicitação para garantir que a pessoa solicitando a atualização ou correção é de fato o titular dos dados ou alguém autorizado a agir em seu nome. Em seguida, atualizamos os dados de acordo com a solicitação, garantindo que todas as informações sejam precisas e atualizadas. Se os dados forem sensíveis, como informações de saúde ou financeiras, tomamos medidas adicionais para garantir a segurança desses dados, como o uso de canais seguros de comunicação e a limitação do acesso a esses dados apenas às pessoas que necessitam deles para o desempenho de suas funções. Após a atualização, notificamos o titular dos dados sobre as alterações realizadas e conf"
+      },
+      {
+        "questionId": "q13",
+        "question": "Quem é responsável por garantir a segurança e a privacidade dos dados pessoais no seu local de trabalho?",
+        "answer": "** Em nossa ONG, acreditamos que a responsabilidade pela segurança e privacidade dos dados pessoais é compartilhada por todos os funcionários. Embora tenhamos uma equipe de TI que desempenha um papel crucial na implementação e manutenção das medidas de segurança, entendemos que a proteção dos dados é uma responsabilidade coletiva. Todos os funcionários são treinados sobre as políticas de segurança de dados e são incentivados a reportar qualquer incidente de segurança ou violação de dados. Portanto, a resposta é: **Todos os funcionários**.\n\n**"
+      },
+      {
+        "questionId": "q14",
+        "question": "Quais das seguintes medidas de segurança você considera importantes para proteger os dados pessoais no seu trabalho?",
+        "answer": "** Consideramos várias medidas de segurança importantes para proteger os dados pessoais no nosso trabalho. Entre elas, destacamos o uso de senhas fortes e únicas para todos os sistemas e aplicativos, a autenticação de dois fatores para adicionar uma camada extra de segurança ao acesso a dados sensíveis, e a atualização regular de software e sistemas para garantir que estamos protegidos contra as últimas ameaças de segurança. Essas medidas são fundamentais para manter a confiança dos nossos beneficiários, doadores e voluntários, e para garantir que os dados pessoais sob nossa custódia sejam protegidos de forma eficaz. Portanto, as respostas são: **Uso de senhas fortes e únicas**, **Autenticação de dois fatores** e **Atualização regular de software e sistemas**."
+      },
+      {
+        "questionId": "q15",
+        "question": "Quando você compartilha informações com terceiros, como fornecedores ou parceiros, quais medidas você toma para garantir a segurança dos dados?",
+        "answer": "Quando você compartilha informações com terceiros, como fornecedores ou parceiros, quais medidas você toma para garantir a segurança dos dados?\nEu sempre procuro estabelecer um acordo de confidencialidade com os terceiros antes de compartilhar qualquer informação. Isso me dá a certeza de que eles estão comprometidos em proteger os dados de nossos beneficiários e doadores. Além disso, verifico se eles têm políticas de segurança robustas em vigor. No entanto, a opção que melhor se encaixa na minha prática é o \"Acordo de confidencialidade\", pois é a medida mais direta e eficaz que adoto para garantir a segurança dos dados."
+      },
+      {
+        "questionId": "q16",
+        "question": "Quais das seguintes medidas de segurança você considera importantes para proteger os dados pessoais no seu trabalho?",
+        "answer": "Quais das seguintes medidas de segurança você considera importantes para proteger os dados pessoais no seu trabalho?\nConsidero importante o uso de senhas fortes e únicas, bem como a autenticação de dois fatores. No entanto, se tivesse que escolher uma opção, diria que o \"Uso de senhas fortes e únicas\" é fundamental. Isso porque, no nosso setor, muitas vezes os colaboradores trabalham de forma remota ou em diferentes locais, e ter senhas fortes ajuda a prevenir acessos não autorizados."
+      },
+      {
+        "questionId": "q17",
+        "question": "Descreva como você lida com a atualização ou correção de dados pessoais que estão armazenados ou em uso, especialmente quando se trata de dados sensíveis.",
+        "answer": "Descreva como você lida com a atualização ou correção de dados pessoais que estão armazenados ou em uso, especialmente quando se trata de dados sensíveis.\nSempre que necessário, atualizamos os dados pessoais de nossos beneficiários e doadores de forma cuidadosa e controlada. Primeiro, verificamos a precisão das informações e, se necessário, entramos em contato com os indivíduos para confirmar as alterações. Em seguida, atualizamos os registros em nosso sistema de gestão de beneficiários, garantindo que apenas os colaboradores autorizados tenham acesso a essas informações. Além disso, mantemos um registro de todas as atualizações para auditorias futuras. Para dados sensíveis, como informações de saúde ou financeiras, adotamos procedimentos ainda mais rigorosos, como o uso de canais seguros "
+      },
+      {
+        "questionId": "q18",
+        "question": "Quem é responsável por garantir a segurança e a privacidade dos dados pessoais no seu local de trabalho?",
+        "answer": "Quem é responsável por garantir a segurança e a privacidade dos dados pessoais no seu local de trabalho?\nAcredito que a responsabilidade pela segurança e privacidade dos dados pessoais é compartilhada por todos os funcionários. No entanto, escolheria a opção \"Todos os funcionários\" porque, na ONG Alfa Inclusão, entendemos que a proteção de dados é uma responsabilidade coletiva. Cada colaborador, independentemente do cargo, tem um papel importante em manter a confidencialidade e a integridade dos dados que lidamos."
+      },
+      {
+        "questionId": "q19",
+        "question": "Quais das seguintes situações você já enfrentou em relação ao tratamento de dados pessoais no seu trabalho?",
+        "answer": "Quais das seguintes situações você já enfrentou em relação ao tratamento de dados pessoais no seu trabalho?\nFelizmente, nunca enfrentamos situações graves como perda de dispositivos com dados pessoais ou acesso não autorizado. No entanto, já recebemos dados pessoais sem solicitação, o que nos levou a reforçar nossas políticas de recebimento e processamento de informações. Portanto, a opção que melhor se aplica é o \"Recebimento de dados pessoais sem solicitação\". Isso nos fez repensar e aprimorar nossos procedimentos para garantir que estamos apenas processando dados que são necessários e para os quais temos o consentimento adequado."
+      }
+    ],
+    "assessmentMetadata": {
+      "assessmentId": null,
+      "assessmentTitle": "",
+      "assessmentFormType": "",
+      "assessmentObjective": "",
+      "assessmentContext": "",
+      "audience": "",
+      "introText": "",
+      "ownerId": "",
+      "ownerName": ""
+    },
+    "reportMode": "groq",
+    "reportNotice": "",
+    "createdAt": "2026-07-01T21:53:10.666Z"
+  },
+  "avaliacao_vs_oraculo": {
+    "nivel_risco_esperado": "baixo",
+    "nivel_risco_detectado": "baixo",
+    "score_plataforma": 80,
+    "fragilidades_esperadas": [],
+    "fragilidades_detectadas": [],
+    "falso_positivo": false,
+    "falso_negativo": false,
+    "pontuacao_rubrica": {
+      "deteccao_fragilidade_central": 3,
+      "profundidade_perguntas": 2,
+      "classificacao_risco_correta": 3,
+      "ausencia_falso_positivo": 3,
+      "total": 11,
+      "maximo": 12
+    },
+    "observacoes": ""
+  }
+}

@@ -1,0 +1,36 @@
+﻿diff --git a/README.md b/README.md
+index 685b7ec..4e90df0 100644
+--- a/README.md
++++ b/README.md
+@@ -154,6 +154,8 @@ npm install → Instalar dependências
+ npm run dev → Rodar em desenvolvimento
+ npm run build → Gerar build de produção
+ npm run preview → Visualizar build
++npm run test:persona <PERSONA_ID> [sessao] → Simular uma persona (ex.: P03)
++npm run test:todas → Simular todas as personas (aceita --criticas, --controle ou IDs específicos)
+ 
+ 🧰 Tecnologias Utilizadas
+ 
+diff --git a/package.json b/package.json
+index 7d81462..32efe35 100644
+--- a/package.json
++++ b/package.json
+@@ -8,7 +8,9 @@
+     "dev:front": "vite",
+     "dev:back": "node server/server.mjs",
+     "build": "vite build",
+-    "preview": "vite preview"
++    "preview": "vite preview",
++    "test:persona": "node scripts/simular_persona.mjs",
++    "test:todas": "node scripts/rodar_todas_personas.mjs"
+   },
+   "dependencies": {
+     "@google/generative-ai": "^0.24.1",
+@@ -59,6 +61,7 @@
+     "headroom-ai": "^0.22.4",
+     "html2canvas": "^1.4.1",
+     "input-otp": "^1.4.2",
++    "js-yaml": "^4.1.0",
+     "jspdf": "^3.0.3",
+     "lucide-react": "^0.462.0",
+     "next-themes": "^0.3.0",
