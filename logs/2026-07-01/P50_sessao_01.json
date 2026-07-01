@@ -1,0 +1,482 @@
+{
+  "meta": {
+    "persona_id": "P50",
+    "persona_arquivo": "P50_Governanca_DPO_Maduro.md",
+    "data_execucao": "2026-07-01",
+    "sessao_numero": 1,
+    "modelo_llm": "llama-3.3-70b-versatile",
+    "temperatura": 0.2,
+    "executor": "simular_persona.mjs (automatizado)"
+  },
+  "estagios": [
+    {
+      "estagio": 1,
+      "titulo": "Diagnóstico de Conformidade LGPD",
+      "modo": "groq",
+      "perguntas": [
+        {
+          "id": "q1",
+          "texto": "Quais canais você usa quando precisa compartilhar informações com colegas de trabalho?",
+          "opcoes": [
+            "E-mail corporativo",
+            "WhatsApp",
+            "Plataformas de colaboração online",
+            "Reuniões presenciais",
+            "Não sei informar",
+            "Não se aplica"
+          ]
+        },
+        {
+          "id": "q2",
+          "texto": "Quais dos seguintes tipos de dados você lida regularmente no trabalho?",
+          "opcoes": [
+            "Dados pessoais de clientes",
+            "Dados financeiros",
+            "Dados de saúde",
+            "Dados de contato",
+            "Não sei informar"
+          ]
+        },
+        {
+          "id": "q3",
+          "texto": "Descreva como você armazena e protege os dados pessoais que lida no trabalho.",
+          "opcoes": []
+        },
+        {
+          "id": "q4",
+          "texto": "Quem tem acesso aos dados pessoais que você lida no trabalho?",
+          "opcoes": [
+            "Apenas eu",
+            "Meu supervisor",
+            "Colaboradores da equipe",
+            "Terceiros (fornecedores, parceiros)",
+            "Não sei informar",
+            "Não se aplica"
+          ]
+        }
+      ],
+      "respostas": [
+        {
+          "pergunta_id": "q1",
+          "resposta": "Quando preciso compartilhar informações com colegas de trabalho, utilizo principalmente o **E-mail corporativo**. Isso se deve à necessidade de manter um registro formal das comunicações, especialmente quando se trata de assuntos relacionados à privacidade e proteção de dados. Além disso, também utilizo **Plataformas de colaboração online** para compartilhar documentos e informações de forma segura, sempre dentro dos parâmetros de segurança e conformidade estabelecidos pela nossa política de privacidade."
+        },
+        {
+          "pergunta_id": "q2",
+          "resposta": "No meu trabalho, lido regularmente com **Dados pessoais de clientes**. Isso inclui, mas não se limita a, informações de contato, dados demográficos e outras informações pessoais que são coletadas e processadas pela nossa organização. Como DPO, é fundamental que eu tenha conhecimento detalhado sobre o tipo de dados que estamos tratando para garantir que estejam em conformidade com a LGPD e outras leis de proteção de dados aplicáveis."
+        },
+        {
+          "pergunta_id": "q3",
+          "resposta": "A armazenagem e proteção dos dados pessoais que lido no trabalho são feitas por meio de uma combinação de medidas técnicas, organizacionais e legais. Utilizamos uma **plataforma dedicada de gestão de privacidade** para monitorar e controlar o fluxo de dados pessoais dentro da nossa organização. Além disso, implementamos **políticas de acesso** rigorosas, garantindo que apenas os colaboradores que necessitam acessar esses dados para realizar suas funções tenham permissão para fazê-lo. Também realizamos **treinamentos regulares** para garantir que todos os colaboradores estejam cientes de suas responsabilidades em relação à proteção de dados. A **criptografia** é utilizada para proteger os dados tanto em repouso quanto em trânsito, e temos **procedimentos de incidentes** bem estabelecidos pa"
+        },
+        {
+          "pergunta_id": "q4",
+          "resposta": "O acesso aos dados pessoais que lido no trabalho é restrito e controlado. Além de **eu mesmo**, que como DPO tenho a responsabilidade de supervisionar e garantir a conformidade, o acesso é limitado a **colaboradores da equipe** que necessitam desses dados para realizar suas funções específicas. Em alguns casos, **terceiros (fornecedores, parceiros)** também podem ter acesso a esses dados, mas isso só ocorre após a assinatura de um **Acordo de Proteção de Dados (DPA)** que os obriga a tratar os dados de acordo com os padrões de segurança e privacidade estabelecidos pela LGPD e pelas políticas da nossa organização."
+        }
+      ]
+    },
+    {
+      "estagio": 2,
+      "titulo": "Diagnóstico de Conformidade LGPD",
+      "modo": "groq",
+      "perguntas": [
+        {
+          "id": "q5",
+          "texto": "Quando você compartilha informações com terceiros, como fornecedores ou parceiros, você verifica se eles têm um acordo de proteção de dados?",
+          "opcoes": [
+            "Sim, sempre",
+            "Não, nunca",
+            "Às vezes",
+            "Não sei informar",
+            "Não se aplica"
+          ]
+        },
+        {
+          "id": "q6",
+          "texto": "Quais das seguintes medidas você toma para proteger os dados pessoais que lida no trabalho?",
+          "opcoes": [
+            "Criptografia",
+            "Controle de acesso",
+            "Armazenamento seguro",
+            "Não sei informar"
+          ]
+        },
+        {
+          "id": "q7",
+          "texto": "Descreva como você lida com a retenção de dados pessoais no trabalho. Quais são os critérios para decidir o que deve ser guardado e por quanto tempo?",
+          "opcoes": []
+        },
+        {
+          "id": "q8",
+          "texto": "Quem é responsável por garantir a conformidade com a LGPD na sua organização?",
+          "opcoes": [
+            "Eu mesmo",
+            "Um colega de trabalho",
+            "Um departamento específico",
+            "Não sei informar",
+            "Não se aplica"
+          ]
+        },
+        {
+          "id": "q9",
+          "texto": "Quais das seguintes situações você considera um risco para a proteção de dados pessoais no seu trabalho?",
+          "opcoes": [
+            "Compartilhamento de dados por e-mail",
+            "Uso de dispositivos pessoais para trabalho",
+            "Acesso não autorizado a sistemas",
+            "Não sei informar"
+          ]
+        }
+      ],
+      "respostas": [
+        {
+          "pergunta_id": "q5",
+          "resposta": "Quando você compartilha informações com terceiros, como fornecedores ou parceiros, você verifica se eles têm um acordo de proteção de dados?\n\nSim, sempre. Como DPO sênior da Alfa S.A., é fundamental garantir que todos os nossos fornecedores e parceiros tenham acordos de proteção de dados (DPA) robustos e atualizados. Isso é uma prática padrão para nós, visando proteger os dados pessoais que compartilhamos com terceiros. Nossa plataforma de gestão de privacidade nos ajuda a monitorar e gerenciar esses acordos de forma eficiente.\n\n##"
+        },
+        {
+          "pergunta_id": "q6",
+          "resposta": "Quais das seguintes medidas você toma para proteger os dados pessoais que lida no trabalho?\n\nCriptografia, Controle de acesso e Armazenamento seguro. Implementamos uma combinação dessas medidas para garantir a proteção dos dados pessoais. A criptografia é usada para proteger os dados em trânsito e em repouso, o controle de acesso é rigorosamente implementado para garantir que apenas pessoas autorizadas possam acessar os dados, e o armazenamento seguro é utilizado para proteger os dados contra acessos não autorizados e perda de dados.\n\n##"
+        },
+        {
+          "pergunta_id": "q7",
+          "resposta": "Descreva como você lida com a retenção de dados pessoais no trabalho. Quais são os critérios para decidir o que deve ser guardado e por quanto tempo?\n\nNossa política de retenção de dados é documentada e aplicada rigorosamente. Os critérios para decidir o que deve ser guardado e por quanto tempo são baseados em requisitos legais, regulamentares e operacionais. Avaliamos a necessidade de retenção de dados com base em leis aplicáveis, como a LGPD, e também consideramos a importância dos dados para nossas operações e relações com os titulares. Temos prazos definidos para a retenção de diferentes tipos de dados, e após esses prazos, os dados são devidamente eliminados ou anonimizados, conforme aplicável. Além disso, realizamos revisões periódicas de nossa política de retenção para garantir que "
+        },
+        {
+          "pergunta_id": "q8",
+          "resposta": "Quem é responsável por garantir a conformidade com a LGPD na sua organização?\n\nEu mesmo. Como DPO sênior da Alfa S.A., sou o responsável principal por garantir a conformidade com a LGPD em nossa organização. Trabalho em estreita colaboração com outros departamentos para garantir que todas as áreas da empresa estejam cientes de suas responsabilidades em relação à proteção de dados e estejam implementando as medidas necessárias para cumprir com a lei.\n\n##"
+        },
+        {
+          "pergunta_id": "q9",
+          "resposta": "Quais das seguintes situações você considera um risco para a proteção de dados pessoais no seu trabalho?\n\nCompartilhamento de dados por e-mail, Uso de dispositivos pessoais para trabalho e Acesso não autorizado a sistemas. Todas essas situações representam riscos significativos para a proteção de dados pessoais. O compartilhamento de dados por e-mail pode expor os dados a interceptação ou acesso não autorizado, o uso de dispositivos pessoais para trabalho pode aumentar o risco de perda ou roubo de dispositivos contendo dados sensíveis, e o acesso não autorizado a sistemas pode permitir que indivíduos mal-intencionados acessem ou exfiltem dados pessoais. Implementamos medidas para mitigar esses riscos, como o uso de e-mails seguros, políticas de uso de dispositivos pessoais e controles de a"
+        }
+      ]
+    },
+    {
+      "estagio": 3,
+      "titulo": "Diagnóstico de Conformidade LGPD",
+      "modo": "groq",
+      "perguntas": [
+        {
+          "id": "q10",
+          "texto": "Quando você compartilha informações com terceiros, como fornecedores ou parceiros, você verifica se eles têm um acordo de proteção de dados?",
+          "opcoes": [
+            "Sim, sempre verifico",
+            "Não, nunca verifico",
+            "Às vezes, depende do contexto",
+            "Não sei informar",
+            "Não se aplica"
+          ]
+        },
+        {
+          "id": "q11",
+          "texto": "Quais das seguintes medidas você toma para proteger os dados pessoais que lida no trabalho?",
+          "opcoes": [
+            "Uso de criptografia",
+            "Controle de acesso",
+            "Armazenamento seguro",
+            "Não sei informar"
+          ]
+        },
+        {
+          "id": "q12",
+          "texto": "Descreva como você lida com a retenção de dados pessoais no trabalho. Quais são os critérios para decidir o que deve ser guardado e por quanto tempo?",
+          "opcoes": []
+        },
+        {
+          "id": "q13",
+          "texto": "Quem é responsável por garantir a conformidade com a LGPD na sua organização?",
+          "opcoes": [
+            "Eu mesmo",
+            "Um colega de trabalho",
+            "Um departamento específico",
+            "Não sei informar",
+            "Não se aplica"
+          ]
+        },
+        {
+          "id": "q14",
+          "texto": "Quais das seguintes situações você considera um risco para a proteção de dados pessoais no seu trabalho?",
+          "opcoes": [
+            "Compartilhamento indevido de dados",
+            "Acesso não autorizado",
+            "Perda de dispositivos",
+            "Não sei informar"
+          ]
+        }
+      ],
+      "respostas": [
+        {
+          "pergunta_id": "q10",
+          "resposta": "** Sim, sempre verifico. Como DPO da Alfa S.A., é fundamental garantir que todos os nossos fornecedores e parceiros tenham acordos de proteção de dados adequados, conhecidos como DPA (Data Processing Agreement), antes de compartilharmos qualquer informação pessoal. Isso é uma prática padrão para nós, visando garantir a conformidade com a LGPD e proteger os dados dos titulares.\n\n**"
+        },
+        {
+          "pergunta_id": "q11",
+          "resposta": "** Uso de criptografia, Controle de acesso e Armazenamento seguro. Na Alfa S.A., adotamos uma abordagem multifacetada para proteger os dados pessoais. Utilizamos criptografia para proteger os dados em trânsito e em repouso, implementamos controles de acesso rigorosos para garantir que apenas pessoas autorizadas possam acessar os dados, e empregamos soluções de armazenamento seguro para proteger os dados contra acessos não autorizados ou perda.\n\n**"
+        },
+        {
+          "pergunta_id": "q12",
+          "resposta": "** A retenção de dados pessoais é um processo cuidadosamente gerenciado na Alfa S.A. Seguimos uma política de retenção de dados documentada e aplicada, que estabelece critérios claros para decidir o que deve ser guardado e por quanto tempo. Esses critérios são baseados em requisitos legais, necessidades de negócios e considerações sobre a privacidade dos titulares. Por exemplo, mantemos dados de clientes por um período determinado após o término de um contrato, conforme exigido por leis fiscais e de consumo, mas eliminamos dados desnecessários de forma segura. Regularmente revisamos e atualizamos nossa política de retenção para garantir que esteja alinhada com as melhores práticas e requisitos legais.\n\n**"
+        },
+        {
+          "pergunta_id": "q13",
+          "resposta": "** Eu mesmo. Como DPO sênior da Alfa S.A., sou o principal responsável por garantir a conformidade com a LGPD em nossa organização. Trabalho em estreita colaboração com outros departamentos para garantir que todas as áreas da empresa estejam cientes de suas responsabilidades em relação à proteção de dados e estejam implementando as medidas necessárias para cumprir a lei. No entanto, é um esforço coletivo, e todos os funcionários têm um papel a desempenhar na proteção dos dados pessoais.\n\n**"
+        },
+        {
+          "pergunta_id": "q14",
+          "resposta": "** Compartilhamento indevido de dados, Acesso não autorizado e Perda de dispositivos. Considero essas situações como riscos significativos para a proteção de dados pessoais. O compartilhamento indevido de dados pode levar a violações de dados, o acesso não autorizado pode resultar em dados sendo visualizados, alterados ou roubados por indivíduos não autorizados, e a perda de dispositivos pode expor dados sensíveis se os dispositivos não estiverem adequadamente protegidos. Implementamos medidas para mitigar esses riscos, incluindo treinamento de funcionários, uso de tecnologias de segurança e procedimentos de gestão de incidentes."
+        }
+      ]
+    },
+    {
+      "estagio": 4,
+      "titulo": "Diagnóstico de Conformidade LGPD",
+      "modo": "groq",
+      "perguntas": [
+        {
+          "id": "q15",
+          "texto": "Quais medidas você toma para garantir a segurança dos dados pessoais quando os compartilha com terceiros?",
+          "opcoes": [
+            "Verifico se eles têm um acordo de proteção de dados",
+            "Envio os dados por meio de canais seguros",
+            "Não sei informar",
+            "Não se aplica"
+          ]
+        },
+        {
+          "id": "q16",
+          "texto": "Quais das seguintes situações você considera um risco para a proteção de dados pessoais no seu trabalho?",
+          "opcoes": [
+            "Compartilhamento indevido de dados",
+            "Acesso não autorizado",
+            "Perda de dispositivos",
+            "Não sei informar"
+          ]
+        },
+        {
+          "id": "q17",
+          "texto": "Descreva como você lida com a atualização de políticas de privacidade e segurança de dados em sua organização.",
+          "opcoes": []
+        },
+        {
+          "id": "q18",
+          "texto": "Quem é responsável por garantir a conformidade com a LGPD na sua organização?",
+          "opcoes": [
+            "Eu mesmo",
+            "Um colega de trabalho",
+            "Um departamento específico",
+            "Não sei informar",
+            "Não se aplica"
+          ]
+        },
+        {
+          "id": "q19",
+          "texto": "Quais das seguintes medidas você toma para proteger os dados pessoais que lida no trabalho?",
+          "opcoes": [
+            "Uso de criptografia",
+            "Controle de acesso",
+            "Armazenamento seguro",
+            "Não sei informar"
+          ]
+        }
+      ],
+      "respostas": [
+        {
+          "pergunta_id": "q15",
+          "resposta": "Para garantir a segurança dos dados pessoais quando os compartilhamos com terceiros, adotamos uma abordagem rigorosa. Verificamos se os terceiros têm um acordo de proteção de dados adequado, como um Acordo de Processamento de Dados (DPA), que atenda aos padrões da LGPD e às melhores práticas internacionais. Além disso, enviamos os dados por meio de canais seguros, como transferências criptografadas via HTTPS ou por meio de plataformas de compartilhamento de arquivos seguras. Essas medidas são fundamentais para proteger os dados pessoais contra acessos não autorizados ou violações de segurança durante a transferência."
+        },
+        {
+          "pergunta_id": "q16",
+          "resposta": "Considero que todas as opções listadas representam riscos significativos para a proteção de dados pessoais no meu trabalho. O compartilhamento indevido de dados pode levar a violações de privacidade e exposição de informações sensíveis. O acesso não autorizado, seja por meio de ataques cibernéticos ou erros internos, pode comprometer a confidencialidade e integridade dos dados. A perda de dispositivos, especialmente se não estiverem adequadamente criptografados, pode resultar na exposição de dados pessoais. Portanto, é crucial implementar controles robustos para mitigar esses riscos, como treinamento de funcionários, implementação de políticas de segurança da informação, uso de tecnologias de criptografia e controle de acesso."
+        },
+        {
+          "pergunta_id": "q17",
+          "resposta": "A atualização de políticas de privacidade e segurança de dados em nossa organização é um processo contínuo e sistemático. Iniciamos com uma revisão periódica de nossas políticas atuais para garantir que elas estejam alinhadas com as últimas exigências regulamentares, como a LGPD, e com as melhores práticas internacionais. Isso envolve uma análise detalhada das alterações legislativas, novas ameaças de segurança e feedback de stakeholders, incluindo funcionários, clientes e autoridades reguladoras. Após a identificação das necessidades de atualização, elaboramos propostas de alterações, as quais são então revisadas e aprovadas por nossos comitês de governança. Implementamos as atualizações das políticas por meio de comunicações internas e treinamentos para garantir que todos os funcionários"
+        },
+        {
+          "pergunta_id": "q18",
+          "resposta": "Como Data Protection Officer (DPO) sênior, sou o principal responsável por garantir a conformidade com a LGPD em nossa organização. Minha função envolve liderar o programa de privacidade, realizar avaliações de impacto na proteção de dados (DPIAs), responder a solicitações de titulares, coordenar a adequação de processos e treinar colaboradores. Trabalho em estreita colaboração com outros departamentos, como o jurídico e o de segurança da informação, para assegurar que todas as áreas da empresa estejam alinhadas com as exigências da LGPD e com as melhores práticas de privacidade."
+        },
+        {
+          "pergunta_id": "q19",
+          "resposta": "Para proteger os dados pessoais que lido no trabalho, adotamos uma abordagem multifacetada. Utilizamos criptografia para proteger os dados em repouso e em trânsito, garantindo que apenas aqueles autorizados possam acessá-los. Implementamos controles de acesso rigorosos, incluindo autenticação multifator e atribuição de permissões baseada em papéis, para restringir o acesso a dados sensíveis apenas àqueles que necessitam deles para realizar suas funções. Além disso, armazenamos os dados em ambientes seguros, com firewalls, sistemas de detecção de intrusão e backups regulares, para proteger contra acessos não autorizados, perda de dados e desastres. Essas medidas são essenciais para manter a confidencialidade, integridade e disponibilidade dos dados pessoais."
+        }
+      ]
+    }
+  ],
+  "relatorio_final": {
+    "report": "\nAnálise simplificada gerada automaticamente.\n\nDevido a um limite temporário do serviço de IA, este relatório foi construído com base em padrões estruturados de avaliação.\n\nResumo:\n- Total de respostas analisadas: 19\n- Foram identificados pontos de melhoria em governança, controle e segurança da informação.\n\nRecomendações:\n- Formalizar políticas de proteção de dados\n- Revisar controles de acesso\n- Implementar rotinas de monitoramento\n- Estruturar plano de resposta a incidentes\n\nAssim que o sistema estiver totalmente disponível, uma análise mais detalhada poderá ser gerada.\n    ",
+    "summary": "Relatório gerado em modo de contingência",
+    "metrics": {
+      "score": 65,
+      "risks": {
+        "conforme": 5,
+        "parcial": 7,
+        "naoConforme": 5
+      },
+      "strengths": [
+        "Processos iniciais definidos"
+      ],
+      "attentionPoints": [
+        "Falta de formalização de políticas"
+      ],
+      "criticalIssues": [
+        "Ausência de monitoramento contínuo"
+      ],
+      "controlsStatus": [
+        {
+          "name": "Criptografia",
+          "value": 40
+        },
+        {
+          "name": "Acesso",
+          "value": 50
+        },
+        {
+          "name": "Backup",
+          "value": 60
+        },
+        {
+          "name": "Monitoramento",
+          "value": 30
+        },
+        {
+          "name": "Documentação",
+          "value": 45
+        }
+      ],
+      "recommendations": [
+        "Implementar políticas LGPD",
+        "Criar plano de resposta a incidentes",
+        "Melhorar controle de acesso"
+      ]
+    },
+    "responses": [
+      {
+        "questionId": "q1",
+        "question": "Quais canais você usa quando precisa compartilhar informações com colegas de trabalho?",
+        "answer": "Quando preciso compartilhar informações com colegas de trabalho, utilizo principalmente o **E-mail corporativo**. Isso se deve à necessidade de manter um registro formal das comunicações, especialmente quando se trata de assuntos relacionados à privacidade e proteção de dados. Além disso, também utilizo **Plataformas de colaboração online** para compartilhar documentos e informações de forma segura, sempre dentro dos parâmetros de segurança e conformidade estabelecidos pela nossa política de privacidade."
+      },
+      {
+        "questionId": "q2",
+        "question": "Quais dos seguintes tipos de dados você lida regularmente no trabalho?",
+        "answer": "No meu trabalho, lido regularmente com **Dados pessoais de clientes**. Isso inclui, mas não se limita a, informações de contato, dados demográficos e outras informações pessoais que são coletadas e processadas pela nossa organização. Como DPO, é fundamental que eu tenha conhecimento detalhado sobre o tipo de dados que estamos tratando para garantir que estejam em conformidade com a LGPD e outras leis de proteção de dados aplicáveis."
+      },
+      {
+        "questionId": "q3",
+        "question": "Descreva como você armazena e protege os dados pessoais que lida no trabalho.",
+        "answer": "A armazenagem e proteção dos dados pessoais que lido no trabalho são feitas por meio de uma combinação de medidas técnicas, organizacionais e legais. Utilizamos uma **plataforma dedicada de gestão de privacidade** para monitorar e controlar o fluxo de dados pessoais dentro da nossa organização. Além disso, implementamos **políticas de acesso** rigorosas, garantindo que apenas os colaboradores que necessitam acessar esses dados para realizar suas funções tenham permissão para fazê-lo. Também realizamos **treinamentos regulares** para garantir que todos os colaboradores estejam cientes de suas responsabilidades em relação à proteção de dados. A **criptografia** é utilizada para proteger os dados tanto em repouso quanto em trânsito, e temos **procedimentos de incidentes** bem estabelecidos pa"
+      },
+      {
+        "questionId": "q4",
+        "question": "Quem tem acesso aos dados pessoais que você lida no trabalho?",
+        "answer": "O acesso aos dados pessoais que lido no trabalho é restrito e controlado. Além de **eu mesmo**, que como DPO tenho a responsabilidade de supervisionar e garantir a conformidade, o acesso é limitado a **colaboradores da equipe** que necessitam desses dados para realizar suas funções específicas. Em alguns casos, **terceiros (fornecedores, parceiros)** também podem ter acesso a esses dados, mas isso só ocorre após a assinatura de um **Acordo de Proteção de Dados (DPA)** que os obriga a tratar os dados de acordo com os padrões de segurança e privacidade estabelecidos pela LGPD e pelas políticas da nossa organização."
+      },
+      {
+        "questionId": "q5",
+        "question": "Quando você compartilha informações com terceiros, como fornecedores ou parceiros, você verifica se eles têm um acordo de proteção de dados?",
+        "answer": "Quando você compartilha informações com terceiros, como fornecedores ou parceiros, você verifica se eles têm um acordo de proteção de dados?\n\nSim, sempre. Como DPO sênior da Alfa S.A., é fundamental garantir que todos os nossos fornecedores e parceiros tenham acordos de proteção de dados (DPA) robustos e atualizados. Isso é uma prática padrão para nós, visando proteger os dados pessoais que compartilhamos com terceiros. Nossa plataforma de gestão de privacidade nos ajuda a monitorar e gerenciar esses acordos de forma eficiente.\n\n##"
+      },
+      {
+        "questionId": "q6",
+        "question": "Quais das seguintes medidas você toma para proteger os dados pessoais que lida no trabalho?",
+        "answer": "Quais das seguintes medidas você toma para proteger os dados pessoais que lida no trabalho?\n\nCriptografia, Controle de acesso e Armazenamento seguro. Implementamos uma combinação dessas medidas para garantir a proteção dos dados pessoais. A criptografia é usada para proteger os dados em trânsito e em repouso, o controle de acesso é rigorosamente implementado para garantir que apenas pessoas autorizadas possam acessar os dados, e o armazenamento seguro é utilizado para proteger os dados contra acessos não autorizados e perda de dados.\n\n##"
+      },
+      {
+        "questionId": "q7",
+        "question": "Descreva como você lida com a retenção de dados pessoais no trabalho. Quais são os critérios para decidir o que deve ser guardado e por quanto tempo?",
+        "answer": "Descreva como você lida com a retenção de dados pessoais no trabalho. Quais são os critérios para decidir o que deve ser guardado e por quanto tempo?\n\nNossa política de retenção de dados é documentada e aplicada rigorosamente. Os critérios para decidir o que deve ser guardado e por quanto tempo são baseados em requisitos legais, regulamentares e operacionais. Avaliamos a necessidade de retenção de dados com base em leis aplicáveis, como a LGPD, e também consideramos a importância dos dados para nossas operações e relações com os titulares. Temos prazos definidos para a retenção de diferentes tipos de dados, e após esses prazos, os dados são devidamente eliminados ou anonimizados, conforme aplicável. Além disso, realizamos revisões periódicas de nossa política de retenção para garantir que "
+      },
+      {
+        "questionId": "q8",
+        "question": "Quem é responsável por garantir a conformidade com a LGPD na sua organização?",
+        "answer": "Quem é responsável por garantir a conformidade com a LGPD na sua organização?\n\nEu mesmo. Como DPO sênior da Alfa S.A., sou o responsável principal por garantir a conformidade com a LGPD em nossa organização. Trabalho em estreita colaboração com outros departamentos para garantir que todas as áreas da empresa estejam cientes de suas responsabilidades em relação à proteção de dados e estejam implementando as medidas necessárias para cumprir com a lei.\n\n##"
+      },
+      {
+        "questionId": "q9",
+        "question": "Quais das seguintes situações você considera um risco para a proteção de dados pessoais no seu trabalho?",
+        "answer": "Quais das seguintes situações você considera um risco para a proteção de dados pessoais no seu trabalho?\n\nCompartilhamento de dados por e-mail, Uso de dispositivos pessoais para trabalho e Acesso não autorizado a sistemas. Todas essas situações representam riscos significativos para a proteção de dados pessoais. O compartilhamento de dados por e-mail pode expor os dados a interceptação ou acesso não autorizado, o uso de dispositivos pessoais para trabalho pode aumentar o risco de perda ou roubo de dispositivos contendo dados sensíveis, e o acesso não autorizado a sistemas pode permitir que indivíduos mal-intencionados acessem ou exfiltem dados pessoais. Implementamos medidas para mitigar esses riscos, como o uso de e-mails seguros, políticas de uso de dispositivos pessoais e controles de a"
+      },
+      {
+        "questionId": "q10",
+        "question": "Quando você compartilha informações com terceiros, como fornecedores ou parceiros, você verifica se eles têm um acordo de proteção de dados?",
+        "answer": "** Sim, sempre verifico. Como DPO da Alfa S.A., é fundamental garantir que todos os nossos fornecedores e parceiros tenham acordos de proteção de dados adequados, conhecidos como DPA (Data Processing Agreement), antes de compartilharmos qualquer informação pessoal. Isso é uma prática padrão para nós, visando garantir a conformidade com a LGPD e proteger os dados dos titulares.\n\n**"
+      },
+      {
+        "questionId": "q11",
+        "question": "Quais das seguintes medidas você toma para proteger os dados pessoais que lida no trabalho?",
+        "answer": "** Uso de criptografia, Controle de acesso e Armazenamento seguro. Na Alfa S.A., adotamos uma abordagem multifacetada para proteger os dados pessoais. Utilizamos criptografia para proteger os dados em trânsito e em repouso, implementamos controles de acesso rigorosos para garantir que apenas pessoas autorizadas possam acessar os dados, e empregamos soluções de armazenamento seguro para proteger os dados contra acessos não autorizados ou perda.\n\n**"
+      },
+      {
+        "questionId": "q12",
+        "question": "Descreva como você lida com a retenção de dados pessoais no trabalho. Quais são os critérios para decidir o que deve ser guardado e por quanto tempo?",
+        "answer": "** A retenção de dados pessoais é um processo cuidadosamente gerenciado na Alfa S.A. Seguimos uma política de retenção de dados documentada e aplicada, que estabelece critérios claros para decidir o que deve ser guardado e por quanto tempo. Esses critérios são baseados em requisitos legais, necessidades de negócios e considerações sobre a privacidade dos titulares. Por exemplo, mantemos dados de clientes por um período determinado após o término de um contrato, conforme exigido por leis fiscais e de consumo, mas eliminamos dados desnecessários de forma segura. Regularmente revisamos e atualizamos nossa política de retenção para garantir que esteja alinhada com as melhores práticas e requisitos legais.\n\n**"
+      },
+      {
+        "questionId": "q13",
+        "question": "Quem é responsável por garantir a conformidade com a LGPD na sua organização?",
+        "answer": "** Eu mesmo. Como DPO sênior da Alfa S.A., sou o principal responsável por garantir a conformidade com a LGPD em nossa organização. Trabalho em estreita colaboração com outros departamentos para garantir que todas as áreas da empresa estejam cientes de suas responsabilidades em relação à proteção de dados e estejam implementando as medidas necessárias para cumprir a lei. No entanto, é um esforço coletivo, e todos os funcionários têm um papel a desempenhar na proteção dos dados pessoais.\n\n**"
+      },
+      {
+        "questionId": "q14",
+        "question": "Quais das seguintes situações você considera um risco para a proteção de dados pessoais no seu trabalho?",
+        "answer": "** Compartilhamento indevido de dados, Acesso não autorizado e Perda de dispositivos. Considero essas situações como riscos significativos para a proteção de dados pessoais. O compartilhamento indevido de dados pode levar a violações de dados, o acesso não autorizado pode resultar em dados sendo visualizados, alterados ou roubados por indivíduos não autorizados, e a perda de dispositivos pode expor dados sensíveis se os dispositivos não estiverem adequadamente protegidos. Implementamos medidas para mitigar esses riscos, incluindo treinamento de funcionários, uso de tecnologias de segurança e procedimentos de gestão de incidentes."
+      },
+      {
+        "questionId": "q15",
+        "question": "Quais medidas você toma para garantir a segurança dos dados pessoais quando os compartilha com terceiros?",
+        "answer": "Para garantir a segurança dos dados pessoais quando os compartilhamos com terceiros, adotamos uma abordagem rigorosa. Verificamos se os terceiros têm um acordo de proteção de dados adequado, como um Acordo de Processamento de Dados (DPA), que atenda aos padrões da LGPD e às melhores práticas internacionais. Além disso, enviamos os dados por meio de canais seguros, como transferências criptografadas via HTTPS ou por meio de plataformas de compartilhamento de arquivos seguras. Essas medidas são fundamentais para proteger os dados pessoais contra acessos não autorizados ou violações de segurança durante a transferência."
+      },
+      {
+        "questionId": "q16",
+        "question": "Quais das seguintes situações você considera um risco para a proteção de dados pessoais no seu trabalho?",
+        "answer": "Considero que todas as opções listadas representam riscos significativos para a proteção de dados pessoais no meu trabalho. O compartilhamento indevido de dados pode levar a violações de privacidade e exposição de informações sensíveis. O acesso não autorizado, seja por meio de ataques cibernéticos ou erros internos, pode comprometer a confidencialidade e integridade dos dados. A perda de dispositivos, especialmente se não estiverem adequadamente criptografados, pode resultar na exposição de dados pessoais. Portanto, é crucial implementar controles robustos para mitigar esses riscos, como treinamento de funcionários, implementação de políticas de segurança da informação, uso de tecnologias de criptografia e controle de acesso."
+      },
+      {
+        "questionId": "q17",
+        "question": "Descreva como você lida com a atualização de políticas de privacidade e segurança de dados em sua organização.",
+        "answer": "A atualização de políticas de privacidade e segurança de dados em nossa organização é um processo contínuo e sistemático. Iniciamos com uma revisão periódica de nossas políticas atuais para garantir que elas estejam alinhadas com as últimas exigências regulamentares, como a LGPD, e com as melhores práticas internacionais. Isso envolve uma análise detalhada das alterações legislativas, novas ameaças de segurança e feedback de stakeholders, incluindo funcionários, clientes e autoridades reguladoras. Após a identificação das necessidades de atualização, elaboramos propostas de alterações, as quais são então revisadas e aprovadas por nossos comitês de governança. Implementamos as atualizações das políticas por meio de comunicações internas e treinamentos para garantir que todos os funcionários"
+      },
+      {
+        "questionId": "q18",
+        "question": "Quem é responsável por garantir a conformidade com a LGPD na sua organização?",
+        "answer": "Como Data Protection Officer (DPO) sênior, sou o principal responsável por garantir a conformidade com a LGPD em nossa organização. Minha função envolve liderar o programa de privacidade, realizar avaliações de impacto na proteção de dados (DPIAs), responder a solicitações de titulares, coordenar a adequação de processos e treinar colaboradores. Trabalho em estreita colaboração com outros departamentos, como o jurídico e o de segurança da informação, para assegurar que todas as áreas da empresa estejam alinhadas com as exigências da LGPD e com as melhores práticas de privacidade."
+      },
+      {
+        "questionId": "q19",
+        "question": "Quais das seguintes medidas você toma para proteger os dados pessoais que lida no trabalho?",
+        "answer": "Para proteger os dados pessoais que lido no trabalho, adotamos uma abordagem multifacetada. Utilizamos criptografia para proteger os dados em repouso e em trânsito, garantindo que apenas aqueles autorizados possam acessá-los. Implementamos controles de acesso rigorosos, incluindo autenticação multifator e atribuição de permissões baseada em papéis, para restringir o acesso a dados sensíveis apenas àqueles que necessitam deles para realizar suas funções. Além disso, armazenamos os dados em ambientes seguros, com firewalls, sistemas de detecção de intrusão e backups regulares, para proteger contra acessos não autorizados, perda de dados e desastres. Essas medidas são essenciais para manter a confidencialidade, integridade e disponibilidade dos dados pessoais."
+      }
+    ],
+    "assessmentMetadata": {
+      "assessmentId": null,
+      "assessmentTitle": "",
+      "assessmentFormType": "",
+      "assessmentObjective": "",
+      "assessmentContext": "",
+      "audience": "",
+      "introText": "",
+      "ownerId": "",
+      "ownerName": ""
+    },
+    "reportMode": "fallback",
+    "reportNotice": "O sistema atingiu o limite temporário da IA. Exibindo versão simplificada.",
+    "createdAt": "2026-07-01T21:59:05.364Z"
+  },
+  "avaliacao_vs_oraculo": {
+    "nivel_risco_esperado": "baixo",
+    "nivel_risco_detectado": "moderado",
+    "score_plataforma": 65,
+    "fragilidades_esperadas": [],
+    "fragilidades_detectadas": [],
+    "falso_positivo": true,
+    "falso_negativo": false,
+    "pontuacao_rubrica": {
+      "deteccao_fragilidade_central": 3,
+      "profundidade_perguntas": 1,
+      "classificacao_risco_correta": 1,
+      "ausencia_falso_positivo": 0,
+      "total": 5,
+      "maximo": 12
+    },
+    "observacoes": ""
+  }
+}
