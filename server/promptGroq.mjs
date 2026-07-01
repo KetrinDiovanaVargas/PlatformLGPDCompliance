@@ -125,6 +125,71 @@ function inferProfileFromInitialContext(initialContext) {
   return "outro";
 }
 
+const FRAGILITY_TAXONOMY = {
+  F1: "Compartilhamento informal (WhatsApp, e-mail pessoal, grupos, prints, links abertos)",
+  F2: "Armazenamento indevido (celular pessoal, pendrive, desktop local, backup pessoal)",
+  F3: "Retenção excessiva (guardar dados 'por garantia', sem prazo/critério claro)",
+  F4: "Coleta excessiva (pedir CPF, documento, laudo ou foto sem necessidade proporcional)",
+  F5: "Acesso excessivo (perfil admin, senha compartilhada, acesso fora da função)",
+  F6: "Falta de transparência/controle (titular não sabe finalidade/destino/prazo; sem fluxo de direitos)",
+  F7: "Uso secundário (dados coletados para uma finalidade usados em outra sem análise)",
+  F8: "Terceiros sem controle (fornecedores, contatos alternativos sem base/controle formal)",
+  F9: "Dados sensíveis sem salvaguarda (saúde, biometria, filiação, crianças, dependentes)",
+  F10: "Incidente mal tratado (perda de dispositivo, envio errado, vazamento, sem fluxo interno)",
+};
+
+function detectFragilityPatterns(text) {
+  const fullText = normalize(text);
+
+  return {
+    hasInformalChannels: /whatsapp|email pessoal|grupo|print|link|sms pessoal|mensagem privada/i.test(fullText),
+    hasPersonalStorage: /celular pessoal|pendrive|desktop|computador pessoal|backup pessoal|meu computador|meu dispositivo/i.test(fullText),
+    hasExcessiveRetention: /por garantia|nunca apago|guardo tudo|nao tenho prazo|indefinidamente|antigos/i.test(fullText),
+    hasExcessiveCollection: /cpf|documento|laudo|foto|biometria|dados do dependente|sem necessidade/i.test(fullText),
+    hasExcessiveAccess: /admin|administrador|acesso total|senha compartilhada|todo mundo ve|sem restricao|super usuario/i.test(fullText),
+    hasUncontrolledThirdParties: /fornecedor|terceiro|parceiro|agencia|escritorio|familiar|contato alternativo|outro numero/i.test(fullText),
+    hasSensitiveData: /saude|laudo|atestado|dependente|crianca|filho|biometria|filiacao|pcd|deficiencia|medico|psicologo|diagnostico|medicamento/i.test(fullText),
+    hasIncidentRisk: /perdi|caiu|vazou|enviou errado|caiu na internet|descobriram|nao sabia|nunca soube|o que faco|como proceder/i.test(fullText),
+  };
+}
+
+function buildAdaptiveInstructions(patterns) {
+  const instructions = [];
+
+  if (patterns.hasInformalChannels) {
+    instructions.push(
+      "A persona já mencionou canais informais (WhatsApp, e-mail pessoal, grupos). Próximas perguntas devem explorar: por quanto tempo esses dados ficam salvos, quem mais pode acessar, o que acontece com esses arquivos depois."
+    );
+  }
+  if (patterns.hasPersonalStorage) {
+    instructions.push(
+      "A persona já indicou armazenamento em dispositivo pessoal. Aprofunde em: que tipo de dado fica no aparelho, por quanto tempo, o que acontece se o dispositivo for perdido ou roubado, se a empresa sabe disso."
+    );
+  }
+  if (patterns.hasExcessiveRetention) {
+    instructions.push(
+      "A persona já indicou retenção prolongada ou indefinida. Explore se existe data/critério para apagar esses dados e se há política escrita sobre isso."
+    );
+  }
+  if (patterns.hasUncontrolledThirdParties) {
+    instructions.push(
+      "A persona já mencionou contato com terceiros. Aprofunde em que informações são compartilhadas, se eles sabem o que vão fazer com os dados e se há contrato ou acordo."
+    );
+  }
+  if (patterns.hasSensitiveData) {
+    instructions.push(
+      "A persona já mencionou dados sensíveis (saúde, dependentes, crianças). Explore como são armazenados, quem pode acessar e se há fluxo diferenciado de proteção."
+    );
+  }
+  if (patterns.hasExcessiveAccess) {
+    instructions.push(
+      "A persona já indicou acesso excessivo (perfil admin, senha compartilhada). Aprofunde por que precisa de tanto acesso e se existem controles/logs."
+    );
+  }
+
+  return instructions;
+}
+
 function buildContextFromResponses(responsesObj = {}) {
   if (!responsesObj || typeof responsesObj !== "object") return "";
 
@@ -336,6 +401,12 @@ export function generateStagePrompt(stage, ctxOrResponses = "", metadata = {}) {
   const objectiveGuidance = buildObjectiveGuidance(assessmentObjective);
   const stageExplorationGuidance = buildStageExplorationGuidance(etapa);
 
+  const fragilityPatterns = detectFragilityPatterns(ctx);
+  const adaptiveInstructions = buildAdaptiveInstructions(fragilityPatterns);
+  const adaptiveBlock = adaptiveInstructions.length
+    ? `\nINSTRUÇÕES ADAPTATIVAS (baseadas em pistas já detectadas nas respostas):\n${adaptiveInstructions.map((i) => `- ${i}`).join("\n")}\n`
+    : "";
+
   return `
 Você é uma IA especialista em LGPD + ISO/IEC 27001.
 Sua função é gerar perguntas de diagnóstico de maturidade de forma progressiva, coerente e contextual.
@@ -437,7 +508,8 @@ Quando houver conflito, siga esta ordem de prioridade:
 
 - Gere EXATAMENTE ${totalPerguntas} perguntas em "questions".
 - Retorne SOMENTE JSON válido, sem markdown, sem comentários e sem texto fora do JSON.
-- Campos permitidos: title, description, questions, id, type, question, description, options, required.
+- Campos permitidos: title, description, questions, id, type, question, description, options, required, _internal_fragility_investigates.
+- Em cada pergunta, preencha "_internal_fragility_investigates" com o(s) código(s) do eixo de fragilidade (F1-F10) que ela investiga (ex.: "F1, F3"). Esse campo é apenas documentação interna e não aparece para o respondente.
 - NÃO repetir a pergunta inicial de contexto do respondente, pois ela já foi respondida.
 - NÃO repetir perguntas já feitas anteriormente.
 - NÃO gerar perguntas fora do escopo definido pelo administrador.
@@ -459,6 +531,15 @@ ${objectiveGuidance}
 
 ${stageExplorationGuidance}
 
+==================== EIXOS DE FRAGILIDADE (elicitação indireta) ====================
+
+Ao gerar perguntas, considere estes padrões operacionais que podem indicar risco:
+${Object.entries(FRAGILITY_TAXONOMY).map(([k, v]) => `  ${k}: ${v}`).join("\n")}
+
+DIRETIVA: não pergunte "você faz X?", mas explore comportamentos e rotinas.
+  ❌ Fraco: "Você usa WhatsApp pessoal com dados da empresa?"
+  ✅ Melhor: "Quais canais você usa quando precisa resolver algo com urgência?"
+${adaptiveBlock}
 ==================== PERFIS E ADAPTAÇÃO ====================
 
 Se o perfil inferido for ESTUDANTE:
@@ -551,7 +632,8 @@ Retorne APENAS um objeto JSON neste formato:
       "question": "string",
       "description": "string",
       "options": ["opção 1", "opção 2"],
-      "required": true
+      "required": true,
+      "_internal_fragility_investigates": "F1, F3"
     }
   ]
 }

@@ -9,8 +9,8 @@ export class GroqHeadroomService {
   private model = process.env.GROQ_MODEL || 'llama-3.3-70b-versatile';
 
   async analyzeLGPDCompliance(
-    questions: any[],
-    responses: Record<string, any>,
+    questions: unknown[],
+    responses: Record<string, unknown>,
     sessionId?: string
   ) {
     try {
