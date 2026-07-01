@@ -1,0 +1,328 @@
+{
+  "meta": {
+    "persona_id": "P47",
+    "persona_arquivo": "P47_ONG_Voluntaria.md",
+    "data_execucao": "2026-07-01",
+    "sessao_numero": 1,
+    "modelo_llm": "llama-3.3-70b-versatile",
+    "temperatura": 0.2,
+    "executor": "simular_persona.mjs (automatizado)"
+  },
+  "estagios": [
+    {
+      "estagio": 1,
+      "titulo": "Diagnóstico de Conformidade LGPD",
+      "modo": "groq",
+      "perguntas": [
+        {
+          "id": "q1",
+          "texto": "Qual é o seu nível de envolvimento com o tratamento de dados pessoais no ambiente organizacional?",
+          "opcoes": [
+            "Frequente",
+            "Ocasional",
+            "Raro",
+            "Não sei informar",
+            "Não se aplica"
+          ]
+        },
+        {
+          "id": "q2",
+          "texto": "Quais das seguintes atividades você realiza com dados pessoais?",
+          "opcoes": [
+            "Coleta",
+            "Armazenamento",
+            "Acesso",
+            "Compartilhamento",
+            "Não sei informar"
+          ]
+        },
+        {
+          "id": "q3",
+          "texto": "Descreva como você lida com a segurança dos dados pessoais em sua rotina de trabalho",
+          "opcoes": []
+        },
+        {
+          "id": "q4",
+          "texto": "Você recebeu treinamento ou orientação sobre a LGPD e o tratamento de dados pessoais?",
+          "opcoes": [
+            "Sim",
+            "Não",
+            "Não sei informar",
+            "Não se aplica"
+          ]
+        }
+      ],
+      "respostas": [
+        {
+          "pergunta_id": "q1",
+          "resposta": "Frequente\n\nComo Coordenadora de Projetos Sociais da ONG Alfa Inclusão, estou constantemente envolvida com o tratamento de dados pessoais, seja na coleta de informações de beneficiários, no armazenamento desses dados em nosso sistema de gestão, ou no acesso a essas informações para fins de prestação de contas e relatórios. Portanto, meu nível de envolvimento com o tratamento de dados pessoais é frequente."
+        },
+        {
+          "pergunta_id": "q2",
+          "resposta": "Coleta | Armazenamento | Acesso\n\nEm minha rotina, realizo várias atividades com dados pessoais. Coletamos informações de beneficiários, como nomes, idades, e dados de contato, para entender melhor suas necessidades e oferecer apoio adequado. Armazenamos esses dados em nosso sistema de gestão de beneficiários, que tem acesso restrito. Além disso, acesso esses dados para atualizar informações, preparar relatórios para doadores, e garantir que estamos oferecendo os melhores serviços possíveis. Embora não seja comum, também podemos compartilhar dados anonimizados para fins de pesquisa ou parcerias, sempre respeitando a privacidade e a segurança dos dados."
+        },
+        {
+          "pergunta_id": "q3",
+          "resposta": "Para lidar com a segurança dos dados pessoais em minha rotina de trabalho, adoto várias medidas. Primeiramente, garantimos que todos os dados sejam coletados e armazenados em um sistema seguro, com acesso restrito apenas para aqueles que realmente precisam dessas informações para realizar seu trabalho. Além disso, todos os voluntários e funcionários da ONG passam por um treinamento sobre a importância da privacidade e segurança dos dados, e assinam um termo de confidencialidade. Também temos uma política de retenção de dados bem definida, garantindo que os dados sejam mantidos apenas pelo tempo necessário e destruídos de forma segura após esse período. Para dados de crianças, obtemos consentimento documentado dos responsáveis legais e somos especialmente cuidadosos com a forma como esses d"
+        },
+        {
+          "pergunta_id": "q4",
+          "resposta": "Sim\n\nRecebi treinamento específico sobre a LGPD e o tratamento de dados pessoais, o que me permitiu entender melhor as minhas responsabilidades e as obrigações da ONG Alfa Inclusão em relação à privacidade e segurança dos dados. Esse treinamento abordou desde os princípios básicos da LGPD até como aplicar esses princípios no dia a dia da ONG, garantindo que estamos em conformidade com a lei e protegendo adequadamente os dados de nossos beneficiários, doadores e voluntários."
+        }
+      ]
+    },
+    {
+      "estagio": 2,
+      "titulo": "Diagnóstico de Conformidade LGPD",
+      "modo": "groq",
+      "perguntas": [
+        {
+          "id": "q5",
+          "texto": "Quem tem acesso aos dados pessoais coletados?",
+          "opcoes": [
+            "Funcionários autorizados",
+            "Terceiros contratados",
+            "Parceiros comerciais",
+            "Não sei informar",
+            "Não se aplica"
+          ]
+        },
+        {
+          "id": "q6",
+          "texto": "Como os dados pessoais são armazenados?",
+          "opcoes": [
+            "Servidores internos",
+            "Nuvem",
+            "Dispositivos móveis",
+            "Não sei informar"
+          ]
+        },
+        {
+          "id": "q7",
+          "texto": "Descreva como os dados pessoais são compartilhados dentro da organização.",
+          "opcoes": []
+        },
+        {
+          "id": "q8",
+          "texto": "Quais medidas de segurança são tomadas para proteger os dados pessoais?",
+          "opcoes": [
+            "Criptografia",
+            "Autenticação de dois fatores",
+            "Firewall",
+            "Não sei informar",
+            "Não se aplica"
+          ]
+        },
+        {
+          "id": "q9",
+          "texto": "Quais tipos de dados pessoais são coletados?",
+          "opcoes": [
+            "Dados de identificação",
+            "Dados de contato",
+            "Dados financeiros",
+            "Não sei informar"
+          ]
+        }
+      ],
+      "respostas": [
+        {
+          "pergunta_id": "q5",
+          "resposta": "Quem tem acesso aos dados pessoais coletados?\nOpção: Funcionários autorizados\nJustificativa: Na ONG Alfa Inclusão, apenas os funcionários que necessitam acessar os dados para realizar suas funções têm permissão para isso. Isso é feito para garantir a segurança e a privacidade dos dados, especialmente dos beneficiários vulneráveis."
+        },
+        {
+          "pergunta_id": "q6",
+          "resposta": "Como os dados pessoais são armazenados?\nOpção: Servidores internos\nJustificativa: Utilizamos servidores internos para armazenar os dados pessoais, o que nos permite ter um controle mais direto sobre a segurança e a acessibilidade desses dados. Além disso, temos políticas rigorosas de backup e recuperação de dados para garantir que os dados sejam preservados em caso de emergência."
+        },
+        {
+          "pergunta_id": "q7",
+          "resposta": "Descreva como os dados pessoais são compartilhados dentro da organização.\nOs dados pessoais são compartilhados de forma restrita e controlada dentro da ONG Alfa Inclusão. Apenas os funcionários que necessitam acessar esses dados para realizar suas funções têm permissão para isso. Por exemplo, os dados dos beneficiários são acessados apenas pelos coordenadores de projetos e pelos profissionais que trabalham diretamente com esses beneficiários. Além disso, temos um sistema de gestão de beneficiários que restringe o acesso aos dados com base nas necessidades específicas de cada funcionário. Isso ajuda a garantir que os dados sejam utilizados apenas para os fins para os quais foram coletados e que sejam protegidos contra acessos não autorizados."
+        },
+        {
+          "pergunta_id": "q8",
+          "resposta": "Quais medidas de segurança são tomadas para proteger os dados pessoais?\nOpção: Autenticação de dois fatores\nJustificativa: Implementamos a autenticação de dois fatores para todos os funcionários que acessam os sistemas que contêm dados pessoais. Isso adiciona uma camada extra de segurança, tornando mais difícil para indivíduos não autorizados acessarem esses dados. Além disso, realizamos treinamentos regulares sobre segurança de dados e privacidade para garantir que todos os funcionários estejam cientes de suas responsabilidades em proteger os dados pessoais."
+        },
+        {
+          "pergunta_id": "q9",
+          "resposta": "Quais tipos de dados pessoais são coletados?\nOpção: Dados de identificação\nJustificativa: Coletamos dados de identificação, como nome, data de nascimento e informações de contato, de nossos beneficiários, doadores e voluntários. Esses dados são essenciais para que possamos realizar nossas atividades, como gerenciar os projetos sociais, prestar contas aos doadores e manter registro dos serviços prestados aos beneficiários. Sempre buscamos coletar apenas os dados necessários para os fins específicos e garantimos que esses dados sejam tratados com o devido cuidado e respeito à privacidade."
+        }
+      ]
+    },
+    {
+      "estagio": 3,
+      "titulo": "Diagnóstico de Conformidade LGPD",
+      "modo": "groq",
+      "perguntas": [
+        {
+          "id": "q10",
+          "texto": "Quem é responsável por garantir a segurança dos dados pessoais na sua organização?",
+          "opcoes": [
+            "Equipe de TI",
+            "Departamento de Segurança",
+            "Gerência",
+            "Não sei informar",
+            "Não se aplica"
+          ]
+        },
+        {
+          "id": "q11",
+          "texto": "Quais das seguintes medidas de segurança são tomadas para proteger os dados pessoais?",
+          "opcoes": [
+            "Criptografia",
+            "Autenticação de dois fatores",
+            "Firewall",
+            "Não sei informar"
+          ]
+        },
+        {
+          "id": "q12",
+          "texto": "Descreva como os dados pessoais são transmitidos entre diferentes departamentos ou equipes na sua organização.",
+          "opcoes": []
+        },
+        {
+          "id": "q13",
+          "texto": "Quais tipos de dados pessoais são mais comuns na sua rotina de trabalho?",
+          "opcoes": [
+            "Dados de identificação",
+            "Dados de contato",
+            "Dados financeiros",
+            "Não sei informar",
+            "Não se aplica"
+          ]
+        },
+        {
+          "id": "q14",
+          "texto": "Quais das seguintes situações podem representar um risco para a segurança dos dados pessoais na sua organização?",
+          "opcoes": [
+            "Acesso não autorizado",
+            "Perda de dispositivos",
+            "Falha de sistema",
+            "Não sei informar"
+          ]
+        }
+      ],
+      "respostas": [
+        {
+          "pergunta_id": "q10",
+          "resposta": "Quem é responsável por garantir a segurança dos dados pessoais na sua organização?\nEu acredito que a responsabilidade pela segurança dos dados pessoais na ONG Alfa Inclusão é compartilhada, mas principalmente recai sobre a Gerência. Como Coordenadora de Projetos Sociais, tenho um papel importante na garantia da segurança dos dados dos beneficiários e voluntários, mas a Gerência é a instância que define as políticas e procedimentos gerais para a proteção de dados. Portanto, escolho a opção: Gerência."
+        },
+        {
+          "pergunta_id": "q11",
+          "resposta": "Quais das seguintes medidas de segurança são tomadas para proteger os dados pessoais?\nNossa ONG utiliza principalmente a Autenticação de dois fatores para acessar o sistema de gestão de beneficiários, o que ajuda a garantir que apenas pessoas autorizadas possam visualizar e manipular esses dados. Embora saiba que a Criptografia e o Firewall são medidas importantes, não tenho certeza se são amplamente utilizadas em nossa organização. Portanto, escolho a opção: Autenticação de dois fatores."
+        },
+        {
+          "pergunta_id": "q12",
+          "resposta": "Descreva como os dados pessoais são transmitidos entre diferentes departamentos ou equipes na sua organização.\nNa ONG Alfa Inclusão, os dados pessoais são transmitidos principalmente por meio de nosso sistema de gestão de beneficiários, que é acessado apenas por pessoas autorizadas com login e senha. Além disso, utilizamos e-mail institucional para comunicações internas que possam envolver dados pessoais, sempre tomando cuidado para não expor informações sensíveis. Em casos específicos, como relatórios para doadores, os dados são transmitidos de forma agregada, preservando a anonimidade dos beneficiários. Também utilizamos plataformas de gestão de voluntários corporativa para gerenciar informações de voluntários, mas essas plataformas são seguras e respeitam as normas de privacidade."
+        },
+        {
+          "pergunta_id": "q13",
+          "resposta": "Quais tipos de dados pessoais são mais comuns na sua rotina de trabalho?\nNa minha rotina de trabalho, os dados mais comuns são Dados de identificação, como nome, data de nascimento e informações de contato, pois trabalhamos diretamente com beneficiários, muitos dos quais são crianças e famílias em situação de risco. Além disso, também lidamos com dados de doadores, que incluem informações de identificação e de contato. Portanto, escolho a opção: Dados de identificação."
+        },
+        {
+          "pergunta_id": "q14",
+          "resposta": "Quais das seguintes situações podem representar um risco para a segurança dos dados pessoais na sua organização?\nAcredito que o Acesso não autorizado é uma das principais ameaças à segurança dos dados pessoais na nossa ONG. Se alguém que não está autorizado acessar nossos sistemas ou dados, poderia comprometer a privacidade e a segurança dos beneficiários e doadores. Embora a Perda de dispositivos e a Falha de sistema também sejam riscos potenciais, o acesso não autorizado é o mais crítico, considerando o tipo de dados que lidamos. Portanto, escolho a opção: Acesso não autorizado."
+        }
+      ]
+    },
+    {
+      "estagio": 4,
+      "titulo": "Diagnóstico de Conformidade LGPD",
+      "modo": "groq",
+      "perguntas": [
+        {
+          "id": "q15",
+          "texto": "Quais medidas de segurança são tomadas para proteger os dados pessoais contra acessos não autorizados?",
+          "opcoes": [
+            "Uso de senhas fortes",
+            "Autenticação de dois fatores",
+            "Firewall e antivírus",
+            "Não sei informar",
+            "Não se aplica"
+          ]
+        },
+        {
+          "id": "q16",
+          "texto": "Quais das seguintes políticas de segurança são implementadas na sua organização?",
+          "opcoes": [
+            "Política de uso de senhas",
+            "Política de acesso a dados",
+            "Política de armazenamento de dados",
+            "Política de compartilhamento de dados",
+            "Não sei informar"
+          ]
+        },
+        {
+          "id": "q17",
+          "texto": "Descreva como a sua organização lida com a notificação de violações de dados pessoais.",
+          "opcoes": []
+        },
+        {
+          "id": "q18",
+          "texto": "Quem é responsável por garantir a conformidade com a LGPD na sua organização?",
+          "opcoes": [
+            "Departamento de TI",
+            "Departamento de RH",
+            "Departamento Jurídico",
+            "Não sei informar",
+            "Não se aplica"
+          ]
+        },
+        {
+          "id": "q19",
+          "texto": "Quais das seguintes medidas de segurança são tomadas para proteger os dados pessoais durante a transmissão?",
+          "opcoes": [
+            "Uso de criptografia",
+            "Uso de VPN",
+            "Uso de protocolos de segurança",
+            "Não sei informar"
+          ]
+        }
+      ],
+      "respostas": [
+        {
+          "pergunta_id": "q15",
+          "resposta": "Quais medidas de segurança são tomadas para proteger os dados pessoais contra acessos não autorizados?\nOpção: Autenticação de dois fatores\nJustificativa: Na ONG Alfa Inclusão, onde trabalho, adotamos a autenticação de dois fatores para garantir que apenas pessoas autorizadas tenham acesso aos dados pessoais dos beneficiários, doadores e voluntários. Isso nos permite ter um controle mais rigoroso sobre quem acessa essas informações sensíveis."
+        },
+        {
+          "pergunta_id": "q16",
+          "resposta": "Quais das seguintes políticas de segurança são implementadas na sua organização?\nOpção: Política de acesso a dados\nJustificativa: Implementamos uma política de acesso a dados que restringe o acesso aos dados pessoais apenas àqueles que realmente precisam deles para realizar suas funções. Isso ajuda a minimizar o risco de exposição não autorizada desses dados."
+        },
+        {
+          "pergunta_id": "q17",
+          "resposta": "Descreva como a sua organização lida com a notificação de violações de dados pessoais.\nNa ONG Alfa Inclusão, temos um plano de resposta a incidentes que inclui a notificação imediata às autoridades competentes e aos titulares dos dados em caso de violação de dados pessoais. Também realizamos uma investigação interna para entender a causa da violação e implementar medidas para prevenir que isso aconteça novamente no futuro. É importante para nós manter a transparência e a confiança dos nossos beneficiários e doadores."
+        },
+        {
+          "pergunta_id": "q18",
+          "resposta": "Quem é responsável por garantir a conformidade com a LGPD na sua organização?\nOpção: Departamento Jurídico\nJustificativa: Embora eu, como Coordenadora de Projetos Sociais, tenha conhecimento sobre a LGPD e esteja envolvida em garantir que os projetos sigam as diretrizes, o Departamento Jurídico da nossa ONG é formalmente responsável por garantir a conformidade com a LGPD. Eles nos orientam sobre as melhores práticas e garantem que estamos alinhados com as regulamentações."
+        },
+        {
+          "pergunta_id": "q19",
+          "resposta": "Quais das seguintes medidas de segurança são tomadas para proteger os dados pessoais durante a transmissão?\nOpção: Uso de criptografia\nJustificativa: Quando transmitimos dados pessoais, seja por e-mail ou por outros meios, utilizamos criptografia para proteger esses dados contra interceptação ou acesso não autorizado. Isso é especialmente importante para nós, pois lidamos com dados de populações vulneráveis, e é crucial garantir que essas informações sejam protegidas de forma adequada."
+        }
+      ]
+    }
+  ],
+  "relatorio_final": {
+    "metrics": {
+      "score": 0
+    },
+    "report": "Falha na geração do relatório."
+  },
+  "avaliacao_vs_oraculo": {
+    "nivel_risco_esperado": "baixo",
+    "nivel_risco_detectado": "critico",
+    "score_plataforma": 0,
+    "fragilidades_esperadas": [],
+    "fragilidades_detectadas": [],
+    "falso_positivo": true,
+    "falso_negativo": false,
+    "pontuacao_rubrica": {
+      "deteccao_fragilidade_central": 3,
+      "profundidade_perguntas": 1,
+      "classificacao_risco_correta": 0,
+      "ausencia_falso_positivo": 0,
+      "total": 4,
+      "maximo": 12
+    },
+    "observacoes": ""
+  }
+}

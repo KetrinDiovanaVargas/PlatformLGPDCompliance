@@ -1,0 +1,49 @@
+{
+  "gerado_em": "2026-07-01T00:35:05.441Z",
+  "total_sessoes": 3,
+  "taxa_acerto_nivel_risco": "0.0%",
+  "taxa_falso_positivo": "100.0%",
+  "taxa_falso_negativo": "0.0%",
+  "media_pontuacao_rubrica": "4.00/12",
+  "sessoes": [
+    {
+      "persona": "P42",
+      "status": "executado",
+      "risco_esperado": "baixo",
+      "risco_detectado": "critico",
+      "acerto_risco": false,
+      "falso_positivo": true,
+      "falso_negativo": false,
+      "fragilidades_esperadas": [],
+      "fragilidades_detectadas": [],
+      "pontuacao": 4,
+      "pontuacao_max": 12
+    },
+    {
+      "persona": "P47",
+      "status": "executado",
+      "risco_esperado": "baixo",
+      "risco_detectado": "critico",
+      "acerto_risco": false,
+      "falso_positivo": true,
+      "falso_negativo": false,
+      "fragilidades_esperadas": [],
+      "fragilidades_detectadas": [],
+      "pontuacao": 4,
+      "pontuacao_max": 12
+    },
+    {
+      "persona": "P50",
+      "status": "executado",
+      "risco_esperado": "baixo",
+      "risco_detectado": "critico",
+      "acerto_risco": false,
+      "falso_positivo": true,
+      "falso_negativo": false,
+      "fragilidades_esperadas": [],
+      "fragilidades_detectadas": [],
+      "pontuacao": 4,
+      "pontuacao_max": 12
+    }
+  ]
+}

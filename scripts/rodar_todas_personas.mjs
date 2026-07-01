@@ -42,10 +42,12 @@ function sleep(ms) {
 }
 
 function consolidarLogs(personaIds) {
+  const hoje = new Date().toISOString().split('T')[0]
+  const pastaLog = join(ROOT, 'logs', hoje)
   const resultados = []
 
   for (const id of personaIds) {
-    const logPath = join(ROOT, 'logs', `${id}_sessao_01.json`)
+    const logPath = join(pastaLog, `${id}_sessao_01.json`)
     if (!existsSync(logPath)) {
       resultados.push({ persona: id, status: 'sem_log' })
       continue
@@ -89,7 +91,8 @@ function consolidarLogs(personaIds) {
     sessoes: resultados,
   }
 
-  const outPath = join(ROOT, 'logs', 'consolidado.json')
+  mkdirSync(pastaLog, { recursive: true })
+  const outPath = join(pastaLog, 'consolidado.json')
   writeFileSync(outPath, JSON.stringify(consolidado, null, 2), 'utf8')
 
   console.log('\n━━━ Consolidado ━━━')
@@ -98,7 +101,7 @@ function consolidarLogs(personaIds) {
   console.log(`  Falso positivo:   ${consolidado.taxa_falso_positivo}`)
   console.log(`  Falso negativo:   ${consolidado.taxa_falso_negativo}`)
   console.log(`  Pontuação média:  ${consolidado.media_pontuacao_rubrica}`)
-  console.log(`  Relatório:        logs/consolidado.json\n`)
+  console.log(`  Relatório:        logs/${hoje}/consolidado.json\n`)
 }
 
 async function main() {
