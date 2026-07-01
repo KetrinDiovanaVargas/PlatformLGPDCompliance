@@ -180,6 +180,29 @@ function buildFallbackRecommendations(metrics, metadata = {}) {
   return fallback.slice(0, 5);
 }
 
+function normalizeSeverity(severity) {
+  const normalized = safeString(severity).toLowerCase();
+
+  if (normalized === "critica" || normalized === "crítica") return "Crítica";
+  if (normalized === "alta") return "Alta";
+  if (normalized === "baixa") return "Baixa";
+
+  return "Moderada";
+}
+
+function normalizeFragilidadesDetectadas(value) {
+  if (!Array.isArray(value)) return [];
+
+  return value
+    .map((item) => ({
+      codigo: safeString(item?.codigo),
+      categoria: safeString(item?.categoria),
+      severidade: normalizeSeverity(item?.severidade),
+      evidencia: safeString(item?.evidencia),
+    }))
+    .filter((item) => item.codigo && item.evidencia);
+}
+
 function normalizeRisks(score, rawRisks) {
   let conforme = Number(rawRisks?.conforme ?? 0);
   let parcial = Number(rawRisks?.parcial ?? 0);
@@ -227,6 +250,9 @@ function normalizeAnalysis(data, metadata = {}) {
   const report = safeString(data?.report);
   const summary = safeString(data?.summary);
   const controls = normalizeStringArray(data?.controls);
+  const fragilidadesDetectadas = normalizeFragilidadesDetectadas(
+    data?.fragilidades_detectadas
+  );
 
   return {
     report:
@@ -245,6 +271,7 @@ function normalizeAnalysis(data, metadata = {}) {
       summary ||
       "A análise foi gerada com normalização automática e pode exigir validação complementar.",
     controls,
+    fragilidades_detectadas: fragilidadesDetectadas,
   };
 }
 
@@ -293,6 +320,7 @@ function fallbackAnalysis(metadata = {}) {
     summary:
       "A geração estruturada falhou e um fallback seguro foi aplicado.",
     controls: [],
+    fragilidades_detectadas: [],
   };
 }
 
@@ -360,6 +388,30 @@ ${assessmentContext}
 - Se o objetivo for "Treinamento e conscientização", destaque lacunas de conhecimento, comportamento, preparo e necessidades de capacitação.
 - Se o objetivo for "Identificação de riscos", priorize fragilidades, exposições, pontos críticos e impactos potenciais.
 
+==================== EIXOS DE FRAGILIDADE (F1-F10) ====================
+
+Ao analisar as respostas, mapeie cada evidência relevante para os eixos de fragilidade abaixo:
+  F1: Compartilhamento informal (WhatsApp, e-mail pessoal, grupos, prints)
+  F2: Armazenamento indevido (celular pessoal, pendrive, desktop, backup pessoal)
+  F3: Retenção excessiva (guardar dados "por garantia", sem prazo/critério claro)
+  F4: Coleta excessiva (pedir CPF, documento, laudo ou foto sem necessidade proporcional)
+  F5: Acesso excessivo (perfil admin, senha compartilhada, acesso fora da função)
+  F6: Falta de transparência/controle (titular não sabe finalidade/destino/prazo)
+  F7: Uso secundário (dados coletados para uma finalidade usados em outra sem análise)
+  F8: Terceiros sem controle (fornecedores, contatos alternativos sem base/controle formal)
+  F9: Dados sensíveis sem salvaguarda (saúde, biometria, filiação, crianças, dependentes)
+  F10: Incidente mal tratado (perda de dispositivo, envio errado, vazamento, sem fluxo interno)
+
+SEVERIDADE de cada fragilidade detectada:
+- CRÍTICA: expõe dados sensíveis a terceiros, vazamento de CPF/senha, violação de sigilo.
+- ALTA: compartilhamento informal, retenção excessiva, acesso amplo, dados sensíveis sem controle.
+- MODERADA: coleta desnecessária, falta de política, controles parciais, terceiros sem contrato.
+- BAIXA: desvios menores, controles existem mas com falhas pontuais.
+
+Inclua no JSON o campo "fragilidades_detectadas" com cada fragilidade real identificada nas respostas,
+citando o código do eixo, a categoria, a severidade e a evidência textual que embasa a detecção.
+Não invente fragilidades sem evidência nas respostas.
+
 ==================== ESTRUTURA OBRIGATÓRIA ====================
 
 Retorne APENAS um JSON válido.
@@ -406,7 +458,15 @@ NÃO inclua texto antes ou depois do JSON.
     ]
   },
   "summary": "resumo executivo em português",
-  "controls": ["string"]
+  "controls": ["string"],
+  "fragilidades_detectadas": [
+    {
+      "codigo": "F1",
+      "categoria": "Compartilhamento informal",
+      "severidade": "Alta",
+      "evidencia": "string"
+    }
+  ]
 }
 
 ==================== REGRAS OBRIGATÓRIAS ====================

@@ -4,8 +4,8 @@ import { chatCompletion } from './ai-client.mjs';
 
 export class GroqHeadroomService {
   async analyzeLGPDCompliance(
-    questions: any[],
-    responses: Record<string, any>,
+    questions: unknown[],
+    responses: Record<string, unknown>,
     sessionId?: string
   ) {
     try {
