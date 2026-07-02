@@ -1,0 +1,555 @@
+{
+  "meta": {
+    "persona_id": "P03",
+    "persona_arquivo": "P03_SaudeOcupacional.md",
+    "data_execucao": "2026-07-02",
+    "sessao_numero": 1,
+    "modelo_llm": "llama-3.3-70b-versatile",
+    "temperatura": 0.2,
+    "executor": "simular_persona.mjs (automatizado)"
+  },
+  "estagios": [
+    {
+      "estagio": 1,
+      "titulo": "Diagnóstico de Conformidade LGPD",
+      "modo": "groq",
+      "perguntas": [
+        {
+          "id": "q1",
+          "texto": "Quais canais você usa quando precisa compartilhar informações com colegas de trabalho?",
+          "opcoes": [
+            "E-mail corporativo",
+            "WhatsApp",
+            "Plataformas de colaboração online",
+            "Reuniões presenciais",
+            "Não sei informar",
+            "Não se aplica"
+          ]
+        },
+        {
+          "id": "q2",
+          "texto": "Quais tipos de dados pessoais você lida no seu trabalho diário?",
+          "opcoes": [
+            "Nomes e sobrenomes",
+            "Endereços",
+            "Telefones",
+            "E-mails",
+            "Dados de saúde",
+            "Não sei informar"
+          ]
+        },
+        {
+          "id": "q3",
+          "texto": "Descreva como você armazena e protege os dados pessoais que lida no trabalho.",
+          "opcoes": []
+        },
+        {
+          "id": "q4",
+          "texto": "Quem tem acesso aos dados pessoais que você lida no trabalho?",
+          "opcoes": [
+            "Apenas eu",
+            "Meu supervisor",
+            "Meus colegas de equipe",
+            "Terceiros (fornecedores, parceiros)",
+            "Não sei informar",
+            "Não se aplica"
+          ]
+        }
+      ],
+      "respostas": [
+        {
+          "pergunta_id": "q1",
+          "resposta": "Quando preciso compartilhar informações com colegas de trabalho, uso principalmente o e-mail corporativo e o WhatsApp. O e-mail é mais formal e útil para documentos e informações detalhadas, enquanto o WhatsApp é mais rápido e prático para comunicações breves e urgentes, como notificar sobre a necessidade de renovação de exames ou compartilhar resultados rápidos com gestores."
+        },
+        {
+          "pergunta_id": "q2",
+          "resposta": "No meu trabalho diário, lido com vários tipos de dados pessoais, mas principalmente com dados de saúde. Isso inclui resultados de exames clínicos, laudos médicos, atestados de saúde, dados de afastamento por doença e informações sobre restrições físicas e CID. Esses dados são essenciais para garantir a saúde e a segurança dos colaboradores no ambiente de trabalho."
+        },
+        {
+          "pergunta_id": "q3",
+          "resposta": "Para armazenar e proteger os dados pessoais, utilizo um sistema de saúde ocupacional (SESO) específico para o controle e gerenciamento de exames e dados de saúde dos colaboradores. Além disso, guardo atestados e laudos em pastas locais no meu computador, organizadas por colaborador e data. Também mantenho uma planilha de controle de vencimentos de exames compartilhada com o setor de RH, que inclui informações básicas como nome, cargo e data de vencimento do exame. Considero essas medidas suficientes para manter a organização e a privacidade dos dados."
+        },
+        {
+          "pergunta_id": "q4",
+          "resposta": "Quem tem acesso aos dados pessoais que lido no trabalho inclui meu supervisor, meus colegas de equipe do RH e, em alguns casos, gestores de outras áreas que precisam saber sobre a capacidade de um colaborador de realizar determinadas tarefas ou sobre afastamentos por doença. Compartilho essas informações apenas quando necessário para o cumprimento das funções de cada um, visando sempre o bem-estar e a segurança dos colaboradores."
+        }
+      ]
+    },
+    {
+      "estagio": 2,
+      "titulo": "Diagnóstico de Conformidade LGPD",
+      "modo": "groq",
+      "perguntas": [
+        {
+          "id": "q5",
+          "texto": "Quando você compartilha informações com colegas de trabalho, como você garante que os dados pessoais sejam protegidos?",
+          "opcoes": [
+            "Usando canais seguros da empresa",
+            "Criptografando as informações",
+            "Removendo dados sensíveis antes de compartilhar",
+            "Não sei informar",
+            "Não se aplica"
+          ]
+        },
+        {
+          "id": "q6",
+          "texto": "Quais das seguintes medidas você toma para proteger os dados pessoais que lida no trabalho?",
+          "opcoes": [
+            "Armazenamento em servidores seguros",
+            "Uso de senhas fortes",
+            "Atualização regular de software",
+            "Não sei informar"
+          ]
+        },
+        {
+          "id": "q7",
+          "texto": "Descreva como você lida com a situação quando um colega de trabalho precisa acessar dados pessoais para realizar uma tarefa específica.",
+          "opcoes": []
+        },
+        {
+          "id": "q8",
+          "texto": "Quem é responsável por garantir que os dados pessoais sejam armazenados de forma segura no seu local de trabalho?",
+          "opcoes": [
+            "Eu mesmo",
+            "Meu supervisor",
+            "O setor de TI",
+            "Não sei informar",
+            "Não se aplica"
+          ]
+        },
+        {
+          "id": "q9",
+          "texto": "Quais das seguintes situações você considera um risco para a segurança dos dados pessoais no seu local de trabalho?",
+          "opcoes": [
+            "Uso de dispositivos pessoais para armazenar dados da empresa",
+            "Compartilhamento de senhas",
+            "Acesso não autorizado a áreas restritas",
+            "Não sei informar"
+          ]
+        }
+      ],
+      "respostas": [
+        {
+          "pergunta_id": "q5",
+          "resposta": "Quando você compartilha informações com colegas de trabalho, como você garante que os dados pessoais sejam protegidos?\nEu escolho a opção: \"Usando canais seguros da empresa\". No meu trabalho, eu geralmente compartilho informações por meio de e-mails corporativos ou do sistema de saúde ocupacional, que considero canais seguros. Além disso, só compartilho o necessário para o gestor tomar providências, o que acho que ajuda a manter a privacidade dos colaboradores."
+        },
+        {
+          "pergunta_id": "q6",
+          "resposta": "Quais das seguintes medidas você toma para proteger os dados pessoais que lida no trabalho?\nEu escolho a opção: \"Armazenamento em servidores seguros\". Embora eu não tenha certeza se todos os dados estão armazenados em servidores seguros, eu uso o sistema de saúde ocupacional da empresa, que presume-se seguro, e também guardo documentos importantes em pastas locais no meu computador, que é da empresa e tem senhas."
+        },
+        {
+          "pergunta_id": "q7",
+          "resposta": "Descreva como você lida com a situação quando um colega de trabalho precisa acessar dados pessoais para realizar uma tarefa específica.\nQuando um colega de trabalho precisa acessar dados pessoais, geralmente é para saber se um colaborador pode assumir uma função específica ou para entender melhor uma situação de saúde. Nesses casos, eu envio as informações necessárias por e-mail corporativo ou, se for algo rápido e urgente, uso o WhatsApp pessoal, pois é mais rápido e todos os gestores estão disponíveis lá. Eu só envio o que é estritamente necessário para a tarefa, tentando manter a privacidade do colaborador."
+        },
+        {
+          "pergunta_id": "q8",
+          "resposta": "Quem é responsável por garantir que os dados pessoais sejam armazenados de forma segura no seu local de trabalho?\nEu escolho a opção: \"O setor de TI\". Acho que o setor de TI da empresa é responsável por garantir a segurança dos dados, pois eles são os especialistas em tecnologia e segurança da informação. No entanto, como Técnico de Segurança do Trabalho e Saúde Ocupacional, eu também tenho um papel importante em garantir que os dados sejam tratados com cuidado e respeito à privacidade dos colaboradores."
+        },
+        {
+          "pergunta_id": "q9",
+          "resposta": "Quais das seguintes situações você considera um risco para a segurança dos dados pessoais no seu local de trabalho?\nEu escolho a opção: \"Acesso não autorizado a áreas restritas\". Acho que o acesso não autorizado a áreas onde os dados pessoais são armazenados ou tratados é um grande risco. No entanto, não considero que o uso de dispositivos pessoais ou o compartilhamento de senhas sejam comuns no meu ambiente de trabalho, e não vejo isso como um problema significativo no meu dia a dia."
+        }
+      ]
+    },
+    {
+      "estagio": 3,
+      "titulo": "Diagnóstico de Conformidade LGPD",
+      "modo": "groq",
+      "perguntas": [
+        {
+          "id": "q10",
+          "texto": "Quando você compartilha informações com colegas de trabalho, como você garante que os dados pessoais sejam protegidos durante o transporte ou armazenamento?",
+          "opcoes": [
+            "Usando criptografia",
+            "Usando senhas fortes",
+            "Usando canais seguros de comunicação",
+            "Não sei informar",
+            "Não se aplica"
+          ]
+        },
+        {
+          "id": "q11",
+          "texto": "Quais das seguintes medidas você toma para proteger os dados pessoais que lida no trabalho?",
+          "opcoes": [
+            "Armazenamento em servidores seguros",
+            "Uso de firewalls",
+            "Uso de antivírus",
+            "Uso de autenticação de dois fatores",
+            "Não sei informar"
+          ]
+        },
+        {
+          "id": "q12",
+          "texto": "Descreva como você lida com a situação quando um colega de trabalho precisa acessar dados pessoais para realizar uma tarefa específica.",
+          "opcoes": []
+        },
+        {
+          "id": "q13",
+          "texto": "Quem é responsável por garantir que os dados pessoais sejam armazenados de forma segura no seu local de trabalho?",
+          "opcoes": [
+            "Eu mesmo",
+            "Meu supervisor",
+            "O setor de TI",
+            "Não sei informar",
+            "Não se aplica"
+          ]
+        },
+        {
+          "id": "q14",
+          "texto": "Quais das seguintes situações você considera um risco para a segurança dos dados pessoais no seu local de trabalho?",
+          "opcoes": [
+            "Uso de dispositivos pessoais para armazenar dados da empresa",
+            "Compartilhamento de senhas",
+            "Uso de redes Wi-Fi públicas para acessar dados da empresa",
+            "Não sei informar"
+          ]
+        }
+      ],
+      "respostas": [
+        {
+          "pergunta_id": "q10",
+          "resposta": "Quando você compartilha informações com colegas de trabalho, como você garante que os dados pessoais sejam protegidos durante o transporte ou armazenamento?\nEu uso canais seguros de comunicação, como o e-mail corporativo, para compartilhar informações. Além disso, quando necessário, uso o WhatsApp pessoal para comunicar rapidamente com gestores, mas só compartilho o necessário para que eles possam tomar providências. Considero que isso é suficiente para proteger os dados pessoais."
+        },
+        {
+          "pergunta_id": "q11",
+          "resposta": "Quais das seguintes medidas você toma para proteger os dados pessoais que lida no trabalho?\nNão sei informar sobre medidas específicas de segurança, como uso de firewalls ou antivírus, pois isso é mais relacionado ao setor de TI. No entanto, armazeno os dados em pastas locais no computador e uso o sistema de saúde ocupacional (SESO) para organizar as informações dos colaboradores."
+        },
+        {
+          "pergunta_id": "q12",
+          "resposta": "Descreva como você lida com a situação quando um colega de trabalho precisa acessar dados pessoais para realizar uma tarefa específica.\nQuando um colega de trabalho precisa acessar dados pessoais, eu avalio a necessidade e compartilho apenas as informações necessárias para que ele possa realizar a tarefa. Por exemplo, se um gestor precisa saber se um colaborador pode assumir uma função específica, eu envio o laudo ou a conclusão do médico do trabalho por WhatsApp pessoal ou e-mail corporativo. Também coloco o nome e o CID do afastamento na planilha compartilhada com outros setores para controle de presença, pois considero isso parte do trabalho integrado com o RH."
+        },
+        {
+          "pergunta_id": "q13",
+          "resposta": "Quem é responsável por garantir que os dados pessoais sejam armazenados de forma segura no seu local de trabalho?\nEu mesmo. Como Técnico de Segurança do Trabalho e Saúde Ocupacional, sinto-me responsável por garantir que os dados pessoais sejam armazenados de forma segura, embora não tenha conhecimento específico sobre as medidas de segurança de dados."
+        },
+        {
+          "pergunta_id": "q14",
+          "resposta": "Quais das seguintes situações você considera um risco para a segurança dos dados pessoais no seu local de trabalho?\nNão sei informar. Não tenho conhecimento específico sobre riscos para a segurança dos dados pessoais, mas procuro ser cuidadoso ao compartilhar informações e armazená-las de forma organizada."
+        }
+      ]
+    },
+    {
+      "estagio": 4,
+      "titulo": "Diagnóstico de Conformidade LGPD",
+      "modo": "groq",
+      "perguntas": [
+        {
+          "id": "q15",
+          "texto": "Quais medidas você toma para garantir a segurança dos dados pessoais quando os armazena em dispositivos móveis ou computadores?",
+          "opcoes": [
+            "Usar senha forte e autenticação de dois fatores",
+            "Armazenar em pastas criptografadas",
+            "Não armazenar dados pessoais em dispositivos móveis ou computadores",
+            "Não sei informar",
+            "Não se aplica"
+          ]
+        },
+        {
+          "id": "q16",
+          "texto": "Quais das seguintes situações você considera um risco para a segurança dos dados pessoais no seu local de trabalho?",
+          "opcoes": [
+            "Acesso não autorizado a dados pessoais",
+            "Perda ou roubo de dispositivos com dados pessoais",
+            "Uso de senhas fracas ou compartilhamento de senhas",
+            "Não sei informar"
+          ]
+        },
+        {
+          "id": "q17",
+          "texto": "Descreva como você lida com a situação quando um colega de trabalho precisa acessar dados pessoais para realizar uma tarefa específica, mas não tem permissão para isso.",
+          "opcoes": []
+        },
+        {
+          "id": "q18",
+          "texto": "Quem é responsável por garantir que os dados pessoais sejam armazenados de forma segura no seu local de trabalho?",
+          "opcoes": [
+            "Eu mesmo",
+            "Meu supervisor",
+            "O setor de TI",
+            "Não sei informar",
+            "Não se aplica"
+          ]
+        },
+        {
+          "id": "q19",
+          "texto": "Quais das seguintes medidas você toma para proteger os dados pessoais que lida no trabalho?",
+          "opcoes": [
+            "Usar sistemas de gerenciamento de dados pessoais",
+            "Realizar backups regulares",
+            "Usar criptografia para proteger dados",
+            "Não sei informar"
+          ]
+        }
+      ],
+      "respostas": [
+        {
+          "pergunta_id": "q15",
+          "resposta": "** \nEu uso senha forte e autenticação de dois fatores para proteger os dispositivos onde armazeno dados pessoais. Isso me parece uma medida básica, mas eficaz, para garantir a segurança desses dados. Além disso, quando armazeno informações em pastas locais no computador, procuro manter essas pastas organizadas e com nomes que não chamem atenção, o que ajuda a evitar acessos indevidos.\n\n**"
+        },
+        {
+          "pergunta_id": "q16",
+          "resposta": "** \nConsidero que o acesso não autorizado a dados pessoais é um risco significativo. Se alguém que não deveria ter acesso a esses dados conseguisse vê-los, poderia comprometer a privacidade dos colaboradores e causar problemas para a empresa. Além disso, a perda ou roubo de dispositivos com dados pessoais também é uma preocupação, pois isso poderia expor esses dados a terceiros não autorizados.\n\n**"
+        },
+        {
+          "pergunta_id": "q17",
+          "resposta": "** \nQuando um colega de trabalho precisa acessar dados pessoais para realizar uma tarefa específica, mas não tem permissão para isso, eu geralmente verifico se a tarefa é realmente necessária e se há outra forma de realizar essa tarefa sem acessar os dados pessoais. Se for necessário, eu mesmo forneço as informações relevantes ao colega, filtrando o que é estritamente necessário para a tarefa. Isso ajuda a minimizar o acesso a dados sensíveis e garantir que apenas as pessoas autorizadas tenham visibilidade a essas informações.\n\n**"
+        },
+        {
+          "pergunta_id": "q18",
+          "resposta": "** \nEu mesmo sinto uma grande responsabilidade por garantir que os dados pessoais sejam armazenados de forma segura no meu local de trabalho. Embora o setor de TI também tenha um papel importante nisso, considero que, como Técnico de Segurança do Trabalho e Saúde Ocupacional, é minha responsabilidade direta proteger os dados dos colaboradores que estão sob minha custódia.\n\n**"
+        },
+        {
+          "pergunta_id": "q19",
+          "resposta": "** \nEu uso sistemas de gerenciamento de dados pessoais, como o nosso sistema de saúde ocupacional, para armazenar e gerenciar os dados pessoais dos colaboradores. Além disso, procuro manter esses dados atualizados e organizados, o que ajuda a garantir que eles sejam facilmente acessíveis quando necessário, mas também seguros contra acessos indevidos. Não costumo realizar backups regulares dos dados pessoais, pois isso é feito automaticamente pelo nosso sistema de gerenciamento de dados. A criptografia não é algo que eu costume usar diretamente para proteger os dados, mas entendo que é uma medida importante para a segurança dos dados."
+        }
+      ]
+    }
+  ],
+  "relatorio_final": {
+    "report": "Análise técnica da gestão de dados pessoais no local de trabalho. O relatório aborda a forma como os dados pessoais são coletados, armazenados, compartilhados e protegidos. Foram identificadas fragilidades, como o compartilhamento informal de dados e a falta de medidas de segurança adequadas.",
+    "summary": "O relatório técnico identificou fragilidades na gestão de dados pessoais, como o compartilhamento informal de dados e a falta de medidas de segurança adequadas. Foram recomendadas implementações de medidas de segurança, treinamento de funcionários e auditorias regulares para garantir a conformidade com a LGPD.",
+    "metrics": {
+      "score": 60,
+      "risks": {
+        "conforme": 20,
+        "parcial": 40,
+        "naoConforme": 40
+      },
+      "strengths": [
+        "Uso de sistema de saúde ocupacional para gerenciar dados pessoais",
+        "Armazenamento de dados em pastas locais organizadas"
+      ],
+      "attentionPoints": [
+        "Compartilhamento informal de dados pessoais via WhatsApp",
+        "Falta de medidas de segurança adequadas para proteger dados pessoais"
+      ],
+      "criticalIssues": [
+        "Acesso não autorizado a dados pessoais",
+        "Perda ou roubo de dispositivos com dados pessoais"
+      ],
+      "controlsStatus": [
+        {
+          "name": "Criptografia",
+          "value": 1
+        },
+        {
+          "name": "Acesso",
+          "value": 2
+        },
+        {
+          "name": "Backup",
+          "value": 1
+        },
+        {
+          "name": "Monitoramento",
+          "value": 0
+        },
+        {
+          "name": "Documentação",
+          "value": 2
+        }
+      ],
+      "recommendations": [
+        {
+          "title": "Implementar medidas de segurança para proteger dados pessoais",
+          "description": "Implementar criptografia, autenticação de dois fatores e firewalls para proteger dados pessoais",
+          "priority": "Alta",
+          "category": "Segurança",
+          "actions": [
+            "Implementar criptografia para dados pessoais",
+            "Configurar autenticação de dois fatores para acessar dados pessoais"
+          ],
+          "learning": {
+            "book": "Guia de segurança de dados pessoais",
+            "video": "Tutorial de criptografia",
+            "references": "LGPD, ISO/IEC 27001",
+            "steps": [
+              "Identificar dados pessoais sensíveis",
+              "Implementar medidas de segurança para proteger dados pessoais"
+            ],
+            "isoRefs": "ISO/IEC 27001",
+            "lgpdRefs": "LGPD"
+          }
+        },
+        {
+          "title": "Treinar funcionários sobre a importância da segurança de dados pessoais",
+          "description": "Treinar funcionários sobre a importância da segurança de dados pessoais e como proteger esses dados",
+          "priority": "Média",
+          "category": "Conscientização",
+          "actions": [
+            "Realizar treinamento sobre segurança de dados pessoais",
+            "Distribuir material de conscientização sobre segurança de dados pessoais"
+          ],
+          "learning": {
+            "book": "Guia de conscientização sobre segurança de dados pessoais",
+            "video": "Tutorial de segurança de dados pessoais",
+            "references": "LGPD, ISO/IEC 27001",
+            "steps": [
+              "Identificar funcionários que lidam com dados pessoais",
+              "Treinar funcionários sobre a importância da segurança de dados pessoais"
+            ],
+            "isoRefs": "ISO/IEC 27001",
+            "lgpdRefs": "LGPD"
+          }
+        },
+        {
+          "title": "Realizar auditorias regulares para garantir a conformidade com a LGPD",
+          "description": "Realizar auditorias regulares para garantir a conformidade com a LGPD e identificar áreas de melhoria",
+          "priority": "Alta",
+          "category": "Conformidade",
+          "actions": [
+            "Realizar auditorias regulares",
+            "Identificar áreas de melhoria"
+          ],
+          "learning": {
+            "book": "Guia de auditoria de conformidade com a LGPD",
+            "video": "Tutorial de auditoria de conformidade",
+            "references": "LGPD, ISO/IEC 27001",
+            "steps": [
+              "Identificar requisitos da LGPD",
+              "Realizar auditorias regulares para garantir a conformidade"
+            ],
+            "isoRefs": "ISO/IEC 27001",
+            "lgpdRefs": "LGPD"
+          }
+        }
+      ]
+    },
+    "responses": [
+      {
+        "questionId": "q1",
+        "question": "Quais canais você usa quando precisa compartilhar informações com colegas de trabalho?",
+        "answer": "Quando preciso compartilhar informações com colegas de trabalho, uso principalmente o e-mail corporativo e o WhatsApp. O e-mail é mais formal e útil para documentos e informações detalhadas, enquanto o WhatsApp é mais rápido e prático para comunicações breves e urgentes, como notificar sobre a necessidade de renovação de exames ou compartilhar resultados rápidos com gestores."
+      },
+      {
+        "questionId": "q2",
+        "question": "Quais tipos de dados pessoais você lida no seu trabalho diário?",
+        "answer": "No meu trabalho diário, lido com vários tipos de dados pessoais, mas principalmente com dados de saúde. Isso inclui resultados de exames clínicos, laudos médicos, atestados de saúde, dados de afastamento por doença e informações sobre restrições físicas e CID. Esses dados são essenciais para garantir a saúde e a segurança dos colaboradores no ambiente de trabalho."
+      },
+      {
+        "questionId": "q3",
+        "question": "Descreva como você armazena e protege os dados pessoais que lida no trabalho.",
+        "answer": "Para armazenar e proteger os dados pessoais, utilizo um sistema de saúde ocupacional (SESO) específico para o controle e gerenciamento de exames e dados de saúde dos colaboradores. Além disso, guardo atestados e laudos em pastas locais no meu computador, organizadas por colaborador e data. Também mantenho uma planilha de controle de vencimentos de exames compartilhada com o setor de RH, que inclui informações básicas como nome, cargo e data de vencimento do exame. Considero essas medidas suficientes para manter a organização e a privacidade dos dados."
+      },
+      {
+        "questionId": "q4",
+        "question": "Quem tem acesso aos dados pessoais que você lida no trabalho?",
+        "answer": "Quem tem acesso aos dados pessoais que lido no trabalho inclui meu supervisor, meus colegas de equipe do RH e, em alguns casos, gestores de outras áreas que precisam saber sobre a capacidade de um colaborador de realizar determinadas tarefas ou sobre afastamentos por doença. Compartilho essas informações apenas quando necessário para o cumprimento das funções de cada um, visando sempre o bem-estar e a segurança dos colaboradores."
+      },
+      {
+        "questionId": "q5",
+        "question": "Quando você compartilha informações com colegas de trabalho, como você garante que os dados pessoais sejam protegidos?",
+        "answer": "Quando você compartilha informações com colegas de trabalho, como você garante que os dados pessoais sejam protegidos?\nEu escolho a opção: \"Usando canais seguros da empresa\". No meu trabalho, eu geralmente compartilho informações por meio de e-mails corporativos ou do sistema de saúde ocupacional, que considero canais seguros. Além disso, só compartilho o necessário para o gestor tomar providências, o que acho que ajuda a manter a privacidade dos colaboradores."
+      },
+      {
+        "questionId": "q6",
+        "question": "Quais das seguintes medidas você toma para proteger os dados pessoais que lida no trabalho?",
+        "answer": "Quais das seguintes medidas você toma para proteger os dados pessoais que lida no trabalho?\nEu escolho a opção: \"Armazenamento em servidores seguros\". Embora eu não tenha certeza se todos os dados estão armazenados em servidores seguros, eu uso o sistema de saúde ocupacional da empresa, que presume-se seguro, e também guardo documentos importantes em pastas locais no meu computador, que é da empresa e tem senhas."
+      },
+      {
+        "questionId": "q7",
+        "question": "Descreva como você lida com a situação quando um colega de trabalho precisa acessar dados pessoais para realizar uma tarefa específica.",
+        "answer": "Descreva como você lida com a situação quando um colega de trabalho precisa acessar dados pessoais para realizar uma tarefa específica.\nQuando um colega de trabalho precisa acessar dados pessoais, geralmente é para saber se um colaborador pode assumir uma função específica ou para entender melhor uma situação de saúde. Nesses casos, eu envio as informações necessárias por e-mail corporativo ou, se for algo rápido e urgente, uso o WhatsApp pessoal, pois é mais rápido e todos os gestores estão disponíveis lá. Eu só envio o que é estritamente necessário para a tarefa, tentando manter a privacidade do colaborador."
+      },
+      {
+        "questionId": "q8",
+        "question": "Quem é responsável por garantir que os dados pessoais sejam armazenados de forma segura no seu local de trabalho?",
+        "answer": "Quem é responsável por garantir que os dados pessoais sejam armazenados de forma segura no seu local de trabalho?\nEu escolho a opção: \"O setor de TI\". Acho que o setor de TI da empresa é responsável por garantir a segurança dos dados, pois eles são os especialistas em tecnologia e segurança da informação. No entanto, como Técnico de Segurança do Trabalho e Saúde Ocupacional, eu também tenho um papel importante em garantir que os dados sejam tratados com cuidado e respeito à privacidade dos colaboradores."
+      },
+      {
+        "questionId": "q9",
+        "question": "Quais das seguintes situações você considera um risco para a segurança dos dados pessoais no seu local de trabalho?",
+        "answer": "Quais das seguintes situações você considera um risco para a segurança dos dados pessoais no seu local de trabalho?\nEu escolho a opção: \"Acesso não autorizado a áreas restritas\". Acho que o acesso não autorizado a áreas onde os dados pessoais são armazenados ou tratados é um grande risco. No entanto, não considero que o uso de dispositivos pessoais ou o compartilhamento de senhas sejam comuns no meu ambiente de trabalho, e não vejo isso como um problema significativo no meu dia a dia."
+      },
+      {
+        "questionId": "q10",
+        "question": "Quando você compartilha informações com colegas de trabalho, como você garante que os dados pessoais sejam protegidos durante o transporte ou armazenamento?",
+        "answer": "Quando você compartilha informações com colegas de trabalho, como você garante que os dados pessoais sejam protegidos durante o transporte ou armazenamento?\nEu uso canais seguros de comunicação, como o e-mail corporativo, para compartilhar informações. Além disso, quando necessário, uso o WhatsApp pessoal para comunicar rapidamente com gestores, mas só compartilho o necessário para que eles possam tomar providências. Considero que isso é suficiente para proteger os dados pessoais."
+      },
+      {
+        "questionId": "q11",
+        "question": "Quais das seguintes medidas você toma para proteger os dados pessoais que lida no trabalho?",
+        "answer": "Quais das seguintes medidas você toma para proteger os dados pessoais que lida no trabalho?\nNão sei informar sobre medidas específicas de segurança, como uso de firewalls ou antivírus, pois isso é mais relacionado ao setor de TI. No entanto, armazeno os dados em pastas locais no computador e uso o sistema de saúde ocupacional (SESO) para organizar as informações dos colaboradores."
+      },
+      {
+        "questionId": "q12",
+        "question": "Descreva como você lida com a situação quando um colega de trabalho precisa acessar dados pessoais para realizar uma tarefa específica.",
+        "answer": "Descreva como você lida com a situação quando um colega de trabalho precisa acessar dados pessoais para realizar uma tarefa específica.\nQuando um colega de trabalho precisa acessar dados pessoais, eu avalio a necessidade e compartilho apenas as informações necessárias para que ele possa realizar a tarefa. Por exemplo, se um gestor precisa saber se um colaborador pode assumir uma função específica, eu envio o laudo ou a conclusão do médico do trabalho por WhatsApp pessoal ou e-mail corporativo. Também coloco o nome e o CID do afastamento na planilha compartilhada com outros setores para controle de presença, pois considero isso parte do trabalho integrado com o RH."
+      },
+      {
+        "questionId": "q13",
+        "question": "Quem é responsável por garantir que os dados pessoais sejam armazenados de forma segura no seu local de trabalho?",
+        "answer": "Quem é responsável por garantir que os dados pessoais sejam armazenados de forma segura no seu local de trabalho?\nEu mesmo. Como Técnico de Segurança do Trabalho e Saúde Ocupacional, sinto-me responsável por garantir que os dados pessoais sejam armazenados de forma segura, embora não tenha conhecimento específico sobre as medidas de segurança de dados."
+      },
+      {
+        "questionId": "q14",
+        "question": "Quais das seguintes situações você considera um risco para a segurança dos dados pessoais no seu local de trabalho?",
+        "answer": "Quais das seguintes situações você considera um risco para a segurança dos dados pessoais no seu local de trabalho?\nNão sei informar. Não tenho conhecimento específico sobre riscos para a segurança dos dados pessoais, mas procuro ser cuidadoso ao compartilhar informações e armazená-las de forma organizada."
+      },
+      {
+        "questionId": "q15",
+        "question": "Quais medidas você toma para garantir a segurança dos dados pessoais quando os armazena em dispositivos móveis ou computadores?",
+        "answer": "** \nEu uso senha forte e autenticação de dois fatores para proteger os dispositivos onde armazeno dados pessoais. Isso me parece uma medida básica, mas eficaz, para garantir a segurança desses dados. Além disso, quando armazeno informações em pastas locais no computador, procuro manter essas pastas organizadas e com nomes que não chamem atenção, o que ajuda a evitar acessos indevidos.\n\n**"
+      },
+      {
+        "questionId": "q16",
+        "question": "Quais das seguintes situações você considera um risco para a segurança dos dados pessoais no seu local de trabalho?",
+        "answer": "** \nConsidero que o acesso não autorizado a dados pessoais é um risco significativo. Se alguém que não deveria ter acesso a esses dados conseguisse vê-los, poderia comprometer a privacidade dos colaboradores e causar problemas para a empresa. Além disso, a perda ou roubo de dispositivos com dados pessoais também é uma preocupação, pois isso poderia expor esses dados a terceiros não autorizados.\n\n**"
+      },
+      {
+        "questionId": "q17",
+        "question": "Descreva como você lida com a situação quando um colega de trabalho precisa acessar dados pessoais para realizar uma tarefa específica, mas não tem permissão para isso.",
+        "answer": "** \nQuando um colega de trabalho precisa acessar dados pessoais para realizar uma tarefa específica, mas não tem permissão para isso, eu geralmente verifico se a tarefa é realmente necessária e se há outra forma de realizar essa tarefa sem acessar os dados pessoais. Se for necessário, eu mesmo forneço as informações relevantes ao colega, filtrando o que é estritamente necessário para a tarefa. Isso ajuda a minimizar o acesso a dados sensíveis e garantir que apenas as pessoas autorizadas tenham visibilidade a essas informações.\n\n**"
+      },
+      {
+        "questionId": "q18",
+        "question": "Quem é responsável por garantir que os dados pessoais sejam armazenados de forma segura no seu local de trabalho?",
+        "answer": "** \nEu mesmo sinto uma grande responsabilidade por garantir que os dados pessoais sejam armazenados de forma segura no meu local de trabalho. Embora o setor de TI também tenha um papel importante nisso, considero que, como Técnico de Segurança do Trabalho e Saúde Ocupacional, é minha responsabilidade direta proteger os dados dos colaboradores que estão sob minha custódia.\n\n**"
+      },
+      {
+        "questionId": "q19",
+        "question": "Quais das seguintes medidas você toma para proteger os dados pessoais que lida no trabalho?",
+        "answer": "** \nEu uso sistemas de gerenciamento de dados pessoais, como o nosso sistema de saúde ocupacional, para armazenar e gerenciar os dados pessoais dos colaboradores. Além disso, procuro manter esses dados atualizados e organizados, o que ajuda a garantir que eles sejam facilmente acessíveis quando necessário, mas também seguros contra acessos indevidos. Não costumo realizar backups regulares dos dados pessoais, pois isso é feito automaticamente pelo nosso sistema de gerenciamento de dados. A criptografia não é algo que eu costume usar diretamente para proteger os dados, mas entendo que é uma medida importante para a segurança dos dados."
+      }
+    ],
+    "assessmentMetadata": {
+      "assessmentId": null,
+      "assessmentTitle": "",
+      "assessmentFormType": "",
+      "assessmentObjective": "",
+      "assessmentContext": "",
+      "audience": "",
+      "introText": "",
+      "ownerId": "",
+      "ownerName": ""
+    },
+    "reportMode": "groq",
+    "reportNotice": "",
+    "createdAt": "2026-07-02T21:05:35.136Z"
+  },
+  "avaliacao_vs_oraculo": {
+    "nivel_risco_esperado": "critico",
+    "nivel_risco_detectado": "moderado",
+    "score_plataforma": 60,
+    "fragilidades_esperadas": [
+      "F9",
+      "F1",
+      "F5"
+    ],
+    "fragilidades_detectadas": [
+      "F1",
+      "F5"
+    ],
+    "falso_positivo": false,
+    "falso_negativo": false,
+    "pontuacao_rubrica": {
+      "deteccao_fragilidade_central": 2,
+      "profundidade_perguntas": 1,
+      "classificacao_risco_correta": 0,
+      "ausencia_falso_positivo": 3,
+      "total": 6,
+      "maximo": 12
+    },
+    "observacoes": ""
+  }
+}
