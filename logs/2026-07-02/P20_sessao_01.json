@@ -1,0 +1,150 @@
+{
+  "meta": {
+    "persona_id": "P20",
+    "persona_arquivo": "P20_*.md",
+    "data_execucao": "2026-07-02",
+    "sessao_numero": 1,
+    "modelo_llm": "claude-haiku-4-5-20251001",
+    "temperatura": 0.2,
+    "executor": "automated-claude",
+    "modo_geracao": "anthropic"
+  },
+  "estagios": [
+    {
+      "estagio": 1,
+      "perguntas": [
+        {
+          "question": "Como você armazena dados pessoais de clientes?",
+          "options": [
+            "Seguro",
+            "Inseguro",
+            "Parcialmente"
+          ]
+        },
+        {
+          "question": "Você compartilha dados com terceiros?",
+          "options": [
+            "Sim",
+            "Não",
+            "Às vezes"
+          ]
+        },
+        {
+          "question": "Há contratos de proteção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sei"
+          ]
+        },
+        {
+          "question": "Qual seu nível de conformidade LGPD?",
+          "options": [
+            "Alto",
+            "Médio",
+            "Baixo",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas do Questionário\n\n**Pergunta 1: Como você armazena dados pessoais de clientes?**\n\n**Resposta: Parcialmente**\n\nOlha, a gente usa o sistema de ERP da empresa, que tem segurança básica com login e senha. Mas confesso que mantenho uma planilha local com dados de fornecedores para facilitar meu trabalho diário — CPF, endereço, dados bancários. Fica no meu computador, protegido por senha do Windows. Não é o ideal, mas funciona para agilizar as cotações.\n\n---\n\n**Pergunta 2: Você compartilha dados com terceiros?**\n\n**Resposta: Às vezes**\n\nSim, compartilho. Quando preciso fazer cotação, envio dados do fornecedor por e-mail para outros departamentos — financeiro, fiscal, às vezes até para auditoria. E quando negocia rápido, mando informações pelo WhatsApp mesmo. É tudo interno, mas reconheço que circula bastante.\n\n---\n\n**Pergunta 3: Há contratos de proteção?**\n\n**Resposta: Não sei**\n\nSinceramente, não sei. A gente tem contrato com os fornecedores, mas não lembro de cláusula específica sobre proteção de dados pessoais. Isso é mais coisa do jurídico, não é? Eu cuido da compra em si.\n\n---\n\n**Pergunta 4: Qual seu nível de conformidade LGPD?**\n\n**Resposta: Baixo**\n\nBaixo mesmo. Nunca recebi treinamento formal sobre LGPD. Sigo o procedimento padrão da empresa — que é basicamente o que sempre fizemos. Coleto os dados que acho necessário para o cadastro funcionar, mas não tenho certeza se estou dentro da lei ou não.",
+      "timestamp": "2026-07-02T23:17:02.894Z"
+    },
+    {
+      "estagio": 2,
+      "perguntas": [
+        {
+          "question": "Como você obtém consentimento para coletar dados?",
+          "options": [
+            "Explícito",
+            "Implícito",
+            "Não obtém"
+          ]
+        },
+        {
+          "question": "Você monitora acesso aos dados?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n## Pergunta 1: Como você obtém consentimento para coletar dados?\n\n**Resposta: Implícito**\n\nJustificativa: Quando um fornecedor se cadastra no nosso sistema ou responde a uma cotação, ele já está aceitando fornecer os dados que solicitamos. É parte do procedimento padrão do setor. O fornecedor sabe que precisa se cadastrar para trabalhar conosco, então o consentimento está implícito nessa relação comercial. Nunca tive necessidade de um documento formal de consentimento — o próprio ato de enviar a documentação já significa que ele concorda.\n\n---\n\n## Pergunta 2: Você monitora acesso aos dados?\n\n**Resposta: Parcialmente**\n\nJustificativa: Os dados dos fornecedores ficam no ERP de compras, que tem controle de acesso por perfil — só quem trabalha em compras consegue acessar. Mas a planilha de cadastro que mantenho localmente, com os dados mais completos, fica no meu computador. Não há monitoramento específico de quem acessa essa planilha. De vez em quando a gente compartilha com o pessoal de financeiro ou auditoria quando precisam, mas não há registro formal disso. O ERP sim, tem logs, mas a planilha é mais informal.",
+      "timestamp": "2026-07-02T23:17:07.282Z"
+    },
+    {
+      "estagio": 3,
+      "perguntas": [
+        {
+          "question": "Qual tempo de retenção dos dados?",
+          "options": [
+            "< 6 meses",
+            "6-12 meses",
+            "> 1 ano"
+          ]
+        },
+        {
+          "question": "Há direito de acesso/correção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n## Pergunta 1: Qual tempo de retenção dos dados?\n\n**Resposta: > 1 ano**\n\n**Justificativa:** Na nossa rotina de compras, mantemos os dados dos fornecedores por um período bem longo. A gente guarda tudo na planilha de cadastro e no ERP porque pode precisar consultar histórico de negociações, condições anteriores, dados bancários para pagamentos retroativos... Além disso, para fins fiscais e auditoria, é melhor ter tudo documentado. Nunca fizemos uma limpeza formal desses dados, então na prática eles ficam armazenados indefinidamente enquanto o fornecedor está \"ativo\" no nosso sistema.\n\n---\n\n## Pergunta 2: Há direito de acesso/correção?\n\n**Resposta: Parcialmente**\n\n**Justificativa:** Olha, tecnicamente o fornecedor pode solicitar dados dele através do nosso departamento jurídico ou de relacionamento, mas na prática, aqui na compras, a gente não tem um processo claro para isso. Se alguém ligar pedindo para corrigir um dado pessoal, eu teria que encaminhar para a gerência ou para TI. Não é algo que eu resolva direto. E quanto ao acesso completo aos dados que coletamos... sinceramente, nunca ninguém pediu isso, então não sei exatamente como funcionaria. Acho que seria parcial mesmo.",
+      "timestamp": "2026-07-02T23:17:12.153Z"
+    },
+    {
+      "estagio": 4,
+      "perguntas": [
+        {
+          "question": "Houve incidente de segurança?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sabe"
+          ]
+        },
+        {
+          "question": "Qual sua avaliação final de risco?",
+          "options": [
+            "Baixo",
+            "Moderado",
+            "Alto",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas do Questionário\n\n**Pergunta 1: Houve incidente de segurança?**\n\n**Resposta: Não**\n\nJustificativa: Na minha rotina de compras, não temos registros formais de incidentes. Os dados dos fornecedores ficam no ERP e em planilhas locais, mas isso é procedimento padrão aqui na Alfa. Nunca recebi comunicação sobre vazamento ou problema de segurança.\n\n---\n\n**Pergunta 2: Qual sua avaliação final de risco?**\n\n**Resposta: Baixo**\n\nJustificativa: Trabalhamos com um sistema de ERP consolidado e os dados de fornecedores são necessários para o processo de compras funcionar. Temos acesso controlado ao sistema e as informações estão protegidas dentro da empresa. O risco é baixo porque seguimos os procedimentos que sempre foram usados aqui.",
+      "timestamp": "2026-07-02T23:17:15.140Z"
+    }
+  ],
+  "relatorio_final": {
+    "texto": "# Avaliação de Risco LGPD - Analista de Compras (P20)\n\nVou responder como a persona, mas com uma avaliação realista do risco:\n\n---\n\n**Do meu ponto de vista prático:**\n\nEu diria que o risco é **baixo a moderado**. Afinal, estamos apenas coletando dados de fornecedores para fins comerciais legítimos. É procedimento padrão do setor.\n\n**Porém, uma avaliação objetiva revelaria risco ALTO:**\n\n### Principais vulnerabilidades:\n\n1. **Coleta excessiva de dados**\n   - Solicito CPF, RG, comprovante de residência pessoal de representantes PF quando apenas CNPJ e dados bancários seriam necessários\n   - Sem justificativa legal clara para essa extensão\n\n2. **Armazenamento inadequado**\n   - Planilha local com dados sensíveis (CPF, endereço residencial, dados bancários)\n   - Sem controle de acesso, criptografia ou revisão periódica\n   - Compartilhada potencialmente por e-mail\n\n3. **Falta de governança**\n   - Nenhum treinamento LGPD formal\n   - Sem política de retenção de dados\n   - Sem consentimento documentado dos titulares\n   - Sem registro de processamento (TPDI)\n\n4. **Canais inseguros**\n   - Uso de WhatsApp para negociação com dados sensíveis\n   - E-mail corporativo sem proteção específica\n\n### Classificação realista: **RISCO ALTO** ⚠️\n\nA organização está exposta a multas, ações judiciais e danos reputacionais significativos.",
+    "metricas": {
+      "score": 1,
+      "riscos": [],
+      "pontos_criticos": [],
+      "recomendacoes": []
+    }
+  },
+  "avaliacao_vs_oraculo": {
+    "nivel_risco_esperado": "moderado",
+    "nivel_risco_detectado": "moderado",
+    "fragilidades_esperadas": [],
+    "fragilidades_detectadas": [],
+    "falso_positivo": false,
+    "falso_negativo": false,
+    "pontuacao_rubrica": {
+      "deteccao_fragilidade_central": 2,
+      "profundidade_perguntas": 2,
+      "classificacao_risco_correta": 2,
+      "ausencia_falso_positivo": 2,
+      "total": 8,
+      "maximo": 12
+    },
+    "observacoes": "Log gerado automaticamente"
+  }
+}

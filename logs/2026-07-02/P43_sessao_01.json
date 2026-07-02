@@ -1,0 +1,150 @@
+{
+  "meta": {
+    "persona_id": "P43",
+    "persona_arquivo": "P43_*.md",
+    "data_execucao": "2026-07-02",
+    "sessao_numero": 1,
+    "modelo_llm": "claude-haiku-4-5-20251001",
+    "temperatura": 0.2,
+    "executor": "automated-claude",
+    "modo_geracao": "anthropic"
+  },
+  "estagios": [
+    {
+      "estagio": 1,
+      "perguntas": [
+        {
+          "question": "Como você armazena dados pessoais de clientes?",
+          "options": [
+            "Seguro",
+            "Inseguro",
+            "Parcialmente"
+          ]
+        },
+        {
+          "question": "Você compartilha dados com terceiros?",
+          "options": [
+            "Sim",
+            "Não",
+            "Às vezes"
+          ]
+        },
+        {
+          "question": "Há contratos de proteção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sei"
+          ]
+        },
+        {
+          "question": "Qual seu nível de conformidade LGPD?",
+          "options": [
+            "Alto",
+            "Médio",
+            "Baixo",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n**Pergunta 1: Como você armazena dados pessoais de clientes?**\n\n**Resposta: Seguro**\n\nJustificativa: Todos os dados clínicos dos pacientes ficam registrados no sistema de prontuário da clínica, que é protegido e de acesso restrito. Os dados de contato e informações de plano de saúde também estão centralizados no sistema. A clínica tem responsabilidade sobre esses dados.\n\n---\n\n**Pergunta 2: Você compartilha dados com terceiros?**\n\n**Resposta: Não**\n\nJustificativa: Não compartilho dados dos pacientes com terceiros. Quando preciso me comunicar com o paciente sobre exercícios ou evolução, uso meus canais pessoais — WhatsApp e e-mail — mas isso é apenas para orientação clínica, não é compartilhamento de dados com terceiros.\n\n---\n\n**Pergunta 3: Há contratos de proteção?**\n\n**Resposta: Sim**\n\nJustificativa: A clínica tem seus protocolos e a gente segue o sigilo profissional garantido pelo CREFITO. Isso é obrigação ética nossa como fisioterapeutas. Além disso, o sistema de prontuário da clínica tem suas políticas de segurança.\n\n---\n\n**Pergunta 4: Qual seu nível de conformidade LGPD?**\n\n**Resposta: Médio**\n\nJustificativa: A clínica segue boas práticas com o prontuário eletrônico e mantém sigilo profissional. Porém, reconheço que não tenho conhecimento profundo sobre todos os requisitos específicos da LGPD. Confio que a clínica está adequada, mas não posso afirmar com total certeza sobre todos os detalhes.",
+      "timestamp": "2026-07-02T23:26:24.153Z"
+    },
+    {
+      "estagio": 2,
+      "perguntas": [
+        {
+          "question": "Como você obtém consentimento para coletar dados?",
+          "options": [
+            "Explícito",
+            "Implícito",
+            "Não obtém"
+          ]
+        },
+        {
+          "question": "Você monitora acesso aos dados?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n**Pergunta 1: Como você obtém consentimento para coletar dados?**\n\n**Resposta: Implícito**\n\nJustificativa: Quando o paciente chega à clínica e assina a ficha de cadastro inicial, ele já está consentindo com a coleta de seus dados básicos — nome, contato, diagnóstico. É um procedimento padrão. Quanto às fotos que faço com meu celular para acompanhar a evolução postural e cicatricial, considero que o paciente já consente ao se submeter ao atendimento. Ele sabe que estou documentando o caso clinicamente. É prática comum na fisioterapia registrar a progressão do paciente visualmente.\n\n---\n\n**Pergunta 2: Você monitora acesso aos dados?**\n\n**Resposta: Parcialmente**\n\nJustificativa: Os dados no sistema de prontuário da clínica têm controle de acesso — apenas eu e a recepcionista acessamos. Mas as fotos que tiro no meu celular ficam na minha galeria pessoal, junto com minhas fotos particulares. Não há monitoramento formal disso, mas é meu celular pessoal, então só eu acesso. Os exercícios que envio por WhatsApp também ficam no meu histórico pessoal. Considero seguro porque está comigo, mas reconheço que não há um sistema formal de rastreamento desses dados.",
+      "timestamp": "2026-07-02T23:26:29.140Z"
+    },
+    {
+      "estagio": 3,
+      "perguntas": [
+        {
+          "question": "Qual tempo de retenção dos dados?",
+          "options": [
+            "< 6 meses",
+            "6-12 meses",
+            "> 1 ano"
+          ]
+        },
+        {
+          "question": "Há direito de acesso/correção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas do Questionário\n\n**Pergunta 1: Qual tempo de retenção dos dados?**\n\n**Resposta: > 1 ano**\n\nJustificativa: Na clínica, mantemos os prontuários dos pacientes por um período prolongado. É importante ter o histórico clínico completo para acompanhar a evolução do tratamento ao longo do tempo. Alguns pacientes retornam após meses ou anos com novas lesões, e precisamos consultar dados anteriores. Além disso, há exigências do conselho profissional (CREFITO) e questões legais que exigem manutenção dos registros por tempo indeterminado.\n\n---\n\n**Pergunta 2: Há direito de acesso/correção?**\n\n**Resposta: Sim**\n\nJustificativa: Claro que sim. O paciente tem todo o direito de acessar seu prontuário e solicitar correções se houver alguma informação incorreta sobre seu diagnóstico, evolução ou dados pessoais. Isso faz parte da relação de confiança que mantemos com nossos pacientes. Se alguém questiona algo no seu registro, a gente conversa e corrige se necessário. É responsabilidade nossa manter os dados precisos e atualizados para o melhor tratamento.",
+      "timestamp": "2026-07-02T23:26:33.300Z"
+    },
+    {
+      "estagio": 4,
+      "perguntas": [
+        {
+          "question": "Houve incidente de segurança?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sabe"
+          ]
+        },
+        {
+          "question": "Qual sua avaliação final de risco?",
+          "options": [
+            "Baixo",
+            "Moderado",
+            "Alto",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# RESPOSTAS DO QUESTIONÁRIO\n\n---\n\n## **Pergunta 1: Houve incidente de segurança?**\n\n**Resposta: Não**\n\n**Justificativa:** Na minha rotina aqui na Clínica Alfa, não temos tido problemas de segurança. Os dados dos pacientes estão no sistema de prontuário da clínica, que é protegido. As fotos que tiro com meu celular são para fins de documentação clínica — é uma prática comum na fisioterapia para acompanhar a evolução postural e cicatricial dos pacientes. Nunca houve vazamento ou acesso não autorizado. Tudo é feito com responsabilidade profissional.\n\n---\n\n## **Pergunta 2: Qual sua avaliação final de risco?**\n\n**Resposta: Baixo**\n\n**Justificativa:** Considero o risco baixo porque trabalho com sigilo profissional garantido pelo CREFITO. Os dados dos pacientes são tratados com cuidado e respeito. As comunicações com pacientes — seja por WhatsApp ou e-mail — são sempre profissionais e focadas na evolução clínica. Não há exposição desnecessária de informações. Tudo que faço está alinhado com a ética da profissão e a confiança que os pacientes depositam em mim.",
+      "timestamp": "2026-07-02T23:26:36.942Z"
+    }
+  ],
+  "relatorio_final": {
+    "texto": "# Avaliação de Risco LGPD - Clínica Alfa Reabilitação\n\nPreciso ser honesto: **o nível de risco é MUITO ALTO**.\n\nDeixa eu explicar pela minha perspectiva de fisioterapeuta que trabalha aqui há 4 anos:\n\n## Onde está o problema real\n\n**Dados de saúde sensíveis sem proteção adequada:**\n- Fotografo corpos de pacientes no meu celular pessoal\n- Essas fotos ficam misturadas com minhas fotos pessoais na galeria\n- Não tenho consentimento formal documentado para isso\n- Se meu celular for roubado, perdido ou hackeado, dados biométricos e de saúde de dezenas de pacientes vazam\n\n**Canais inseguros:**\n- Envio vídeos de exercício por WhatsApp pessoal\n- Meu WhatsApp tem fotos de outros pacientes na galeria\n- E-mail pessoal não é criptografado\n- Nada disso passa por servidor seguro da clínica\n\n**Falta de governança:**\n- A clínica não me orientou formalmente sobre isso\n- Não há política clara sobre uso de dispositivos pessoais\n- Não há termo de consentimento específico para imagens\n\n## Por que é risco alto\n\nFoto corporal é **dado biométrico + dado de saúde** = proteção especial pela LGPD. Não é como guardar um endereço. É informação sensível que identifica e expõe a pessoa.\n\nSe houvesse uma auditoria ou vazamento, a clínica (e eu) seríamos responsáveis.\n\n**Risco geral: 8,5/10** — muito crítico.",
+    "metricas": {
+      "score": 8,
+      "riscos": [],
+      "pontos_criticos": [],
+      "recomendacoes": []
+    }
+  },
+  "avaliacao_vs_oraculo": {
+    "nivel_risco_esperado": "alto",
+    "nivel_risco_detectado": "moderado",
+    "fragilidades_esperadas": [],
+    "fragilidades_detectadas": [],
+    "falso_positivo": false,
+    "falso_negativo": false,
+    "pontuacao_rubrica": {
+      "deteccao_fragilidade_central": 2,
+      "profundidade_perguntas": 2,
+      "classificacao_risco_correta": 2,
+      "ausencia_falso_positivo": 2,
+      "total": 8,
+      "maximo": 12
+    },
+    "observacoes": "Log gerado automaticamente"
+  }
+}

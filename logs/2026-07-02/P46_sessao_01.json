@@ -1,0 +1,150 @@
+{
+  "meta": {
+    "persona_id": "P46",
+    "persona_arquivo": "P46_*.md",
+    "data_execucao": "2026-07-02",
+    "sessao_numero": 1,
+    "modelo_llm": "claude-haiku-4-5-20251001",
+    "temperatura": 0.2,
+    "executor": "automated-claude",
+    "modo_geracao": "anthropic"
+  },
+  "estagios": [
+    {
+      "estagio": 1,
+      "perguntas": [
+        {
+          "question": "Como você armazena dados pessoais de clientes?",
+          "options": [
+            "Seguro",
+            "Inseguro",
+            "Parcialmente"
+          ]
+        },
+        {
+          "question": "Você compartilha dados com terceiros?",
+          "options": [
+            "Sim",
+            "Não",
+            "Às vezes"
+          ]
+        },
+        {
+          "question": "Há contratos de proteção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sei"
+          ]
+        },
+        {
+          "question": "Qual seu nível de conformidade LGPD?",
+          "options": [
+            "Alto",
+            "Médio",
+            "Baixo",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário de Conformidade LGPD\n\n**Pergunta 1: Como você armazena dados pessoais de clientes?**\n\n**Resposta: Parcialmente**\n\nOs dados de participantes de pesquisa são armazenados em plataformas institucionais — Google Sheets e repositórios universitários — com acesso restrito à equipe de pesquisa. Contudo, reconheço que não implementamos criptografia de ponta a ponta em todas as bases, e o controle de acesso poderia ser mais granular. Consideramos o armazenamento adequado para fins acadêmicos, mas há margem para melhorias em segurança técnica.\n\n---\n\n**Pergunta 2: Você compartilha dados com terceiros?**\n\n**Resposta: Às vezes**\n\nCompartilhamos bases de dados com orientandos (mestrandos e doutorandos) para fins de análise e continuidade da pesquisa. Isso é necessário para a formação de pesquisadores. Também disponibilizamos dados desidentificados em repositórios públicos quando exigido por financiadores de pesquisa. Não compartilhamos com entidades comerciais, mas o compartilhamento interno é frequente.\n\n---\n\n**Pergunta 3: Há contratos de proteção?**\n\n**Resposta: Sim**\n\nUtilizamos Termos de Consentimento Livre e Esclarecido (TCLE) em todas as pesquisas, conforme protocolos de ética em pesquisa. Esses documentos estabelecem as bases legais para coleta e uso dos dados. A universidade também possui políticas institucionais de proteção de dados.\n\n---\n\n**Pergunta 4: Qual seu nível de conformidade LGPD?**\n\n**Resposta: Médio**\n\nAtendemos aos requisitos básicos de consentimento e documentação através do TCLE. Porém, não realizamos avaliações formais de impacto de privacidade (AIPD), não temos um DPO designado, e a retenção de dados não segue critérios explícitos de necessidade. A conformidade é funcional, mas não sistemática.",
+      "timestamp": "2026-07-02T23:27:38.853Z"
+    },
+    {
+      "estagio": 2,
+      "perguntas": [
+        {
+          "question": "Como você obtém consentimento para coletar dados?",
+          "options": [
+            "Explícito",
+            "Implícito",
+            "Não obtém"
+          ]
+        },
+        {
+          "question": "Você monitora acesso aos dados?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n## Pergunta 1: Como você obtém consentimento para coletar dados?\n\n**Resposta: Explícito**\n\nUtilizamos Termo de Consentimento Livre e Esclarecido (TCLE) em todas as nossas pesquisas, conforme exigido pelos protocolos éticos estabelecidos pelo Comitê de Ética em Pesquisa da Universidade Alfa. Os participantes assinam ou confirmam digitalmente sua concordância antes de responder qualquer instrumento de coleta, seja via Google Forms ou questionários presenciais. Isso garante que o consentimento seja documentado e rastreável, alinhado aos padrões internacionais de pesquisa responsável.\n\n## Pergunta 2: Você monitora acesso aos dados?\n\n**Resposta: Parcialmente**\n\nOs dados de pesquisa são armazenados em repositórios institucionais e planilhas Google Sheets com acesso restrito aos membros diretos do grupo de pesquisa — eu, meus orientandos de mestrado e doutorado, e eventualmente colaboradores externos. Implementamos controle de acesso através de permissões de usuário nas plataformas utilizadas. No entanto, reconheço que o monitoramento de acessos específicos (logs detalhados de quem acessou o quê e quando) não é sistematicamente documentado em todas as nossas bases de dados, particularmente nas pesquisas em andamento.",
+      "timestamp": "2026-07-02T23:27:43.253Z"
+    },
+    {
+      "estagio": 3,
+      "perguntas": [
+        {
+          "question": "Qual tempo de retenção dos dados?",
+          "options": [
+            "< 6 meses",
+            "6-12 meses",
+            "> 1 ano"
+          ]
+        },
+        {
+          "question": "Há direito de acesso/correção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n## Pergunta 1: Qual tempo de retenção dos dados?\n\n**Resposta: > 1 ano**\n\n**Justificativa:** Na Universidade Alfa, mantemos os dados de pesquisa por período superior a um ano, frequentemente indefinidamente. Isso é necessário para fins de auditoria científica, possíveis replicações de estudos e conformidade com protocolos de pesquisa que exigem rastreabilidade. Além disso, dados longitudinais podem ser reanalisados em publicações futuras ou em pesquisas complementares. É uma prática padrão na comunidade acadêmica preservar os conjuntos de dados para validação de resultados.\n\n---\n\n## Pergunta 2: Há direito de acesso/correção?\n\n**Resposta: Parcialmente**\n\n**Justificativa:** Os participantes podem solicitar acesso aos seus dados brutos através do TCLE que utilizamos, embora o processo não seja formalizado em um protocolo específico. Quanto à correção, isso é mais complexo em pesquisas já publicadas ou em análises consolidadas, pois alterações nos dados originais comprometem a integridade científica do estudo. Portanto, garantimos acesso parcial, mas a correção fica limitada a situações específicas e previamente justificadas do ponto de vista metodológico.",
+      "timestamp": "2026-07-02T23:27:47.626Z"
+    },
+    {
+      "estagio": 4,
+      "perguntas": [
+        {
+          "question": "Houve incidente de segurança?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sabe"
+          ]
+        },
+        {
+          "question": "Qual sua avaliação final de risco?",
+          "options": [
+            "Baixo",
+            "Moderado",
+            "Alto",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n## Pergunta 1: Houve incidente de segurança?\n\n**Resposta: Não**\n\nJustificativa: Em minha experiência como pesquisador sênior, não temos registros formais de incidentes de segurança. Os dados de pesquisa são armazenados em plataformas institucionais reconhecidas como Google Workspace e repositórios universitários. Embora tenhamos compartilhado bases de dados com orientandos para fins de análise colaborativa, isso ocorre dentro do ambiente acadêmico controlado e sob supervisão direta. Não houve relatos de vazamento ou acesso não autorizado que pudéssemos caracterizar como incidente.\n\n---\n\n## Pergunta 2: Qual sua avaliação final de risco?\n\n**Resposta: Baixo**\n\nJustificativa: Considerando que operamos sob protocolos de pesquisa estabelecidos e utilizamos Termos de Consentimento Livre e Esclarecido (TCLE) em nossas coletas de dados, avaliamos o risco como baixo. Os participantes consentem com a participação na pesquisa, e os dados são utilizados exclusivamente para fins científicos e acadêmicos. A natureza da pesquisa universitária, orientada por comitês de ética, fornece camadas adequadas de proteção. Além disso, o interesse público inerente à pesquisa científica justifica as práticas atuais de gestão de dados.",
+      "timestamp": "2026-07-02T23:27:51.669Z"
+    }
+  ],
+  "relatorio_final": {
+    "texto": "# Avaliação de Risco LGPD - Persona P46\n\n## Nível de Risco Geral: **ALTO**\n\n---\n\n## Justificativa (conforme minha perspectiva como professor pesquisador)\n\nDevo esclarecer que, do ponto de vista acadêmico, considero nossas práticas adequadas porque:\n\n1. **TCLE como salvaguarda**: Utilizamos Termo de Consentimento Livre e Esclarecido em nossas pesquisas, o que, na tradição da ética em pesquisa, sempre foi considerado suficiente para proteção de participantes.\n\n2. **Interesse público**: A pesquisa científica opera sob princípio de interesse público e avanço do conhecimento, o que historicamente justificava maior flexibilidade no manejo de dados.\n\n3. **Comunidade acadêmica estabelecida**: Nossas práticas seguem padrões que a universidade sempre aceitou.\n\n---\n\n## Porém, reconheço objetivamente os riscos:\n\n- **Compartilhamento não anonimizado** com orientandos sem contratos de dados\n- **TCLE genérico** que não especifica usos secundários dos dados\n- **Retenção indefinida** de bases de dados sem critério de exclusão\n- **Falta de avaliação de impacto** (DPIA) em pesquisas com dados sensíveis\n- **Ausência de criptografia** em Google Sheets compartilhadas\n- **Nenhum registro de processamento** formal (RRPD)\n\n**Conclusão**: Embora eu justifique essas práticas academicamente, elas violam claramente princípios da LGPD. O risco é **ALTO** porque envolvem dados sensíveis (saúde, CPF) com controles inadequados.",
+    "metricas": {
+      "score": 6,
+      "riscos": [],
+      "pontos_criticos": [],
+      "recomendacoes": []
+    }
+  },
+  "avaliacao_vs_oraculo": {
+    "nivel_risco_esperado": "moderado",
+    "nivel_risco_detectado": "moderado",
+    "fragilidades_esperadas": [],
+    "fragilidades_detectadas": [],
+    "falso_positivo": false,
+    "falso_negativo": false,
+    "pontuacao_rubrica": {
+      "deteccao_fragilidade_central": 2,
+      "profundidade_perguntas": 2,
+      "classificacao_risco_correta": 2,
+      "ausencia_falso_positivo": 2,
+      "total": 8,
+      "maximo": 12
+    },
+    "observacoes": "Log gerado automaticamente"
+  }
+}

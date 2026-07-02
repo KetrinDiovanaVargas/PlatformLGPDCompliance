@@ -1,0 +1,150 @@
+{
+  "meta": {
+    "persona_id": "P40",
+    "persona_arquivo": "P40_*.md",
+    "data_execucao": "2026-07-02",
+    "sessao_numero": 1,
+    "modelo_llm": "claude-haiku-4-5-20251001",
+    "temperatura": 0.2,
+    "executor": "automated-claude",
+    "modo_geracao": "anthropic"
+  },
+  "estagios": [
+    {
+      "estagio": 1,
+      "perguntas": [
+        {
+          "question": "Como você armazena dados pessoais de clientes?",
+          "options": [
+            "Seguro",
+            "Inseguro",
+            "Parcialmente"
+          ]
+        },
+        {
+          "question": "Você compartilha dados com terceiros?",
+          "options": [
+            "Sim",
+            "Não",
+            "Às vezes"
+          ]
+        },
+        {
+          "question": "Há contratos de proteção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sei"
+          ]
+        },
+        {
+          "question": "Qual seu nível de conformidade LGPD?",
+          "options": [
+            "Alto",
+            "Médio",
+            "Baixo",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n**Pergunta 1: Como você armazena dados pessoais de clientes?**\n\n**Resposta: Seguro**\n\nMantenho prontuários em papel arquivados em gaveta com fechadura no consultório. Além disso, confio no sigilo profissional garantido pelo Código de Ética Profissional do Psicólogo, que é o marco regulatório que sempre orientou minha prática. O sigilo é inviolável na minha profissão — é um princípio ético fundamental que protege integralmente os dados dos meus pacientes.\n\n---\n\n**Pergunta 2: Você compartilha dados com terceiros?**\n\n**Resposta: Não**\n\nNunca compartilho informações clínicas dos meus pacientes. Apenas emito laudos quando há solicitação formal do próprio paciente ou de instituições autorizadas por ele. Mesmo nesses casos, mantenho o máximo de discrição. O sigilo profissional é absoluto — é a base da relação terapêutica.\n\n---\n\n**Pergunta 3: Há contratos de proteção?**\n\n**Resposta: Não sei**\n\nTrabalho sob o amparo do Código de Ética Profissional do CFP, que já estabelece todas as obrigações de sigilo. Nunca precisei formalizar contratos adicionais porque a ética profissional já cobre isso completamente.\n\n---\n\n**Pergunta 4: Qual seu nível de conformidade LGPD?**\n\n**Resposta: Alto**\n\nConsidero minha conformidade alta porque sigo rigorosamente o sigilo ético profissional, que é o padrão mais exigente que conheço. Minha prática está alinhada com os princípios de confidencialidade que sempre nortearam a psicologia clínica.",
+      "timestamp": "2026-07-02T23:25:04.278Z"
+    },
+    {
+      "estagio": 2,
+      "perguntas": [
+        {
+          "question": "Como você obtém consentimento para coletar dados?",
+          "options": [
+            "Explícito",
+            "Implícito",
+            "Não obtém"
+          ]
+        },
+        {
+          "question": "Você monitora acesso aos dados?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n## Pergunta 1: Como você obtém consentimento para coletar dados?\n\n**Resposta: Implícito**\n\nJustificativa: Quando um paciente procura meu consultório para atendimento psicológico, há um consentimento implícito no ato de iniciar o tratamento. O paciente compreende que preciso registrar informações clínicas essenciais para o acompanhamento terapêutico — diagnóstico, evolução, medicações. Isso faz parte do contrato terapêutico estabelecido. Não tenho um formulário específico de consentimento de dados; confio no sigilo ético profissional regulado pelo CFP (Conselho Federal de Psicologia), que é o framework que protege essas informações.\n\n---\n\n## Pergunta 2: Você monitora acesso aos dados?\n\n**Resposta: Não**\n\nJustificativa: Meus prontuários estão arquivados em gaveta com chave no consultório, e apenas eu tenho acesso durante meu horário de atendimento. Como trabalho em consultório próprio com autonomia total, não há necessidade de monitoramento formal de acesso. O sigilo profissional é garantido pela ética da profissão — é um dever deontológico que cumpro rigorosamente. Minhas anotações e registros são de responsabilidade exclusivamente minha, e a confidencialidade é mantida através do compromisso ético, não de sistemas de controle.",
+      "timestamp": "2026-07-02T23:25:09.135Z"
+    },
+    {
+      "estagio": 3,
+      "perguntas": [
+        {
+          "question": "Qual tempo de retenção dos dados?",
+          "options": [
+            "< 6 meses",
+            "6-12 meses",
+            "> 1 ano"
+          ]
+        },
+        {
+          "question": "Há direito de acesso/correção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n## Pergunta 1: Qual tempo de retenção dos dados?\n\n**Resposta: > 1 ano**\n\n**Justificativa:** Os prontuários clínicos precisam ser mantidos por um período prolongado. Conforme as normas éticas do CFP, mantemos os registros dos pacientes enquanto há possibilidade de continuidade do tratamento e para fins de consulta futura, caso o paciente retorne. Geralmente, mantenho os prontuários em papel no consultório indefinidamente, enquanto o paciente estiver em acompanhamento ou potencialmente possa retornar. Mesmo após o término do tratamento, é prudente manter a documentação por vários anos para referência clínica e proteção profissional.\n\n---\n\n## Pergunta 2: Há direito de acesso/correção?\n\n**Resposta: Sim**\n\n**Justificativa:** O paciente tem direito de acessar suas informações clínicas. Isso faz parte do respeito à autonomia do paciente e da transparência na relação terapêutica. Se um paciente solicita ver seu prontuário ou questiona algo registrado, eu disponibilizo. O sigilo profissional que mantenho é para proteção do paciente, não para ocultação. A relação terapêutica se baseia em confiança, então o acesso às suas próprias informações é um direito fundamental que reconheço.",
+      "timestamp": "2026-07-02T23:25:13.648Z"
+    },
+    {
+      "estagio": 4,
+      "perguntas": [
+        {
+          "question": "Houve incidente de segurança?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sabe"
+          ]
+        },
+        {
+          "question": "Qual sua avaliação final de risco?",
+          "options": [
+            "Baixo",
+            "Moderado",
+            "Alto",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n## Pergunta 1: Houve incidente de segurança?\n\n**Resposta: Não**\n\nJustificativa: Em meus 8 anos de prática clínica, nunca tive qualquer incidente que comprometesse o sigilo profissional. O código de ética do CFP é muito rigoroso e eu sigo à risca todos os princípios de confidencialidade. Meus prontuários estão guardados com segurança em gaveta com chave, e todas as minhas comunicações com pacientes respeitam o dever de sigilo. Não há registro de qualquer violação ou acesso não autorizado aos dados dos meus pacientes.\n\n---\n\n## Pergunta 2: Qual sua avaliação final de risco?\n\n**Resposta: Baixo**\n\nJustificativa: Considero o risco muito baixo porque trabalho dentro de um framework ético muito bem estabelecido pela profissão. O sigilo profissional é um pilar fundamental da psicologia clínica, e eu tenho total comprometimento com essa responsabilidade. Meus pacientes confiam em mim justamente porque sabem que suas informações estão protegidas pelo dever ético que assumo. A relação terapêutica depende dessa confiança, e eu não a comprometo sob nenhuma circunstância.",
+      "timestamp": "2026-07-02T23:25:17.342Z"
+    }
+  ],
+  "relatorio_final": {
+    "texto": "# Avaliação de Risco LGPD - Consultório Alfa Psicologia\n\nPreciso ser honesta: **o nível de risco é CRÍTICO/MUITO ALTO**.\n\nEmbora eu trabalhe com total comprometimento com o sigilo ético profissional — que é meu pilar fundamental — reconheço que existem vulnerabilidades operacionais significativas que extrapolam o escopo do código de ética do CFP.\n\n## Pontos de risco identificados:\n\n**Dados em trânsito:**\n- Laudos enviados por e-mail pessoal sem criptografia\n- WhatsApp para agendamentos (dados de contato + disponibilidade)\n- Anotações de sessão em aplicativo de notas do celular sem proteção\n\n**Dados em repouso:**\n- Prontuários em papel em gaveta com chave simples (consultório compartilhado = múltiplos acessos)\n- Google Drive pessoal (sincronização automática, sem controle institucional)\n- Sem política de descarte seguro\n\n**Governança:**\n- Sem termo de consentimento formalizado\n- Sem registro de quem acessa dados\n- Sem política de retenção\n\n## A verdade incômoda:\n\nO sigilo ético me protege *eticamente*, mas não me protege *legalmente* sob a LGPD. São frameworks diferentes. Um vazamento de dados — mesmo sem intenção — expõe o consultório a multas de até 2% do faturamento anual.\n\n**Recomendação urgente:** Implementar infraestrutura mínima de segurança (criptografia, prontuários digitais seguros, política de acesso) sem comprometer o sigilo que meus pacientes merecem.",
+    "metricas": {
+      "score": 0,
+      "riscos": [],
+      "pontos_criticos": [],
+      "recomendacoes": []
+    }
+  },
+  "avaliacao_vs_oraculo": {
+    "nivel_risco_esperado": "critico",
+    "nivel_risco_detectado": "moderado",
+    "fragilidades_esperadas": [],
+    "fragilidades_detectadas": [],
+    "falso_positivo": false,
+    "falso_negativo": false,
+    "pontuacao_rubrica": {
+      "deteccao_fragilidade_central": 2,
+      "profundidade_perguntas": 2,
+      "classificacao_risco_correta": 2,
+      "ausencia_falso_positivo": 2,
+      "total": 8,
+      "maximo": 12
+    },
+    "observacoes": "Log gerado automaticamente"
+  }
+}

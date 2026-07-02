@@ -1,0 +1,150 @@
+{
+  "meta": {
+    "persona_id": "P17",
+    "persona_arquivo": "P17_*.md",
+    "data_execucao": "2026-07-02",
+    "sessao_numero": 1,
+    "modelo_llm": "claude-haiku-4-5-20251001",
+    "temperatura": 0.2,
+    "executor": "automated-claude",
+    "modo_geracao": "anthropic"
+  },
+  "estagios": [
+    {
+      "estagio": 1,
+      "perguntas": [
+        {
+          "question": "Como você armazena dados pessoais de clientes?",
+          "options": [
+            "Seguro",
+            "Inseguro",
+            "Parcialmente"
+          ]
+        },
+        {
+          "question": "Você compartilha dados com terceiros?",
+          "options": [
+            "Sim",
+            "Não",
+            "Às vezes"
+          ]
+        },
+        {
+          "question": "Há contratos de proteção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sei"
+          ]
+        },
+        {
+          "question": "Qual seu nível de conformidade LGPD?",
+          "options": [
+            "Alto",
+            "Médio",
+            "Baixo",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário de Conformidade LGPD\n\n---\n\n## **Pergunta 1: Como você armazena dados pessoais de clientes?**\n\n**Resposta: Seguro**\n\nJustificativa: Nossos dados estão no sistema ERP corporativo, que é gerenciado pela TI central. Temos backup, acesso controlado por login e a infraestrutura é robusta. Não vejo risco significativo — o sistema é confiável e atende nossas necessidades operacionais há anos.\n\n---\n\n## **Pergunta 2: Você compartilha dados com terceiros?**\n\n**Resposta: Às vezes**\n\nJustificativa: Compartilhamos informações com fornecedores quando necessário para operações — por exemplo, dados de clientes para logística ou cobrança. Também enviamos relatórios para a matriz quando solicitado. Mas isso é feito dentro da cadeia de valor, nada fora do escopo da empresa.\n\n---\n\n## **Pergunta 3: Há contratos de proteção?**\n\n**Resposta: Não sei**\n\nJustificativa: Isso é responsabilidade do jurídico. Presumo que existam contratos padrão, mas não reviso pessoalmente. Meu foco é na operação e nos resultados. Se houvesse problema sério, o departamento legal teria me comunicado.\n\n---\n\n## **Pergunta 4: Qual seu nível de conformidade LGPD?**\n\n**Resposta: Médio**\n\nJustificativa: Participei do treinamento executivo que a empresa ofereceu. Seguimos as práticas básicas — temos políticas, não vendemos dados para fora. Mas reconheço que LGPD é complexa e que há muitos detalhes que ficam com o jurídico. Na minha unidade, o foco é cumprir o que nos pedem, mas não sou especialista no assunto.",
+      "timestamp": "2026-07-02T23:15:49.997Z"
+    },
+    {
+      "estagio": 2,
+      "perguntas": [
+        {
+          "question": "Como você obtém consentimento para coletar dados?",
+          "options": [
+            "Explícito",
+            "Implícito",
+            "Não obtém"
+          ]
+        },
+        {
+          "question": "Você monitora acesso aos dados?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n---\n\n## Pergunta 1: Como você obtém consentimento para coletar dados?\n\n**Resposta: Implícito**\n\n**Justificativa:**\n\nOlha, na prática, quando um colaborador entra na empresa, ele assina documentos de admissão que cobrem isso. Quando um cliente contrata nossos serviços, há termos de serviço. Os dados que eu solicito — desempenho, absenteísmo, histórico de atendimento — são gerados naturalmente pelas operações da unidade. Não vejo necessidade de um consentimento explícito toda vez que preciso de um relatório para gestão.\n\nO pessoal do jurídico cuida disso. Meu trabalho é garantir que a unidade funcione e que eu tenha as informações que preciso para tomar decisões. Se alguém não quer que seus dados sejam usados para gestão interna, bem... isso é um problema deles com a empresa, não comigo.\n\n---\n\n## Pergunta 2: Você monitora acesso aos dados?\n\n**Resposta: Parcialmente**\n\n**Justificativa:**\n\nSim, temos controles no ERP — login, senha, aquelas coisas. Mas monitoramento ativo? Não, não faço isso pessoalmente. Confio que minha equipe acessa o que precisa acessar. Se alguém da minha unidade precisa de um relatório nominal para trabalhar, eles pegam. \n\nO que eu monitoro mesmo é se os dados estão corretos e se as análises fazem sentido para as decisões que preciso tomar. Auditoria de quem viu o quê, quando e por quê — isso é coisa de TI ou compliance, não é responsabilidade minha no dia a dia.",
+      "timestamp": "2026-07-02T23:15:55.741Z"
+    },
+    {
+      "estagio": 3,
+      "perguntas": [
+        {
+          "question": "Qual tempo de retenção dos dados?",
+          "options": [
+            "< 6 meses",
+            "6-12 meses",
+            "> 1 ano"
+          ]
+        },
+        {
+          "question": "Há direito de acesso/correção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n## Pergunta 1: Qual tempo de retenção dos dados?\n\n**Resposta: > 1 ano**\n\nJustificativa: Na Alfa Serviços, mantemos os dados de colaboradores, clientes e fornecedores por períodos superiores a um ano. Precisamos disso para análises históricas de desempenho, auditoria de processos, comparativos anuais e até questões trabalhistas ou comerciais que podem surgir. Dados de absenteísmo, performance e inadimplência precisam estar disponíveis para consulta quando necessário — não faz sentido descartar informações que podem ser relevantes para a gestão da unidade.\n\n---\n\n## Pergunta 2: Há direito de acesso/correção?\n\n**Resposta: Parcialmente**\n\nJustificativa: Olha, tecnicamente existe um processo, mas na prática é limitado. Um colaborador pode solicitar acesso aos seus dados, mas há restrições — nem tudo é transparente porque algumas informações são sensíveis para a gestão (avaliações de desempenho, comparativos salariais). Quanto à correção, depende do tipo de dado. Dados factuais sim, mas interpretações gerenciais ou históricos de comportamento não são \"corrigíveis\" — são registros. O jurídico cuida disso, mas minha visão é que o direito existe, mas com limites práticos e comerciais legítimos.",
+      "timestamp": "2026-07-02T23:16:00.449Z"
+    },
+    {
+      "estagio": 4,
+      "perguntas": [
+        {
+          "question": "Houve incidente de segurança?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sabe"
+          ]
+        },
+        {
+          "question": "Qual sua avaliação final de risco?",
+          "options": [
+            "Baixo",
+            "Moderado",
+            "Alto",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n## Pergunta 1: Houve incidente de segurança?\n\n**Resposta: Não**\n\nNa minha unidade, não temos registros formais de incidentes de segurança. Nossas operações funcionam dentro dos padrões estabelecidos — acessamos os dados que precisamos para gerir a unidade, compartilhamos informações entre equipes conforme necessário e mantemos tudo documentado nos sistemas corporativos. Se houvesse algo grave, o jurídico já teria comunicado.\n\n---\n\n## Pergunta 2: Qual sua avaliação final de risco?\n\n**Resposta: Baixo**\n\nDo ponto de vista operacional, o risco é baixo. Temos controles internos, acesso restrito aos sistemas principais e uma equipe confiável. Claro, qualquer organização tem exposições, mas nada que me preocupe especialmente. A LGPD é importante, mas isso é responsabilidade do departamento jurídico e de compliance — meu foco é garantir que a unidade funcione bem e os dados que preciso estejam disponíveis para tomar boas decisões.",
+      "timestamp": "2026-07-02T23:16:04.332Z"
+    }
+  ],
+  "relatorio_final": {
+    "texto": "# Avaliação de Risco LGPD — Perspectiva da Persona P17\n\nVou responder como o Gerente de Unidade que sou:\n\n---\n\n**Risco geral? Eu diria que é baixo a moderado.**\n\nOlha, a gente tem um departamento jurídico que cuida disso, temos política de dados, fizemos treinamento... Então tecnicamente estamos cobertos. A Alfa Serviços segue as regulamentações.\n\n**Agora, na prática operacional da minha unidade:**\n\nEu preciso de dados nominais para gerenciar. Não vejo risco nisso — é necessidade de negócio. Quando peço um relatório de colaboradores com absenteísmo e salário, ou uma lista de clientes inadimplentes, estou tomando decisão informada. Isso é gestão, não é violação.\n\n**Se você quer saber onde vejo risco real:**\n- Vazamento de dados por falha de TI\n- Acesso não autorizado ao sistema\n- Colaborador que compartilha informação indevidamente\n\nMas solicitar dados que já estão no meu ERP, para fins legítimos de gestão? Isso não é risco — é operação normal.\n\n**O que eu questiono:** por que um gestor teria que trabalhar com dados agregados quando precisa identificar *quem* está faltando, *quem* está inadimplente? Como tomo decisão sem saber os nomes?\n\n---\n\n*Resumo: risco baixo, porque temos compliance. Mas se você está perguntando se há *excesso de coleta* na minha gestão... aí é outra conversa.*",
+    "metricas": {
+      "score": 1,
+      "riscos": [],
+      "pontos_criticos": [],
+      "recomendacoes": []
+    }
+  },
+  "avaliacao_vs_oraculo": {
+    "nivel_risco_esperado": "moderado_alto",
+    "nivel_risco_detectado": "moderado",
+    "fragilidades_esperadas": [],
+    "fragilidades_detectadas": [],
+    "falso_positivo": false,
+    "falso_negativo": false,
+    "pontuacao_rubrica": {
+      "deteccao_fragilidade_central": 2,
+      "profundidade_perguntas": 2,
+      "classificacao_risco_correta": 2,
+      "ausencia_falso_positivo": 2,
+      "total": 8,
+      "maximo": 12
+    },
+    "observacoes": "Log gerado automaticamente"
+  }
+}

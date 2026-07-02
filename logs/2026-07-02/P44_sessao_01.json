@@ -1,0 +1,150 @@
+{
+  "meta": {
+    "persona_id": "P44",
+    "persona_arquivo": "P44_*.md",
+    "data_execucao": "2026-07-02",
+    "sessao_numero": 1,
+    "modelo_llm": "claude-haiku-4-5-20251001",
+    "temperatura": 0.2,
+    "executor": "automated-claude",
+    "modo_geracao": "anthropic"
+  },
+  "estagios": [
+    {
+      "estagio": 1,
+      "perguntas": [
+        {
+          "question": "Como você armazena dados pessoais de clientes?",
+          "options": [
+            "Seguro",
+            "Inseguro",
+            "Parcialmente"
+          ]
+        },
+        {
+          "question": "Você compartilha dados com terceiros?",
+          "options": [
+            "Sim",
+            "Não",
+            "Às vezes"
+          ]
+        },
+        {
+          "question": "Há contratos de proteção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sei"
+          ]
+        },
+        {
+          "question": "Qual seu nível de conformidade LGPD?",
+          "options": [
+            "Alto",
+            "Médio",
+            "Baixo",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas do Questionário\n\n**Pergunta 1: Como você armazena dados pessoais de clientes?**\n\n**Resposta: Parcialmente**\n\nOlha, eu guardo os dados das meninas da minha equipe no celular mesmo, em uma planilha. Nome, CPF, dados bancários para controlar pagamento e descontos. Funciona assim há anos. Não vejo problema porque é só o que preciso para gerenciar a equipe. Agora, se você tá falando de dados dos clientes finais, a gente não armazena nada disso formalmente. Mas é verdade que às vezes a gente vê documentos nas mesas, telas de computador... fica exposto mesmo. Não tenho instrução do que fazer com isso, então deixo como está.\n\n---\n\n**Pergunta 2: Você compartilha dados com terceiros?**\n\n**Resposta: Às vezes**\n\nCompartilho dados das colaboradoras com a Limpa Alfa quando preciso justificar ausência ou quando tem algum problema. Também passo informações para o cliente quando ele quer saber quem vai trabalhar no dia. Nada de mais, é operacional. Terceiros mesmo, tipo banco ou outras empresas, não compartilho não.\n\n---\n\n**Pergunta 3: Há contratos de proteção?**\n\n**Resposta: Não sei**\n\nContrato mesmo, de proteção de dados, não sei se existe. A gente tem contrato com o cliente para prestar o serviço, mas sobre dados pessoais... nunca vi nada específico sobre isso. Deve ter algo lá na matriz, mas comigo não chegou nada.\n\n---\n\n**Pergunta 4: Qual seu nível de conformidade LGPD?**\n\n**Resposta: Baixo**\n\nHonestamente? Eu não sei direito o que é LGPD. Ouço falar, mas na prática do dia a dia, a gente só quer que a equipe chegue no horário e faça o trabalho. Se tem alguma lei sobre dados, a empresa deveria ter me orientado melhor. Do jeito que tá agora, acho que não tá muito em dia não.",
+      "timestamp": "2026-07-02T23:26:48.837Z"
+    },
+    {
+      "estagio": 2,
+      "perguntas": [
+        {
+          "question": "Como você obtém consentimento para coletar dados?",
+          "options": [
+            "Explícito",
+            "Implícito",
+            "Não obtém"
+          ]
+        },
+        {
+          "question": "Você monitora acesso aos dados?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n**Pergunta 1: Como você obtém consentimento para coletar dados?**\n\n**Resposta: Implícito**\n\nOlha, quando a menina entra na equipe, ela assina a documentação de contratação e já fica claro que a gente precisa dos dados dela para controlar presença, fazer pagamento, essas coisas. Não é que a gente senta e pede \"você autoriza?\", mas ela sabe que isso faz parte do trabalho. É assim que funciona mesmo.\n\n---\n\n**Pergunta 2: Você monitora acesso aos dados?**\n\n**Resposta: Não**\n\nNão, não monitoro não. Os dados das meninas ficam comigo mesmo — tenho uma planilha no meu celular com nome, CPF, dados bancários pra fazer o controle de pagamento e presença. É prático assim, rápido. A gente trabalha correndo o tempo todo, não dá pra ficar com essas coisas muito formalizadas. Quem vai acessar? Só eu mesmo que mexo nisso.",
+      "timestamp": "2026-07-02T23:26:52.918Z"
+    },
+    {
+      "estagio": 3,
+      "perguntas": [
+        {
+          "question": "Qual tempo de retenção dos dados?",
+          "options": [
+            "< 6 meses",
+            "6-12 meses",
+            "> 1 ano"
+          ]
+        },
+        {
+          "question": "Há direito de acesso/correção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n**Pergunta 1: Qual tempo de retenção dos dados?**\n\n**Resposta: > 1 ano**\n\nJustificativa: A gente mantém os dados das meninas da equipe por bastante tempo. Preciso ter histórico de presença, faltas, dados bancários para pagamento... isso fica guardado no meu celular e na planilha. Nunca deletei nada, na verdade. Pode ser que tenha informação de colaboradora que saiu há 2 anos ainda lá. Não tem prazo definido para apagar, então fica tudo.\n\n---\n\n**Pergunta 2: Há direito de acesso/correção?**\n\n**Resposta: Parcialmente**\n\nJustificativa: Olha, as meninas podem vir falar comigo se precisam corrigir alguma coisa de presença ou de pagamento. Agora, elas não têm acesso direto à planilha, sabe? Eu que controlo tudo. Se precisam de alguma informação, vêm me pedir. Mas não é um processo formal, não. É mais na conversa mesmo, no dia a dia.",
+      "timestamp": "2026-07-02T23:26:57.287Z"
+    },
+    {
+      "estagio": 4,
+      "perguntas": [
+        {
+          "question": "Houve incidente de segurança?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sabe"
+          ]
+        },
+        {
+          "question": "Qual sua avaliação final de risco?",
+          "options": [
+            "Baixo",
+            "Moderado",
+            "Alto",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas do Questionário\n\n**Pergunta 1: Houve incidente de segurança?**\n\n**Resposta: Não**\n\nJustificativa: Na minha rotina, não tive nenhum incidente que eu consideraria como \"segurança\". As meninas da equipe vêm trabalhando normalmente, não houve roubo, ninguém foi assaltado. A gente controla a frequência, resolve ausências, e tudo funciona. Não vejo problema nenhum nesse sentido.\n\n---\n\n**Pergunta 2: Qual sua avaliação final de risco?**\n\n**Resposta: Baixo**\n\nJustificativa: A equipe está sob controle, as meninas são confiáveis, trabalham há tempo comigo. Os clientes não reclamam. A gente entra, faz a limpeza e sai. Não vejo onde teria risco alto. Claro que sempre pode acontecer algo inesperado, mas no dia a dia, operacionalmente, está tudo tranquilo. Risco baixo mesmo.",
+      "timestamp": "2026-07-02T23:27:01.106Z"
+    }
+  ],
+  "relatorio_final": {
+    "texto": "# Avaliação de Risco LGPD - Persona P44\n\n## Nível de Risco: **CRÍTICO / MUITO ALTO**\n\n---\n\n## Justificativa (na perspectiva da persona):\n\nOlha, eu não vejo grande risco não. A gente trabalha com limpeza, né? Meu trabalho é cuidar que a equipe chegue no horário, que faça o serviço direito e que não tenha confusão entre as meninas.\n\n**MAS** — e aqui falo como supervisora que conhece a realidade operacional:\n\n### Riscos que **existem, mas não percebo como problema**:\n\n1. **Dados bancários no celular pessoal** — Mantenho uma planilha com CPF, conta e agência das colaboradoras pra facilitar o pagamento. Tá tudo junto no meu WhatsApp mesmo. Nunca tive problema.\n\n2. **Acesso a documentos sensíveis do cliente** — Minhas meninas limpam escritórios, salas de reunião... às vezes a gente vê documentos na mesa, telas de computador ligadas. Mas a gente não mexe em nada, só limpa. Ninguém nunca falou que isso é problema.\n\n3. **Falta de instrução formal** — Não recebi nenhum treinamento sobre o que fazer se vejo informação sensível. Simplesmente não faz parte da minha rotina pensar nisso.\n\n4. **Sem controle de acesso** — A empresa cliente não restringe onde a gente entra. Se precisa limpar, entra.\n\n---\n\n## Conclusão (honesta):\n\n**O risco é CRÍTICO porque:**\n- Dados pessoais sensíveis (bancários) em dispositivo pessoal desprotegido\n- Acesso não controlado a informações de terceiros\n- Zero conformidade com LGPD\n- Nenhuma instrução ou política implementada\n\nMas **eu não vejo assim**. Pra mim,",
+    "metricas": {
+      "score": 11,
+      "riscos": [],
+      "pontos_criticos": [],
+      "recomendacoes": []
+    }
+  },
+  "avaliacao_vs_oraculo": {
+    "nivel_risco_esperado": "moderado",
+    "nivel_risco_detectado": "moderado",
+    "fragilidades_esperadas": [],
+    "fragilidades_detectadas": [],
+    "falso_positivo": false,
+    "falso_negativo": false,
+    "pontuacao_rubrica": {
+      "deteccao_fragilidade_central": 2,
+      "profundidade_perguntas": 2,
+      "classificacao_risco_correta": 2,
+      "ausencia_falso_positivo": 2,
+      "total": 8,
+      "maximo": 12
+    },
+    "observacoes": "Log gerado automaticamente"
+  }
+}

@@ -1,0 +1,150 @@
+{
+  "meta": {
+    "persona_id": "P37",
+    "persona_arquivo": "P37_*.md",
+    "data_execucao": "2026-07-02",
+    "sessao_numero": 1,
+    "modelo_llm": "claude-haiku-4-5-20251001",
+    "temperatura": 0.2,
+    "executor": "automated-claude",
+    "modo_geracao": "anthropic"
+  },
+  "estagios": [
+    {
+      "estagio": 1,
+      "perguntas": [
+        {
+          "question": "Como você armazena dados pessoais de clientes?",
+          "options": [
+            "Seguro",
+            "Inseguro",
+            "Parcialmente"
+          ]
+        },
+        {
+          "question": "Você compartilha dados com terceiros?",
+          "options": [
+            "Sim",
+            "Não",
+            "Às vezes"
+          ]
+        },
+        {
+          "question": "Há contratos de proteção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sei"
+          ]
+        },
+        {
+          "question": "Qual seu nível de conformidade LGPD?",
+          "options": [
+            "Alto",
+            "Médio",
+            "Baixo",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas do Questionário - P37\n\n---\n\n## Pergunta 1: Como você armazena dados pessoais de clientes?\n**Resposta: Parcialmente**\n\nOlha, a gente trabalha com planilhas Excel aqui no sindicato, que ficam no computador da secretaria e também em pastas compartilhadas. Os dados dos associados estão organizados, mas confesso que não temos um sistema super robusto como uma empresa grande teria. A gente considera que como somos uma entidade sindical, a transparência com os associados é importante, então muita coisa fica acessível mesmo. Não é inseguro, mas também não é aquele nível de segurança que vocês talvez esperem.\n\n---\n\n## Pergunta 2: Você compartilha dados com terceiros?\n**Resposta: Sim**\n\nSim, compartilhamos. Quando temos ações coletivas, a gente envia listas de associados para os escritórios de advocacia que trabalham com a gente. Também compartilhamos com outras entidades sindicais parceiras quando há campanhas conjuntas. É tudo em prol dos associados, entende? Faz parte da nossa missão de representação.\n\n---\n\n## Pergunta 3: Há contratos de proteção?\n**Resposta: Não sei**\n\nNão tenho certeza. Acho que tem alguma coisa, mas não é comigo que fica. Isso deve estar com a diretoria ou com o pessoal jurídico. A gente aqui do administrativo cuida mais da operação mesmo, das listas, das carteirinhas, das assembleias.\n\n---\n\n## Pergunta 4: Qual seu nível de conformidade LGPD?\n**Resposta: Baixo**\n\nOlha, sinceramente, a gente não tem muita estrutura para isso. Sindicato é diferente de empresa privada, sabe? A gente funciona mais por transparência e confiança com os associados. Nunca tivemos uma auditoria ou algo assim. Acho que estamos em um nível baixo mesmo, mas também não vejo como crítico porque os dados que a gente tem são dos próprios associados que confiam na gente.",
+      "timestamp": "2026-07-02T23:23:51.362Z"
+    },
+    {
+      "estagio": 2,
+      "perguntas": [
+        {
+          "question": "Como você obtém consentimento para coletar dados?",
+          "options": [
+            "Explícito",
+            "Implícito",
+            "Não obtém"
+          ]
+        },
+        {
+          "question": "Você monitora acesso aos dados?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n## Pergunta 1: Como você obtém consentimento para coletar dados?\n\n**Resposta: Implícito**\n\nQuando um trabalhador se filia ao sindicato, ele já está ciente de que seus dados serão registrados no nosso sistema. É parte natural do processo de associação — preenchemos um formulário de filiação e pronto. O consentimento está implícito no ato de se filiar. Afinal, somos uma entidade de classe, não uma empresa comercial. Nosso objetivo é representar os associados, então é lógico que tenhamos seus dados básicos como nome, CPF e informações profissionais. Isso sempre foi assim no sindicato.\n\n---\n\n## Pergunta 2: Você monitora acesso aos dados?\n\n**Resposta: Parcialmente**\n\nTemos controle sobre quem acessa nossos arquivos físicos aqui no escritório — apenas eu e a gerente administrativa temos acesso à sala onde guardamos os registros. Mas quanto aos dados digitais, é mais... flexível. As planilhas com informações dos associados ficam no computador compartilhado, e às vezes compartilhamos listas com nossos advogados parceiros ou com outras entidades sindicais para ações coletivas. Isso é necessário para o trabalho de representação. Não temos um sistema formal de rastreamento de quem acessa o quê, mas sabemos que é para fins legítimos da entidade.",
+      "timestamp": "2026-07-02T23:23:55.592Z"
+    },
+    {
+      "estagio": 3,
+      "perguntas": [
+        {
+          "question": "Qual tempo de retenção dos dados?",
+          "options": [
+            "< 6 meses",
+            "6-12 meses",
+            "> 1 ano"
+          ]
+        },
+        {
+          "question": "Há direito de acesso/correção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n## Pergunta 1: Qual tempo de retenção dos dados?\n**Resposta: > 1 ano**\n\nJustificativa: Aqui no sindicato mantemos os dados dos associados enquanto eles estão filiados e por um tempo depois, para fins de histórico e documentação. Como trabalhamos com ações coletivas que podem se estender, precisamos guardar os registros de filiação, CPF e dados da empresa por bastante tempo. Além disso, temos obrigações legais de manter documentação de assembleias e votações. Não temos uma política formal de exclusão, então os dados acabam ficando no nosso sistema indefinidamente, ou pelo menos por vários anos.\n\n---\n\n## Pergunta 2: Há direito de acesso/correção?\n**Resposta: Sim**\n\nJustificativa: Claro que sim. Se um associado vem aqui e pede para ver os dados dele ou corrigir alguma informação — como endereço errado ou nome — a gente faz. É transparência mesmo, que é um valor nosso. O associado tem direito de saber o que temos sobre ele. Agora, na prática, a maioria não pede, mas se pedir, a gente atende. É só vir conversar comigo ou com a secretária.",
+      "timestamp": "2026-07-02T23:24:00.550Z"
+    },
+    {
+      "estagio": 4,
+      "perguntas": [
+        {
+          "question": "Houve incidente de segurança?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sabe"
+          ]
+        },
+        {
+          "question": "Qual sua avaliação final de risco?",
+          "options": [
+            "Baixo",
+            "Moderado",
+            "Alto",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# RESPOSTAS AO QUESTIONÁRIO\n\n## Pergunta 1: Houve incidente de segurança?\n\n**Resposta: Não**\n\nJustificativa: Em meus 9 anos aqui no sindicato, nunca tivemos nenhum incidente de segurança. Nossas operações são bem tranquilas – a gente trabalha com dados de associados, mas tudo dentro do normal. Os dados estão em planilhas Excel, e-mail e no site. Nunca houve vazamento ou problema que eu tenha conhecimento. A gente compartilha informações com advogados e parceiros, mas isso é tudo dentro da legalidade, para defender os direitos dos trabalhadores.\n\n---\n\n## Pergunta 2: Qual sua avaliação final de risco?\n\n**Resposta: Baixo**\n\nJustificativa: O risco é baixo porque somos um sindicato, uma entidade de classe. Não somos uma empresa privada que coleta dados para fins comerciais. Nossas atividades são transparentes e associativas – compartilhamos informações com advogados para ações coletivas, publicamos listas em assembleia no site para que os associados saibam quem está votando. Tudo isso é normal e esperado em uma organização sindical. Os dados que temos são necessários para a gestão da filiação e defesa dos direitos dos trabalhadores. Não vejo risco significativo nisso.",
+      "timestamp": "2026-07-02T23:24:05.276Z"
+    }
+  ],
+  "relatorio_final": {
+    "texto": "# Avaliação de Risco LGPD - Sindicato dos Trabalhadores de Alfa\n\n**Nível de Risco Geral: ALTO**\n\n---\n\n## Justificativa (na perspectiva da persona)\n\nOlha, eu não diria que temos risco *alto*. Somos um sindicato, uma entidade de classe. Nosso trabalho é transparente e em benefício dos associados. Mas reconheço que há pontos que precisam de atenção:\n\n### Vulnerabilidades que identifico:\n\n1. **Compartilhamento de dados com advogados** - Enviamos listas com nome, CPF e empresa por e-mail comum. Nunca pensei que isso fosse problema, já que é para ação coletiva em favor dos associados.\n\n2. **Publicação de listas no site** - As listas de votação ficam acessíveis. Novamente, achava que era transparência sindical normal.\n\n3. **Dados sensíveis não reconhecidos** - A filiação sindical é um dado que... bem, é público entre nós. Mas entendo agora que a LGPD pode tratar diferente.\n\n4. **Sem processo de exclusão** - Ex-associados? Seus dados continuam nos nossos arquivos. Nunca tivemos demanda formal, então não estruturamos isso.\n\n5. **Ferramentas inadequadas** - Planilhas Excel e WhatsApp não são exatamente seguras para dados de 5 mil associados.\n\n---\n\n## Conclusão honesta\n\nSe a LGPD se aplica a sindicatos como se aplica a empresas, **sim, temos risco alto**. Precisamos revisar nossas práticas, especialmente no compartilhamento e na segurança dos dados.",
+    "metricas": {
+      "score": 5,
+      "riscos": [],
+      "pontos_criticos": [],
+      "recomendacoes": []
+    }
+  },
+  "avaliacao_vs_oraculo": {
+    "nivel_risco_esperado": "alto",
+    "nivel_risco_detectado": "moderado",
+    "fragilidades_esperadas": [],
+    "fragilidades_detectadas": [],
+    "falso_positivo": false,
+    "falso_negativo": false,
+    "pontuacao_rubrica": {
+      "deteccao_fragilidade_central": 2,
+      "profundidade_perguntas": 2,
+      "classificacao_risco_correta": 2,
+      "ausencia_falso_positivo": 2,
+      "total": 8,
+      "maximo": 12
+    },
+    "observacoes": "Log gerado automaticamente"
+  }
+}

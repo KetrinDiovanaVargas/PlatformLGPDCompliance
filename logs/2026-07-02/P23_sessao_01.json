@@ -1,0 +1,150 @@
+{
+  "meta": {
+    "persona_id": "P23",
+    "persona_arquivo": "P23_*.md",
+    "data_execucao": "2026-07-02",
+    "sessao_numero": 1,
+    "modelo_llm": "claude-haiku-4-5-20251001",
+    "temperatura": 0.2,
+    "executor": "automated-claude",
+    "modo_geracao": "anthropic"
+  },
+  "estagios": [
+    {
+      "estagio": 1,
+      "perguntas": [
+        {
+          "question": "Como você armazena dados pessoais de clientes?",
+          "options": [
+            "Seguro",
+            "Inseguro",
+            "Parcialmente"
+          ]
+        },
+        {
+          "question": "Você compartilha dados com terceiros?",
+          "options": [
+            "Sim",
+            "Não",
+            "Às vezes"
+          ]
+        },
+        {
+          "question": "Há contratos de proteção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sei"
+          ]
+        },
+        {
+          "question": "Qual seu nível de conformidade LGPD?",
+          "options": [
+            "Alto",
+            "Médio",
+            "Baixo",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas do Questionário\n\n**Pergunta 1: Como você armazena dados pessoais de clientes?**\n\n**Resposta: Parcialmente**\n\nOlha, a gente mantém um livro de registro aqui na portaria com os dados dos visitantes — nome, RG, empresa, horário. Também tenho uma planilha no computador da portaria com essas informações. Acho que é seguro porque fica aqui comigo, sob controle. Mas confesso que às vezes fotografo o RG com meu celular pessoal para ter um backup, sabe? Fica na galeria do telefone. Não é o ideal, mas é prático para conferir depois se preciso.\n\n---\n\n**Pergunta 2: Você compartilha dados com terceiros?**\n\n**Resposta: Às vezes**\n\nNormalmente não compartilho, não. Mas se o gerente ou o supervisor da empresa pede para conferir algum registro de visitante, eu passo a informação. Também, se a polícia vem aqui investigando algo, a gente fornece os dados. Isso é procedimento normal de segurança.\n\n---\n\n**Pergunta 3: Há contratos de proteção?**\n\n**Resposta: Não sei**\n\nNunca ouvi falar sobre isso. Meu contrato de trabalho é com a Alfa Serviços, mas sobre proteção de dados de visitantes... não sei se existe algo específico. Isso é coisa que o pessoal da administração cuida, não é comigo.\n\n---\n\n**Pergunta 4: Qual seu nível de conformidade LGPD?**\n\n**Resposta: Baixo**\n\nHonestamente, eu não sei muito sobre LGPD. Sei que é uma lei de proteção de dados, mas aqui na portaria a gente foca em segurança patrimonial mesmo. A gente registra visitante porque é procedimento de segurança, não porque estamos pensando em conformidade com lei de dados.",
+      "timestamp": "2026-07-02T23:18:12.337Z"
+    },
+    {
+      "estagio": 2,
+      "perguntas": [
+        {
+          "question": "Como você obtém consentimento para coletar dados?",
+          "options": [
+            "Explícito",
+            "Implícito",
+            "Não obtém"
+          ]
+        },
+        {
+          "question": "Você monitora acesso aos dados?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n## Pergunta 1: Como você obtém consentimento para coletar dados?\n\n**Resposta: Implícito**\n\nQuando o visitante chega na portaria, ele já sabe que precisa se identificar para entrar no prédio. A gente pede o RG, explica que é procedimento de segurança, e ele aceita naturalmente. Ninguém nunca reclamou ou se recusou. Para a gente, é como um consentimento automático — quem vem visitar sabe que vai precisar se identificar. Não precisa assinar nada, é só o procedimento normal mesmo.\n\n---\n\n## Pergunta 2: Você monitora acesso aos dados?\n\n**Resposta: Parcialmente**\n\nA gente tem as câmeras de CFTV que registram quem entra e sai, então tem uma monitoração. Mas o livro de registro fica na portaria, então qualquer pessoa que passa por lá consegue ver os dados. As fotos que tiro do RG ficam no meu celular, e aí só eu tenho acesso mesmo. Mas não é algo que a gente controla de forma rigorosa, sabe? É mais para ter o registro caso precise depois.",
+      "timestamp": "2026-07-02T23:18:16.622Z"
+    },
+    {
+      "estagio": 3,
+      "perguntas": [
+        {
+          "question": "Qual tempo de retenção dos dados?",
+          "options": [
+            "< 6 meses",
+            "6-12 meses",
+            "> 1 ano"
+          ]
+        },
+        {
+          "question": "Há direito de acesso/correção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas do Questionário\n\n**Pergunta 1: Qual tempo de retenção dos dados?**\n\nOpção escolhida: **> 1 ano**\n\nJustificativa: A gente mantém o livro de registro na portaria e as anotações na planilha do computador por bastante tempo. Nunca recebi instrução para descartar esses registros, então eles ficam guardados. É bom ter o histórico caso precise consultar algo depois, sabe? Segurança mesmo.\n\n---\n\n**Pergunta 2: Há direito de acesso/correção?**\n\nOpção escolhida: **Sim**\n\nJustificativa: Se um visitante quiser saber o que a gente registrou sobre ele, a gente mostra. O livro fica ali na portaria e a gente tem a planilha também. Se ele disser que algo está errado, a gente pode corrigir na anotação. Não vejo problema nisso, é transparente.",
+      "timestamp": "2026-07-02T23:18:19.920Z"
+    },
+    {
+      "estagio": 4,
+      "perguntas": [
+        {
+          "question": "Houve incidente de segurança?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sabe"
+          ]
+        },
+        {
+          "question": "Qual sua avaliação final de risco?",
+          "options": [
+            "Baixo",
+            "Moderado",
+            "Alto",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n**Pergunta 1: Houve incidente de segurança?**\n\n**Resposta: Não**\n\nJustificativa: Durante meu tempo aqui na Alfa Serviços, não tivemos nenhum incidente grave. O controle de acesso funciona bem, a gente registra todo mundo que entra, pede documento, tira cópia... tudo certinho. As câmeras também estão funcionando. Não houve roubo, invasão ou nada do tipo.\n\n---\n\n**Pergunta 2: Qual sua avaliação final de risco?**\n\n**Resposta: Baixo**\n\nJustificativa: A gente tem procedimentos de segurança bem estabelecidos aqui. Toda visita é registrada, todo documento é copiado, tem câmera monitorando. O livro de registro fica na portaria, as fotos dos documentos ficam guardadas... é tudo controlado. Acho que o risco é baixo porque a gente não deixa ninguém entrar sem identificação e sem deixar registro.",
+      "timestamp": "2026-07-02T23:18:23.472Z"
+    }
+  ],
+  "relatorio_final": {
+    "texto": "# Avaliação de Risco LGPD - Persona P23\n\nEu sou um vigilante/porteiro, então vou responder do meu ponto de vista sobre como a gente trabalha aqui na portaria.\n\n## Meu entendimento sobre o risco\n\nHonestamente, eu não vejo grande risco. A gente segue procedimentos de segurança que sempre foram assim. Registramos visitante, pedimos documento, anotamos tudo direitinho no livro e na planilha. É tudo controlado.\n\n---\n\n## Porém, analisando objetivamente a situação:\n\n**NÍVEL DE RISCO: ALTO** 🔴\n\n### Principais vulnerabilidades que existem (mesmo que eu não as veja como problema):\n\n1. **Armazenamento de dados sensíveis em dispositivo pessoal**\n   - Fotos de RG no meu celular pessoal = sem criptografia, sem controle\n\n2. **Falta de controle de acesso aos registros**\n   - Livro aberto na portaria = qualquer pessoa vê nomes, RGs, horários\n\n3. **Ausência de política de retenção**\n   - Não sei quando devo descartar as fotos ou o livro antigo\n\n4. **Sem consentimento documentado**\n   - Visitantes não assinam termo sobre uso de seus dados\n\n5. **Sem segurança física adequada**\n   - Documentos e registros expostos\n\n### Conclusão:\nA organização (Alfa Serviços) está em **risco significativo de não conformidade** com a LGPD, especialmente nos artigos sobre segurança, armazenamento e direitos dos titulares. Mas, na minha rotina diária, isso não é algo que eu pense.",
+    "metricas": {
+      "score": 4,
+      "riscos": [],
+      "pontos_criticos": [],
+      "recomendacoes": []
+    }
+  },
+  "avaliacao_vs_oraculo": {
+    "nivel_risco_esperado": "moderado",
+    "nivel_risco_detectado": "moderado",
+    "fragilidades_esperadas": [],
+    "fragilidades_detectadas": [],
+    "falso_positivo": false,
+    "falso_negativo": false,
+    "pontuacao_rubrica": {
+      "deteccao_fragilidade_central": 2,
+      "profundidade_perguntas": 2,
+      "classificacao_risco_correta": 2,
+      "ausencia_falso_positivo": 2,
+      "total": 8,
+      "maximo": 12
+    },
+    "observacoes": "Log gerado automaticamente"
+  }
+}

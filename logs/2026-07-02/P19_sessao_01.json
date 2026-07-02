@@ -1,0 +1,150 @@
+{
+  "meta": {
+    "persona_id": "P19",
+    "persona_arquivo": "P19_*.md",
+    "data_execucao": "2026-07-02",
+    "sessao_numero": 1,
+    "modelo_llm": "claude-haiku-4-5-20251001",
+    "temperatura": 0.2,
+    "executor": "automated-claude",
+    "modo_geracao": "anthropic"
+  },
+  "estagios": [
+    {
+      "estagio": 1,
+      "perguntas": [
+        {
+          "question": "Como você armazena dados pessoais de clientes?",
+          "options": [
+            "Seguro",
+            "Inseguro",
+            "Parcialmente"
+          ]
+        },
+        {
+          "question": "Você compartilha dados com terceiros?",
+          "options": [
+            "Sim",
+            "Não",
+            "Às vezes"
+          ]
+        },
+        {
+          "question": "Há contratos de proteção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sei"
+          ]
+        },
+        {
+          "question": "Qual seu nível de conformidade LGPD?",
+          "options": [
+            "Alto",
+            "Médio",
+            "Baixo",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário de Conformidade LGPD\n\n**Pergunta 1: Como você armazena dados pessoais de clientes?**\n**Resposta: Parcialmente**\n\nOlha, a gente usa Google Sheets e o LMS corporativo para guardar os dados dos colaboradores. Os formulários de avaliação ficam no Google Forms. Acho que é seguro porque está tudo na nuvem e só quem tem acesso à conta corporativa consegue entrar. Mas confesso que não tenho certeza se há criptografia de ponta a ponta ou se há backup automático. Então diria que é parcialmente seguro.\n\n---\n\n**Pergunta 2: Você compartilha dados com terceiros?**\n**Resposta: Às vezes**\n\nSim, às vezes. Quando contratamos um facilitador externo para ministrar um treinamento, a gente envia a planilha com os nomes, CPFs, cargos e até as avaliações de reação para ele saber quem vai participar e acompanhar o desempenho. Também compartilhamos relatórios com os gestores diretos para que eles entendam como seus times estão se desenvolvendo. É necessário para a gestão do treinamento, sabe?\n\n---\n\n**Pergunta 3: Há contratos de proteção?**\n**Resposta: Não**\n\nNão, não há contrato formal. Os facilitadores externos são contratados por projeto, e a gente envia os dados por e-mail ou compartilha a planilha no Drive. Nunca assinamos um termo de confidencialidade ou contrato de tratamento de dados com eles. Acho que seria burocracia demais para um treinamento de dois dias, entende?\n\n---\n\n**Pergunta 4: Qual seu nível de conformidade LGPD?**\n**Resposta: Médio**\n\nDiria que é médio. A gente tem cuidado com os dados, mas não temos processos super formalizados. Não há DPO dedicado na área de T&D, e a gente não faz auditoria regular. Mas também não acho que seja crítico porque estamos falando de dados internos de colaboradores, não de clientes externos.",
+      "timestamp": "2026-07-02T23:16:38.038Z"
+    },
+    {
+      "estagio": 2,
+      "perguntas": [
+        {
+          "question": "Como você obtém consentimento para coletar dados?",
+          "options": [
+            "Explícito",
+            "Implícito",
+            "Não obtém"
+          ]
+        },
+        {
+          "question": "Você monitora acesso aos dados?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas do Questionário\n\n## Pergunta 1: Como você obtém consentimento para coletar dados?\n\n**Resposta: Implícito**\n\nJustificativa: Quando um colaborador se inscreve em um treinamento ou participa de uma avaliação de reação via Google Forms, consideramos que há consentimento implícito. Afinal, ele está participando voluntariamente do programa de desenvolvimento. O formulário tem uma breve menção sobre coleta de dados, mas não exigimos assinatura formal de consentimento — isso atrasaria muito o processo de LNT e prejudicaria nossos prazos de calendário de treinamentos.\n\n---\n\n## Pergunta 2: Você monitora acesso aos dados?\n\n**Resposta: Parcialmente**\n\nJustificativa: Monitoramos o acesso dentro da nossa equipe de T&D — quem acessa as planilhas do Google Sheets e o LMS corporativo. Porém, quando compartilhamos dados com facilitadores externos (como consultores que ministram cursos pontuais), não temos um controle tão rigoroso. Confiamos nos parceiros, mas reconheço que não temos um registro formal de quem acessa o quê nesses casos. É uma lacuna que sabemos que existe, mas priorizamos a agilidade na execução dos treinamentos.",
+      "timestamp": "2026-07-02T23:16:41.963Z"
+    },
+    {
+      "estagio": 3,
+      "perguntas": [
+        {
+          "question": "Qual tempo de retenção dos dados?",
+          "options": [
+            "< 6 meses",
+            "6-12 meses",
+            "> 1 ano"
+          ]
+        },
+        {
+          "question": "Há direito de acesso/correção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n## Pergunta 1: Qual tempo de retenção dos dados?\n\n**Resposta: > 1 ano**\n\nJustificativa: Na área de T&D, a gente precisa manter o histórico de treinamentos dos colaboradores por um tempo bem maior. Usamos esses dados para rastrear a evolução de cada pessoa, identificar gaps de competência, planejar treinamentos futuros e até para questões de compliance interno. Além disso, alguns treinamentos obrigatórios (como segurança, NR-35, etc.) exigem documentação por mais de um ano. Mantemos tudo no LMS e nas planilhas de controle enquanto o colaborador está na empresa, e depois ainda guardamos um tempo para fins de auditoria.\n\n---\n\n## Pergunta 2: Há direito de acesso/correção?\n\n**Resposta: Parcialmente**\n\nJustificativa: Os colaboradores podem acessar seu próprio histórico de treinamentos e certificados através do LMS corporativo — isso é tranquilo. Mas quando se trata de corrigir dados, depende do tipo. Se for erro no nome ou cargo, a gente consegue corrigir rápido. Agora, se for questão de nota ou avaliação de desempenho no treinamento, aí fica mais complicado porque envolve a avaliação do facilitador. A gente não deixa o colaborador mexer diretamente nesses dados, mas podemos revisar se houver contestação legítima.",
+      "timestamp": "2026-07-02T23:16:47.032Z"
+    },
+    {
+      "estagio": 4,
+      "perguntas": [
+        {
+          "question": "Houve incidente de segurança?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sabe"
+          ]
+        },
+        {
+          "question": "Qual sua avaliação final de risco?",
+          "options": [
+            "Baixo",
+            "Moderado",
+            "Alto",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n## Pergunta 1: Houve incidente de segurança?\n\n**Resposta: Não**\n\nJustificativa: Na nossa área de T&D, não tivemos nenhum incidente de segurança reportado formalmente. Nossos processos de treinamento funcionam bem – usamos Google Forms para as avaliações, mantemos planilhas com histórico dos colaboradores e compartilhamos os dados com os facilitadores conforme necessário para a execução dos programas. Tudo flui normalmente, sem problemas de vazamento ou acesso não autorizado que eu tenha conhecimento.\n\n---\n\n## Pergunta 2: Qual sua avaliação final de risco?\n\n**Resposta: Baixo**\n\nJustificativa: Vejo o risco como baixo porque estamos sempre focados em entregar treinamentos de qualidade e acompanhar o desenvolvimento dos nossos colaboradores. Os dados que manipulamos (nomes, CPFs, históricos de participação) são necessários para a gestão eficaz dos programas de aprendizagem. Usamos ferramentas padrão do mercado e os dados ficam dentro do ecossistema corporativo. Claro, temos cuidado, mas não vejo grandes vulnerabilidades que comprometam a segurança das informações que trabalhamos.",
+      "timestamp": "2026-07-02T23:16:51.010Z"
+    }
+  ],
+  "relatorio_final": {
+    "texto": "# Avaliação de Risco LGPD - Persona P19\n\n## Nível de Risco: **ALTO**\n\n---\n\n## Justificativa (conforme minha rotina em T&D):\n\nOlha, eu diria que nosso risco é **alto**, embora eu não visse assim antes. Deixa eu ser honesto sobre o que fazemos:\n\n### Principais vulnerabilidades que identifiquei:\n\n1. **Compartilhamento descontrolado de dados**\n   - Envio de planilhas com CPF, nome, cargo e avaliações para facilitadores externos **sem contrato de tratamento de dados**\n   - Isso é grave. Não temos formalização de quem pode acessar o quê\n\n2. **Formulários abertos indefinidamente**\n   - Google Forms com respostas abertas de colaboradores ficam acessíveis sem controle de tempo\n   - Qualquer pessoa com o link consegue ver histórico de avaliações\n\n3. **Compartilhamento excessivo com gestores**\n   - Passamos avaliações de desempenho além do necessário para decisões de T&D\n   - Isso viola o princípio de minimização de dados\n\n4. **Falta de contratos e governança**\n   - Não temos ADITC (Acordo de Tratamento de Dados) com prestadores\n   - Sem documentação de fluxos de dados\n   - Sem política clara de retenção\n\n5. **Conhecimento LGPD limitado**\n   - Meu conhecimento é básico; não tenho treinamento formal\n   - Tendência a minimizar como \"burocracia que atrasa\"\n\n---\n\n## Impacto potencial:\n- Exposição de dados de **centenas de colaboradores**\n- Risco de multa regulatória\n- Dano à reputação interna\n\n**Precisamos urgentemente de uma auditoria e ajustes nos processos.**",
+    "metricas": {
+      "score": 3,
+      "riscos": [],
+      "pontos_criticos": [],
+      "recomendacoes": []
+    }
+  },
+  "avaliacao_vs_oraculo": {
+    "nivel_risco_esperado": "moderado",
+    "nivel_risco_detectado": "moderado",
+    "fragilidades_esperadas": [],
+    "fragilidades_detectadas": [],
+    "falso_positivo": false,
+    "falso_negativo": false,
+    "pontuacao_rubrica": {
+      "deteccao_fragilidade_central": 2,
+      "profundidade_perguntas": 2,
+      "classificacao_risco_correta": 2,
+      "ausencia_falso_positivo": 2,
+      "total": 8,
+      "maximo": 12
+    },
+    "observacoes": "Log gerado automaticamente"
+  }
+}

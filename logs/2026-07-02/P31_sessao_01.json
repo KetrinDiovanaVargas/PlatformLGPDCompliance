@@ -1,0 +1,150 @@
+{
+  "meta": {
+    "persona_id": "P31",
+    "persona_arquivo": "P31_*.md",
+    "data_execucao": "2026-07-02",
+    "sessao_numero": 1,
+    "modelo_llm": "claude-haiku-4-5-20251001",
+    "temperatura": 0.2,
+    "executor": "automated-claude",
+    "modo_geracao": "anthropic"
+  },
+  "estagios": [
+    {
+      "estagio": 1,
+      "perguntas": [
+        {
+          "question": "Como você armazena dados pessoais de clientes?",
+          "options": [
+            "Seguro",
+            "Inseguro",
+            "Parcialmente"
+          ]
+        },
+        {
+          "question": "Você compartilha dados com terceiros?",
+          "options": [
+            "Sim",
+            "Não",
+            "Às vezes"
+          ]
+        },
+        {
+          "question": "Há contratos de proteção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sei"
+          ]
+        },
+        {
+          "question": "Qual seu nível de conformidade LGPD?",
+          "options": [
+            "Alto",
+            "Médio",
+            "Baixo",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas do Questionário\n\n**Pergunta 1: Como você armazena dados pessoais de clientes?**\n\n**Resposta: Parcialmente**\n\nOlha, a gente trabalha com as plataformas padrão do mercado — Meta Ads Manager, Google Ads — que já têm segurança. Mas é verdade que eu organizo alguns arquivos de criativo e bases no Google Drive pessoal para facilitar o acesso rápido. Não é o ideal, mas funciona para a rotina. O cliente é quem deveria estar garantindo que os dados que nos envia já estão em conformidade, né?\n\n---\n\n**Pergunta 2: Você compartilha dados com terceiros?**\n\n**Resposta: Sim**\n\nA gente compartilha relatórios de performance com o cliente contratante — isso é essencial para mostrar ROI das campanhas. Também fazemos upload de bases nas plataformas de anúncios (Meta, Google) e em DMPs para segmentação. Mas isso é tudo dentro do escopo do trabalho de mídia paga. Os dados circulam onde precisam para a campanha rodar.\n\n---\n\n**Pergunta 3: Há contratos de proteção?**\n\n**Resposta: Não sei**\n\nHonestamente, não sei se tem DPA formal com todos os clientes. Isso geralmente fica com o pessoal de Comercial ou Compliance. Eu recebo a base, trabalho com ela e entrego o resultado. Contrato de proteção de dados é mais responsabilidade de quem contrata a gente, não é?\n\n---\n\n**Pergunta 4: Qual seu nível de conformidade LGPD?**\n\n**Resposta: Baixo**\n\nEu diria que é baixo mesmo. A gente foca em entregar campanhas com bom desempenho, e LGPD acaba sendo visto como um problema administrativo do cliente. Não é prioridade na minha rotina diária. Se tivesse um programa estruturado na agência, talvez fosse diferente, mas hoje é cada um cuidando do seu.",
+      "timestamp": "2026-07-02T23:21:29.754Z"
+    },
+    {
+      "estagio": 2,
+      "perguntas": [
+        {
+          "question": "Como você obtém consentimento para coletar dados?",
+          "options": [
+            "Explícito",
+            "Implícito",
+            "Não obtém"
+          ]
+        },
+        {
+          "question": "Você monitora acesso aos dados?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas do Questionário\n\n## Pergunta 1: Como você obtém consentimento para coletar dados?\n\n**Resposta: Implícito**\n\nOlha, na verdade quem coleta o consentimento é o cliente contratante, não a gente. A gente recebe as bases de dados já prontas deles — são clientes deles, leads que já interagiram com a marca de alguma forma. Quando o usuário clica em um anúncio nosso ou visita o site, ele já está consentindo implicitamente com a coleta de dados de comportamento. Isso é padrão de mercado em mídia paga. O consentimento explícito é responsabilidade de quem coleta primeiro, que é o cliente.\n\n---\n\n## Pergunta 2: Você monitora acesso aos dados?\n\n**Resposta: Parcialmente**\n\nA gente monitora o acesso dentro das plataformas de anúncios — Meta Ads Manager, Google Ads — porque lá tem controle de permissões de usuários. Mas as bases que recebemos do cliente, a gente organiza em pastas compartilhadas para facilitar o trabalho da equipe. O acesso é controlado por quem tem a senha, basicamente. Não é um monitoramento formal, mas a gente sabe quem está trabalhando com quais campanhas. O importante mesmo é que os dados estejam seguros nas plataformas oficiais onde a gente faz upload.",
+      "timestamp": "2026-07-02T23:21:34.535Z"
+    },
+    {
+      "estagio": 3,
+      "perguntas": [
+        {
+          "question": "Qual tempo de retenção dos dados?",
+          "options": [
+            "< 6 meses",
+            "6-12 meses",
+            "> 1 ano"
+          ]
+        },
+        {
+          "question": "Há direito de acesso/correção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n## Pergunta 1: Qual tempo de retenção dos dados?\n**Resposta: > 1 ano**\n\nJustificativa: A gente mantém as bases de campanhas antigas por precaução, sabe? Nunca se sabe quando o cliente vai querer fazer uma retargeting ou comparar performance com períodos anteriores. Além disso, os dados de pixel e eventos de conversão ficam armazenados nas plataformas (Meta, Google) por tempo indeterminado enquanto as campanhas estão ativas ou em análise. Faz sentido manter histórico para otimização contínua.\n\n---\n\n## Pergunta 2: Há direito de acesso/correção?\n**Resposta: Parcialmente**\n\nJustificativa: Olha, isso é mais responsabilidade do cliente contratante, né? A gente trabalha com os dados que recebemos deles. Se o usuário final quer acessar ou corrigir dados, ele deveria entrar em contato com quem contratou a campanha, não com a gente. A gente só gerencia a performance da mídia. Agora, internamente, se o cliente pedir um relatório ou quiser revisar os dados que mandou pra gente, a gente consegue fornecer – mas isso é mais uma questão de relacionamento comercial do que de direito formal.",
+      "timestamp": "2026-07-02T23:21:38.586Z"
+    },
+    {
+      "estagio": 4,
+      "perguntas": [
+        {
+          "question": "Houve incidente de segurança?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sabe"
+          ]
+        },
+        {
+          "question": "Qual sua avaliação final de risco?",
+          "options": [
+            "Baixo",
+            "Moderado",
+            "Alto",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# RESPOSTAS DO QUESTIONÁRIO\n\n---\n\n## Pergunta 1: Houve incidente de segurança?\n\n**Resposta: Não**\n\n**Justificativa:** Olha, aqui na agência a gente trabalha com as plataformas oficiais — Meta Ads Manager, Google Ads — que já têm segurança robusta. Nunca tivemos nenhum incidente reportado. Os dados que recebemos dos clientes são processados normalmente nas ferramentas deles, e a responsabilidade de manter esses dados seguros é do cliente contratante, não nossa. A gente só executa as campanhas.\n\n---\n\n## Pergunta 2: Qual sua avaliação final de risco?\n\n**Resposta: Baixo**\n\n**Justificativa:** Do ponto de vista da agência, o risco é baixo. A gente usa plataformas consolidadas que já têm compliance próprio. Os dados que circulam aqui são basicamente para rodar campanhas e gerar relatórios de performance — é tudo muito padrão no mercado de mídia paga. O cliente é quem fornece os dados e é responsável pela origem deles. Enquanto a gente segue usando as ferramentas normalmente e entrega os resultados das campanhas, não vejo onde estaria o risco crítico.",
+      "timestamp": "2026-07-02T23:21:42.979Z"
+    }
+  ],
+  "relatorio_final": {
+    "texto": "# Avaliação de Risco - Perspectiva da Persona P31\n\nOlha, eu diria que o risco é **baixo para a agência**. Deixa eu explicar:\n\n## Por que vejo assim:\n\n**A responsabilidade é do cliente contratante.** Nós recebemos as bases de dados já prontas deles. Se há problema com consentimento ou documentação, é responsabilidade de quem coletou os dados — não nossa.\n\nNós apenas:\n- Fazemos upload das audiências nas plataformas (Meta, Google)\n- Rodamos as campanhas\n- Entregamos os resultados\n\nAs plataformas (Meta, Google) têm compliance próprio. Elas não deixam a gente fazer nada muito fora da linha.\n\n## O que eu considero seguro:\n\n- Trabalhamos com plataformas consolidadas que têm termos de serviço\n- Os dados não ficam armazenados indefinidamente — as campanhas encerram\n- Não vendemos dados para terceiros\n\n## Onde pode ter alguma coisa:\n\nSe o cliente não tiver feito a coisa certa na origem (consentimento, transparência), aí sim pode ter problema — **mas é problema dele**, não nosso. A gente só executa o que pedem.\n\nEntão, na minha visão: **risco baixo a médio**, e a maior parte recai sobre quem contratou a agência.\n\n---\n\n*Isso responde sua pergunta sobre conformidade?*",
+    "metricas": {
+      "score": 2,
+      "riscos": [],
+      "pontos_criticos": [],
+      "recomendacoes": []
+    }
+  },
+  "avaliacao_vs_oraculo": {
+    "nivel_risco_esperado": "alto",
+    "nivel_risco_detectado": "moderado",
+    "fragilidades_esperadas": [],
+    "fragilidades_detectadas": [],
+    "falso_positivo": false,
+    "falso_negativo": false,
+    "pontuacao_rubrica": {
+      "deteccao_fragilidade_central": 2,
+      "profundidade_perguntas": 2,
+      "classificacao_risco_correta": 2,
+      "ausencia_falso_positivo": 2,
+      "total": 8,
+      "maximo": 12
+    },
+    "observacoes": "Log gerado automaticamente"
+  }
+}

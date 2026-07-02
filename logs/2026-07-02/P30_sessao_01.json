@@ -1,0 +1,150 @@
+{
+  "meta": {
+    "persona_id": "P30",
+    "persona_arquivo": "P30_*.md",
+    "data_execucao": "2026-07-02",
+    "sessao_numero": 1,
+    "modelo_llm": "claude-haiku-4-5-20251001",
+    "temperatura": 0.2,
+    "executor": "automated-claude",
+    "modo_geracao": "anthropic"
+  },
+  "estagios": [
+    {
+      "estagio": 1,
+      "perguntas": [
+        {
+          "question": "Como você armazena dados pessoais de clientes?",
+          "options": [
+            "Seguro",
+            "Inseguro",
+            "Parcialmente"
+          ]
+        },
+        {
+          "question": "Você compartilha dados com terceiros?",
+          "options": [
+            "Sim",
+            "Não",
+            "Às vezes"
+          ]
+        },
+        {
+          "question": "Há contratos de proteção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sei"
+          ]
+        },
+        {
+          "question": "Qual seu nível de conformidade LGPD?",
+          "options": [
+            "Alto",
+            "Médio",
+            "Baixo",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário de Conformidade LGPD\n\n---\n\n## **Pergunta 1: Como você armazena dados pessoais de clientes?**\n\n**Resposta: Seguro**\n\nOs dados de clientes que gerenciamos são armazenados em nosso sistema de gestão de contratos, que é mantido em infraestrutura corporativa com controles de acesso. Quando repassamos dados para as empresas terceirizadas de atendimento, elas também possuem seus próprios sistemas de armazenamento. Temos cláusulas de confidencialidade nos contratos que cobrem isso.\n\n---\n\n## **Pergunta 2: Você compartilha dados com terceiros?**\n\n**Resposta: Sim**\n\nNaturalmente. Compartilhamos dados de clientes com nossas empresas parceiras de outsourcing de atendimento – é parte essencial da operação. Também repassamos dados de colaboradores terceirizados (CPF, dados bancários) para o RH processar. Tudo isso está coberto pelos contratos padrão que temos com essas empresas.\n\n---\n\n## **Pergunta 3: Há contratos de proteção?**\n\n**Resposta: Sim**\n\nTodos os nossos contratos de outsourcing incluem cláusulas de confidencialidade e proteção de dados. São contratos padrão que renovamos periodicamente. As empresas parceiras se comprometem a manter os dados em sigilo e a usá-los apenas para os fins contratados.\n\n---\n\n## **Pergunta 4: Qual seu nível de conformidade LGPD?**\n\n**Resposta: Médio**\n\nTemos os contratos em lugar, as cláusulas de proteção estão lá, e sabemos que precisamos estar em conformidade. Porém, reconheço que não fazemos auditorias frequentes sobre o que as terceirizadas realmente fazem com os dados, e as revisões de contrato são mais automáticas do que proativas em relação às atualizações da LGPD.",
+      "timestamp": "2026-07-02T23:21:05.935Z"
+    },
+    {
+      "estagio": 2,
+      "perguntas": [
+        {
+          "question": "Como você obtém consentimento para coletar dados?",
+          "options": [
+            "Explícito",
+            "Implícito",
+            "Não obtém"
+          ]
+        },
+        {
+          "question": "Você monitora acesso aos dados?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n## Pergunta 1: Como você obtém consentimento para coletar dados?\n\n**Resposta: Implícito**\n\nJustificativa: Na minha rotina, os dados de colaboradores terceirizados são coletados como parte do processo de contratação — está tudo documentado nos contratos de prestação de serviço. Quanto aos dados de clientes que repassamos às empresas de outsourcing de atendimento, o consentimento está implícito na relação contratual que o cliente tem conosco. As cláusulas de confidencialidade e proteção de dados já cobrem isso. Não vejo necessidade de solicitar consentimento explícito adicional, pois tudo está previsto nos termos contratuais padrão que usamos há anos.\n\n---\n\n## Pergunta 2: Você monitora acesso aos dados?\n\n**Resposta: Parcialmente**\n\nJustificativa: Monitoramos através dos contratos — exigimos que as terceirizadas assinem cláusulas de confidencialidade e se comprometam com a proteção dos dados. Temos acesso à extranet de parceiros onde podemos verificar documentação. Porém, não fazemos auditoria contínua ou periódica sobre o que as empresas terceirizadas efetivamente fazem com os dados no dia a dia. O monitoramento é mais documental e baseado em SLA do que operacional. Confiamos que as cláusulas contratuais são suficientes para garantir a conformidade.",
+      "timestamp": "2026-07-02T23:21:09.854Z"
+    },
+    {
+      "estagio": 3,
+      "perguntas": [
+        {
+          "question": "Qual tempo de retenção dos dados?",
+          "options": [
+            "< 6 meses",
+            "6-12 meses",
+            "> 1 ano"
+          ]
+        },
+        {
+          "question": "Há direito de acesso/correção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas do Questionário\n\n## Pergunta 1: Qual tempo de retenção dos dados?\n\n**Resposta: > 1 ano**\n\n**Justificativa:** Os contratos de outsourcing que gerencio estabelecem retenção de dados por período superior a um ano, principalmente porque precisamos manter histórico contratual e documentação de colaboradores terceirizados para fins de auditoria, compliance fiscal e resolução de eventuais disputas. Além disso, os dados de clientes repassados às empresas de atendimento precisam ser mantidos para rastreabilidade das operações. Isso está contemplado nas cláusulas padrão dos nossos contratos.\n\n---\n\n## Pergunta 2: Há direito de acesso/correção?\n\n**Resposta: Parcialmente**\n\n**Justificativa:** Os contratos incluem cláusulas de confidencialidade que garantem acesso aos dados para fins de gestão contratual e operacional. No entanto, o direito de correção é mais limitado — funciona principalmente para dados de colaboradores terceirizados, onde o RH pode solicitar correções. Para dados de clientes nas mãos das terceirizadas de atendimento, o acesso e correção dependem da solicitação formal ao gestor da empresa parceira, o que torna o processo parcialmente implementado. As cláusulas existentes cobrem o essencial para nossas operações.",
+      "timestamp": "2026-07-02T23:21:14.550Z"
+    },
+    {
+      "estagio": 4,
+      "perguntas": [
+        {
+          "question": "Houve incidente de segurança?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sabe"
+          ]
+        },
+        {
+          "question": "Qual sua avaliação final de risco?",
+          "options": [
+            "Baixo",
+            "Moderado",
+            "Alto",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# RESPOSTAS AO QUESTIONÁRIO\n\n---\n\n## **Pergunta 1: Houve incidente de segurança?**\n\n**Resposta: Não**\n\n**Justificativa:** Na minha gestão de contratos, não temos registro formal de incidentes de segurança envolvendo os dados que repassamos às terceirizadas. Os contratos incluem cláusulas de confidencialidade robustas, e as empresas parceiras operam dentro dos padrões que estabelecemos. Não houve comunicação de violação ou acesso não autorizado por parte dos nossos fornecedores de outsourcing.\n\n---\n\n## **Pergunta 2: Qual sua avaliação final de risco?**\n\n**Resposta: Baixo**\n\n**Justificativa:** Considerando que temos contratos formalizados com todas as terceirizadas, com cláusulas de proteção de dados e confidencialidade já incorporadas, o risco é baixo. Os dados de colaboradores e clientes são compartilhados apenas com parceiros selecionados e sob acordos contratuais. O sistema de gestão de contratos rastreia essas transferências, e mantemos relacionamento direto com os gestores das empresas parceiras para garantir conformidade. A renovação automática dos contratos assegura continuidade dessa proteção.",
+      "timestamp": "2026-07-02T23:21:18.318Z"
+    }
+  ],
+  "relatorio_final": {
+    "texto": "# Avaliação de Risco - Perspectiva do Gestor de Contratos\n\nOlha, eu diria que o risco é **baixo a moderado** na nossa operação. Deixa eu explicar o porquê:\n\n## Por que considero baixo risco:\n\n- **Temos cláusulas contratuais estabelecidas** – todos os nossos contratos de outsourcing incluem termos de confidencialidade e proteção de dados. Isso está padronizado há anos.\n- **Dados são necessários para operação** – precisamos compartilhar informações com terceirizadas para que elas executem os serviços. É inevitável e justificável.\n- **Parceiros são empresas estabelecidas** – não trabalhamos com qualquer um. São fornecedores conhecidos, com reputação.\n\n## Onde vejo alguma exposição:\n\n- **Renovações automáticas** – sim, os contratos se renovam com as mesmas cláusulas. Mas se funcionou até agora, por que mudar?\n- **Comunicações informais** – às vezes compartilho dados por WhatsApp com gestores de parceiros para agilizar processos. É prático e rápido.\n- **Sem auditoria formal** – não fazemos revisão periódica do que as terceirizadas fazem com os dados, mas confiamos nos parceiros.\n\n## Conclusão:\n\nO risco real é **moderado**, não baixo como eu gostaria de acreditar. A ausência de DPA atualizado e falta de auditoria são pontos cegos que poderiam gerar problemas se houvesse uma fiscalização ou incidente.\n\nMas na prática do dia a dia? Funciona.",
+    "metricas": {
+      "score": 9,
+      "riscos": [],
+      "pontos_criticos": [],
+      "recomendacoes": []
+    }
+  },
+  "avaliacao_vs_oraculo": {
+    "nivel_risco_esperado": "alto",
+    "nivel_risco_detectado": "moderado",
+    "fragilidades_esperadas": [],
+    "fragilidades_detectadas": [],
+    "falso_positivo": false,
+    "falso_negativo": false,
+    "pontuacao_rubrica": {
+      "deteccao_fragilidade_central": 2,
+      "profundidade_perguntas": 2,
+      "classificacao_risco_correta": 2,
+      "ausencia_falso_positivo": 2,
+      "total": 8,
+      "maximo": 12
+    },
+    "observacoes": "Log gerado automaticamente"
+  }
+}

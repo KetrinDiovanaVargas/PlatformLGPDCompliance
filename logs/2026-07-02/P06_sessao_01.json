@@ -1,0 +1,150 @@
+{
+  "meta": {
+    "persona_id": "P06",
+    "persona_arquivo": "P06_*.md",
+    "data_execucao": "2026-07-02",
+    "sessao_numero": 1,
+    "modelo_llm": "claude-haiku-4-5-20251001",
+    "temperatura": 0.2,
+    "executor": "automated-claude",
+    "modo_geracao": "anthropic"
+  },
+  "estagios": [
+    {
+      "estagio": 1,
+      "perguntas": [
+        {
+          "question": "Como você armazena dados pessoais de clientes?",
+          "options": [
+            "Seguro",
+            "Inseguro",
+            "Parcialmente"
+          ]
+        },
+        {
+          "question": "Você compartilha dados com terceiros?",
+          "options": [
+            "Sim",
+            "Não",
+            "Às vezes"
+          ]
+        },
+        {
+          "question": "Há contratos de proteção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sei"
+          ]
+        },
+        {
+          "question": "Qual seu nível de conformidade LGPD?",
+          "options": [
+            "Alto",
+            "Médio",
+            "Baixo",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas do Questionário - Conformidade LGPD\n\n---\n\n## **Pergunta 1: Como você armazena dados pessoais de clientes?**\n\n**Resposta: Seguro**\n\nOlha, a gente trabalha com plataformas consolidadas no mercado — RD Station, HubSpot — que têm certificações e infraestrutura robusta. Os dados ficam lá, integrados com Google Analytics e Meta Ads Manager. Tudo na nuvem, com backup automático. A gente não armazena em planilhas soltas ou no computador pessoal. Isso seria amador demais para o volume que a gente movimenta.\n\n---\n\n## **Pergunta 2: Você compartilha dados com terceiros?**\n\n**Resposta: Às vezes**\n\nSim, compartilhamos. A gente trabalha com parceiros comerciais que fornecem listas de leads — isso é bem comum no mercado de marketing. Também fazemos upload de audiências para Meta Ads e Google Ads para criar campanhas segmentadas e lookalike audiences. É parte da estratégia de growth. Não é compartilhamento indiscriminado, mas acontece regularmente conforme a necessidade das campanhas.\n\n---\n\n## **Pergunta 3: Há contratos de proteção?**\n\n**Resposta: Sim**\n\nCom as plataformas principais — RD Station, HubSpot, Meta — sim, existem contratos e termos de serviço. Com os parceiros que vendem listas de leads, a gente tem acordos comerciais. Não sou eu que cuido dos detalhes jurídicos, mas a empresa tem essas documentações. Isso é responsabilidade mais do time legal, sabe?\n\n---\n\n## **Pergunta 4: Qual seu nível de conformidade LGPD?**\n\n**Resposta: Médio**\n\nA gente está alinhado com o básico — opt-in em formulários, respeito a unsubscribe em e-mails, integração com plataformas certificadas. Mas não vou fingir que temos auditoria completa de privacidade em cada campanha. O foco é gerar leads e conversão. A conformidade é importante, mas não é o gargalo do nosso trabalho. Diria que estamos no meio do caminho — não é crítico, mas também não é perfeito.",
+      "timestamp": "2026-07-02T23:11:23.067Z"
+    },
+    {
+      "estagio": 2,
+      "perguntas": [
+        {
+          "question": "Como você obtém consentimento para coletar dados?",
+          "options": [
+            "Explícito",
+            "Implícito",
+            "Não obtém"
+          ]
+        },
+        {
+          "question": "Você monitora acesso aos dados?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n## Pergunta 1: Como você obtém consentimento para coletar dados?\n\n**Resposta: Explícito**\n\nJustificativa: Nas nossas campanhas de e-mail marketing e landing pages, a gente sempre coloca aquele checkbox de consentimento — você sabe, aquele \"Concordo em receber comunicações\". É padrão mesmo. Nos formulários de conversão, o usuário marca a caixa antes de enviar os dados. Isso é consentimento explícito, certo? Além disso, trabalhamos com parceiros que já têm bases de dados consolidadas, então a gente assume que eles já fizeram essa coleta de forma adequada.\n\n---\n\n## Pergunta 2: Você monitora acesso aos dados?\n\n**Resposta: Parcialmente**\n\nJustificativa: A gente tem controle sobre quem acessa a plataforma de automação — cada pessoa do time tem seu login. Mas monitorar acesso mesmo, tipo auditoria detalhada de quem acessou o quê e quando? Isso é mais responsabilidade da área de TI e Compliance. Meu foco é garantir que os dados estejam bem segmentados nas campanhas e que a gente não compartilhe informações sensíveis desnecessariamente. O resto fica com os caras de segurança da informação.",
+      "timestamp": "2026-07-02T23:11:27.642Z"
+    },
+    {
+      "estagio": 3,
+      "perguntas": [
+        {
+          "question": "Qual tempo de retenção dos dados?",
+          "options": [
+            "< 6 meses",
+            "6-12 meses",
+            "> 1 ano"
+          ]
+        },
+        {
+          "question": "Há direito de acesso/correção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n## Pergunta 1: Qual tempo de retenção dos dados?\n**Resposta: > 1 ano**\n\n**Justificativa:** Na nossa operação de marketing, mantemos os dados de leads e contatos por período superior a um ano. Precisamos disso para análise de histórico de engajamento, nutrição de leads em ciclos longos e segmentação de audiências para campanhas recorrentes. Além disso, usamos esses dados para criar audiências semelhantes no Meta Ads e para análises de comportamento que demandam série histórica. Deletar antes disso prejudicaria nossas métricas de retenção e ROI das campanhas.\n\n---\n\n## Pergunta 2: Há direito de acesso/correção?\n**Resposta: Parcialmente**\n\n**Justificativa:** Tecnicamente, sim, as pessoas podem solicitar acesso aos dados que temos delas através da nossa plataforma de automação (RD Station/HubSpot), e conseguem atualizar informações básicas como nome e e-mail em alguns formulários. Mas nem todos os dados estão acessíveis dessa forma — por exemplo, dados de comportamento de navegação e segmentação interna não são facilmente expostos ao usuário. A correção também é limitada porque alguns dados vêm de parceiros comerciais e não controlamos totalmente a origem. Então é parcial mesmo.",
+      "timestamp": "2026-07-02T23:11:32.250Z"
+    },
+    {
+      "estagio": 4,
+      "perguntas": [
+        {
+          "question": "Houve incidente de segurança?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sabe"
+          ]
+        },
+        {
+          "question": "Qual sua avaliação final de risco?",
+          "options": [
+            "Baixo",
+            "Moderado",
+            "Alto",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n## Pergunta 1: Houve incidente de segurança?\n\n**Resposta: Não**\n\nJustificativa: Na minha rotina diária com campanhas de e-mail, Meta Ads e RD Station, não temos registros formais de incidentes de segurança. Nossas ferramentas de automação funcionam normalmente, os dados chegam aos contatos sem problemas e as métricas de entrega estão saudáveis. Se houvesse algo crítico, a TI teria comunicado.\n\n---\n\n## Pergunta 2: Qual sua avaliação final de risco?\n\n**Resposta: Baixo**\n\nJustificativa: Trabalhamos com plataformas consolidadas (HubSpot, Meta Ads, Google Analytics) que já têm compliance integrado. Nossas campanhas seguem o padrão do mercado — segmentamos audiências, criamos públicos semelhantes e nutrimos leads com base em comportamento. Isso é prática comum em qualquer agência ou time de marketing digital. Os dados que usamos vêm de parceiros confiáveis e de nossa base de clientes. Não vejo onde estaria o risco elevado.",
+      "timestamp": "2026-07-02T23:11:36.684Z"
+    }
+  ],
+  "relatorio_final": {
+    "texto": "# Avaliação de Risco - Perspectiva da Persona P06\n\nOlha, eu diria que o risco é **baixo a moderado** na nossa operação. Aqui está meu raciocínio:\n\n## Por que não vejo como alto risco:\n\n**Práticas que considero seguras:**\n- Usamos plataformas consolidadas (RD Station, HubSpot) que já têm compliance built-in\n- Temos opt-in em landing pages e formulários\n- Não estamos vendendo dados para terceiros\n- Nossas campanhas são direcionadas para leads que interagiram conosco\n\n**Métricas que me tranquilizam:**\n- Taxa de reclamação é praticamente zero\n- Nunca recebemos notificação da ANPD\n- Clientes não reclamam de spam\n- Nossas listas convertem bem, então devem estar \"certas\"\n\n## Onde poderia haver alguma atenção:\n\n- As listas que compramos de parceiros... bem, eles garantem que estão em conformidade, então assumo que estão\n- Aqueles segmentos de 2020 que ainda usamos poderiam ter pessoas que não querem mais receber, mas a taxa de unsubscribe é baixa\n- O upload de audiências no Meta é prática padrão do mercado, todo mundo faz\n\n## Conclusão prática:\n\nSe a ANPD não bateu na porta, estamos bem. O risco real é baixo porque operamos dentro do que vejo como \"padrão da indústria de marketing digital\".\n\nIsso responde sua pergunta?",
+    "metricas": {
+      "score": 8,
+      "riscos": [],
+      "pontos_criticos": [],
+      "recomendacoes": []
+    }
+  },
+  "avaliacao_vs_oraculo": {
+    "nivel_risco_esperado": "moderado_alto",
+    "nivel_risco_detectado": "moderado",
+    "fragilidades_esperadas": [],
+    "fragilidades_detectadas": [],
+    "falso_positivo": false,
+    "falso_negativo": false,
+    "pontuacao_rubrica": {
+      "deteccao_fragilidade_central": 2,
+      "profundidade_perguntas": 2,
+      "classificacao_risco_correta": 2,
+      "ausencia_falso_positivo": 2,
+      "total": 8,
+      "maximo": 12
+    },
+    "observacoes": "Log gerado automaticamente"
+  }
+}

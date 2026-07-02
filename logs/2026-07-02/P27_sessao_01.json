@@ -1,0 +1,150 @@
+{
+  "meta": {
+    "persona_id": "P27",
+    "persona_arquivo": "P27_*.md",
+    "data_execucao": "2026-07-02",
+    "sessao_numero": 1,
+    "modelo_llm": "claude-haiku-4-5-20251001",
+    "temperatura": 0.2,
+    "executor": "automated-claude",
+    "modo_geracao": "anthropic"
+  },
+  "estagios": [
+    {
+      "estagio": 1,
+      "perguntas": [
+        {
+          "question": "Como você armazena dados pessoais de clientes?",
+          "options": [
+            "Seguro",
+            "Inseguro",
+            "Parcialmente"
+          ]
+        },
+        {
+          "question": "Você compartilha dados com terceiros?",
+          "options": [
+            "Sim",
+            "Não",
+            "Às vezes"
+          ]
+        },
+        {
+          "question": "Há contratos de proteção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sei"
+          ]
+        },
+        {
+          "question": "Qual seu nível de conformidade LGPD?",
+          "options": [
+            "Alto",
+            "Médio",
+            "Baixo",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n**Pergunta 1: Como você armazena dados pessoais de clientes?**\n\n**Resposta: Parcialmente**\n\nJustificativa: Utilizamos o sistema de RH da empresa, que tem protocolos de acesso, mas também mantenho uma planilha compartilhada com a equipe de RH para facilitar o acompanhamento integrado dos casos. Entendo que há espaço para melhorias, mas o objetivo é garantir que todos os profissionais envolvidos no apoio ao colaborador tenham acesso rápido às informações necessárias.\n\n---\n\n**Pergunta 2: Você compartilha dados com terceiros?**\n\n**Resposta: Às vezes**\n\nJustificativa: Compartilho informações com a equipe de RH e com os gestores diretos dos colaboradores, quando necessário para estruturar o apoio — benefícios, programas de assistência, ajustes de rotina. Considero isso essencial para o trabalho em rede. Ocasionalmente, também preciso comunicar com fornecedores de programas de assistência (psicólogo, cursos de capacitação), sempre buscando o consentimento do colaborador.\n\n---\n\n**Pergunta 3: Há contratos de proteção?**\n\n**Resposta: Não sei**\n\nJustificativa: Essa é uma questão mais administrativa. Presumo que a empresa tenha contratos padrão com fornecedores, mas não tenho clareza sobre os detalhes de proteção de dados nesses acordos. Meu foco é no atendimento direto ao colaborador.\n\n---\n\n**Pergunta 4: Qual seu nível de conformidade LGPD?**\n\n**Resposta: Médio**\n\nJustificativa: Tenho consciência sobre sigilo profissional e confidencialidade — isso é fundamental na assistência social. Mas reconheço que meu conhecimento específico sobre LGPD é limitado. Sigo as práticas da empresa, mas não tenho formação formal sobre proteção de dados pessoais.",
+      "timestamp": "2026-07-02T23:19:49.202Z"
+    },
+    {
+      "estagio": 2,
+      "perguntas": [
+        {
+          "question": "Como você obtém consentimento para coletar dados?",
+          "options": [
+            "Explícito",
+            "Implícito",
+            "Não obtém"
+          ]
+        },
+        {
+          "question": "Você monitora acesso aos dados?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n## Pergunta 1: Como você obtém consentimento para coletar dados?\n\n**Resposta: Implícito**\n\nQuando um colaborador vem até meu atendimento, ele já está ciente de que estou aqui para ajudá-lo. O consentimento é implícito no próprio ato de procurar o serviço de assistência social. Ele sabe que vou precisar conhecer sua situação para oferecer o apoio adequado — seja um programa de auxílio financeiro, orientação familiar ou encaminhamento para saúde mental. Não preciso de um formulário assinado para isso; a confiança que ele deposita em mim já é suficiente.\n\n---\n\n## Pergunta 2: Você monitora acesso aos dados?\n\n**Resposta: Parcialmente**\n\nMonitoro na medida em que os dados estão no sistema de RH, que tem controles de acesso. Mas reconheço que a planilha compartilhada com a equipe de RH e gestores é mais aberta — precisa ser assim para que o acompanhamento seja eficaz e integrado. Todos que precisam apoiar o colaborador têm acesso. Não há um monitoramento formal de quem consulta cada caso, mas confio na ética profissional da equipe. O importante é que os dados estejam disponíveis para quem realmente precisa ajudar.",
+      "timestamp": "2026-07-02T23:19:53.484Z"
+    },
+    {
+      "estagio": 3,
+      "perguntas": [
+        {
+          "question": "Qual tempo de retenção dos dados?",
+          "options": [
+            "< 6 meses",
+            "6-12 meses",
+            "> 1 ano"
+          ]
+        },
+        {
+          "question": "Há direito de acesso/correção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n## Pergunta 1: Qual tempo de retenção dos dados?\n\n**Resposta: > 1 ano**\n\n**Justificativa:** Na minha prática, mantenho os registros de caso por tempo indeterminado. Muitos colaboradores que atendo têm situações que se estendem por anos — problemas financeiros recorrentes, acompanhamento de vulnerabilidade familiar contínua. Preciso consultar o histórico para entender a trajetória da pessoa e oferecer um apoio realmente eficaz. Além disso, esses dados podem ser necessários para documentação interna, gestão de benefícios e até questões trabalhistas futuras. Então, na prática, os arquivos ficam armazenados indefinidamente no sistema de RH e na planilha compartilhada.\n\n---\n\n## Pergunta 2: Há direito de acesso/correção?\n\n**Resposta: Parcialmente**\n\n**Justificativa:** O colaborador tem acesso aos dados que eu compartilho diretamente com ele durante nossos atendimentos — ele sabe o que conversamos. Mas quanto à correção ou revisão do que está registrado nos meus relatórios internos... isso é mais complexo. Tecnicamente, o colaborador poderia solicitar, mas na prática, esses registros são documentos de trabalho da assistência social e do RH. Não é um processo formalizado. Se o colaborador questionar algo que escrevi, posso conversar e ajustar, mas não há um protocolo claro de direito de acesso aos arquivos completos ou de retificação formal.",
+      "timestamp": "2026-07-02T23:19:59.198Z"
+    },
+    {
+      "estagio": 4,
+      "perguntas": [
+        {
+          "question": "Houve incidente de segurança?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sabe"
+          ]
+        },
+        {
+          "question": "Qual sua avaliação final de risco?",
+          "options": [
+            "Baixo",
+            "Moderado",
+            "Alto",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n## Pergunta 1: Houve incidente de segurança?\n\n**Resposta: Não**\n\nJustificativa: Na minha rotina, não temos registros formais de incidentes de segurança. Os dados dos colaboradores estão armazenados no sistema de RH e na planilha compartilhada com a equipe — tudo dentro da empresa, com acesso controlado. Nunca houve vazamento ou acesso não autorizado que eu tenha conhecimento. O trabalho que faço é interno, focado no acolhimento e apoio.\n\n---\n\n## Pergunta 2: Qual sua avaliação final de risco?\n\n**Resposta: Baixo**\n\nJustificativa: Considero o risco baixo porque estamos operando dentro de um ambiente corporativo controlado. Os dados sensíveis que registro — situação financeira, problemas familiares, questões de saúde mental — ficam restritos à equipe de RH que precisa estar alinhada para oferecer o melhor suporte ao colaborador. É uma questão de integração de equipe para garantir que o acompanhamento seja eficaz. Não vejo risco significativo enquanto os dados permanecem dentro da organização e com pessoas de confiança.",
+      "timestamp": "2026-07-02T23:20:03.246Z"
+    }
+  ],
+  "relatorio_final": {
+    "texto": "# Avaliação de Risco LGPD — Perspectiva da Persona P27\n\nOlha, eu não tenho acesso às respostas anteriores que você mencionou, então não consigo fazer uma avaliação comparativa. Mas posso falar sobre como eu vejo a situação aqui na Alfa Serviços Integrados, a partir da minha rotina.\n\n## Meu entendimento atual\n\nHonestamente? Eu não diria que temos um risco *geral* tão alto assim. A gente trabalha com dados sensíveis, sim — situação financeira, problemas familiares, saúde mental dos colaboradores — mas tudo isso é **necessário** para fazer um bom trabalho de apoio social.\n\nClaro que compartilhamos informações com o RH e com os gestores. Mas isso é para **garantir que o colaborador receba o suporte adequado**. Se a equipe de RH não souber dos detalhes, como vamos coordenar um programa de auxílio financeiro ou flexibilizar horários para quem está em crise?\n\n## Onde eu vejo potencial de melhoria\n\n- Talvez a gente pudesse ser mais cuidadoso com **quem exatamente** tem acesso à planilha de casos\n- O WhatsApp pessoal é prático, mas reconheço que mistura conversas pessoais com profissionais\n- Alguns dados que a gente registra talvez fossem desnecessários (tipo endereço completo)\n\nMas risco *geral* alto? Não vejo assim. A gente está tentando ajudar pessoas em situação vulnerável. Isso tem que contar para algo.",
+    "metricas": {
+      "score": 4,
+      "riscos": [],
+      "pontos_criticos": [],
+      "recomendacoes": []
+    }
+  },
+  "avaliacao_vs_oraculo": {
+    "nivel_risco_esperado": "critico",
+    "nivel_risco_detectado": "moderado",
+    "fragilidades_esperadas": [],
+    "fragilidades_detectadas": [],
+    "falso_positivo": false,
+    "falso_negativo": false,
+    "pontuacao_rubrica": {
+      "deteccao_fragilidade_central": 2,
+      "profundidade_perguntas": 2,
+      "classificacao_risco_correta": 2,
+      "ausencia_falso_positivo": 2,
+      "total": 8,
+      "maximo": 12
+    },
+    "observacoes": "Log gerado automaticamente"
+  }
+}

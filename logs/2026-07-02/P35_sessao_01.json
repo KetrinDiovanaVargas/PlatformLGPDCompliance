@@ -1,0 +1,150 @@
+{
+  "meta": {
+    "persona_id": "P35",
+    "persona_arquivo": "P35_*.md",
+    "data_execucao": "2026-07-02",
+    "sessao_numero": 1,
+    "modelo_llm": "claude-haiku-4-5-20251001",
+    "temperatura": 0.2,
+    "executor": "automated-claude",
+    "modo_geracao": "anthropic"
+  },
+  "estagios": [
+    {
+      "estagio": 1,
+      "perguntas": [
+        {
+          "question": "Como você armazena dados pessoais de clientes?",
+          "options": [
+            "Seguro",
+            "Inseguro",
+            "Parcialmente"
+          ]
+        },
+        {
+          "question": "Você compartilha dados com terceiros?",
+          "options": [
+            "Sim",
+            "Não",
+            "Às vezes"
+          ]
+        },
+        {
+          "question": "Há contratos de proteção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sei"
+          ]
+        },
+        {
+          "question": "Qual seu nível de conformidade LGPD?",
+          "options": [
+            "Alto",
+            "Médio",
+            "Baixo",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas do Questionário\n\n**Pergunta 1: Como você armazena dados pessoais de clientes?**\n\n**Resposta: Seguro**\n\nOlha, a gente trabalha com o sistema da corretora, que é seguro. Os dados ficam lá registrados. Claro que também uso planilhas locais para organizar melhor as cotações em andamento e facilitar o acompanhamento das renovações — é mais prático para meu dia a dia, sabe? Mas tudo fica comigo, ninguém mexe.\n\n---\n\n**Pergunta 2: Você compartilha dados com terceiros?**\n\n**Resposta: Às vezes**\n\nSim, às vezes. Quando preciso fazer a cotação, compartilho com as seguradoras parceiras — é necessário para elas avaliarem o risco e darem o melhor preço pro cliente. Mas isso é tudo dentro do processo normal de seguro. Não fico espalhando dados por aí, não.\n\n---\n\n**Pergunta 3: Há contratos de proteção?**\n\n**Resposta: Não sei**\n\nBoa pergunta. Acho que tem alguma coisa assinada lá na empresa sobre isso, mas sinceramente não sei os detalhes. Isso é mais coisa da administração, sabe? Eu cuido da venda e do relacionamento com o cliente.\n\n---\n\n**Pergunta 4: Qual seu nível de conformidade LGPD?**\n\n**Resposta: Médio**\n\nMédio. A gente segue as regras básicas — não vendo dados, não faço nada ilegal. Mas confesso que não sou especialista em LGPD, não. Meu foco é fechar apólices e renovar contratos. A empresa deve ter seus processos, mas no meu dia a dia, eu faço o que sempre fiz.",
+      "timestamp": "2026-07-02T23:23:03.983Z"
+    },
+    {
+      "estagio": 2,
+      "perguntas": [
+        {
+          "question": "Como você obtém consentimento para coletar dados?",
+          "options": [
+            "Explícito",
+            "Implícito",
+            "Não obtém"
+          ]
+        },
+        {
+          "question": "Você monitora acesso aos dados?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n**Pergunta 1: Como você obtém consentimento para coletar dados?**\n\n**Resposta: Implícito**\n\nOlha, quando o cliente me procura para uma cotação de seguro de vida, ele já sabe que precisa fornecer informações de saúde. É parte do processo natural. Quando ele me passa o WhatsApp e começa a conversar comigo sobre a cobertura, ele está implicitamente consentindo que eu coleta os dados necessários. Ninguém chega aqui sem saber que seguro de vida exige histórico médico. É óbvio que ele quer a cotação, então autoriza os dados que preciso.\n\n---\n\n**Pergunta 2: Você monitora acesso aos dados?**\n\n**Resposta: Parcialmente**\n\nSim, parcialmente. Os dados que entram no sistema da corretora ficam lá, com controle da empresa. Mas quando eu trabalho com WhatsApp e planilhas locais no meu computador, é comigo mesmo. Ninguém mais acessa. Eu sou responsável por guardar tudo direitinho. Não preciso de monitoramento porque eu controlo quem vê ou não vê. É seguro assim.",
+      "timestamp": "2026-07-02T23:23:08.480Z"
+    },
+    {
+      "estagio": 3,
+      "perguntas": [
+        {
+          "question": "Qual tempo de retenção dos dados?",
+          "options": [
+            "< 6 meses",
+            "6-12 meses",
+            "> 1 ano"
+          ]
+        },
+        {
+          "question": "Há direito de acesso/correção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n**Pergunta 1: Qual tempo de retenção dos dados?**\n\n**Resposta: > 1 ano**\n\nOlha, a gente mantém os dados dos clientes por bastante tempo. Quando faço uma cotação, mesmo que o cliente não feche a apólice naquele momento, eu guardo tudo — histórico médico, dados pessoais, tudo — porque ele pode voltar a procurar depois de alguns meses ou até anos. Já tive cliente que voltou depois de 2 anos querendo contratar. Então é bom ter tudo documentado no sistema e nas minhas planilhas. Além disso, enquanto a apólice está ativa, a gente precisa manter os dados para renovações e acompanhamento. Faz sentido comercial manter por mais de um ano.\n\n---\n\n**Pergunta 2: Há direito de acesso/correção?**\n\n**Resposta: Parcialmente**\n\nO cliente pode acessar os dados da apólice dele através do sistema da corretora, claro. Mas nem tudo está lá de forma organizada — alguns dados estão comigo em WhatsApp, em e-mail, em planilha local. Se o cliente pedir para corrigir algo, eu corrijo na apólice, mas aqueles dados que colhi durante a cotação por WhatsApp... bem, isso fica mais complicado de rastrear e atualizar. Então é parcial mesmo. O sistema permite acesso, mas nem todos os dados que tenho sobre o cliente estão centralizados de forma que ele possa acessar ou corrigir facilmente.",
+      "timestamp": "2026-07-02T23:23:13.573Z"
+    },
+    {
+      "estagio": 4,
+      "perguntas": [
+        {
+          "question": "Houve incidente de segurança?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sabe"
+          ]
+        },
+        {
+          "question": "Qual sua avaliação final de risco?",
+          "options": [
+            "Baixo",
+            "Moderado",
+            "Alto",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n**Pergunta 1: Houve incidente de segurança?**\n\n**Resposta: Não**\n\nOlha, aqui na Alfa Seguros a gente trabalha com segurança. Nunca tivemos nenhum incidente que eu tenha conhecimento. Os dados dos clientes ficam no sistema da corretora, que é seguro, e eu uso WhatsApp e e-mail como qualquer profissional. Não há problema nenhum nisso.\n\n---\n\n**Pergunta 2: Qual sua avaliação final de risco?**\n\n**Resposta: Baixo**\n\nMeu trabalho é vender seguro, não sou especialista em risco de dados. Mas posso te garantir que a gente segue os procedimentos normais do mercado. Coleto as informações que preciso para cotar o produto, armazeno no sistema e pronto. Isso é rotina em qualquer corretora. O risco é baixo porque a gente trabalha com profissionalismo.",
+      "timestamp": "2026-07-02T23:23:17.401Z"
+    }
+  ],
+  "relatorio_final": {
+    "texto": "# Avaliação de Risco LGPD - Corretor de Seguros\n\nNão há respostas anteriores registradas em nosso histórico de conversa, então vou avaliar o risco com base no perfil e comportamentos descritos na minha persona:\n\n## Nível de Risco: **CRÍTICO / MUITO ALTO**\n\n### Principais vulnerabilidades identificadas:\n\n**1. Dados Sensíveis sem Proteção**\n- Coleto histórico médico detalhado por WhatsApp (canal não seguro)\n- Armazeno em planilha local sem criptografia\n- Não há formulário formal ou termo de consentimento\n\n**2. Retenção Indefinida**\n- Mantenho dados de clientes que não fecharam apólice \"caso voltem a procurar\"\n- Sem política clara de exclusão ou prazo de retenção\n\n**3. Falta de Governança**\n- Uso de ferramentas pessoais (WhatsApp, e-mail pessoal)\n- Sem controle centralizado da corretora sobre esses dados\n- Nenhuma criptografia ou backup seguro\n\n**4. Consentimento Inadequado**\n- Não obtenho consentimento explícito para coleta de dados sensíveis\n- Minimizo a necessidade como \"exigência do produto\"\n\n**5. Ausência de Treinamento**\n- Meu conhecimento sobre LGPD é muito baixo\n- Não percebo esses comportamentos como risco\n\n### Risco para a Organização:\nA Alfa Seguros está exposta a **multas de até 2% do faturamento** (até R$ 50 milhões) e processos por violação de direitos dos titulares.",
+    "metricas": {
+      "score": 9,
+      "riscos": [],
+      "pontos_criticos": [],
+      "recomendacoes": []
+    }
+  },
+  "avaliacao_vs_oraculo": {
+    "nivel_risco_esperado": "critico",
+    "nivel_risco_detectado": "moderado",
+    "fragilidades_esperadas": [],
+    "fragilidades_detectadas": [],
+    "falso_positivo": false,
+    "falso_negativo": false,
+    "pontuacao_rubrica": {
+      "deteccao_fragilidade_central": 2,
+      "profundidade_perguntas": 2,
+      "classificacao_risco_correta": 2,
+      "ausencia_falso_positivo": 2,
+      "total": 8,
+      "maximo": 12
+    },
+    "observacoes": "Log gerado automaticamente"
+  }
+}
