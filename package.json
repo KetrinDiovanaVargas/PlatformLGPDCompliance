@@ -1,4 +1,4 @@
-﻿{
+{
   "name": "vite_react_shadcn_ts",
   "private": true,
   "version": "0.0.0",
@@ -13,6 +13,7 @@
     "test:todas": "node scripts/rodar_todas_personas.mjs"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.110.0",
     "@google/generative-ai": "^0.24.1",
     "@hookform/resolvers": "^3.10.0",
     "@radix-ui/react-accordion": "^1.2.11",
@@ -61,7 +62,7 @@
     "headroom-ai": "^0.22.4",
     "html2canvas": "^1.4.1",
     "input-otp": "^1.4.2",
-    "js-yaml": "^4.1.0",
+    "js-yaml": "^4.3.0",
     "jspdf": "^3.0.3",
     "lucide-react": "^0.462.0",
     "next-themes": "^0.3.0",
@@ -100,5 +101,3 @@
     "vite": "^5.4.19"
   }
 }
-
-
