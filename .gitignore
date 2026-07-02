@@ -8,8 +8,6 @@ server/serviceAccountKey.json
 
 *.log
 
-logs/
-
 .vscode/
 .idea/
 .DS_Store
