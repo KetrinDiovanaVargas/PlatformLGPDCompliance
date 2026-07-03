@@ -1444,38 +1444,51 @@ Agradecemos pela sua colaboração.`;
 
         <section className="grid gap-5 md:grid-cols-2">
           <div className="rounded-3xl bg-white/[0.04] border border-slate-800/80 p-6 h-[380px] shadow-[0_0_40px_rgba(15,23,42,0.35)]">
-            <h2 className="text-lg font-semibold text-slate-100 mb-4">
-              Score Médio por Avaliação
-            </h2>
+            <div>
+              <h2 className="text-lg font-semibold text-slate-100 mb-1">
+                Score Médio por Avaliação
+              </h2>
+              <p className="text-xs text-slate-400 mb-4">Média de compliance por formulário</p>
+            </div>
 
-            <div className="h-[280px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart
-                  data={barData}
-                  layout="vertical"
-                  margin={{ top: 5, right: 30, left: 150, bottom: 5 }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" vertical={true} />
-                  <XAxis type="number" tick={{ fill: "#cbd5f5", fontSize: 11 }} />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: "#0f172a",
-                      border: "1px solid #334155",
-                      borderRadius: "12px",
-                      color: "#fff",
-                    }}
-                    formatter={(value: any) => [`${value}`, "Média"]}
-                  />
-                  <Bar dataKey="scoreAverage" radius={[0, 8, 8, 0]} fill="#38bdf8" />
-                </BarChart>
-              </ResponsiveContainer>
+            <div className="h-[280px] flex items-center justify-center">
+              {barData && barData.length > 0 ? (
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart
+                    data={barData}
+                    layout="vertical"
+                    margin={{ top: 5, right: 30, left: 150, bottom: 5 }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" vertical={true} />
+                    <XAxis type="number" tick={{ fill: "#cbd5f5", fontSize: 11 }} />
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: "#0f172a",
+                        border: "1px solid #334155",
+                        borderRadius: "12px",
+                        color: "#fff",
+                      }}
+                      formatter={(value: any) => [`${value}`, "Média"]}
+                    />
+                    <Bar dataKey="scoreAverage" radius={[0, 8, 8, 0]} fill="#38bdf8" />
+                  </BarChart>
+                </ResponsiveContainer>
+              ) : (
+                <div className="text-center">
+                  <p className="text-sm text-slate-400">Sem dados disponíveis</p>
+                  <p className="text-xs text-slate-500 mt-1">Complete avaliações para ver análise</p>
+                </div>
+              )}
             </div>
           </div>
 
           <div className="rounded-3xl bg-white/[0.04] border border-slate-800/80 p-6 h-[380px] shadow-[0_0_40px_rgba(15,23,42,0.35)]">
-            <h2 className="text-lg font-semibold text-slate-100 mb-4">
-              Distribuição de Scores
-            </h2>
+            <div>
+              <h2 className="text-lg font-semibold text-slate-100 mb-1">
+                Distribuição de Scores
+              </h2>
+              <p className="text-xs text-slate-400 mb-4">Histograma de faixas de score</p>
+            </div>
 
             <div className="h-[280px]">
               <ResponsiveContainer width="100%" height="100%">

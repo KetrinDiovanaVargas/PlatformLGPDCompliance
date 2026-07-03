@@ -372,16 +372,14 @@ export function FormCreationWizard({
             <div className="flex gap-2">
               <Button
                 onClick={onCancel}
-                variant="outline"
-                className="rounded-lg border-slate-700 text-slate-300 hover:bg-slate-900"
+                className="rounded-lg bg-sky-500 hover:bg-sky-600 text-white"
               >
                 Cancelar
               </Button>
               {step > 1 && (
                 <Button
                   onClick={handlePrev}
-                  variant="outline"
-                  className="rounded-lg border-slate-700 text-slate-300 hover:bg-slate-900 gap-1"
+                  className="rounded-lg bg-sky-500 hover:bg-sky-600 text-white gap-1"
                 >
                   <ChevronLeft className="w-4 h-4" />
                   Voltar
@@ -394,7 +392,7 @@ export function FormCreationWizard({
                 <Button
                   onClick={handleNext}
                   disabled={!canProceed()}
-                  className="rounded-lg bg-sky-500 hover:bg-sky-600 text-white gap-1"
+                  className="rounded-lg bg-sky-500 hover:bg-sky-600 disabled:bg-sky-400 text-white gap-1"
                 >
                   Próximo
                   <ChevronRight className="w-4 h-4" />
@@ -403,7 +401,7 @@ export function FormCreationWizard({
                 <Button
                   onClick={handleCreate}
                   disabled={loading || !canProceed()}
-                  className="rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white gap-1"
+                  className="rounded-lg bg-sky-500 hover:bg-sky-600 disabled:bg-sky-400 text-white gap-1"
                 >
                   {loading ? "Criando..." : <>
                     <Plus className="w-4 h-4" />
