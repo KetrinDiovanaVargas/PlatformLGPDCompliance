@@ -1,4 +1,4 @@
-import rateLimit from 'express-rate-limit';
+import rateLimit, { ipKeyGenerator } from 'express-rate-limit';
 
 /**
  * Rate limiter para rotas públicas (generate-stage, save-responses, analyze)
@@ -45,7 +45,7 @@ export const adminLimiter = rateLimit({
   },
   standardHeaders: true,
   legacyHeaders: false,
-  keyGenerator: (req) => req.user?.uid || req.ip, // Usar UID se autenticado, senão IP
+  keyGenerator: (req) => req.user?.uid || ipKeyGenerator(req), // Usar UID se autenticado, senão IP
 });
 
 /**
