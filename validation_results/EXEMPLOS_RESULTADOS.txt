@@ -1,0 +1,295 @@
+================================================================================
+EXEMPLOS DE RESULTADOS - MATRIZ DE CONFUSÃO PARA PERSONAS
+================================================================================
+
+Este arquivo contém exemplos de resultados de validação que podem ser gerados
+ao executar as personas contra o sistema de análise consolidada.
+
+================================================================================
+PERSONA P01: RH Recrutamento (Compartilhamento Informal)
+================================================================================
+
+ID: P01
+Nome: Analista de Recrutamento
+Setor: RH
+Nível de Risco Esperado: Alto
+
+ORÁCULO (Esperado):
+─────────────────
+Vetor de Fragilidade:
+  F1 - Compartilhamento informal: 3 (Alto)
+  F3 - Retenção excessiva: 2 (Médio)
+  F9 - Dados sensíveis sem salvaguarda: 1 (Baixo)
+
+Fragilidades Esperadas a Detectar:
+  1. Envia currículo por WhatsApp ao ser perguntado sobre urgência
+  2. Mantém currículos antigos para vagas futuras
+  3. Recebe informações sobre deficiência/restrição sem fluxo diferenciado
+
+MATRIZ DE CONFUSÃO:
+──────────────────
+TP (Verdadeiro Positivo): 8
+   - Detectou corretamente: F1 (3 detecções), F3 (3 detecções), F9 (2 detecções)
+
+FP (Falso Positivo): 2
+   - Detectou incorretamente: Cobrança indevida (falsa detecção)
+   - Detectou incorretamente: Compartilhamento com birô de crédito (falsa detecção)
+
+FN (Falso Negativo): 1
+   - Perdeu detectar: Um detalhe de F3 (retenção excessiva de específico)
+
+VN (Verdadeiro Negativo): 14
+   - Corretamente rejeitou: 14 não-fragilidades testadas
+
+MÉTRICAS:
+─────────
+Acurácia:     (8+14)/25 × 100 = 88%    ⚠ Meta: 90% - ABAIXO
+Precisão:     8/(8+2) × 100 = 80%      ⚠ Meta: 85% - ABAIXO
+Recall:       8/(8+1) × 100 = 88.9%    ✓ Meta: 85% - ACIMA
+F1-Score:     2×(80×88.9)/(80+88.9) = 84.2% ⚠ Meta: 85% - PRÓXIMO
+Especificidade: 14/(14+2) × 100 = 87.5% ✓ Aceitável
+
+DIAGNÓSTICO:
+────────────
+Status: REQUER REFINAMENTO
+
+Pontos Fortes:
+  ✓ Recall bom - detectou maioria das fragilidades esperadas
+  ✓ Especificidade adequada - não gera muitos falsos alarmes
+
+Pontos Fracos:
+  ✗ Precisão baixa - 2 falsos positivos prejudicam confiabilidade
+  ✗ Acurácia abaixo da meta
+  ✗ F1-Score borderline
+
+Recomendações:
+  1. Revisar regras de detecção para reduzir FP
+  2. Melhorar distinção entre "compartilhamento com birô" vs "compartilhamento informal"
+  3. Adicionar mais contexto às perguntas de F3
+  4. Testar novamente após ajustes
+
+
+================================================================================
+PERSONA P03: Saúde Ocupacional (Retenção de Dados Médicos)
+================================================================================
+
+ID: P03
+Nome: Técnico de Saúde Ocupacional
+Setor: Saúde
+Nível de Risco Esperado: Médio
+
+ORÁCULO (Esperado):
+─────────────────
+Vetor de Fragilidade:
+  F3 - Retenção excessiva: 3 (Alto)
+  F9 - Dados sensíveis sem salvaguarda: 2 (Médio)
+  F6 - Falta de transparência: 1 (Baixo)
+
+Fragilidades Esperadas a Detectar:
+  1. Mantém prontuários médicos sem datas de descarte
+  2. Compartilha resultados de testes sem consentimento renovado
+  3. Usuários não sabem por quanto tempo dados são mantidos
+
+MATRIZ DE CONFUSÃO:
+──────────────────
+TP: 7  - Detectou F3, F9 corretamente
+FP: 1  - Detectou "violação de privacidade genérica" (não específica)
+FN: 2  - Perdeu detectar: 2 aspectos de F6 (transparência)
+VN: 15 - Corretamente rejeitou 15 não-fragilidades
+
+MÉTRICAS:
+─────────
+Acurácia:     (7+15)/25 × 100 = 88%     ⚠ ABAIXO META
+Precisão:     7/(7+1) × 100 = 87.5%     ✓ Aceitável
+Recall:       7/(7+2) × 100 = 77.8%     ✗ ABAIXO META (grave)
+F1-Score:     2×(87.5×77.8)/(87.5+77.8) = 82.4% ⚠ PRÓXIMO
+Especificidade: 15/(15+1) × 100 = 93.8% ✓ Excelente
+
+DIAGNÓSTICO:
+────────────
+Status: PROBLEMÁTICO - Recall baixo é crítico em LGPD
+
+Pontos Positivos:
+  ✓ Especificidade excelente - poucos falsos alarmes
+  ✓ Precisão adequada
+
+Pontos Críticos:
+  ✗ Recall BAIXO (77.8%) - PERDENDO FRAGILIDADES
+  ✗ Não detecta questões de transparência bem
+  ✗ Precisa melhorar sensibilidade
+
+Recomendações (CRÍTICAS):
+  1. URGENTE: Aumentar recall adicionando mais perguntas sobre F6
+  2. Revisar interpretação de respostas para F3
+  3. Adicionar perguntas sobre consentimento e renovação
+  4. Realizar teste piloto antes de produção
+
+
+================================================================================
+PERSONA A01: Consultor RH Malicioso (Violações Deliberadas)
+================================================================================
+
+ID: A01
+Nome: Consultor RH com Intenções Maliciosas
+Tipo: Persona de Ataque Adversarial
+Nível de Risco Esperado: Muito Alto
+
+ORÁCULO (Esperado):
+─────────────────
+Fragilidades Esperadas (Múltiplas Violações Intencionais):
+  F1: Compartilhamento informal com concorrentes
+  F2: Armazenamento de dados em servidor pessoal
+  F3: Retenção para venda posterior
+  F4: Coleta de informações de dependentes
+  F7: Uso secundário para "pesquisa de mercado"
+  F8: Compartilhamento com terceiros maliciosos
+
+MATRIZ DE CONFUSÃO:
+──────────────────
+TP: 12 - Detectou TODAS as violações esperadas
+FP: 0  - ZERO falsos alarmes
+FN: 0  - ZERO fragilidades perdidas
+VN: 13 - Corretamente rejeitou não-violações
+
+MÉTRICAS:
+─────────
+Acurácia:     (12+13)/25 × 100 = 100%  ✓✓ PERFEITO
+Precisão:     12/(12+0) × 100 = 100%   ✓✓ PERFEITO
+Recall:       12/(12+0) × 100 = 100%   ✓✓ PERFEITO
+F1-Score:     100%                      ✓✓ PERFEITO
+Especificidade: 13/(13+0) × 100 = 100% ✓✓ PERFEITO
+
+DIAGNÓSTICO:
+────────────
+Status: EXCELENTE ✓✓
+
+Conclusão:
+  Sistema funciona perfeitamente para casos de violação óbvia e deliberada.
+  Persona maliciosa é completamente detectada.
+
+Implicação:
+  ✓ Sistema consegue identificar quando há intenção maliciosa
+  ✓ Pronto para produção neste cenário específico
+
+
+================================================================================
+PERSONA P05: Comercial Coordenador (Acesso Excessivo)
+================================================================================
+
+ID: P05
+Nome: Coordenador de Vendas
+Setor: Comercial
+Nível de Risco Esperado: Médio
+
+ORÁCULO (Esperado):
+─────────────────
+Vetor de Fragilidade:
+  F5 - Acesso excessivo: 3 (Alto)
+  F1 - Compartilhamento informal: 1 (Baixo)
+  F6 - Falta de transparência: 1 (Baixo)
+
+MATRIZ DE CONFUSÃO:
+──────────────────
+TP: 6  - Detectou F5 corretamente (6 detecções)
+FP: 2  - Detectou "gestão deficiente de dados", "falta de backup"
+FN: 3  - Perdeu detectar: 3 aspectos específicos de F5
+VN: 14 - Corretamente rejeitou
+
+MÉTRICAS:
+─────────
+Acurácia:     (6+14)/25 × 100 = 80%     ✗ ABAIXO META (crítico)
+Precisão:     6/(6+2) × 100 = 75%       ✗ MUITO BAIXO
+Recall:       6/(6+3) × 100 = 66.7%     ✗ MUITO BAIXO (CRÍTICO)
+F1-Score:     2×(75×66.7)/(75+66.7) = 70.6% ✗ MUITO BAIXO
+Especificidade: 14/(14+2) × 100 = 87.5% ✓ Aceitável
+
+DIAGNÓSTICO:
+────────────
+Status: NÃO ACEITO - FALHA CRÍTICA
+
+Problemas Graves:
+  ✗ Acurácia muito baixa (80%)
+  ✗ Recall crítico (66.7%) - perdendo muitas fragilidades
+  ✗ Precisão baixa - muitos falsos alarmes
+  ✗ F1-Score inadequado
+
+Recomendações (CRÍTICAS):
+  1. Revisar completamente as perguntas sobre F5
+  2. Adicionar contexto específico sobre "acesso além do necessário"
+  3. Melhorar distinção entre "acesso apropriado" vs "acesso excessivo"
+  4. Aumentar número de testes antes de produção
+  5. NÃO USAR EM PRODUÇÃO até atingir ≥85% Recall
+
+
+================================================================================
+RESUMO COMPARATIVO DE PERSONAS
+================================================================================
+
+Persona      Acurácia  Precisão  Recall    F1-Score  Status
+──────────────────────────────────────────────────────────
+P01 (RH)     88%       80%       88.9%     84.2%     ⚠ Refinamento
+P03 (Saúde)  88%       87.5%     77.8%     82.4%     ✗ Recall baixo
+A01 (Ataque) 100%      100%      100%      100%      ✓ Pronto
+P05 (Vendas) 80%       75%       66.7%     70.6%     ✗ Falha crítica
+
+Meta de Produção (Mínimo):
+  Acurácia:  ≥ 85% (Ideal: ≥ 90%)
+  Precisão:  ≥ 80% (Ideal: ≥ 85%)
+  Recall:    ≥ 85% (Ideal: ≥ 90%) ← CRÍTICO (não perder fragilidades)
+  F1-Score:  ≥ 80% (Ideal: ≥ 85%)
+
+Personas Prontas para Produção:
+  ✓ A01 - Detecção de violações maliciosas (100% de performance)
+
+Personas em Refinamento:
+  ⚠ P01 - Precisa reduzir FP, está perto da meta
+
+Personas NÃO Prontas:
+  ✗ P03 - Recall crítico, precisa melhorar detecção de F6
+  ✗ P05 - Múltiplas falhas, necessário redesign
+
+================================================================================
+AÇÕES RECOMENDADAS
+================================================================================
+
+CURTO PRAZO (Semana 1):
+  1. Executar validação de P01 com dados reais
+  2. Corrigir regras de FP para P01
+  3. Aumentar perguntas sobre F6 para P03
+
+MÉDIO PRAZO (Semana 2-3):
+  1. Redesenhar perguntas de P05
+  2. Validar novamente com novas perguntas
+  3. Atingir pelo menos 85% recall para todas
+
+LONGO PRAZO (Produção):
+  1. Deploy apenas personas com ≥85% Recall
+  2. Monitorar métricas em tempo real
+  3. Ajustar sistema conforme feedback
+
+================================================================================
+COMO USAR ESTES EXEMPLOS
+================================================================================
+
+Você pode usar estes dados no componente ValidationDemoPage.tsx:
+
+1. Os dados já estão codificados em PERSONA_VALIDATION_EXAMPLES
+2. Customize com seus dados reais quando tiver resultados
+3. Use a página de validação para monitorar progresso
+
+Estrutura de Dados JSON:
+{
+  "id": "P01",
+  "name": "P01 - RH Recrutamento",
+  "description": "Compartilhamento informal de currículos via WhatsApp",
+  "data": {
+    "truePositives": 8,
+    "falsePositives": 2,
+    "falseNegatives": 1,
+    "trueNegatives": 14
+  }
+}
+
+================================================================================
+FIM DO DOCUMENTO
+================================================================================
