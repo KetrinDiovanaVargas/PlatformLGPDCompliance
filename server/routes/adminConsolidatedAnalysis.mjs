@@ -344,20 +344,42 @@ async function tryGroqConsolidation({ assessment, reports }) {
 
 router.post("/", async (req, res) => {
   try {
-    let adminDb;
-    try {
-      adminDb = getAdminDb();
-    } catch (err) {
-      return res.status(503).json({
-        error: "Firebase Admin não configurado no backend.",
-        details: err?.message || String(err),
-      });
-    }
-
     const { assessmentId } = req.body || {};
 
     if (!assessmentId) {
       return res.status(400).json({ error: "assessmentId é obrigatório." });
+    }
+
+    let adminDb;
+    try {
+      adminDb = getAdminDb();
+    } catch (err) {
+      console.warn("⚠️  Firebase Admin não configurado, retornando análise em modo demo");
+
+      return res.json({
+        mode: "demo",
+        message: "Análise em modo demonstração (Firebase não configurado)",
+        notice: "Configure serviceAccountKey.json ou variáveis de ambiente do Firebase para análise completa.",
+        reportsCount: 0,
+        scoreAverage: 68,
+        topCriticalIssues: [
+          { label: "Implementar política de retenção de dados", count: 3 },
+          { label: "Documentar fluxos de consentimento", count: 2 },
+        ],
+        topStrengths: [
+          { label: "Criptografia em trânsito implementada", count: 3 },
+          { label: "Logs de acesso ativados", count: 2 },
+        ],
+        topAttentionPoints: [
+          { label: "Revisar acessos de terceiros", count: 2 },
+          { label: "Atualizar política de privacidade", count: 1 },
+        ],
+        recommendations: [
+          { title: "Implementar Data Protection Impact Assessment (DPIA)", priority: "Alta" },
+          { title: "Estabelecer cronograma de treinamento LGPD", priority: "Alta" },
+          { title: "Revisar contatos com processadores de dados", priority: "Média" },
+        ],
+      });
     }
 
     const assessmentSnap = await adminDb
