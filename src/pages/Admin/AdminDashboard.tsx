@@ -876,6 +876,13 @@ Agradecemos pela sua colaboração.`;
   const barData = useMemo(() => {
     return assessments.map((a) => {
       const stats = getStatsByAssessment(a.id);
+      const assessmentSessions = sessions.filter(s => s.assessmentId === a.id && s.status === 'completed');
+      const scores = assessmentSessions
+        .map(s => s.finalReport?.metrics?.score)
+        .filter((score): score is number => typeof score === 'number');
+      const scoreAverage = scores.length > 0
+        ? Math.round(scores.reduce((sum, s) => sum + s, 0) / scores.length)
+        : 0;
       return {
         id: a.id,
         fullName: formatAssessmentTitle(a),
@@ -883,6 +890,7 @@ Agradecemos pela sua colaboração.`;
         respostas: stats.total,
         concluidas: stats.completed,
         andamento: stats.inProgress,
+        scoreAverage,
         tipo: labelFromValue(FORM_TYPE_OPTIONS, a.formType),
         objetivo: labelFromValue(OBJECTIVE_OPTIONS, a.objective),
       };
