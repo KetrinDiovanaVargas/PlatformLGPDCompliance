@@ -48,6 +48,7 @@ import {
   RefreshCw,
   Sparkles,
   AlertTriangle,
+  Share2,
   Flame,
   Target,
   MessageCircle,
@@ -1182,6 +1183,47 @@ Agradecemos pela sua colaboração.`;
                   </ul>
                 </div>
               )}
+
+              <div className="rounded-lg border border-indigo-500/20 bg-indigo-500/10 p-4">
+                <div className="flex items-center justify-between mb-4">
+                  <h4 className="text-xs font-semibold text-indigo-200 uppercase tracking-wider">
+                    Distribuição de Conformidade
+                  </h4>
+                  <ResponsiveContainer width={100} height={80}>
+                    <PieChart>
+                      <Pie
+                        data={[
+                          { name: "Conforme", value: Math.min(consolidatedAnalysis.scoreAverage, 100) },
+                          { name: "Não Conforme", value: Math.max(0, 100 - consolidatedAnalysis.scoreAverage) }
+                        ]}
+                        innerRadius={20}
+                        outerRadius={35}
+                        dataKey="value"
+                        startAngle={90}
+                        endAngle={-270}
+                      >
+                        <Cell fill="#22c55e" />
+                        <Cell fill="#ef4444" />
+                      </Pie>
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+                <p className="text-[11px] text-indigo-200/70 mb-4 leading-relaxed">
+                  Este gráfico apresenta uma visão consolidada do nível de conformidade baseado na análise técnica completa realizada. O valor corresponde ao score médio de todas as avaliações analisadas, indicando o grau geral de compliance com LGPD e ISO/IEC 27001.
+                </p>
+                <button
+                  onClick={() => {
+                    const url = `${window.location.origin}?assessment=${selectedAssessmentId}`;
+                    const text = `Convidado para revisão de conformidade LGPD: ${selectedAssessmentId ? assessments.find(a => a.id === selectedAssessmentId)?.title || 'Avaliação' : 'Análise Consolidada'}`;
+                    navigator.clipboard.writeText(`${text}\n${url}`);
+                    toast.success("Link copiado com mensagem de convite!");
+                  }}
+                  className="w-full rounded-lg bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white text-xs font-medium py-2 px-3 transition-all duration-200 flex items-center justify-center gap-2"
+                >
+                  <Share2 className="w-3.5 h-3.5" />
+                  Compartilhar Análise
+                </button>
+              </div>
             </div>
           ) : (
             <div className="rounded-lg border border-dashed border-slate-700 bg-slate-800/30 p-6 text-center">
