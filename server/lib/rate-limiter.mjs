@@ -45,7 +45,7 @@ export const adminLimiter = rateLimit({
   },
   standardHeaders: true,
   legacyHeaders: false,
-  keyGenerator: (req) => req.user?.uid || req.ip, // Usar UID se autenticado, senão IP
+  skip: (req) => process.env.NODE_ENV === 'development', // Desabilita em desenvolvimento
 });
 
 /**
