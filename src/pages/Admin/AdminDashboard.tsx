@@ -212,6 +212,12 @@ export default function AdminDashboard() {
   const [formOpen, setFormOpen] = useState(false);
   const [expandedMessages, setExpandedMessages] = useState<Set<string>>(new Set());
 
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterStatus, setFilterStatus] = useState<"all" | "active" | "inactive">("all");
+  const [filterType, setFilterType] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
   const toggleMessage = (id: string) => {
     setExpandedMessages(prev => {
       const next = new Set(prev);
@@ -436,6 +442,10 @@ Agradecemos pela sua colaboração.`;
       setSelectedAssessmentId(assessments[0].id);
     }
   }, [assessments, selectedAssessmentId]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, filterStatus, filterType]);
 
   const handleCreateAssessment = async () => {
     if (role === "MASTER") {
@@ -787,6 +797,39 @@ Agradecemos pela sua colaboração.`;
       others,
     };
   };
+
+  const filteredAssessments = useMemo(() => {
+    let filtered = [...assessments];
+
+    if (searchTerm.trim()) {
+      const term = searchTerm.toLowerCase();
+      filtered = filtered.filter(
+        (a) =>
+          formatAssessmentTitle(a).toLowerCase().includes(term) ||
+          (a.context && a.context.toLowerCase().includes(term)) ||
+          (a.audience && a.audience.toLowerCase().includes(term))
+      );
+    }
+
+    if (filterStatus !== "all") {
+      filtered = filtered.filter((a) =>
+        filterStatus === "active" ? a.active !== false : a.active === false
+      );
+    }
+
+    if (filterType) {
+      filtered = filtered.filter((a) => a.formType === filterType);
+    }
+
+    return filtered;
+  }, [assessments, searchTerm, filterStatus, filterType]);
+
+  const totalPages = Math.ceil(filteredAssessments.length / itemsPerPage);
+  const paginatedAssessments = useMemo(() => {
+    const start = (currentPage - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    return filteredAssessments.slice(start, end);
+  }, [filteredAssessments, currentPage, itemsPerPage]);
 
   const summary = useMemo(() => {
     const totalAssessments = assessments.length;
