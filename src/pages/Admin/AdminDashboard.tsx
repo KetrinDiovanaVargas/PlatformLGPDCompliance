@@ -1599,6 +1599,70 @@ Agradecemos pela sua colaboração.`;
           </div>
         </section>
 
+        <section className="grid gap-5 md:grid-cols-2">
+          <div className="rounded-3xl bg-white/[0.04] border border-slate-800/80 p-6 h-[380px] shadow-[0_0_40px_rgba(15,23,42,0.35)]">
+            <h2 className="text-lg font-semibold text-slate-100 mb-4">
+              Score Médio por Avaliação
+            </h2>
+
+            <div className="h-[280px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart
+                  data={barData}
+                  layout="vertical"
+                  margin={{ top: 5, right: 30, left: 150, bottom: 5 }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" vertical={true} />
+                  <XAxis type="number" tick={{ fill: "#cbd5f5", fontSize: 11 }} />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: "#0f172a",
+                      border: "1px solid #334155",
+                      borderRadius: "12px",
+                      color: "#fff",
+                    }}
+                    formatter={(value: any) => [`${value}`, "Média"]}
+                  />
+                  <Bar dataKey="scoreAverage" radius={[0, 8, 8, 0]} fill="#38bdf8" />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+          <div className="rounded-3xl bg-white/[0.04] border border-slate-800/80 p-6 h-[380px] shadow-[0_0_40px_rgba(15,23,42,0.35)]">
+            <h2 className="text-lg font-semibold text-slate-100 mb-4">
+              Distribuição de Scores
+            </h2>
+
+            <div className="h-[280px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart
+                  data={[
+                    { range: "0-20", count: 2 },
+                    { range: "20-40", count: 5 },
+                    { range: "40-60", count: 8 },
+                    { range: "60-80", count: 12 },
+                    { range: "80-100", count: 6 },
+                  ]}
+                >
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                  <XAxis dataKey="range" tick={{ fill: "#cbd5f5", fontSize: 11 }} />
+                  <YAxis tick={{ fill: "#cbd5f5", fontSize: 11 }} />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: "#0f172a",
+                      border: "1px solid #334155",
+                      borderRadius: "12px",
+                      color: "#fff",
+                    }}
+                  />
+                  <Bar dataKey="count" radius={[8, 8, 0, 0]} fill="#a855f7" />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        </section>
+
         <section className="rounded-3xl bg-white/[0.04] border border-slate-800/80 p-8 shadow-[0_0_60px_rgba(99,102,241,0.14)] space-y-6">
           <h3 className="flex items-center gap-2 text-sm font-semibold text-slate-200 tracking-tight">
             <Activity className="h-4 w-4 text-fuchsia-400" />
