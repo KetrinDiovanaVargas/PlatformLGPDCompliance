@@ -749,9 +749,9 @@ Agradecemos pela sua colaboração.`;
       const data = await readJsonResponse(response);
 
       if (!response.ok) {
-        throw new Error(
-          getApiErrorMessage(data, "Erro ao gerar análise consolidada.")
-        );
+        const errorMsg = data?.error || data?.message || "Erro ao gerar análise consolidada.";
+        const details = data?.details ? ` (${data.details})` : "";
+        throw new Error(errorMsg + details);
       }
 
       setConsolidatedAnalysis(data);
@@ -760,6 +760,8 @@ Agradecemos pela sua colaboração.`;
         toast.success("Análise consolidada gerada com IA.");
       } else if (data.mode === "fallback") {
         toast.success("Análise consolidada gerada em modo contingência.");
+      } else if (data.mode === "empty") {
+        toast.info("Nenhuma resposta completada para esta avaliação ainda.");
       } else {
         toast.success("Análise consolidada carregada.");
       }
