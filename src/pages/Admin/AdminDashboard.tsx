@@ -743,12 +743,19 @@ Agradecemos pela sua colaboração.`;
       setLoadingConsolidated(true);
       setConsolidatedAnalysis(null);
 
+      const token = await auth.currentUser?.getIdToken();
+      if (!token) {
+        toast.error("Não autenticado. Por favor, faça login novamente.");
+        return;
+      }
+
       const response = await fetch(
         `${API_BASE_URL}/api/admin/consolidated-analysis`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
           },
           body: JSON.stringify({
             assessmentId: selectedAssessmentId,
