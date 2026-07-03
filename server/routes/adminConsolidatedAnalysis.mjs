@@ -8,7 +8,7 @@ function getGroqClient() {
   const apiKey = process.env.GROQ_API_KEY;
 
   if (!apiKey) {
-    throw new Error("GROQ_API_KEY não carregada no backend");
+    throw new Error("GROQ_API_KEY não configurada. Usando análise em modo contingência.");
   }
 
   return new Groq({ apiKey });
@@ -431,16 +431,20 @@ router.post("/", async (req, res) => {
       const groqResult = await tryGroqConsolidation({ assessment, reports });
       return res.json(groqResult);
     } catch (groqError) {
-      console.error("❌ Erro na análise consolidada com Groq:", groqError);
+      console.error("❌ Erro na análise consolidada com Groq:", groqError?.message || groqError);
+      console.log("📋 Usando análise em modo contingência (fallback)");
 
       const fallback = buildFallbackAnalysis(assessment, reports);
       return res.json(fallback);
     }
   } catch (error) {
-    console.error("❌ Erro ao gerar análise consolidada:", error);
+    console.error("❌ Erro ao gerar análise consolidada:", error?.message || error);
+
     return res.status(500).json({
       error: "Erro ao gerar análise consolidada.",
-      details: error.message,
+      message: error?.message || "Erro desconhecido",
+      details: error?.stack,
+      mode: "error"
     });
   }
 });
