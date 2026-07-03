@@ -53,6 +53,10 @@ import {
   MessageCircle,
 } from "lucide-react";
 import { toast } from "sonner";
+import { FormCreationWizard } from "@/components/FormCreationWizard";
+import { AssessmentCard } from "@/components/AssessmentCard";
+import { PaginationControls } from "@/components/PaginationControls";
+import { AssessmentFilters } from "@/components/AssessmentFilters";
 
 type AdminRole = "MASTER" | "ADMIN" | "";
 
@@ -208,6 +212,12 @@ export default function AdminDashboard() {
 
   const [formOpen, setFormOpen] = useState(false);
   const [expandedMessages, setExpandedMessages] = useState<Set<string>>(new Set());
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterStatus, setFilterStatus] = useState<"all" | "active" | "inactive">("all");
+  const [filterType, setFilterType] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   const toggleMessage = (id: string) => {
     setExpandedMessages(prev => {
@@ -433,6 +443,10 @@ Agradecemos pela sua colaboração.`;
       setSelectedAssessmentId(assessments[0].id);
     }
   }, [assessments, selectedAssessmentId]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, filterStatus, filterType]);
 
   const handleCreateAssessment = async () => {
     if (role === "MASTER") {
@@ -782,6 +796,39 @@ Agradecemos pela sua colaboração.`;
       others,
     };
   };
+
+  const filteredAssessments = useMemo(() => {
+    let filtered = [...assessments];
+
+    if (searchTerm.trim()) {
+      const term = searchTerm.toLowerCase();
+      filtered = filtered.filter(
+        (a) =>
+          formatAssessmentTitle(a).toLowerCase().includes(term) ||
+          (a.context && a.context.toLowerCase().includes(term)) ||
+          (a.audience && a.audience.toLowerCase().includes(term))
+      );
+    }
+
+    if (filterStatus !== "all") {
+      filtered = filtered.filter((a) =>
+        filterStatus === "active" ? a.active !== false : a.active === false
+      );
+    }
+
+    if (filterType) {
+      filtered = filtered.filter((a) => a.formType === filterType);
+    }
+
+    return filtered;
+  }, [assessments, searchTerm, filterStatus, filterType]);
+
+  const totalPages = Math.ceil(filteredAssessments.length / itemsPerPage);
+  const paginatedAssessments = useMemo(() => {
+    const start = (currentPage - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    return filteredAssessments.slice(start, end);
+  }, [filteredAssessments, currentPage, itemsPerPage]);
 
   const summary = useMemo(() => {
     const totalAssessments = assessments.length;
@@ -1356,7 +1403,80 @@ Agradecemos pela sua colaboração.`;
                 <PlusCircle className="h-4 w-4" />
                 {creatingAssessment ? "Criando..." : "Criar Avaliação"}
               </Button>
-            </div></>}
+            </div>
+          </>}
+          </section>
+        )}
+
+        {wizardOpen && (
+          <FormCreationWizard
+            adminUid={adminUid}
+            adminName={adminName}
+            onSuccess={loadData}
+            onCancel={() => setWizardOpen(false)}
+          />
+        )}
+
+        {role !== "MASTER" && assessments.length > 0 && (
+          <section className="space-y-4">
+            <div>
+              <h3 className="text-sm font-semibold text-slate-100">
+                Minhas Avaliações
+              </h3>
+              <p className="mt-1 text-xs text-slate-400">
+                Gerenciar, ativar/desativar e visualizar estatísticas de suas avaliações.
+              </p>
+            </div>
+
+            <AssessmentFilters
+              searchTerm={searchTerm}
+              onSearchChange={setSearchTerm}
+              filterStatus={filterStatus}
+              onStatusChange={setFilterStatus}
+              filterType={filterType}
+              onTypeChange={setFilterType}
+              formTypes={FORM_TYPE_OPTIONS}
+            />
+
+            {filteredAssessments.length === 0 ? (
+              <div className="rounded-lg border border-slate-700 bg-slate-800/50 p-6 text-center">
+                <p className="text-sm text-slate-400">
+                  Nenhuma avaliação encontrada com os filtros selecionados.
+                </p>
+              </div>
+            ) : (
+              <>
+                <div className="grid gap-3">
+                  {paginatedAssessments.map((assessment) => {
+                    const stats = getStatsByAssessment(assessment.id);
+                    const canDelete =
+                      role === "MASTER" ||
+                      (role === "ADMIN" && assessment.ownerId === adminUid);
+
+                    return (
+                      <AssessmentCard
+                        key={assessment.id}
+                        assessment={assessment}
+                        stats={stats}
+                        canDelete={canDelete}
+                        onToggle={toggleAssessment}
+                        onDelete={deleteAssessment}
+                      />
+                    );
+                  })}
+                </div>
+
+                {totalPages > 1 && (
+                  <PaginationControls
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={setCurrentPage}
+                    itemsPerPage={itemsPerPage}
+                    totalItems={filteredAssessments.length}
+                  />
+                )}
+              </>
+            )}
           </section>
         )}
 

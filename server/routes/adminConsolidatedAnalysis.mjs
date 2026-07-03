@@ -308,31 +308,38 @@ async function tryGroqConsolidation({ assessment, reports }) {
   const groq = getGroqClient();
   const prompt = buildGroqPrompt({ assessment, reports });
 
-  const completion = await groq.chat.completions.create({
-    model: "llama-3.3-70b-versatile",
-    messages: [
-      {
-        role: "system",
-        content:
-          "Retorne apenas JSON válido e siga rigorosamente o formato solicitado.",
-      },
-      {
-        role: "user",
-        content: prompt,
-      },
-    ],
-    temperature: 0.2,
-    response_format: { type: "json_object" },
-  });
+  try {
+    const completion = await groq.chat.completions.create({
+      model: "llama-3.3-70b-versatile",
+      messages: [
+        {
+          role: "system",
+          content:
+            "Retorne apenas JSON válido e siga rigorosamente o formato solicitado.",
+        },
+        {
+          role: "user",
+          content: prompt,
+        },
+      ],
+      temperature: 0.2,
+      response_format: { type: "json_object" },
+    });
 
-  const raw = completion?.choices?.[0]?.message?.content || "";
-  const parsed = extractJson(raw);
+    const raw = completion?.choices?.[0]?.message?.content || "";
+    const parsed = extractJson(raw);
 
-  if (!parsed) {
-    throw new Error("Groq retornou JSON inválido na consolidação.");
+    if (!parsed) {
+      console.warn("⚠️ Groq retornou JSON inválido, usando fallback. Raw:", raw.substring(0, 200));
+      throw new Error("Groq retornou JSON inválido na consolidação.");
+    }
+
+    console.log("✅ Análise consolidada gerada com sucesso via Groq");
+    return normalizeGroqAnalysis(parsed, reports.length);
+  } catch (err) {
+    console.error("❌ Erro ao chamar Groq:", err?.message || err);
+    throw err;
   }
-
-  return normalizeGroqAnalysis(parsed, reports.length);
 }
 
 router.post("/", async (req, res) => {
