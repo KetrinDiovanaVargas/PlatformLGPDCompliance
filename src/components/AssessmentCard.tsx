@@ -8,6 +8,7 @@ import {
   Trash2,
   CheckCircle2,
   Clock3,
+  Send,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -75,6 +76,14 @@ export function AssessmentCard({
     setMenuOpen(false);
   };
 
+  const handleInvite = () => {
+    const link = `${window.location.origin}/assessment/${assessment.id}`;
+    const inviteText = `Você está convidado para responder a avaliação de conformidade LGPD: "${assessment.title}"\n\nClique aqui para começar: ${link}`;
+    navigator.clipboard.writeText(inviteText);
+    toast.success("Convite copiado para compartilhar!");
+    setMenuOpen(false);
+  };
+
   const statusBadge = assessment.active
     ? "bg-emerald-500/15 text-emerald-200 border-emerald-500/30"
     : "bg-slate-500/15 text-slate-300 border-slate-500/30";
@@ -124,7 +133,15 @@ export function AssessmentCard({
           </button>
 
           {menuOpen && (
-            <div className="absolute right-0 top-full mt-1 bg-slate-950 border border-slate-700 rounded-lg shadow-lg z-10 min-w-[180px]">
+            <div className="absolute right-0 top-full mt-1 bg-slate-950 border border-slate-700 rounded-lg shadow-lg z-10 min-w-[200px]">
+              <button
+                onClick={handleInvite}
+                className="w-full text-left px-4 py-2 text-sm text-sky-200 hover:bg-sky-950/30 flex items-center gap-2 border-b border-slate-800"
+              >
+                <Send className="w-4 h-4" />
+                Convidar para responder
+              </button>
+
               <button
                 onClick={handleCopyLink}
                 className="w-full text-left px-4 py-2 text-sm text-slate-200 hover:bg-slate-900 flex items-center gap-2 border-b border-slate-800"
