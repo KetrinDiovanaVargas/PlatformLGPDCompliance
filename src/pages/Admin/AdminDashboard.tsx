@@ -54,6 +54,7 @@ import {
   MessageCircle,
 } from "lucide-react";
 import { toast } from "sonner";
+import jsPDF from "jspdf";
 import { FormCreationWizard } from "@/components/FormCreationWizard";
 import { AssessmentCard } from "@/components/AssessmentCard";
 
@@ -791,6 +792,143 @@ Agradecemos pela sua colaboração.`;
     }
   };
 
+  const generateConsolidatedAnalysisPDF = () => {
+    if (!consolidatedAnalysis) {
+      toast.error("Nenhuma análise para exportar.");
+      return;
+    }
+
+    const pdf = new jsPDF("p", "mm", "a4");
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+    const margin = 15;
+
+    const drawPageBg = () => {
+      pdf.setFillColor(4, 7, 29);
+      pdf.rect(0, 0, pageWidth, pageHeight, "F");
+    };
+
+    drawPageBg();
+
+    pdf.setFont("helvetica", "bold");
+    pdf.setFontSize(18);
+    pdf.setTextColor(186, 230, 253);
+    pdf.text("Análise Consolidada de Conformidade LGPD", margin, 20);
+
+    let cursorY = 30;
+
+    const assessment = assessments.find(a => a.id === selectedAssessmentId);
+    if (assessment) {
+      pdf.setFont("helvetica", "bold");
+      pdf.setFontSize(12);
+      pdf.setTextColor(255, 255, 255);
+      pdf.text(`Avaliação: ${assessment.title}`, margin, cursorY);
+      cursorY += 8;
+    }
+
+    pdf.setFont("helvetica", "bold");
+    pdf.setFontSize(14);
+    pdf.setTextColor(130, 230, 180);
+    pdf.text(`Score Médio: ${consolidatedAnalysis.scoreAverage}/100`, margin, cursorY);
+    cursorY += 10;
+
+    if (consolidatedAnalysis.notice) {
+      pdf.setFont("helvetica", "normal");
+      pdf.setFontSize(9);
+      pdf.setTextColor(180, 180, 220);
+      const noticeLines = pdf.splitTextToSize(consolidatedAnalysis.notice, pageWidth - margin * 2);
+      pdf.text(noticeLines, margin, cursorY);
+      cursorY += noticeLines.length * 4 + 5;
+    }
+
+    const addSection = (title: string, items: any[], labelKey: string = "label") => {
+      if (cursorY > pageHeight - 40) {
+        pdf.addPage();
+        drawPageBg();
+        cursorY = 20;
+      }
+
+      pdf.setFont("helvetica", "bold");
+      pdf.setFontSize(11);
+      pdf.setTextColor(180, 170, 255);
+      pdf.text(title, margin, cursorY);
+      cursorY += 6;
+
+      items.slice(0, 5).forEach((item) => {
+        if (cursorY > pageHeight - 15) {
+          pdf.addPage();
+          drawPageBg();
+          cursorY = 20;
+        }
+
+        pdf.setFont("helvetica", "normal");
+        pdf.setFontSize(10);
+        pdf.setTextColor(222, 228, 240);
+        const text = `• ${item[labelKey]} (${item.count}x)`;
+        pdf.text(text, margin + 3, cursorY);
+        cursorY += 5;
+      });
+
+      cursorY += 3;
+    };
+
+    if (consolidatedAnalysis.topCriticalIssues?.length) {
+      addSection("Riscos Críticos Detectados", consolidatedAnalysis.topCriticalIssues);
+    }
+
+    if (consolidatedAnalysis.topStrengths?.length) {
+      addSection("Pontos de Força", consolidatedAnalysis.topStrengths);
+    }
+
+    if (consolidatedAnalysis.topAttentionPoints?.length) {
+      addSection("Pontos de Atenção", consolidatedAnalysis.topAttentionPoints);
+    }
+
+    if (consolidatedAnalysis.recommendations?.length > 0) {
+      if (cursorY > pageHeight - 50) {
+        pdf.addPage();
+        drawPageBg();
+        cursorY = 20;
+      }
+
+      pdf.setFont("helvetica", "bold");
+      pdf.setFontSize(11);
+      pdf.setTextColor(255, 160, 220);
+      pdf.text("Recomendações Prioritárias", margin, cursorY);
+      cursorY += 6;
+
+      consolidatedAnalysis.recommendations.slice(0, 5).forEach((rec) => {
+        if (cursorY > pageHeight - 15) {
+          pdf.addPage();
+          drawPageBg();
+          cursorY = 20;
+        }
+
+        pdf.setFont("helvetica", "bold");
+        pdf.setFontSize(10);
+        pdf.setTextColor(255, 255, 255);
+        const priorityColor = rec.priority === "Alta" ? "#ef4444" : rec.priority === "Média" ? "#eab308" : "#22c55e";
+        pdf.text(`• ${rec.title}`, margin + 3, cursorY);
+        cursorY += 5;
+
+        pdf.setFont("helvetica", "normal");
+        pdf.setFontSize(9);
+        pdf.setTextColor(220, 220, 235);
+        pdf.text(`  [${rec.priority}]`, margin + 5, cursorY);
+        cursorY += 4;
+      });
+    }
+
+    pdf.setFont("helvetica", "normal");
+    pdf.setFontSize(8);
+    pdf.setTextColor(100, 100, 120);
+    pdf.text(`Gerado em: ${new Date().toLocaleString("pt-BR")}`, margin, pageHeight - 10);
+
+    const fileName = `analise-consolidada-${selectedAssessmentId}-${new Date().toISOString().split('T')[0]}.pdf`;
+    pdf.save(fileName);
+    toast.success("PDF gerado e baixado com sucesso!");
+  };
+
   const getStatsByAssessment = (assessmentId: string) => {
     const related = sessions.filter((s) => s.assessmentId === assessmentId);
 
@@ -1220,16 +1358,11 @@ Agradecemos pela sua colaboração.`;
                   Este gráfico apresenta uma visão consolidada do nível de conformidade baseado na análise técnica completa realizada. O valor corresponde ao score médio de todas as avaliações analisadas, indicando o grau geral de compliance com LGPD e ISO/IEC 27001.
                 </p>
                 <button
-                  onClick={() => {
-                    const url = `${window.location.origin}?assessment=${selectedAssessmentId}`;
-                    const text = `Convidado para revisão de conformidade LGPD: ${selectedAssessmentId ? assessments.find(a => a.id === selectedAssessmentId)?.title || 'Avaliação' : 'Análise Consolidada'}`;
-                    navigator.clipboard.writeText(`${text}\n${url}`);
-                    toast.success("Link copiado com mensagem de convite!");
-                  }}
+                  onClick={generateConsolidatedAnalysisPDF}
                   className="w-full rounded-lg bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white text-xs font-medium py-2 px-3 transition-all duration-200 flex items-center justify-center gap-2"
                 >
                   <Share2 className="w-3.5 h-3.5" />
-                  Compartilhar Análise
+                  Compartilhar Análise (PDF)
                 </button>
               </div>
             </div>
