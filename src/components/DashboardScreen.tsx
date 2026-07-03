@@ -162,6 +162,86 @@ function formatReportSections(report?: string): ReportSection[] {
 }
 
 // ======================================================
+// DETECÇÃO DE FRAGILIDADES LGPD (F1-F10)
+// ======================================================
+
+interface LGPDFragility {
+  code: string;
+  name: string;
+  description: string;
+  detected: boolean;
+}
+
+function detectLGPDFragilities(report?: string): LGPDFragility[] {
+  const text = (report || "").toLowerCase();
+
+  const fragilidades: LGPDFragility[] = [
+    {
+      code: "F1",
+      name: "Dados de Menores",
+      description: "Dados de menores de idade sem consentimento parental",
+      detected: /menores?|criança|adolescente/.test(text) && /sem consentimento|ilegal/.test(text),
+    },
+    {
+      code: "F2",
+      name: "Sem Criptografia",
+      description: "Ausência de criptografia em repouso ou em trânsito",
+      detected: /criptografia|encrypt|ssl|tls/.test(text) && (/ausência|falta|sem|não há/.test(text) || /não.*implement|não.*ativar/.test(text)),
+    },
+    {
+      code: "F3",
+      name: "Retenção Excessiva",
+      description: "Retenção de dados além do necessário",
+      detected: /retenção|guardar|armazenar|mantém?/.test(text) && /excessiv|além|período|longo/.test(text),
+    },
+    {
+      code: "F4",
+      name: "Ausência de DPO",
+      description: "Falta de Data Protection Officer ou responsável de dados",
+      detected: /dpo|responsável.*dado|encarregado.*dado/.test(text) && /ausência|falta|sem|não/.test(text),
+    },
+    {
+      code: "F5",
+      name: "Falta de Política",
+      description: "Ausência de política de privacidade clara",
+      detected: /política.*privacidade|política.*dados/.test(text) && /ausência|falta|sem|não há/.test(text),
+    },
+    {
+      code: "F6",
+      name: "Consentimento Inadequado",
+      description: "Falta de consentimento explícito ou inadequado",
+      detected: /consentimento/.test(text) && /falta|sem|ausência|inadequ|não.*obtém|não.*há/.test(text),
+    },
+    {
+      code: "F7",
+      name: "Direitos Negados",
+      description: "Não garantir direitos dos titulares (acesso, exclusão, portabilidade)",
+      detected: /direito|acesso.*dado|exclusão|portabilidade|esquecimento/.test(text) && /não.*garantir|não.*permite|negado/.test(text),
+    },
+    {
+      code: "F8",
+      name: "Segurança Inadequada",
+      description: "Ausência de medidas de segurança técnicas/administrativas",
+      detected: /segurança|proteção|controle.*acesso/.test(text) && /inadequ|falta|ausência|sem|fraco/.test(text),
+    },
+    {
+      code: "F9",
+      name: "Sem Documentação",
+      description: "Falta de registros e documentação de tratamento de dados",
+      detected: /documenta|registro|audi|compli/.test(text) && /falta|ausência|sem|não.*há/.test(text),
+    },
+    {
+      code: "F10",
+      name: "Violação de Direitos",
+      description: "Violação clara de direitos fundamentais ou LGPD",
+      detected: /violação|crime|ilegal|inconstitucional|grave/.test(text),
+    },
+  ];
+
+  return fragilidades;
+}
+
+// ======================================================
 // NORMALIZAÇÃO DE MÉTRICAS
 // ======================================================
 
@@ -192,20 +272,11 @@ function normalizeMetrics(raw: any, report?: string) {
       ? sanitizeArray(safe.criticalIssues)
       : extractSectionItems(report, 5, "Riscos Críticos");
 
-  const controlsStatus =
-    Array.isArray(safe.controlsStatus) && safe.controlsStatus.length > 0
-      ? safe.controlsStatus
-      : [
-          { name: "Criptografia", value: 3 },
-          { name: "Acesso", value: 2 },
-          { name: "Backup", value: 2 },
-          { name: "Monitoramento", value: 3 },
-          { name: "Documentação", value: 1 },
-        ];
-
   const recommendations = Array.isArray(safe.recommendations)
     ? safe.recommendations
     : [];
+
+  const lgpdFragilities = detectLGPDFragilities(report);
 
   return {
     score,
@@ -213,8 +284,8 @@ function normalizeMetrics(raw: any, report?: string) {
     strengths,
     attention,
     critical,
-    controlsStatus,
     recommendations,
+    lgpdFragilities,
   };
 }
 
@@ -309,7 +380,7 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({
   const strengths = data.strengths;
   const attention = data.attention;
   const critical = data.critical;
-  const controls = data.controlsStatus;
+  const lgpdFragilities = data.lgpdFragilities;
 
   const enrichedRecommendations: Recommendation[] = data.recommendations.map(
     (r: any) => ({
@@ -689,28 +760,37 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({
         </section>
 
         <section className="rounded-2xl bg-slate-900/80 border border-slate-800 p-5">
-          <h2 className="text-sm font-semibold mb-2">
-            Status dos Controles ISO/IEC 27001
+          <h2 className="text-sm font-semibold mb-4">
+            Fragilidades LGPD Detectadas
           </h2>
 
-          <div className="h-64">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={controls}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                <XAxis dataKey="name" tick={{ fill: "#cbd5f5", fontSize: 11 }} />
-                <YAxis tick={{ fill: "#cbd5f5", fontSize: 11 }} />
-
-                <defs>
-                  <linearGradient id="isoG" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stopColor="#38bdf8" />
-                    <stop offset="50%" stopColor="#6366f1" />
-                    <stop offset="100%" stopColor="#a855f7" />
-                  </linearGradient>
-                </defs>
-
-                <Bar dataKey="value" radius={[8, 8, 0, 0]} fill="url(#isoG)" />
-              </BarChart>
-            </ResponsiveContainer>
+          <div className="grid grid-cols-2 gap-3">
+            {lgpdFragilities.map((frag, i) => (
+              <div
+                key={i}
+                className={`rounded-lg p-3 border-2 transition ${
+                  frag.detected
+                    ? "border-red-500/60 bg-red-500/10"
+                    : "border-emerald-500/30 bg-emerald-500/5"
+                }`}
+              >
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-xs font-bold text-slate-300">{frag.code}</span>
+                  <span
+                    className={`text-lg ${
+                      frag.detected
+                        ? "opacity-100 text-red-400"
+                        : "opacity-50 text-emerald-400"
+                    }`}
+                  >
+                    {frag.detected ? "✗" : "✓"}
+                  </span>
+                </div>
+                <p className="text-xs font-medium text-slate-200 leading-tight">
+                  {frag.name}
+                </p>
+              </div>
+            ))}
           </div>
         </section>
 
