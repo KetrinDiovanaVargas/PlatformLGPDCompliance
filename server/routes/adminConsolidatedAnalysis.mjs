@@ -344,17 +344,21 @@ async function tryGroqConsolidation({ assessment, reports }) {
 
 router.post("/", async (req, res) => {
   try {
+    console.log("📥 Requisição de análise consolidada recebida");
     const { assessmentId } = req.body || {};
 
     if (!assessmentId) {
       return res.status(400).json({ error: "assessmentId é obrigatório." });
     }
 
+    console.log(`🔍 Carregando análise para avaliação: ${assessmentId}`);
     let adminDb;
     try {
       adminDb = getAdminDb();
+      console.log("✅ Firebase Admin SDK inicializado");
     } catch (err) {
       console.warn("⚠️  Firebase Admin não configurado, retornando análise em modo demo");
+      console.error("Detalhes do erro:", err?.message);
 
       return res.json({
         mode: "demo",
@@ -382,29 +386,35 @@ router.post("/", async (req, res) => {
       });
     }
 
+    console.log("📂 Buscando avaliação no Firestore...");
     const assessmentSnap = await adminDb
       .collection("assessments")
       .doc(String(assessmentId))
       .get();
 
     if (!assessmentSnap.exists) {
+      console.warn(`⚠️ Avaliação ${assessmentId} não encontrada`);
       return res.status(404).json({ error: "Avaliação não encontrada." });
     }
 
+    console.log("✅ Avaliação encontrada");
     const assessment = {
       id: assessmentSnap.id,
       ...(assessmentSnap.data() || {}),
     };
 
+    console.log("📋 Buscando sessões completas...");
     const sessionsSnap = await adminDb
       .collection("assessment_sessions")
       .where("assessmentId", "==", String(assessmentId))
       .where("status", "==", "completed")
       .get();
 
+    console.log(`✅ ${sessionsSnap.docs.length} sessões encontradas`);
     const sessionDocs = sessionsSnap.docs;
 
     if (!sessionDocs.length) {
+      console.log("ℹ️ Nenhuma sessão encontrada");
       return res.json({
         mode: "empty",
         message: "Nenhum relatório encontrado para esta avaliação.",
@@ -417,26 +427,38 @@ router.post("/", async (req, res) => {
       });
     }
 
+    console.log("📊 Carregando relatórios finais...");
     const reports = [];
 
     for (const sessionDoc of sessionDocs) {
-      const latestRef = adminDb
-        .collection("assessment_sessions")
-        .doc(sessionDoc.id)
-        .collection("final_report")
-        .doc("latest");
+      try {
+        const latestRef = adminDb
+          .collection("assessment_sessions")
+          .doc(sessionDoc.id)
+          .collection("final_report")
+          .doc("latest");
 
-      const latestSnap = await latestRef.get();
+        const latestSnap = await latestRef.get();
 
-      if (!latestSnap.exists) continue;
+        if (!latestSnap.exists) {
+          console.log(`  ℹ️ Sessão ${sessionDoc.id} sem relatório final`);
+          continue;
+        }
 
-      reports.push({
-        sessionId: sessionDoc.id,
-        ...(latestSnap.data() || {}),
-      });
+        reports.push({
+          sessionId: sessionDoc.id,
+          ...(latestSnap.data() || {}),
+        });
+        console.log(`  ✅ Relatório carregado para sessão ${sessionDoc.id}`);
+      } catch (err) {
+        console.error(`  ❌ Erro ao carregar relatório da sessão ${sessionDoc.id}:`, err?.message);
+      }
     }
 
+    console.log(`✅ ${reports.length} relatórios carregados com sucesso`);
+
     if (!reports.length) {
+      console.log("ℹ️ Nenhum relatório final disponível");
       return res.json({
         mode: "empty",
         message: "Nenhum relatório final encontrado para esta avaliação.",
@@ -450,7 +472,9 @@ router.post("/", async (req, res) => {
     }
 
     try {
+      console.log("🤖 Chamando Groq API para análise consolidada...");
       const groqResult = await tryGroqConsolidation({ assessment, reports });
+      console.log("✅ Análise consolidada gerada com sucesso");
       return res.json(groqResult);
     } catch (groqError) {
       console.error("❌ Erro na análise consolidada com Groq:", groqError?.message || groqError);
@@ -460,7 +484,8 @@ router.post("/", async (req, res) => {
       return res.json(fallback);
     }
   } catch (error) {
-    console.error("❌ Erro ao gerar análise consolidada:", error?.message || error);
+    console.error("❌ ERRO CRÍTICO ao gerar análise consolidada:", error?.message || error);
+    console.error("Stack trace completo:", error?.stack);
 
     return res.status(500).json({
       error: "Erro ao gerar análise consolidada.",
