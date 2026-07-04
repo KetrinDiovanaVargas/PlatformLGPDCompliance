@@ -1,0 +1,150 @@
+{
+  "meta": {
+    "persona_id": "P12",
+    "persona_arquivo": "P12_*.md",
+    "data_execucao": "2026-07-02",
+    "sessao_numero": 1,
+    "modelo_llm": "claude-haiku-4-5-20251001",
+    "temperatura": 0.2,
+    "executor": "automated-claude",
+    "modo_geracao": "anthropic"
+  },
+  "estagios": [
+    {
+      "estagio": 1,
+      "perguntas": [
+        {
+          "question": "Como você armazena dados pessoais de clientes?",
+          "options": [
+            "Seguro",
+            "Inseguro",
+            "Parcialmente"
+          ]
+        },
+        {
+          "question": "Você compartilha dados com terceiros?",
+          "options": [
+            "Sim",
+            "Não",
+            "Às vezes"
+          ]
+        },
+        {
+          "question": "Há contratos de proteção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sei"
+          ]
+        },
+        {
+          "question": "Qual seu nível de conformidade LGPD?",
+          "options": [
+            "Alto",
+            "Médio",
+            "Baixo",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas do Questionário\n\n## Pergunta 1: Como você armazena dados pessoais de clientes?\n**Resposta: Seguro**\n\nMantemos todos os dados de clientes em servidores corporativos com acesso controlado via autenticação de dois fatores e VPN. Realizamos backups completos regularmente em múltiplas localizações — tanto on-premises quanto em cloud — para garantir redundância e recuperação rápida em caso de desastre. A infraestrutura é monitorada 24/7 e temos políticas de acesso baseadas em privilégios mínimos.\n\n---\n\n## Pergunta 2: Você compartilha dados com terceiros?\n**Resposta: Às vezes**\n\nOcasionalmente precisamos compartilhar dados com fornecedores de serviços — como provedores de cloud, empresas de suporte técnico e auditores externos — mas sempre sob contratos que estabelecem confidencialidade. O acesso é restrito ao necessário e monitorado. Não compartilhamos dados de forma indiscriminada.\n\n---\n\n## Pergunta 3: Há contratos de proteção?\n**Resposta: Sim**\n\nTemos contratos de confidencialidade e termos de serviço que cobrem proteção de dados. Além disso, os fornecedores que acessam sistemas assinam acordos de sigilo. A empresa possui políticas internas de segurança da informação que todos os colaboradores devem cumprir.\n\n---\n\n## Pergunta 4: Qual seu nível de conformidade LGPD?\n**Resposta: Médio**\n\nParticipei de um curso sobre LGPD e implementamos várias medidas de segurança técnica. Porém, reconheço que a conformidade é principalmente na camada de infraestrutura e acesso. Questões mais amplas de governança de dados, como políticas formais de retenção e descarte de backups antigos, ainda precisam ser melhor estruturadas pela empresa.",
+      "timestamp": "2026-07-02T23:13:50.151Z"
+    },
+    {
+      "estagio": 2,
+      "perguntas": [
+        {
+          "question": "Como você obtém consentimento para coletar dados?",
+          "options": [
+            "Explícito",
+            "Implícito",
+            "Não obtém"
+          ]
+        },
+        {
+          "question": "Você monitora acesso aos dados?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n## Pergunta 1: Como você obtém consentimento para coletar dados?\n\n**Resposta: Não obtém**\n\nNa minha função como Administrador de Sistemas, eu não sou responsável pela obtenção de consentimento. Isso é atribuição das áreas de negócio, vendas e RH. Meu trabalho começa *depois* que os dados já estão no sistema — eu gerencio a infraestrutura, os backups e a disponibilidade desses dados. O consentimento é um assunto de compliance e legal, não de TI. Eu recebo os dados já coletados e minha responsabilidade é garantir que estejam seguros, acessíveis e recuperáveis em caso de desastre.\n\n---\n\n## Pergunta 2: Você monitora acesso aos dados?\n\n**Resposta: Sim**\n\nSim, monitoramos acesso através de logs de autenticação e controle de acesso baseado em papéis (RBAC). Todos os acessos aos servidores e bases de dados são registrados — quem acessou, quando, de onde. Tenho visibilidade completa sobre quem está mexendo em qual sistema. Além disso, mantenho registros de auditoria e controlo permissões de forma rigorosa. É essencial para segurança e para rastrear qualquer atividade suspeita ou não autorizada na infraestrutura.",
+      "timestamp": "2026-07-02T23:13:54.254Z"
+    },
+    {
+      "estagio": 3,
+      "perguntas": [
+        {
+          "question": "Qual tempo de retenção dos dados?",
+          "options": [
+            "< 6 meses",
+            "6-12 meses",
+            "> 1 ano"
+          ]
+        },
+        {
+          "question": "Há direito de acesso/correção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas do Questionário\n\n## Pergunta 1: Qual tempo de retenção dos dados?\n\n**Resposta: > 1 ano**\n\nJustificativa: Na Alfa Serviços, mantemos backups completos por períodos bem mais longos. Dependendo do sistema, estamos falando de 2, 3 anos ou até mais. A lógica é simples: você nunca sabe quando vai precisar recuperar algo — um cliente pode solicitar dados históricos, pode haver auditoria, ou simplesmente precisamos manter a capacidade de restaurar um sistema inteiro em caso de desastre. Reduzir retenção é arriscado demais do ponto de vista operacional. Backup é seguro, é barato armazenar, então mantemos.\n\n---\n\n## Pergunta 2: Há direito de acesso/correção?\n\n**Resposta: Parcialmente**\n\nJustificativa: Tecnicamente, sim, há acesso aos dados — eu mesmo tenho acesso privilegiado a tudo. Mas em termos de processo formal para o titular exercer direito de acesso ou correção, isso não é tão direto. Não temos um fluxo padronizado para isso. Se um colaborador ou cliente solicita, a coisa fica mais complexa porque os dados estão espalhados entre sistemas em produção, backups, logs... Seria necessário coordenar com várias áreas. Então diria que é parcial — tecnicamente possível, mas não é um processo ágil ou bem definido.",
+      "timestamp": "2026-07-02T23:13:59.284Z"
+    },
+    {
+      "estagio": 4,
+      "perguntas": [
+        {
+          "question": "Houve incidente de segurança?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sabe"
+          ]
+        },
+        {
+          "question": "Qual sua avaliação final de risco?",
+          "options": [
+            "Baixo",
+            "Moderado",
+            "Alto",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n## Pergunta 1: Houve incidente de segurança?\n\n**Resposta: Não**\n\nJustificativa: Em meus 9 anos na Alfa Serviços, não tivemos incidentes de segurança relevantes. Nossa infraestrutura é robusta, mantemos firewalls atualizados, controles de acesso rigorosos e monitoramento contínuo. Os backups estão em ambientes protegidos, tanto on-premises quanto na cloud com credenciais seguras. Não há registros de acessos não autorizados aos nossos sistemas de backup.\n\n---\n\n## Pergunta 2: Qual sua avaliação final de risco?\n\n**Resposta: Baixo**\n\nJustificativa: Do ponto de vista de TI e continuidade operacional, o risco é baixo. Temos redundância, backups frequentes e testados regularmente, infraestrutura segura e equipe qualificada. Os dados estão protegidos por controles técnicos adequados — autenticação, criptografia em trânsito e acesso restrito a pessoal autorizado. A disponibilidade dos sistemas é garantida, e conseguimos recuperar de qualquer cenário de desastre em tempo aceitável. Isso é o que importa para a saúde operacional da empresa.",
+      "timestamp": "2026-07-02T23:14:03.375Z"
+    }
+  ],
+  "relatorio_final": {
+    "texto": "# Avaliação de Risco - Perspectiva do Administrador de Sistemas\n\nOlha, eu diria que o risco é **baixo a moderado** do ponto de vista operacional que eu gerencio.\n\nAqui está meu raciocínio:\n\n## Por que vejo como controlado:\n- **Infraestrutura robusta**: tenho backups redundantes, criptografia em trânsito, acesso privilegiado bem documentado\n- **Recuperação garantida**: posso restaurar qualquer sistema em horas, não em dias\n- **Segurança física**: servidores em data center com controle de acesso\n- **Logs auditáveis**: mantenho registros de quem acessou o quê e quando\n\n## Onde reconheço que há gaps:\n- Não temos uma **política formal de retenção e descarte** de backups antigos — mantemos dados por \"precaução\"\n- Os backups **não são segregados por tipo de dado** — dados de saúde, financeiros e comerciais estão no mesmo volume\n- Alguns backups de **sistemas descontinuados** ainda estão lá, com dados de clientes de anos atrás\n- Não revisamos regularmente **quais dados realmente precisam estar nos backups**\n\n## Minha conclusão prática:\nO risco real é **maior do que eu operacionalmente percebo**. A LGPD não vê \"backup antigo\" como proteção — vê como **retenção desnecessária de dados pessoais**. E misturar tudo num mesmo volume viola o princípio de **minimização de dados**.\n\nSe a empresa sofrer uma auditoria ou incidente, isso vai ser um problema sério — não por falha técnica, mas por **falta de governança de dados**.",
+    "metricas": {
+      "score": 4,
+      "riscos": [],
+      "pontos_criticos": [],
+      "recomendacoes": []
+    }
+  },
+  "avaliacao_vs_oraculo": {
+    "nivel_risco_esperado": "alto",
+    "nivel_risco_detectado": "moderado",
+    "fragilidades_esperadas": [],
+    "fragilidades_detectadas": [],
+    "falso_positivo": false,
+    "falso_negativo": false,
+    "pontuacao_rubrica": {
+      "deteccao_fragilidade_central": 2,
+      "profundidade_perguntas": 2,
+      "classificacao_risco_correta": 2,
+      "ausencia_falso_positivo": 2,
+      "total": 8,
+      "maximo": 12
+    },
+    "observacoes": "Log gerado automaticamente"
+  }
+}

@@ -1,0 +1,150 @@
+{
+  "meta": {
+    "persona_id": "P33",
+    "persona_arquivo": "P33_*.md",
+    "data_execucao": "2026-07-02",
+    "sessao_numero": 1,
+    "modelo_llm": "claude-haiku-4-5-20251001",
+    "temperatura": 0.2,
+    "executor": "automated-claude",
+    "modo_geracao": "anthropic"
+  },
+  "estagios": [
+    {
+      "estagio": 1,
+      "perguntas": [
+        {
+          "question": "Como você armazena dados pessoais de clientes?",
+          "options": [
+            "Seguro",
+            "Inseguro",
+            "Parcialmente"
+          ]
+        },
+        {
+          "question": "Você compartilha dados com terceiros?",
+          "options": [
+            "Sim",
+            "Não",
+            "Às vezes"
+          ]
+        },
+        {
+          "question": "Há contratos de proteção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sei"
+          ]
+        },
+        {
+          "question": "Qual seu nível de conformidade LGPD?",
+          "options": [
+            "Alto",
+            "Médio",
+            "Baixo",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas do Questionário\n\n**Pergunta 1: Como você armazena dados pessoais de clientes?**\n\n**Resposta: Parcialmente**\n\nNós mantemos os prontuários dos alunos em pastas físicas aqui na secretaria e também temos um sistema escolar onde registramos as informações principais. Os arquivos estão organizados em um armário, mas confesso que a segurança poderia ser melhor. Alguns documentos sensíveis ficam ali mesmo, acessíveis durante o expediente.\n\n---\n\n**Pergunta 2: Você compartilha dados com terceiros?**\n\n**Resposta: Às vezes**\n\nSim, compartilhamos informações quando necessário. Por exemplo, os professores precisam saber de certos detalhes sobre os alunos para oferecer o melhor acolhimento e adaptar as atividades. Também enviamos comunicados aos responsáveis pelo grupo de WhatsApp da escola. Mas isso é tudo em benefício do aluno, entende?\n\n---\n\n**Pergunta 3: Há contratos de proteção?**\n\n**Resposta: Não sei**\n\nHonestamente, não tenho certeza. Isso seria mais uma questão para a diretoria ou administração. Eu cuido da documentação dos alunos, mas questões de contratos e políticas de proteção não passam por mim diretamente.\n\n---\n\n**Pergunta 4: Qual seu nível de conformidade LGPD?**\n\n**Resposta: Médio**\n\nAcho que fazemos um trabalho razoável. Temos cuidado com os dados, mantemos tudo organizado e só compartilhamos quando é realmente necessário para o bem dos alunos. Mas reconheço que talvez não tenhamos todas as formalidades que essa lei exige.",
+      "timestamp": "2026-07-02T23:22:19.393Z"
+    },
+    {
+      "estagio": 2,
+      "perguntas": [
+        {
+          "question": "Como você obtém consentimento para coletar dados?",
+          "options": [
+            "Explícito",
+            "Implícito",
+            "Não obtém"
+          ]
+        },
+        {
+          "question": "Você monitora acesso aos dados?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n**Pergunta 1: Como você obtém consentimento para coletar dados?**\n\n**Resposta: Explícito**\n\nQuando uma criança é matriculada no Colégio Alfa, os responsáveis assinam a ficha de matrícula e um termo onde autorizam a coleta de informações necessárias para a permanência do aluno na escola. Isso inclui dados pessoais, informações de saúde e contatos de emergência. Consideramos isso um consentimento claro e documentado.\n\n---\n\n**Pergunta 2: Você monitora acesso aos dados?**\n\n**Resposta: Parcialmente**\n\nAqui na secretaria, temos controle sobre quem vem buscar documentos ou informações pessoalmente — sempre peço identificação. No sistema escolar, cada professor tem sua senha de acesso. Porém, reconheço que os arquivos físicos dos prontuários ficam no armário da secretaria e nem sempre está fechado com cadeado, já que preciso acessá-los com frequência durante o dia. E quando preciso compartilhar informações importantes com os professores sobre as necessidades dos alunos, faço isso de forma mais direta, sem registrar formalmente quem acessou o quê.",
+      "timestamp": "2026-07-02T23:22:23.517Z"
+    },
+    {
+      "estagio": 3,
+      "perguntas": [
+        {
+          "question": "Qual tempo de retenção dos dados?",
+          "options": [
+            "< 6 meses",
+            "6-12 meses",
+            "> 1 ano"
+          ]
+        },
+        {
+          "question": "Há direito de acesso/correção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n**Pergunta 1: Qual tempo de retenção dos dados?**\n\nResposta: **> 1 ano**\n\nJustificativa: Aqui no Colégio Alfa, mantemos os prontuários dos alunos durante todo o período de permanência na escola e, geralmente, por alguns anos após a saída do aluno. Precisamos guardar documentos como CPF, laudos médicos e informações de saúde para fins de histórico escolar e, eventualmente, para consultas futuras dos responsáveis. Os arquivos ficam organizados em nossas pastas na secretaria.\n\n---\n\n**Pergunta 2: Há direito de acesso/correção?**\n\nResposta: **Sim**\n\nJustificativa: Claro! Os responsáveis podem vir à secretaria a qualquer momento para consultar os dados do aluno, solicitar cópias de documentos ou até mesmo pedir correções se encontrarem alguma informação incorreta. Fazemos isso regularmente — os pais vêm aqui buscar declarações, históricos e outras informações. É parte do nosso atendimento ao responsável.",
+      "timestamp": "2026-07-02T23:22:27.238Z"
+    },
+    {
+      "estagio": 4,
+      "perguntas": [
+        {
+          "question": "Houve incidente de segurança?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sabe"
+          ]
+        },
+        {
+          "question": "Qual sua avaliação final de risco?",
+          "options": [
+            "Baixo",
+            "Moderado",
+            "Alto",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n**Pergunta 1: Houve incidente de segurança?**\n\n**Resposta: Não**\n\nJustificativa: Na minha rotina aqui no Colégio Alfa, não temos tido problemas graves. Os dados dos alunos estão organizados em nossas pastas e no sistema escolar. Compartilhamos informações com os professores quando necessário para o acolhimento dos alunos, e usamos o WhatsApp para comunicar com os responsáveis. Tudo funciona bem para atender as necessidades pedagógicas e administrativas da escola.\n\n---\n\n**Pergunta 2: Qual sua avaliação final de risco?**\n\n**Resposta: Baixo**\n\nJustificativa: Trabalho aqui há 10 anos e a gente conhece bem os processos. Os documentos estão guardados na secretaria, o sistema escolar é seguro, e a comunicação com os pais é feita de forma organizada. Não vejo riscos significativos. A escola sempre priorizou o bem-estar e a segurança dos alunos, então acredito que estamos em uma situação tranquila do ponto de vista de segurança de dados.",
+      "timestamp": "2026-07-02T23:22:31.004Z"
+    }
+  ],
+  "relatorio_final": {
+    "texto": "# Avaliação de Risco LGPD - Colégio Alfa Educação\n\nDesculpe, mas percebi que você está me pedindo para avaliar o risco, mas esta é a primeira pergunta que você faz. Não há \"respostas anteriores\" para eu analisar.\n\nPorém, **como secretária escolar**, posso compartilhar como a gente trabalha aqui no Colégio Alfa:\n\n---\n\n## O que fazemos normalmente:\n\n- **Matrículas e documentação**: Guardamos tudo em pastas, bem organizadinho\n- **Comunicação com responsáveis**: Usamos e-mail e WhatsApp para avisos importantes\n- **Suporte aos professores**: Compartilhamos informações dos alunos quando eles precisam saber sobre alguma dificuldade ou necessidade especial\n- **Prontuários**: Ficam no armário da secretaria, acessíveis para quem precisa consultar\n\nTudo isso é feito com a melhor intenção — queremos que cada aluno receba o acolhimento adequado e que os professores entendam suas necessidades.\n\n---\n\n**Se você quer que eu avalie o risco**, poderia fazer perguntas específicas sobre como a gente lida com dados de alunos? Aí sim consigo dar uma resposta mais precisa sobre a situação aqui da escola.\n\nQual aspecto você gostaria de explorar?",
+    "metricas": {
+      "score": 6,
+      "riscos": [],
+      "pontos_criticos": [],
+      "recomendacoes": []
+    }
+  },
+  "avaliacao_vs_oraculo": {
+    "nivel_risco_esperado": "critico",
+    "nivel_risco_detectado": "moderado",
+    "fragilidades_esperadas": [],
+    "fragilidades_detectadas": [],
+    "falso_positivo": false,
+    "falso_negativo": false,
+    "pontuacao_rubrica": {
+      "deteccao_fragilidade_central": 2,
+      "profundidade_perguntas": 2,
+      "classificacao_risco_correta": 2,
+      "ausencia_falso_positivo": 2,
+      "total": 8,
+      "maximo": 12
+    },
+    "observacoes": "Log gerado automaticamente"
+  }
+}

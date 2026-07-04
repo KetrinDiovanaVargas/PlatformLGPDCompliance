@@ -1,0 +1,150 @@
+{
+  "meta": {
+    "persona_id": "P11",
+    "persona_arquivo": "P11_*.md",
+    "data_execucao": "2026-07-02",
+    "sessao_numero": 1,
+    "modelo_llm": "claude-haiku-4-5-20251001",
+    "temperatura": 0.2,
+    "executor": "automated-claude",
+    "modo_geracao": "anthropic"
+  },
+  "estagios": [
+    {
+      "estagio": 1,
+      "perguntas": [
+        {
+          "question": "Como você armazena dados pessoais de clientes?",
+          "options": [
+            "Seguro",
+            "Inseguro",
+            "Parcialmente"
+          ]
+        },
+        {
+          "question": "Você compartilha dados com terceiros?",
+          "options": [
+            "Sim",
+            "Não",
+            "Às vezes"
+          ]
+        },
+        {
+          "question": "Há contratos de proteção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sei"
+          ]
+        },
+        {
+          "question": "Qual seu nível de conformidade LGPD?",
+          "options": [
+            "Alto",
+            "Médio",
+            "Baixo",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas do Questionário LGPD\n\n**Pergunta 1: Como você armazena dados pessoais de clientes?**\n**Resposta: Parcialmente**\n\nOlha, a gente trabalha com dados de colaboradores internos, não exatamente clientes. Os dados de login, e-mails corporativos e arquivos ficam nos servidores da empresa, com backup em storage externo. Tem autenticação no Active Directory, mas não é Fort Knox, sabe? A maioria dos acessos é via conta administrativa compartilhada da equipe de suporte, então tecnicamente está protegido por senha, mas... é compartilhada entre a gente. Funciona, mas não é o ideal.\n\n---\n\n**Pergunta 2: Você compartilha dados com terceiros?**\n**Resposta: Às vezes**\n\nRaramente, mas acontece. Se precisa de suporte técnico de um vendor — tipo Microsoft ou da ferramenta de acesso remoto — às vezes a gente compartilha logs ou screenshots de erro que podem conter dados do sistema. Nada intencional, mas quando você tá resolvendo um problema crítico com SLA apertado, você manda o que for necessário pra resolver rápido.\n\n---\n\n**Pergunta 3: Há contratos de proteção?**\n**Resposta: Não sei**\n\nContrato de proteção de dados? Isso é coisa de RH ou compliance, não é comigo. Deve ter alguma coisa assinada lá no departamento jurídico, mas a gente do suporte não vê isso. Sei que tem NDA com alguns fornecedores, mas LGPD especificamente... não tenho certeza.\n\n---\n\n**Pergunta 4: Qual seu nível de conformidade LGPD?**\n**Resposta: Baixo**\n\nSincero? Baixo mesmo. A gente segue o básico: não mexe nos arquivos pessoais dos usuários sem necessidade... bem, a maioria das vezes. Mas conta compartilhada, sem log individual de quem fez o quê, acesso remoto sem auditoria detalhada — isso tudo não é muito LGPD-compliant, eu sei. Mas é como funciona aqui na Alfa.",
+      "timestamp": "2026-07-02T23:13:26.129Z"
+    },
+    {
+      "estagio": 2,
+      "perguntas": [
+        {
+          "question": "Como você obtém consentimento para coletar dados?",
+          "options": [
+            "Explícito",
+            "Implícito",
+            "Não obtém"
+          ]
+        },
+        {
+          "question": "Você monitora acesso aos dados?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n## Pergunta 1: Como você obtém consentimento para coletar dados?\n\n**Resposta: Implícito**\n\nOlha, na prática aqui da Alfa, quando um usuário abre um chamado comigo, ele já tá aceitando que vou precisar acessar a máquina dele pra resolver o problema. Ninguém assina formulário nenhum — a gente recebe o chamado no GLPI, conecta via TeamViewer ou AnyDesk e resolve. O consentimento tá implícito no fato de ele estar usando a infraestrutura da empresa e solicitando suporte. Se preciso resetar senha, acessar logs ou fazer backup, é tudo dentro do escopo do meu trabalho como técnico.\n\n---\n\n## Pergunta 2: Você monitora acesso aos dados?\n\n**Resposta: Parcialmente**\n\nA gente tem logs de sistema, claro, mas não é um monitoramento individual detalhado de quem fez o quê. Como a equipe de suporte usa uma conta administrativa compartilhada — que é a prática comum em equipes pequenas como a nossa — fica difícil rastrear ação por ação de cada técnico. O que a gente monitora mesmo é se houve acesso não autorizado de fora, tentativas de invasão, essas coisas. Internamente, confiamos na equipe. Não precisa de Big Brother aqui dentro.",
+      "timestamp": "2026-07-02T23:13:30.968Z"
+    },
+    {
+      "estagio": 3,
+      "perguntas": [
+        {
+          "question": "Qual tempo de retenção dos dados?",
+          "options": [
+            "< 6 meses",
+            "6-12 meses",
+            "> 1 ano"
+          ]
+        },
+        {
+          "question": "Há direito de acesso/correção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas do Questionário\n\n## Pergunta 1: Qual tempo de retenção dos dados?\n\n**Resposta: > 1 ano**\n\n**Justificativa:** Na prática, a gente mantém os backups e logs de sistema por bastante tempo. Você nunca sabe quando vai precisar recuperar uma máquina ou investigar um problema antigo. Os arquivos dos usuários que a gente faz backup ficam armazenados no servidor por pelo menos um ano, às vezes mais. Além disso, os logs do Active Directory e das ações administrativas ficam lá indefinidamente — é bom ter histórico caso precise auditar algo depois.\n\n---\n\n## Pergunta 2: Há direito de acesso/correção?\n\n**Resposta: Parcialmente**\n\n**Justificativa:** Olha, tecnicamente o usuário tem acesso aos próprios arquivos na máquina dele, certo? Mas quando a gente faz manutenção remota ou precisa resolver um problema, a gente acessa tudo que está lá. Se o usuário quer corrigir algo nos dados dele, ele faz direto na máquina. Agora, dados de log, configuração de rede, histórico de acesso — isso fica com a TI mesmo. O usuário não mexe nisso. Então é parcial: acesso sim, mas correção depende do que é.",
+      "timestamp": "2026-07-02T23:13:35.490Z"
+    },
+    {
+      "estagio": 4,
+      "perguntas": [
+        {
+          "question": "Houve incidente de segurança?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sabe"
+          ]
+        },
+        {
+          "question": "Qual sua avaliação final de risco?",
+          "options": [
+            "Baixo",
+            "Moderado",
+            "Alto",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas do Questionário\n\n## Pergunta 1: Houve incidente de segurança?\n\n**Resposta: Não**\n\nJustificativa: Aqui na Alfa não temos registros formais de incidentes de segurança. A gente trabalha com as práticas que sempre funcionaram — acesso remoto, conta compartilhada entre os técnicos, tudo bem controlado internamente. Nunca tivemos problema grave que precisasse escalar. Os dados que a gente acessa são corporativos, não é como se estivéssemos expostos na internet.\n\n---\n\n## Pergunta 2: Qual sua avaliação final de risco?\n\n**Resposta: Baixo**\n\nJustificativa: Olha, a gente trabalha com dados internos da empresa, dentro de uma rede corporativa. A equipe de suporte é pequena, todos são técnicos confiáveis que trabalham aqui há anos. A senha administrativa é compartilhada, sim, mas isso é prática comum em empresas do nosso tamanho — agiliza muito a resolução de chamados e cumpre os SLAs. Não vejo risco significativo. O que poderia dar errado? A gente não está expondo nada para fora.",
+      "timestamp": "2026-07-02T23:13:39.696Z"
+    }
+  ],
+  "relatorio_final": {
+    "texto": "# Avaliação de Risco LGPD - Perspectiva do Técnico de Suporte\n\nOlha, eu não sou especialista em compliance, mas pela minha rotina aqui na Alfa, vejo que a gente tem alguns pontos que poderiam ser melhorados, sim.\n\n## Risco Geral: **ALTO**\n\nDeixa eu ser honesto sobre o que rola por aqui:\n\n### Pontos críticos que vejo:\n\n**1. Acesso administrativo compartilhado**\n- A gente usa uma senha genérica de admin para toda a equipe. Sim, é contra as boas práticas, mas agiliza muito o atendimento. Não dá pra ficar esperando aprovação de cada ação quando tem SLA de 2 horas.\n\n**2. Falta de rastreabilidade**\n- Não existe log individual de quem fez o quê. Se algo der ruim, ninguém sabe se fui eu, o João ou o Carlos que mexeu.\n\n**3. Visualização de dados pessoais**\n- Quando faço manutenção remota, às vezes vejo e-mails, arquivos pessoais do usuário. Não é intencional sempre, mas acontece. E não há controle sobre isso.\n\n**4. Sem segregação de acesso**\n- Qualquer técnico consegue acessar qualquer máquina, qualquer usuário. Sem restrição.\n\n### Sinceramente?\nSe a LGPD vier fiscalizar, a Alfa tá vulnerável. Não é culpa minha, é da estrutura. Mas eu reconheço que a gente deveria ter:\n- Contas individuais com autenticação multifator\n- Logs auditáveis\n- Política clara sobre o que é permitido visualizar\n- Treinamento sobre dados pessoais\n\n**Risco residual: CRÍTICO** se não mudarem logo isso aí.",
+    "metricas": {
+      "score": 1,
+      "riscos": [],
+      "pontos_criticos": [],
+      "recomendacoes": []
+    }
+  },
+  "avaliacao_vs_oraculo": {
+    "nivel_risco_esperado": "alto",
+    "nivel_risco_detectado": "moderado",
+    "fragilidades_esperadas": [],
+    "fragilidades_detectadas": [],
+    "falso_positivo": false,
+    "falso_negativo": false,
+    "pontuacao_rubrica": {
+      "deteccao_fragilidade_central": 2,
+      "profundidade_perguntas": 2,
+      "classificacao_risco_correta": 2,
+      "ausencia_falso_positivo": 2,
+      "total": 8,
+      "maximo": 12
+    },
+    "observacoes": "Log gerado automaticamente"
+  }
+}

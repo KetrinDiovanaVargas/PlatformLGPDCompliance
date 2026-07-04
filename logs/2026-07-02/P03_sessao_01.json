@@ -1,0 +1,150 @@
+{
+  "meta": {
+    "persona_id": "P03",
+    "persona_arquivo": "P03_*.md",
+    "data_execucao": "2026-07-02",
+    "sessao_numero": 1,
+    "modelo_llm": "claude-haiku-4-5-20251001",
+    "temperatura": 0.2,
+    "executor": "automated-claude",
+    "modo_geracao": "anthropic"
+  },
+  "estagios": [
+    {
+      "estagio": 1,
+      "perguntas": [
+        {
+          "question": "Como você armazena dados pessoais de clientes?",
+          "options": [
+            "Seguro",
+            "Inseguro",
+            "Parcialmente"
+          ]
+        },
+        {
+          "question": "Você compartilha dados com terceiros?",
+          "options": [
+            "Sim",
+            "Não",
+            "Às vezes"
+          ]
+        },
+        {
+          "question": "Há contratos de proteção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sei"
+          ]
+        },
+        {
+          "question": "Qual seu nível de conformidade LGPD?",
+          "options": [
+            "Alto",
+            "Médio",
+            "Baixo",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n**Pergunta 1: Como você armazena dados pessoais de clientes?**\n\n**Resposta: Parcialmente**\n\nJustificativa: A gente usa o sistema SESO para os dados estruturados – exames, laudos, resultados – que fica mais controlado. Mas reconheço que tenho pastas locais no meu computador com atestados e documentos que vão se acumulando. Não tenho uma política clara de quando deletar, então fica tudo lá. É prático para consultar rápido quando preciso, mas não é o ideal.\n\n---\n\n**Pergunta 2: Você compartilha dados com terceiros?**\n\n**Resposta: Às vezes**\n\nJustificativa: Compartilho com quem precisa mesmo – gestores, RH, médico do trabalho. Quando um gestor precisa saber se o colaborador pode assumir uma função específica, eu mando a conclusão do laudo por WhatsApp pessoal pra agilizar. E tem a planilha de controle de vencimentos que é compartilhada com outros setores do RH para eles acompanharem as ausências. Mas só compartilho o necessário para cada um fazer seu trabalho.\n\n---\n\n**Pergunta 3: Há contratos de proteção?**\n\n**Resposta: Não sei**\n\nJustificativa: Isso é mais coisa de gestão, não é comigo. Sei que tem contrato com o médico do trabalho e com a clínica que faz os exames, mas não sei se tem cláusulas específicas sobre proteção de dados. Nunca vi isso documentado na minha área.\n\n---\n\n**Pergunta 4: Qual seu nível de conformidade LGPD?**\n\n**Resposta: Médio**\n\nJustificativa: A gente trabalha com dados sensíveis de saúde, então tomo cuidado. Mas não tenho formação específica em LGPD. Sei que dados de saúde são protegidos, mas as salvaguardas exatas... não domino. Acho que estamos no meio do caminho – não é crítico, mas também não é totalmente seguro.",
+      "timestamp": "2026-07-02T23:10:07.755Z"
+    },
+    {
+      "estagio": 2,
+      "perguntas": [
+        {
+          "question": "Como você obtém consentimento para coletar dados?",
+          "options": [
+            "Explícito",
+            "Implícito",
+            "Não obtém"
+          ]
+        },
+        {
+          "question": "Você monitora acesso aos dados?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n## Pergunta 1: Como você obtém consentimento para coletar dados?\n\n**Resposta: Implícito**\n\nJustificativa: Quando o colaborador entra na empresa, ele já sabe que vai passar por exames admissionais — isso faz parte do processo de onboarding. A gente não pede assinatura de consentimento específica para cada dado de saúde. O pessoal assina a documentação de admissão e pronto, já está ciente que vai fazer exame ocupacional. É o padrão do mercado, sabe? A coleta é necessária para cumprir a NR-7 e as obrigações legais de saúde do trabalho.\n\n---\n\n## Pergunta 2: Você monitora acesso aos dados?\n\n**Resposta: Parcialmente**\n\nJustificativa: A gente controla quem acessa o sistema SESO — só eu, a médica do trabalho e o pessoal do RH têm login. Mas quando preciso comunicar algo urgente ao gestor sobre restrição de função ou renovação de exame, mando por WhatsApp ou e-mail mesmo. E a planilha de controle de vencimentos fica compartilhada com o RH para eles acompanharem junto comigo. Não é que eu não monitore, é que a informação precisa circular para o trabalho fluir. Cada um acessa o que precisa para fazer seu trabalho.",
+      "timestamp": "2026-07-02T23:10:12.964Z"
+    },
+    {
+      "estagio": 3,
+      "perguntas": [
+        {
+          "question": "Qual tempo de retenção dos dados?",
+          "options": [
+            "< 6 meses",
+            "6-12 meses",
+            "> 1 ano"
+          ]
+        },
+        {
+          "question": "Há direito de acesso/correção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas do Questionário\n\n## Pergunta 1: Qual tempo de retenção dos dados?\n**Resposta: > 1 ano**\n\nJustificativa: A gente mantém os registros de exames e laudos por bastante tempo. Os exames periódicos são anuais, então preciso guardar o histórico para acompanhar a evolução da saúde do colaborador ao longo dos anos. Além disso, tem questões legais trabalhistas — a empresa precisa manter documentação para possíveis auditorias do MTE ou processos. Normalmente fico com tudo arquivado enquanto o colaborador está na empresa, e depois ainda mantenho por alguns anos para referência.\n\n---\n\n## Pergunta 2: Há direito de acesso/correção?\n**Resposta: Sim**\n\nJustificativa: Claro que o colaborador tem direito de acessar seus próprios dados de saúde. Se alguém vem aqui pedindo para ver seu laudo ou resultado de exame, eu libero. É informação dele, afinal. Quanto à correção, se houver algum erro no registro — tipo um dado digitado errado — a gente corrige junto com o médico do trabalho. Faz parte do processo normal de qualidade dos registros.",
+      "timestamp": "2026-07-02T23:10:17.301Z"
+    },
+    {
+      "estagio": 4,
+      "perguntas": [
+        {
+          "question": "Houve incidente de segurança?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sabe"
+          ]
+        },
+        {
+          "question": "Qual sua avaliação final de risco?",
+          "options": [
+            "Baixo",
+            "Moderado",
+            "Alto",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas do Questionário\n\n## Pergunta 1: Houve incidente de segurança?\n\n**Resposta: Não**\n\nJustificativa: Na minha rotina aqui na Alfa, a gente trabalha com bastante cuidado. Os dados de saúde ficam no sistema SESO, que é protegido, e quando preciso comunicar algo aos gestores, faço por e-mail corporativo ou WhatsApp — canais que a gente usa normalmente aqui. Nunca tivemos nenhum vazamento ou acesso não autorizado que eu tenha conhecimento. Os arquivos estão organizados e só quem precisa acessa.\n\n---\n\n## Pergunta 2: Qual sua avaliação final de risco?\n\n**Resposta: Baixo**\n\nJustificativa: A gente segue os protocolos de saúde ocupacional à risca. Os exames são feitos com médicos credenciados, os laudos são guardados, e o controle de vencimentos é bem estruturado. Claro que lidamos com informações sensíveis — CID, resultados de exames — mas isso é necessário para garantir que os colaboradores estejam aptos para suas funções. Tudo é feito com responsabilidade e dentro do que a empresa precisa para manter a saúde e segurança do pessoal.",
+      "timestamp": "2026-07-02T23:10:21.628Z"
+    }
+  ],
+  "relatorio_final": {
+    "texto": "# Avaliação de Risco - Persona P03\n\nNão há respostas anteriores registradas em nosso diálogo, mas posso avaliar o risco com base no perfil e comportamentos descritos na persona:\n\n## **NÍVEL DE RISCO: ALTO**\n\n### Principais vulnerabilidades identificadas:\n\n**1. Dados sensíveis desprotegidos**\n- Trabalho com dados de saúde (CID, laudos, atestados) sem salvaguardas específicas\n- Conhecimento baixo sobre LGPD e proteção de dados sensíveis\n\n**2. Compartilhamento inadequado**\n- Envio de laudos médicos por WhatsApp pessoal (canal não seguro)\n- Inclusão de CID em planilhas compartilhadas com múltiplos setores\n- Justificativa: \"só compartilho o necessário\" — mas sem critério formal\n\n**3. Retenção indefinida**\n- Atestados arquivados em pasta local sem prazo de exclusão\n- Sem política de descarte de dados\n\n**4. Acesso excessivo**\n- Planilha de controle acessível a \"outros setores\"\n- Sem controle de quem realmente precisa acessar cada informação\n\n**5. Falta de governança**\n- Decisões individuais sobre compartilhamento\n- Sem documentação de base legal ou consentimento\n- Sem registro de quem acessou quais dados\n\n### Impacto potencial:\n- **Violação de direitos dos colaboradores** (privacidade, dignidade)\n- **Exposição de dados sensíveis** a pessoas sem necessidade legítima\n- **Risco de multa LGPD** (até 2% do faturamento)\n- **Dano reputacional** para a empresa\n\n**Recomendação:** Intervenção urgente em políticas de compartilhamento e retenção de dados de saúde.",
+    "metricas": {
+      "score": 7,
+      "riscos": [],
+      "pontos_criticos": [],
+      "recomendacoes": []
+    }
+  },
+  "avaliacao_vs_oraculo": {
+    "nivel_risco_esperado": "critico",
+    "nivel_risco_detectado": "moderado",
+    "fragilidades_esperadas": [],
+    "fragilidades_detectadas": [],
+    "falso_positivo": false,
+    "falso_negativo": false,
+    "pontuacao_rubrica": {
+      "deteccao_fragilidade_central": 2,
+      "profundidade_perguntas": 2,
+      "classificacao_risco_correta": 2,
+      "ausencia_falso_positivo": 2,
+      "total": 8,
+      "maximo": 12
+    },
+    "observacoes": "Log gerado automaticamente"
+  }
+}

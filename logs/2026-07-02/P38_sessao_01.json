@@ -1,0 +1,150 @@
+{
+  "meta": {
+    "persona_id": "P38",
+    "persona_arquivo": "P38_*.md",
+    "data_execucao": "2026-07-02",
+    "sessao_numero": 1,
+    "modelo_llm": "claude-haiku-4-5-20251001",
+    "temperatura": 0.2,
+    "executor": "automated-claude",
+    "modo_geracao": "anthropic"
+  },
+  "estagios": [
+    {
+      "estagio": 1,
+      "perguntas": [
+        {
+          "question": "Como você armazena dados pessoais de clientes?",
+          "options": [
+            "Seguro",
+            "Inseguro",
+            "Parcialmente"
+          ]
+        },
+        {
+          "question": "Você compartilha dados com terceiros?",
+          "options": [
+            "Sim",
+            "Não",
+            "Às vezes"
+          ]
+        },
+        {
+          "question": "Há contratos de proteção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sei"
+          ]
+        },
+        {
+          "question": "Qual seu nível de conformidade LGPD?",
+          "options": [
+            "Alto",
+            "Médio",
+            "Baixo",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas do Questionário\n\n**Pergunta 1: Como você armazena dados pessoais de clientes?**\n\n**Resposta: Seguro**\n\nOlha, a gente toma cuidado sim. Os dados ficam no app de fidelidade que a gente contratou, e também tenho uma planilha aqui no computador do restaurante com backup. O sistema de PDV também guarda tudo. Acho que está bem protegido, sabe? A gente não deixa qualquer um mexendo nesses dados.\n\n---\n\n**Pergunta 2: Você compartilha dados com terceiros?**\n\n**Resposta: Às vezes**\n\nBem, a gente trabalha com alguns fornecedores parceiros que fazem promoções legais para os clientes. De vez em quando a gente passa a lista de e-mails para eles fazerem campanhas conjuntas. Mas é só com parceiros de confiança, nada demais. É bom para o cliente também, porque recebe ofertas interessantes.\n\n---\n\n**Pergunta 3: Há contratos de proteção?**\n\n**Resposta: Não sei**\n\nContrato? Olha, a gente tem contrato com a empresa que fornece o app de fidelidade, claro. Mas se você está falando de contrato específico de proteção de dados... não sei bem. Isso é mais coisa de departamento jurídico, né? Aqui no restaurante a gente cuida do operacional mesmo.\n\n---\n\n**Pergunta 4: Qual seu nível de conformidade LGPD?**\n\n**Resposta: Médio**\n\nEu diria que a gente está no meio do caminho. A gente coleta os dados de forma organizada, guarda com cuidado, e usa para o programa de fidelidade que é o objetivo. Não vejo problema nenhum no que a gente faz. Talvez falte alguma coisa formal, mas na prática a gente está tranquilo.",
+      "timestamp": "2026-07-02T23:24:18.884Z"
+    },
+    {
+      "estagio": 2,
+      "perguntas": [
+        {
+          "question": "Como você obtém consentimento para coletar dados?",
+          "options": [
+            "Explícito",
+            "Implícito",
+            "Não obtém"
+          ]
+        },
+        {
+          "question": "Você monitora acesso aos dados?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas do Questionário\n\n## Pergunta 1: Como você obtém consentimento para coletar dados?\n\n**Resposta: Implícito**\n\nOlha, quando o cliente vem aqui no restaurante ou baixa nosso app, ele já sabe que vai ganhar desconto no programa de fidelidade. A gente pede o CPF, data de nascimento, e-mail e telefone na hora do cadastro — tudo bem rápido, na entrada mesmo. O cliente aceita porque quer o desconto. Isso é consentimento suficiente, né? Ele está ali, concordando em participar do programa. Não precisa de um monte de papel assinado para isso.\n\n---\n\n## Pergunta 2: Você monitora acesso aos dados?\n\n**Resposta: Parcialmente**\n\nA gente tem o sistema de PDV que registra quem acessa, e o app tem controle de login. Mas sinceramente, com a rotina aqui do restaurante — gerenciando equipe, estoque, atendimento — não dá pra ficar monitorando cada acesso. O que importa é que os dados estão seguros no sistema. A gente não deixa qualquer um mexendo na planilha de clientes, só eu e o gerente de TI temos acesso direto. Acho que isso é o suficiente.",
+      "timestamp": "2026-07-02T23:24:23.142Z"
+    },
+    {
+      "estagio": 3,
+      "perguntas": [
+        {
+          "question": "Qual tempo de retenção dos dados?",
+          "options": [
+            "< 6 meses",
+            "6-12 meses",
+            "> 1 ano"
+          ]
+        },
+        {
+          "question": "Há direito de acesso/correção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n## Pergunta 1: Qual tempo de retenção dos dados?\n\n**Resposta: > 1 ano**\n\nOlha, a gente mantém os dados dos clientes no programa de fidelidade indefinidamente, na verdade. Enquanto o cliente está ativo conosco, a gente guarda tudo — nome, CPF, histórico de consumo. Faz sentido, né? A gente precisa saber quem são nossos melhores clientes para enviar promoções personalizadas e manter eles voltando. Então é mais que um ano, com certeza. Alguns clientes estão no nosso sistema há 3 anos, desde que entrei aqui.\n\n## Pergunta 2: Há direito de acesso/correção?\n\n**Resposta: Parcialmente**\n\nSim, parcialmente. Se um cliente chegar aqui reclamando que o telefone está errado ou quer atualizar o e-mail, a gente corrige na hora no sistema. Agora, se ele quer ver *tudo* que a gente tem sobre ele ou quer deletar os dados... isso é mais complicado. A gente não tem um processo formal para isso. Eu não sei nem como faria isso sem bagunçar o programa de fidelidade inteiro. Então a gente só mexe no que é óbvio, tipo corrigir um dado errado que o cliente reclama pessoalmente.",
+      "timestamp": "2026-07-02T23:24:27.831Z"
+    },
+    {
+      "estagio": 4,
+      "perguntas": [
+        {
+          "question": "Houve incidente de segurança?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sabe"
+          ]
+        },
+        {
+          "question": "Qual sua avaliação final de risco?",
+          "options": [
+            "Baixo",
+            "Moderado",
+            "Alto",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n## Pergunta 1: Houve incidente de segurança?\n\n**Resposta: Não**\n\nJustificativa: Aqui no Alfa Gourmet, a gente não teve nenhum incidente de segurança. Nosso sistema de PDV funciona bem, o app de fidelidade está rodando normalmente e os dados dos clientes estão seguros nas nossas planilhas e no sistema. Nunca tivemos vazamento ou problema desse tipo. Os dados ficam comigo e com minha equipe de confiança.\n\n---\n\n## Pergunta 2: Qual sua avaliação final de risco?\n\n**Resposta: Baixo**\n\nJustificativa: Na minha avaliação, o risco é baixo. A gente coleta os dados dos clientes de forma simples e direta — nome, CPF, data de aniversário — tudo para oferecer um bom programa de fidelidade com descontos e promoções personalizadas. Isso é normal no mercado. Os clientes gostam de receber as promoções no WhatsApp e por e-mail, e a gente trabalha com parceiros confiáveis. Não vejo risco significativo nisso. É tudo muito controlado e focado em melhorar a experiência do cliente.",
+      "timestamp": "2026-07-02T23:24:31.747Z"
+    }
+  ],
+  "relatorio_final": {
+    "texto": "# Avaliação de Risco LGPD - Restaurante Alfa Gourmet\n\nPreciso ser honesto com você: **o risco é MUITO ALTO**.\n\nDeixa eu explicar do jeito que eu vejo a situação aqui do restaurante:\n\n## Os principais problemas que identifiquei:\n\n**1. Coleta de dados sem base legal clara**\n- Estou pedindo CPF \"para dar desconto\", mas na verdade estou usando para enviar promoções depois\n- Isso é coleta com uma finalidade, mas uso com outra — e a lei não permite isso\n\n**2. Compartilhamento não autorizado**\n- Passo a lista de e-mails para fornecedores parceiros sem avisar os clientes\n- Os clientes nunca consentiram com isso\n- Isso é uma violação séria\n\n**3. Falta de consentimento específico**\n- Não tenho consentimento explícito para enviar promoções via WhatsApp\n- Não informo que vou compartilhar dados com terceiros\n- Não tenho política de privacidade clara\n\n**4. Dados sensíveis sendo tratados casualmente**\n- CPF é dado sensível e estou guardando em planilha\n- Preferências alimentares podem revelar condições de saúde\n- Não tenho segurança adequada\n\n## Nível de risco: **CRÍTICO** 🔴\n\nSe a ANPD investigar, vou ter problemas sérios. Multas podem chegar a 2% do faturamento (até R$ 50 milhões). E isso sem contar processos de clientes.\n\nPreciso arrumar isso urgente.",
+    "metricas": {
+      "score": 8,
+      "riscos": [],
+      "pontos_criticos": [],
+      "recomendacoes": []
+    }
+  },
+  "avaliacao_vs_oraculo": {
+    "nivel_risco_esperado": "moderado_alto",
+    "nivel_risco_detectado": "moderado",
+    "fragilidades_esperadas": [],
+    "fragilidades_detectadas": [],
+    "falso_positivo": false,
+    "falso_negativo": false,
+    "pontuacao_rubrica": {
+      "deteccao_fragilidade_central": 2,
+      "profundidade_perguntas": 2,
+      "classificacao_risco_correta": 2,
+      "ausencia_falso_positivo": 2,
+      "total": 8,
+      "maximo": 12
+    },
+    "observacoes": "Log gerado automaticamente"
+  }
+}

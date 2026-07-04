@@ -1,0 +1,150 @@
+{
+  "meta": {
+    "persona_id": "P49",
+    "persona_arquivo": "P49_*.md",
+    "data_execucao": "2026-07-02",
+    "sessao_numero": 1,
+    "modelo_llm": "claude-haiku-4-5-20251001",
+    "temperatura": 0.2,
+    "executor": "automated-claude",
+    "modo_geracao": "anthropic"
+  },
+  "estagios": [
+    {
+      "estagio": 1,
+      "perguntas": [
+        {
+          "question": "Como você armazena dados pessoais de clientes?",
+          "options": [
+            "Seguro",
+            "Inseguro",
+            "Parcialmente"
+          ]
+        },
+        {
+          "question": "Você compartilha dados com terceiros?",
+          "options": [
+            "Sim",
+            "Não",
+            "Às vezes"
+          ]
+        },
+        {
+          "question": "Há contratos de proteção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sei"
+          ]
+        },
+        {
+          "question": "Qual seu nível de conformidade LGPD?",
+          "options": [
+            "Alto",
+            "Médio",
+            "Baixo",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n**Pergunta 1: Como você armazena dados pessoais de clientes?**\n\n**Resposta: Parcialmente**\n\nUtilizo Google Drive pessoal e planilhas para organizar os projetos, além da plataforma de assessment que contratei. É uma solução prática que funciona bem para minha rotina de múltiplos clientes. Os dados estão em ambiente digital com acesso restrito à minha conta, então considero adequado para o volume que trabalho.\n\n---\n\n**Pergunta 2: Você compartilha dados com terceiros?**\n\n**Resposta: Às vezes**\n\nCompartilho dados com a plataforma de assessment que utilizo para os testes psicológicos e de liderança. Além disso, ocasionalmente preciso compartilhar relatórios com os clientes via e-mail. Mas isso é necessário para entregar o serviço contratado.\n\n---\n\n**Pergunta 3: Há contratos de proteção?**\n\n**Resposta: Não**\n\nMeus contratos com os clientes cobrem o escopo do trabalho de consultoria, mas não incluem cláusulas específicas sobre proteção de dados. Na verdade, considero que o cliente, como controlador dos dados, é quem deve estabelecer essas diretrizes. Eu sou apenas a operadora dos dados no processo.\n\n---\n\n**Pergunta 4: Qual seu nível de conformidade LGPD?**\n\n**Resposta: Médio**\n\nTenho experiência de 10 anos no mercado e sigo boas práticas de confidencialidade. Mantenho dados organizados e restritos. Embora não tenha implementado um programa formal de LGPD, considero minha operação adequada ao contexto de consultoria autônoma.",
+      "timestamp": "2026-07-02T23:28:46.112Z"
+    },
+    {
+      "estagio": 2,
+      "perguntas": [
+        {
+          "question": "Como você obtém consentimento para coletar dados?",
+          "options": [
+            "Explícito",
+            "Implícito",
+            "Não obtém"
+          ]
+        },
+        {
+          "question": "Você monitora acesso aos dados?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n## Pergunta 1: Como você obtém consentimento para coletar dados?\n\n**Resposta: Implícito**\n\nJustificativa: Na minha prática como consultora, o consentimento é implícito no próprio contrato que o cliente assina comigo. Quando uma empresa me contrata para fazer um processo seletivo ou avaliação de clima, já está implícito que vou precisar coletar e trabalhar com os dados dos candidatos e colaboradores. O cliente é quem tem a responsabilidade de informar aos seus candidatos e funcionários que esses dados serão compartilhados com consultores externos como eu. Eu trabalho com base na confiança estabelecida entre mim e meu cliente — é ele quem gerencia o consentimento com os titulares dos dados, não eu.\n\n---\n\n## Pergunta 2: Você monitora acesso aos dados?\n\n**Resposta: Parcialmente**\n\nJustificativa: Monitoro o acesso na plataforma de assessment que contrato, que tem logs de quem acessa o quê. Porém, para os dados que mantenho no meu Google Drive pessoal e nas minhas planilhas, o acesso é controlado apenas pelas minhas credenciais pessoais — basicamente, sou só eu acessando. Considero isso suficiente para meu contexto como consultora autônoma. A responsabilidade maior de auditoria e monitoramento de dados fica com o cliente, que é o controlador.",
+      "timestamp": "2026-07-02T23:28:51.765Z"
+    },
+    {
+      "estagio": 3,
+      "perguntas": [
+        {
+          "question": "Qual tempo de retenção dos dados?",
+          "options": [
+            "< 6 meses",
+            "6-12 meses",
+            "> 1 ano"
+          ]
+        },
+        {
+          "question": "Há direito de acesso/correção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n**Pergunta 1: Qual tempo de retenção dos dados?**\n\n**Resposta: > 1 ano**\n\nJustificativa: Mantenho os dados dos candidatos e colaboradores avaliados por um período superior a um ano. Isso é importante para fins de benchmarking e para poder fazer comparações longitudinais entre ciclos de avaliação dos meus clientes. Além disso, às vezes os clientes retornam com demandas retrospectivas e preciso ter acesso aos históricos de assessment e resultados anteriores. É uma prática comum no mercado de consultoria manter esses dados para análises comparativas futuras.\n\n---\n\n**Pergunta 2: Há direito de acesso/correção?**\n\n**Resposta: Parcialmente**\n\nJustificativa: Os direitos de acesso e correção são responsabilidade do cliente contratante, não minha. Eu sou a consultora que executa o projeto. Se um candidato ou colaborador solicita acesso aos seus dados ou correção, essa solicitação deve ser direcionada à empresa cliente que contratou meus serviços — é ela quem tem a relação direta com o titular dos dados. Eu posso facilitar a comunicação, mas a decisão sobre concessão de acesso ou correção é do cliente. Por isso respondo \"parcialmente\" — há direito, mas é gerenciado pelo cliente, não por mim diretamente.",
+      "timestamp": "2026-07-02T23:28:56.334Z"
+    },
+    {
+      "estagio": 4,
+      "perguntas": [
+        {
+          "question": "Houve incidente de segurança?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sabe"
+          ]
+        },
+        {
+          "question": "Qual sua avaliação final de risco?",
+          "options": [
+            "Baixo",
+            "Moderado",
+            "Alto",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n**Pergunta 1: Houve incidente de segurança?**\n\n**Resposta: Não**\n\nJustificativa: Em minha experiência de 10 anos como consultora, nunca tive relatos de vazamento ou acesso não autorizado aos dados que mantenho. Meus sistemas funcionam adequadamente e os clientes não me comunicaram nenhuma ocorrência. Como trabalho com múltiplos clientes, cada um é responsável por sua própria segurança de dados — eu apenas executo os projetos conforme solicitado.\n\n---\n\n**Pergunta 2: Qual sua avaliação final de risco?**\n\n**Resposta: Baixo**\n\nJustificativa: Considero o risco baixo porque utilizo ferramentas consolidadas no mercado (Google Drive, plataforma de assessment contratada) e mantenho sigilo profissional com meus clientes. A responsabilidade pela conformidade com regulamentações como LGPD é do cliente contratante — eu sou apenas a operadora dos dados. Nunca tive problemas em uma década de atuação, o que demonstra a solidez da minha prática.",
+      "timestamp": "2026-07-02T23:29:00.025Z"
+    }
+  ],
+  "relatorio_final": {
+    "texto": "# Avaliação de Risco LGPD - Consultora P49\n\nBaseando-me na minha realidade operacional, diria que o risco é **baixo a moderado**. Deixe-me explicar:\n\n## Por que considero baixo risco:\n\n**1. Responsabilidade é do cliente**\nMeus clientes são as empresas contratantes — elas é que são controladoras dos dados. Eu sou apenas uma prestadora de serviço. Se há conformidade a cumprir, é responsabilidade deles, não minha.\n\n**2. Dados já vêm de terceiros**\nRecebo informações que os próprios clientes coletaram. Não sou eu quem está capturando dados na rua. Eles já fizeram a parte deles.\n\n**3. Experiência de 10 anos**\nTrabalho há uma década nesse mercado. Se houvesse problema real, já teria sido acionada. Meus clientes continuam contratando meus serviços, o que indica confiança.\n\n## Onde poderia haver alguma exposição:\n\n- Talvez a organização de arquivos no Google Drive pessoal não seja a mais \"formal\", mas é prática e funcional\n- Alguns dados antigos ficam guardados, mas isso é normal em consultoria — servem para benchmarks\n- Não tenho documentos formais de DPA com cada cliente, mas isso é comum no mercado de consultoria freelancer\n\n## Conclusão:\n\nO risco real é **baixo** porque a responsabilidade legal está com meus clientes. Eu sou apenas um instrumento de trabalho deles. Se quisessem mais formalidade, teriam solicitado.",
+    "metricas": {
+      "score": 0,
+      "riscos": [],
+      "pontos_criticos": [],
+      "recomendacoes": []
+    }
+  },
+  "avaliacao_vs_oraculo": {
+    "nivel_risco_esperado": "critico",
+    "nivel_risco_detectado": "moderado",
+    "fragilidades_esperadas": [],
+    "fragilidades_detectadas": [],
+    "falso_positivo": false,
+    "falso_negativo": false,
+    "pontuacao_rubrica": {
+      "deteccao_fragilidade_central": 2,
+      "profundidade_perguntas": 2,
+      "classificacao_risco_correta": 2,
+      "ausencia_falso_positivo": 2,
+      "total": 8,
+      "maximo": 12
+    },
+    "observacoes": "Log gerado automaticamente"
+  }
+}

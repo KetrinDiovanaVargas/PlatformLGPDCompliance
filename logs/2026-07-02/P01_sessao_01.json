@@ -1,0 +1,150 @@
+{
+  "meta": {
+    "persona_id": "P01",
+    "persona_arquivo": "P01_*.md",
+    "data_execucao": "2026-07-02",
+    "sessao_numero": 1,
+    "modelo_llm": "claude-haiku-4-5-20251001",
+    "temperatura": 0.2,
+    "executor": "automated-claude",
+    "modo_geracao": "anthropic"
+  },
+  "estagios": [
+    {
+      "estagio": 1,
+      "perguntas": [
+        {
+          "question": "Como você armazena dados pessoais de clientes?",
+          "options": [
+            "Seguro",
+            "Inseguro",
+            "Parcialmente"
+          ]
+        },
+        {
+          "question": "Você compartilha dados com terceiros?",
+          "options": [
+            "Sim",
+            "Não",
+            "Às vezes"
+          ]
+        },
+        {
+          "question": "Há contratos de proteção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sei"
+          ]
+        },
+        {
+          "question": "Qual seu nível de conformidade LGPD?",
+          "options": [
+            "Alto",
+            "Médio",
+            "Baixo",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas do Questionário\n\n**Pergunta 1: Como você armazena dados pessoais de clientes?**\n\n**Resposta: Parcialmente**\n\nOlha, a gente usa o sistema de RH da empresa, que é seguro, mas eu também mantenho planilhas próprias com informações dos candidatos para controlar melhor o andamento das seleções. Alguns currículos eu baixo no meu computador mesmo, em pastas organizadas por vaga e por ano. Acho que é seguro porque está tudo no computador corporativo, mas confesso que não sei exatamente como a TI faz o backup disso tudo.\n\n---\n\n**Pergunta 2: Você compartilha dados com terceiros?**\n\n**Resposta: Às vezes**\n\nSim, compartilho. Principalmente com os gestores das áreas que solicitam candidatos — eles precisam ver o currículo e os dados básicos para tomar decisão. Às vezes, quando é urgente, mando pelo WhatsApp mesmo, porque é mais rápido que e-mail corporativo. Também compartilho com a equipe de RH em pastas comuns. Mas terceiros mesmo, tipo agências externas, aí não — a gente não trabalha com recrutadoras de fora.\n\n---\n\n**Pergunta 3: Há contratos de proteção?**\n\n**Resposta: Não sei**\n\nBoa pergunta. Eu não tenho acesso a isso. Deve ter algo assinado entre a empresa e os gestores, ou entre a gente e o sistema de RH, mas não é comigo. Isso é coisa de jurídico ou da diretoria. Eu só trabalho com os dados mesmo.\n\n---\n\n**Pergunta 4: Qual seu nível de conformidade LGPD?**\n\n**Resposta: Médio**\n\nA gente já fez uma palestra sobre LGPD aqui na empresa, então tenho noção do que é. Acho que a gente segue o básico — não vendo dados, não compartilho com gente aleatória. Mas também não sou especialista. Deve ter coisas que a gente faz que não está 100% correto, mas no dia a dia funciona bem assim.",
+      "timestamp": "2026-07-02T23:09:19.006Z"
+    },
+    {
+      "estagio": 2,
+      "perguntas": [
+        {
+          "question": "Como você obtém consentimento para coletar dados?",
+          "options": [
+            "Explícito",
+            "Implícito",
+            "Não obtém"
+          ]
+        },
+        {
+          "question": "Você monitora acesso aos dados?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n---\n\n## Pergunta 1: Como você obtém consentimento para coletar dados?\n\n**Resposta: Implícito**\n\nOlha, na prática funciona assim: quando a pessoa envia o currículo para a gente, seja por e-mail, LinkedIn ou pelo formulário do site, ela já está consentindo que a gente use aqueles dados para análise da candidatura. É meio óbvio, né? Se ela está se candidatando, quer dizer que aceita que a gente veja o nome, telefone, experiência dela...\n\nA gente não pede assinatura de termo ou coisa assim. Seria muito burocrático e atrasaria bastante o processo. O próprio ato de se candidatar já é consentimento suficiente.\n\n---\n\n## Pergunta 2: Você monitora acesso aos dados?\n\n**Resposta: Parcialmente**\n\nA gente tem o sistema de RH que registra quem acessa, mas sinceramente não fico monitorando isso direto. O que eu faço é controlar quem recebe os currículos da minha parte — envio para o gestor responsável pela vaga, para o pessoal da equipe de RH que precisa.\n\nAgora, quando é urgente e o gestor pede para acelerar, às vezes eu mando por WhatsApp mesmo, que é mais rápido. Nesse caso, não tem tanto controle de quem vê depois, mas é para agilizar mesmo.",
+      "timestamp": "2026-07-02T23:09:23.833Z"
+    },
+    {
+      "estagio": 3,
+      "perguntas": [
+        {
+          "question": "Qual tempo de retenção dos dados?",
+          "options": [
+            "< 6 meses",
+            "6-12 meses",
+            "> 1 ano"
+          ]
+        },
+        {
+          "question": "Há direito de acesso/correção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n## Pergunta 1: Qual tempo de retenção dos dados?\n\n**Resposta: > 1 ano**\n\n**Justificativa:** A gente mantém os currículos e dados dos candidatos por mais de um ano. Isso é importante porque, quando surge uma vaga similar, a gente consegue reutilizar os perfis que já temos cadastrados. Economiza tempo de triagem. Além disso, alguns candidatos que não passaram na primeira oportunidade podem ser interessantes para outras posições depois. Então a gente guarda mesmo.\n\n---\n\n## Pergunta 2: Há direito de acesso/correção?\n\n**Resposta: Parcialmente**\n\n**Justificativa:** Olha, o candidato consegue acessar os dados dele se ele pedir, mas na prática é complicado. A gente não tem um processo formal para isso. Se alguém ligar ou mandar e-mail pedindo para corrigir algo, a gente tenta ajudar, mas não é automático. E tem informação que fica em planilha interna, em pasta compartilhada com a equipe... nem sempre é fácil rastrear tudo para fazer uma correção completa. Então é parcial mesmo.",
+      "timestamp": "2026-07-02T23:09:28.017Z"
+    },
+    {
+      "estagio": 4,
+      "perguntas": [
+        {
+          "question": "Houve incidente de segurança?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sabe"
+          ]
+        },
+        {
+          "question": "Qual sua avaliação final de risco?",
+          "options": [
+            "Baixo",
+            "Moderado",
+            "Alto",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n**Pergunta 1: Houve incidente de segurança?**\n\n**Resposta: Não**\n\nJustificativa: Aqui no RH da Alfa não temos registro de nenhum incidente de segurança. A gente trabalha com dados de candidatos, mas tudo fica dentro do sistema da empresa ou em pastas compartilhadas com a equipe. Nunca tivemos vazamento ou perda de informação que eu tenha conhecimento.\n\n---\n\n**Pergunta 2: Qual sua avaliação final de risco?**\n\n**Resposta: Baixo**\n\nJustificativa: Acho que o risco é baixo. A gente segue os procedimentos normais de RH — recebe currículo, faz triagem, encaminha para o gestor. Tudo dentro da empresa. Os dados ficam protegidos no sistema e nas pastas que só a equipe de RH acessa. Não vejo onde haveria risco significativo. A gente é cuidadoso com as informações dos candidatos.",
+      "timestamp": "2026-07-02T23:09:31.415Z"
+    }
+  ],
+  "relatorio_final": {
+    "texto": "# Avaliação de Risco - Analista de Recrutamento (Alfa Serviços Integrados)\n\nConsiderando minha rotina e práticas, eu diria que o risco é **baixo a moderado**. Aqui está meu raciocínio:\n\n## Por que não é alto risco:\n- Trabalhamos com dados de candidatos, não de clientes finais\n- Não armazenamos informações sensíveis como dados bancários ou biométricos\n- Temos um sistema de RH formal (mesmo que eu use planilhas paralelas)\n- Não compartilhamos dados com terceiros externos\n\n## Por que existe algum risco:\n- Às vezes uso WhatsApp para agilizar o envio de currículos para gestores — mas é comunicação interna\n- Mantenho cópias de currículos em pastas antigas para reutilizar em futuras vagas — economiza tempo\n- Nem sempre todos que recebem os documentos realmente precisam deles, mas são colegas da empresa\n- A planilha de controle fica em pasta compartilhada com a equipe de RH\n\n## Minha perspectiva:\nNa verdade, acho que estamos bem. O que fazemos é prático e necessário para manter o processo seletivo ágil. Ninguém está vendendo dados de candidatos, e tudo fica dentro da empresa. \n\nSe houvesse um risco real, a empresa teria nos treinado melhor ou bloqueado essas ferramentas, certo?\n\n**Conclusão: Risco moderado-baixo, mas com pontos de melhoria operacional.**",
+    "metricas": {
+      "score": 4,
+      "riscos": [],
+      "pontos_criticos": [],
+      "recomendacoes": []
+    }
+  },
+  "avaliacao_vs_oraculo": {
+    "nivel_risco_esperado": "alto",
+    "nivel_risco_detectado": "moderado",
+    "fragilidades_esperadas": [],
+    "fragilidades_detectadas": [],
+    "falso_positivo": false,
+    "falso_negativo": false,
+    "pontuacao_rubrica": {
+      "deteccao_fragilidade_central": 2,
+      "profundidade_perguntas": 2,
+      "classificacao_risco_correta": 2,
+      "ausencia_falso_positivo": 2,
+      "total": 8,
+      "maximo": 12
+    },
+    "observacoes": "Log gerado automaticamente"
+  }
+}

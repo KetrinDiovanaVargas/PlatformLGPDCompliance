@@ -1,0 +1,150 @@
+{
+  "meta": {
+    "persona_id": "P16",
+    "persona_arquivo": "P16_*.md",
+    "data_execucao": "2026-07-02",
+    "sessao_numero": 1,
+    "modelo_llm": "claude-haiku-4-5-20251001",
+    "temperatura": 0.2,
+    "executor": "automated-claude",
+    "modo_geracao": "anthropic"
+  },
+  "estagios": [
+    {
+      "estagio": 1,
+      "perguntas": [
+        {
+          "question": "Como você armazena dados pessoais de clientes?",
+          "options": [
+            "Seguro",
+            "Inseguro",
+            "Parcialmente"
+          ]
+        },
+        {
+          "question": "Você compartilha dados com terceiros?",
+          "options": [
+            "Sim",
+            "Não",
+            "Às vezes"
+          ]
+        },
+        {
+          "question": "Há contratos de proteção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sei"
+          ]
+        },
+        {
+          "question": "Qual seu nível de conformidade LGPD?",
+          "options": [
+            "Alto",
+            "Médio",
+            "Baixo",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário de Conformidade LGPD\n\n**Pergunta 1: Como você armazena dados pessoais de clientes?**\n\n**Resposta: Parcialmente**\n\nJustificativa: Utilizamos o sistema de gestão jurídica Projuris, que oferece um nível razoável de segurança para armazenamento de contratos e documentação processual. Porém, durante o trabalho remoto, acabo organizando cópias de documentos no Google Drive pessoal para facilitar o acesso. Reconheço que isso não é o ideal, mas é uma prática comum entre os assistentes jurídicos para agilizar o fluxo de trabalho.\n\n---\n\n**Pergunta 2: Você compartilha dados com terceiros?**\n\n**Resposta: Sim**\n\nJustificativa: Compartilhamos documentação regularmente com os escritórios de advocacia parceiros. Quando precisamos enviar contratos, documentos processuais ou informações sobre as partes envolvidas, utilizamos e-mail corporativo. É a prática padrão do mercado jurídico para comunicação com terceirizados. Os advogados externos precisam ter acesso aos dados para conduzir os processos adequadamente.\n\n---\n\n**Pergunta 3: Há contratos de proteção?**\n\n**Resposta: Não**\n\nJustificativa: Os contratos com os escritórios parceiros estabelecem os termos dos serviços jurídicos, mas não incluem cláusulas específicas sobre proteção de dados pessoais ou conformidade LGPD. Essa é uma lacuna que reconheço, mas historicamente não foi considerada prioridade nas negociações contratuais.\n\n---\n\n**Pergunta 4: Qual seu nível de conformidade LGPD?**\n\n**Resposta: Médio**\n\nJustificativa: Conheço os princípios da LGPD e procuro respeitar a confidencialidade dos dados. Porém, não aplicamos sistematicamente medidas de criptografia no envio de documentos sensíveis, e o armazenamento em plataformas pessoais não segue protocolos formais. Há conformidade parcial, mas sem implementação robusta de controles técnicos e contratuais.",
+      "timestamp": "2026-07-02T23:15:27.376Z"
+    },
+    {
+      "estagio": 2,
+      "perguntas": [
+        {
+          "question": "Como você obtém consentimento para coletar dados?",
+          "options": [
+            "Explícito",
+            "Implícito",
+            "Não obtém"
+          ]
+        },
+        {
+          "question": "Você monitora acesso aos dados?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n## Pergunta 1: Como você obtém consentimento para coletar dados?\n\n**Resposta: Explícito**\n\nNa verdade, devo esclarecer que, na minha rotina, não sou responsável pela coleta inicial de dados. Trabalho com documentação que já foi coletada e formalizada em contratos, processos trabalhistas e outros instrumentos jurídicos. O consentimento, quando necessário, já está incorporado nesses documentos formais. Os dados chegam até mim já legitimados pela assinatura das partes ou pela relação contratual estabelecida. Portanto, considero que há consentimento explícito subjacente aos documentos com os quais trabalho.\n\n---\n\n## Pergunta 2: Você monitora acesso aos dados?\n\n**Resposta: Parcialmente**\n\nMonitoramos o acesso dentro do sistema de gestão jurídica da empresa — há logs de quem acessa cada processo. Porém, quando envio documentação para os escritórios parceiros, o controle é mais limitado. Confiamos na responsabilidade profissional desses advogados. Além disso, quando trabalho remotamente, organizo alguns documentos em plataformas de nuvem para facilitar o acesso, mas o monitoramento ali é menos rigoroso. É uma prática comum no mercado jurídico confiar na discrição profissional dos parceiros.",
+      "timestamp": "2026-07-02T23:15:31.727Z"
+    },
+    {
+      "estagio": 3,
+      "perguntas": [
+        {
+          "question": "Qual tempo de retenção dos dados?",
+          "options": [
+            "< 6 meses",
+            "6-12 meses",
+            "> 1 ano"
+          ]
+        },
+        {
+          "question": "Há direito de acesso/correção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n## Pergunta 1: Qual tempo de retenção dos dados?\n**Resposta: > 1 ano**\n\nJustificativa: Na área jurídica, mantemos os documentos conforme os prazos processuais e as obrigações legais. Contratos, processos trabalhistas e litígios exigem retenção prolongada — geralmente ultrapassam um ano devido aos prazos de prescrição e às exigências de arquivamento. No nosso sistema de gestão jurídica, os documentos ficam armazenados enquanto o processo está ativo e por um período adicional após encerramento, por questões de compliance e possíveis recursos.\n\n---\n\n## Pergunta 2: Há direito de acesso/correção?\n**Resposta: Sim**\n\nJustificativa: Formalmente, sim. As partes envolvidas em processos e contratos têm direito de acessar e solicitar correção de seus dados pessoais conforme a legislação. Quando recebemos uma solicitação de acesso ou correção, encaminhamos ao departamento jurídico responsável, que avalia a pertinência e autoriza o acesso ou a retificação. Porém, esse direito é exercido principalmente através de canais formais — petições processuais ou solicitações diretas ao departamento — e não temos um procedimento automatizado específico para isso.",
+      "timestamp": "2026-07-02T23:15:35.665Z"
+    },
+    {
+      "estagio": 4,
+      "perguntas": [
+        {
+          "question": "Houve incidente de segurança?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sabe"
+          ]
+        },
+        {
+          "question": "Qual sua avaliação final de risco?",
+          "options": [
+            "Baixo",
+            "Moderado",
+            "Alto",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n## Pergunta 1: Houve incidente de segurança?\n\n**Resposta: Não**\n\nJustificativa: Na minha rotina aqui na Alfa Serviços Integrados, não temos registro formal de incidentes de segurança. Os documentos que envio para os escritórios parceiros chegam normalmente aos destinatários. Nunca recebi comunicação de vazamento ou acesso não autorizado. A prática de enviar documentação jurídica por e-mail é padrão no mercado — todos os escritórios com os quais trabalhamos operam dessa forma.\n\n---\n\n## Pergunta 2: Qual sua avaliação final de risco?\n\n**Resposta: Moderado**\n\nJustificativa: Considerando que lidamos com dados sensíveis — CPF, RG, informações de saúde em processos trabalhistas e dados financeiros — há sempre um nível de risco inerente ao trabalho jurídico. Porém, como não houve incidentes até agora e os escritórios parceiros são estabelecidos e confiáveis, avalio o risco como moderado. Os contratos com esses escritórios estabelecem sigilo profissional, o que oferece uma camada de proteção legal adequada à prática forense.",
+      "timestamp": "2026-07-02T23:15:39.728Z"
+    }
+  ],
+  "relatorio_final": {
+    "texto": "# Avaliação de Risco LGPD - Alfa Serviços Integrados Ltda.\n\nConsiderando minha rotina e as práticas que adoto, avalio o nível de risco como **MODERADO A ALTO**, embora a organização não tenha implementado formalmente essa classificação.\n\n## Justificativa técnica:\n\n**Fatores de risco críticos:**\n\n1. **Transmissão de dados sensíveis sem criptografia** – Envio regular de documentos com CPF, RG, dados de saúde e informações financeiras por e-mail corporativo simples. Isso viola o artigo 46 da LGPD (segurança técnica).\n\n2. **Ausência de cláusulas de proteção de dados com parceiros** – Os escritórios externos não possuem contratos formalizando obrigações de sigilo e segurança. Isso configura violação do artigo 28 (relação de controlador/operador).\n\n3. **Uso de plataformas pessoais para dados corporativos** – O Google Drive pessoal não oferece controles de acesso corporativos, criando risco de vazamento.\n\n4. **Falta de controle de acesso** – Documentos sensíveis circulam sem rastreamento de quem acessa ou compartilha.\n\n## Conformidade atual:\n- ❌ Segurança técnica: insuficiente\n- ❌ Contratos com terceiros: não conformes\n- ❌ Governança de dados: inexistente\n- ⚠️ Conhecimento da lei: presente, mas não aplicado\n\n**Risco de multa ANPD:** Potencial de até 2% do faturamento anual (artigos 46 e 28).\n\nEssa é a realidade do mercado jurídico, mas reconheço que não está alinhada com a LGPD.",
+    "metricas": {
+      "score": 2,
+      "riscos": [],
+      "pontos_criticos": [],
+      "recomendacoes": []
+    }
+  },
+  "avaliacao_vs_oraculo": {
+    "nivel_risco_esperado": "alto",
+    "nivel_risco_detectado": "moderado",
+    "fragilidades_esperadas": [],
+    "fragilidades_detectadas": [],
+    "falso_positivo": false,
+    "falso_negativo": false,
+    "pontuacao_rubrica": {
+      "deteccao_fragilidade_central": 2,
+      "profundidade_perguntas": 2,
+      "classificacao_risco_correta": 2,
+      "ausencia_falso_positivo": 2,
+      "total": 8,
+      "maximo": 12
+    },
+    "observacoes": "Log gerado automaticamente"
+  }
+}

@@ -1,0 +1,150 @@
+{
+  "meta": {
+    "persona_id": "P14",
+    "persona_arquivo": "P14_*.md",
+    "data_execucao": "2026-07-02",
+    "sessao_numero": 1,
+    "modelo_llm": "claude-haiku-4-5-20251001",
+    "temperatura": 0.2,
+    "executor": "automated-claude",
+    "modo_geracao": "anthropic"
+  },
+  "estagios": [
+    {
+      "estagio": 1,
+      "perguntas": [
+        {
+          "question": "Como você armazena dados pessoais de clientes?",
+          "options": [
+            "Seguro",
+            "Inseguro",
+            "Parcialmente"
+          ]
+        },
+        {
+          "question": "Você compartilha dados com terceiros?",
+          "options": [
+            "Sim",
+            "Não",
+            "Às vezes"
+          ]
+        },
+        {
+          "question": "Há contratos de proteção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sei"
+          ]
+        },
+        {
+          "question": "Qual seu nível de conformidade LGPD?",
+          "options": [
+            "Alto",
+            "Médio",
+            "Baixo",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas do Questionário\n\n**Pergunta 1: Como você armazena dados pessoais de clientes?**\n\n**Resposta: Parcialmente**\n\nOlha, a gente trabalha com dados de terceirizados, não clientes. Mas respondendo: eu mantenho uma planilha local aqui comigo pra controlar quem tá na equipe, com nome, CPF, essas coisas. Funciona bem pra mim. Agora, se você tá perguntando sobre segurança mesmo, acho que é ok. Os dados ficam comigo, no meu controle.\n\n---\n\n**Pergunta 2: Você compartilha dados com terceiros?**\n\n**Resposta: Sim**\n\nClaro que compartilho. Preciso enviar documentação dos terceirizados pro RH o tempo todo. Eles precisam dos dados pra fazer o cadastro, validar ASO, essas coisas. É parte do processo normal de onboarding. Sem isso, não conseguimos agilizar nada aqui no campo.\n\n---\n\n**Pergunta 3: Há contratos de proteção?**\n\n**Resposta: Não sei**\n\nSinceramente, não sei. Isso é coisa de RH e compliance, não é comigo. Eu só faço meu trabalho aqui no campo, coordeno a equipe e mando os documentos pra quem precisa. Contrato de proteção de dados? Nunca ouvi falar disso na prática.\n\n---\n\n**Pergunta 4: Qual seu nível de conformidade LGPD?**\n\n**Resposta: Baixo**\n\nBaixo mesmo. Nunca fiz treinamento sobre isso, não conheço direito essas regras todas. Sei que existe LGPD, mas pra mim é coisa de escritório, de gente que trabalha com TI. Aqui no campo a gente foca em resolver o problema rápido.",
+      "timestamp": "2026-07-02T23:14:40.803Z"
+    },
+    {
+      "estagio": 2,
+      "perguntas": [
+        {
+          "question": "Como você obtém consentimento para coletar dados?",
+          "options": [
+            "Explícito",
+            "Implícito",
+            "Não obtém"
+          ]
+        },
+        {
+          "question": "Você monitora acesso aos dados?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas do Questionário\n\n**Pergunta 1: Como você obtém consentimento para coletar dados?**\n\n**Resposta: Implícito**\n\nOlha, quando o terceirizado chega aqui pra trabalhar, ele já sabe que precisa apresentar documentação. A gente pede RG, CPF, ASO... é parte do processo normal de contratação. Ninguém nunca reclamou ou disse que não quer. Eles entendem que é necessário pra trabalhar com a gente. Não precisa ficar assinando papel de consentimento pra cada coisa – isso atrasa tudo.\n\n---\n\n**Pergunta 2: Você monitora acesso aos dados?**\n\n**Resposta: Não**\n\nNão, não monitoro. Meu trabalho é coordenar o pessoal em campo, validar documentação e registrar ocorrências. Depois que envio os documentos pro RH pelo WhatsApp, não fico acompanhando o que eles fazem com aquilo. Eles que cuidam da parte administrativa. Eu tenho que resolver problema no campo, não ficar de olho em quem acessa o quê.",
+      "timestamp": "2026-07-02T23:14:44.845Z"
+    },
+    {
+      "estagio": 3,
+      "perguntas": [
+        {
+          "question": "Qual tempo de retenção dos dados?",
+          "options": [
+            "< 6 meses",
+            "6-12 meses",
+            "> 1 ano"
+          ]
+        },
+        {
+          "question": "Há direito de acesso/correção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas do Questionário\n\n**Pergunta 1: Qual tempo de retenção dos dados?**\n\n**Resposta: > 1 ano**\n\nOlha, a gente mantém os dados dos terceirizados por bastante tempo mesmo. Fico com as fotos dos documentos no meu celular, na planilha de controle... fica tudo lá. Nunca deletei nada porque a gente nunca sabe quando vai precisar consultar de novo, entende? Pode ser que precise comprovar algo depois, então deixo guardado.\n\n---\n\n**Pergunta 2: Há direito de acesso/correção?**\n\n**Resposta: Parcialmente**\n\nBom, se o terceirizado vem aqui e pede pra ver os dados dele, eu mostro a planilha que tenho. Agora, corrigir... aí fica mais complicado. Se tiver algo errado, ele teria que ir direto no RH corporativo pra fazer a alteração no sistema deles. Eu não tenho acesso pra mexer nesses dados. Então é parcial mesmo, porque aqui no campo ele consegue ver, mas pra corrigir tem que ir lá.",
+      "timestamp": "2026-07-02T23:14:48.844Z"
+    },
+    {
+      "estagio": 4,
+      "perguntas": [
+        {
+          "question": "Houve incidente de segurança?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sabe"
+          ]
+        },
+        {
+          "question": "Qual sua avaliação final de risco?",
+          "options": [
+            "Baixo",
+            "Moderado",
+            "Alto",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas do Questionário\n\n**Pergunta 1: Houve incidente de segurança?**\n\n**Resposta: Não**\n\nOlha, aqui no campo a gente não teve nenhum problema grave, não. Os terceirizados recebem seus crachás, trabalham normalmente. Tudo flui bem. Incidente mesmo seria se alguém tivesse acesso não autorizado aos dados ou se houvesse vazamento, sabe? Isso não aconteceu comigo.\n\n---\n\n**Pergunta 2: Qual sua avaliação final de risco?**\n\n**Resposta: Baixo**\n\nA gente trabalha com dados básicos mesmo — nome, CPF, documentação. Nada de informação sigilosa ou crítica. Os terceirizados já sabem que precisam fornecer esses dados pra trabalhar aqui. Tudo é interno, dentro da empresa. Não vejo risco alto não. A operação roda tranquila, sem maiores problemas.",
+      "timestamp": "2026-07-02T23:14:52.526Z"
+    }
+  ],
+  "relatorio_final": {
+    "texto": "# Avaliação de Risco - Perspectiva do Supervisor de Campo\n\nOlha, eu não vejo risco assim tão grande não. A gente trabalha com dados de terceirizados, sim, mas é tudo interno, sabe? Ninguém tá vazando informação pra fora.\n\n**Do meu ponto de vista, o risco é baixo a médio:**\n\n- Os documentos que fotografo são pra agilizar o onboarding. Fica tudo dentro da empresa, no RH.\n- A planilha que mantenho é só pra controle operacional mesmo, nada de sensível.\n- O WhatsApp é seguro, todo mundo usa.\n- Os dados dos terceirizados a gente precisa ter pra trabalhar, não tem jeito.\n\n**Agora, se você quer saber a real:**\n\nO que pode dar problema é se alguém disser que a gente tá guardando foto de RG e CNH no celular pessoal sem controle. Mas isso é procedimento mesmo, pra não ficar esperando o RH processar documento. É agilidade.\n\nSe a empresa tiver que responder por isso, aí sim pode ser chato. Mas risco de vazar? Não vejo. Meu celular tá comigo o tempo todo.\n\n**Resumindo:** Internamente funciona bem. Mas se vier uma auditoria ou a LGPD bater na porta, aí a gente pode ter que explicar algumas coisas sobre como a gente trata esses dados.",
+    "metricas": {
+      "score": 0,
+      "riscos": [],
+      "pontos_criticos": [],
+      "recomendacoes": []
+    }
+  },
+  "avaliacao_vs_oraculo": {
+    "nivel_risco_esperado": "alto",
+    "nivel_risco_detectado": "moderado",
+    "fragilidades_esperadas": [],
+    "fragilidades_detectadas": [],
+    "falso_positivo": false,
+    "falso_negativo": false,
+    "pontuacao_rubrica": {
+      "deteccao_fragilidade_central": 2,
+      "profundidade_perguntas": 2,
+      "classificacao_risco_correta": 2,
+      "ausencia_falso_positivo": 2,
+      "total": 8,
+      "maximo": 12
+    },
+    "observacoes": "Log gerado automaticamente"
+  }
+}

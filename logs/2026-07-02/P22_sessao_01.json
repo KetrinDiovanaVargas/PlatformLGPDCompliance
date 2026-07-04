@@ -1,0 +1,150 @@
+{
+  "meta": {
+    "persona_id": "P22",
+    "persona_arquivo": "P22_*.md",
+    "data_execucao": "2026-07-02",
+    "sessao_numero": 1,
+    "modelo_llm": "claude-haiku-4-5-20251001",
+    "temperatura": 0.2,
+    "executor": "automated-claude",
+    "modo_geracao": "anthropic"
+  },
+  "estagios": [
+    {
+      "estagio": 1,
+      "perguntas": [
+        {
+          "question": "Como você armazena dados pessoais de clientes?",
+          "options": [
+            "Seguro",
+            "Inseguro",
+            "Parcialmente"
+          ]
+        },
+        {
+          "question": "Você compartilha dados com terceiros?",
+          "options": [
+            "Sim",
+            "Não",
+            "Às vezes"
+          ]
+        },
+        {
+          "question": "Há contratos de proteção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sei"
+          ]
+        },
+        {
+          "question": "Qual seu nível de conformidade LGPD?",
+          "options": [
+            "Alto",
+            "Médio",
+            "Baixo",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário de Conformidade LGPD\n\n---\n\n## **Pergunta 1: Como você armazena dados pessoais de clientes?**\n\n**Resposta: Parcialmente**\n\nJustificativa: Os dados contábeis e fiscais são armazenados no sistema ERP contábil da empresa, que possui controles básicos de acesso. Porém, mantenho cópias de backup em pendrive para segurança operacional — é uma prática comum na contabilidade para não perder informações críticas em caso de falha do sistema. Além disso, documentos fiscais com dados pessoais (CPF, salários, dependentes) ficam em arquivo físico conforme exigência legal. Não vejo isso como \"inseguro\" porque são obrigações legais de retenção.\n\n---\n\n## **Pergunta 2: Você compartilha dados com terceiros?**\n\n**Resposta: Sim**\n\nJustificativa: Compartilhamos dados regularmente com o escritório de contabilidade externo — é necessário enviar informações de sócios, colaboradores e dependentes para elaboração de declarações fiscais (DIRF, e-Social, IR). Isso é obrigação legal, não é questão de privacidade. Quando o portal do escritório funciona, usamos aquele canal. Quando cai, enviamos por e-mail corporativo mesmo.\n\n---\n\n## **Pergunta 3: Há contratos de proteção?**\n\n**Resposta: Não sei**\n\nJustificativa: Existe contrato com o escritório externo, mas ele é focado em serviços contábeis e prazos de entrega. Nunca verifiquei especificamente se há cláusula de Acordo de Processamento de Dados (DPA) ou proteção de dados pessoais. Isso é mais responsabilidade da área jurídica ou do gestor que contratou o serviço.\n\n---\n\n## **Pergunta 4: Qual seu nível de conformidade LGPD?**\n\n**Resposta: Baixo**\n\nJustificativa: Francamente, a LGPD não é prioridade na minha rotina. Meu foco é cumprir obrigações fiscais com prazos apertados. Dados contábeis são informações que *precisam* ser compartilhadas por lei — não vejo por que precisariam de controles adicionais de privacidade. A conformidade LGPD é responsabilidade de TI ou compliance, não da contabilidade.",
+      "timestamp": "2026-07-02T23:17:47.571Z"
+    },
+    {
+      "estagio": 2,
+      "perguntas": [
+        {
+          "question": "Como você obtém consentimento para coletar dados?",
+          "options": [
+            "Explícito",
+            "Implícito",
+            "Não obtém"
+          ]
+        },
+        {
+          "question": "Você monitora acesso aos dados?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n## Pergunta 1: Como você obtém consentimento para coletar dados?\n\n**Resposta: Implícito**\n\n**Justificativa:**\nNa contabilidade, os dados pessoais que manipulamos — CPF, salário, dependentes — são coletados como parte da obrigação legal. O colaborador assina a carteira de trabalho e o contrato, o sócio assina o contrato social. Isso já constitui consentimento implícito para que a gente use esses dados nas declarações fiscais obrigatórias como DIRF, e-Social e IR. Não fazemos formulários específicos de consentimento porque estamos cumprindo exigências da Receita Federal e do governo. É diferente de uma empresa de marketing, por exemplo. Aqui, é tudo regulado por lei.\n\n---\n\n## Pergunta 2: Você monitora acesso aos dados?\n\n**Resposta: Parcialmente**\n\n**Justificativa:**\nO sistema ERP tem controle de acesso por perfil — nem todo mundo consegue entrar na área contábil. Mas quando enviamos documentos para o escritório externo ou quando preciso fazer backup em pendrive, não há monitoramento específico. E quando o portal cai e preciso enviar por e-mail mesmo, é mais difícil rastrear. O foco é garantir que os dados cheguem ao destino correto para cumprir os prazos fiscais. Monitoramento detalhado de cada acesso não é prioridade na rotina que temos aqui.",
+      "timestamp": "2026-07-02T23:17:52.557Z"
+    },
+    {
+      "estagio": 3,
+      "perguntas": [
+        {
+          "question": "Qual tempo de retenção dos dados?",
+          "options": [
+            "< 6 meses",
+            "6-12 meses",
+            "> 1 ano"
+          ]
+        },
+        {
+          "question": "Há direito de acesso/correção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n## Pergunta 1: Qual tempo de retenção dos dados?\n\n**Resposta: > 1 ano**\n\n**Justificativa:** Na contabilidade, mantemos os dados pessoais dos colaboradores e sócios por muito mais tempo. Precisamos guardar documentos fiscais como DIRF, e-Social, recibos de salário e comprovantes de dependentes por no mínimo 5 anos conforme exigência da Receita Federal. Além disso, mantemos cópias de declarações de IR e documentação contábil indefinidamente para fins de auditoria e consultas futuras. Então definitivamente é superior a 1 ano.\n\n---\n\n## Pergunta 2: Há direito de acesso/correção?\n\n**Resposta: Parcialmente**\n\n**Justificativa:** Os dados que trabalhamos aqui são principalmente obrigações fiscais e contábeis. O colaborador ou sócio pode solicitar informações sobre seus dados salariais ou dependentes que constam em nossas declarações, e podemos fornecer isso. Porém, uma vez que os dados foram lançados nas declarações fiscais já enviadas à Receita Federal, não é possível \"corrigir\" retroativamente sem procedimentos específicos de retificação fiscal. Então há acesso sim, mas a correção é limitada pela natureza das obrigações legais. Por isso, parcialmente.",
+      "timestamp": "2026-07-02T23:17:56.872Z"
+    },
+    {
+      "estagio": 4,
+      "perguntas": [
+        {
+          "question": "Houve incidente de segurança?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sabe"
+          ]
+        },
+        {
+          "question": "Qual sua avaliação final de risco?",
+          "options": [
+            "Baixo",
+            "Moderado",
+            "Alto",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# RESPOSTAS AO QUESTIONÁRIO\n\n---\n\n## **Pergunta 1: Houve incidente de segurança?**\n\n**Resposta: Não**\n\n**Justificativa:** Em meus 7 anos na Alfa Serviços, não tivemos nenhum incidente de segurança reportado formalmente. Os dados contábeis e fiscais são mantidos no ERP corporativo, que possui controles de acesso padrão. Nunca houve vazamento ou acesso não autorizado que chegasse ao meu conhecimento. Os arquivos são armazenados conforme exigências fiscais.\n\n---\n\n## **Pergunta 2: Qual sua avaliação final de risco?**\n\n**Resposta: Baixo**\n\n**Justificativa:** Os dados que manipulo são obrigações legais – CPF, salários, dependentes – tudo exigido pela Receita Federal, e-Social e legislação trabalhista. Não se trata de informação sensível no sentido comercial; é documentação fiscal mandatória. O escritório contábil externo que nos assessora também opera sob as mesmas obrigações legais. Os controles existentes (ERP corporativo, acesso restrito, arquivo físico organizado) são suficientes para cumprir as exigências fiscais. Portanto, o risco é baixo.",
+      "timestamp": "2026-07-02T23:18:00.967Z"
+    }
+  ],
+  "relatorio_final": {
+    "texto": "# Avaliação de Risco - Perspectiva da Persona P22\n\nOlha, eu diria que o risco é **baixo a moderado**, considerando que estamos falando de dados contábeis e fiscais. Deixa eu explicar meu ponto de vista:\n\n## Por que o risco é controlado:\n\n- **Obrigação legal**: Tudo que a gente trabalha aqui é exigência do Fisco. CPF, salário, dependentes — isso tudo precisa estar documentado por lei. Não é dado sensível no sentido de \"privado\", é dado obrigatório.\n\n- **Acesso restrito**: Quem mexe com essas informações aqui na Alfa são profissionais da contabilidade. Não é como se a gente tivesse dados espalhados por aí.\n\n- **Escritório externo confiável**: O escritório que trabalha com a gente existe há 20 anos. São profissionais sérios. Não vejo risco em compartilhar dados com eles — é parte do processo normal.\n\n## Onde talvez haja alguma atenção:\n\n- Backup em pendrive é prática comum, mas reconheço que é menos seguro que servidor.\n- Quando o portal cai e a gente usa e-mail, é situação excepcional, não rotina.\n\n**Conclusão**: Acho que o risco geral é **baixo**. A gente segue a legislação fiscal à risca. LGPD é importante, mas não muda a natureza obrigatória dos dados que a gente trabalha.",
+    "metricas": {
+      "score": 5,
+      "riscos": [],
+      "pontos_criticos": [],
+      "recomendacoes": []
+    }
+  },
+  "avaliacao_vs_oraculo": {
+    "nivel_risco_esperado": "moderado_alto",
+    "nivel_risco_detectado": "moderado",
+    "fragilidades_esperadas": [],
+    "fragilidades_detectadas": [],
+    "falso_positivo": false,
+    "falso_negativo": false,
+    "pontuacao_rubrica": {
+      "deteccao_fragilidade_central": 2,
+      "profundidade_perguntas": 2,
+      "classificacao_risco_correta": 2,
+      "ausencia_falso_positivo": 2,
+      "total": 8,
+      "maximo": 12
+    },
+    "observacoes": "Log gerado automaticamente"
+  }
+}

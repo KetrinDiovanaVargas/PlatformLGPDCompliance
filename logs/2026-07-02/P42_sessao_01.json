@@ -1,0 +1,150 @@
+{
+  "meta": {
+    "persona_id": "P42",
+    "persona_arquivo": "P42_*.md",
+    "data_execucao": "2026-07-02",
+    "sessao_numero": 1,
+    "modelo_llm": "claude-haiku-4-5-20251001",
+    "temperatura": 0.2,
+    "executor": "automated-claude",
+    "modo_geracao": "anthropic"
+  },
+  "estagios": [
+    {
+      "estagio": 1,
+      "perguntas": [
+        {
+          "question": "Como você armazena dados pessoais de clientes?",
+          "options": [
+            "Seguro",
+            "Inseguro",
+            "Parcialmente"
+          ]
+        },
+        {
+          "question": "Você compartilha dados com terceiros?",
+          "options": [
+            "Sim",
+            "Não",
+            "Às vezes"
+          ]
+        },
+        {
+          "question": "Há contratos de proteção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sei"
+          ]
+        },
+        {
+          "question": "Qual seu nível de conformidade LGPD?",
+          "options": [
+            "Alto",
+            "Médio",
+            "Baixo",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário de Conformidade LGPD\n\n---\n\n## **Pergunta 1: Como você armazena dados pessoais de clientes?**\n\n**Resposta: Seguro**\n\nNa Alfa Tech, implementamos uma arquitetura de armazenamento que segue as melhores práticas de segurança. Todos os dados de clientes são armazenados em servidores criptografados (AES-256 em repouso) em data centers certificados ISO 27001. Temos segregação de ambientes (produção, staging, desenvolvimento), controle de acesso baseado em papéis (RBAC), e logs de auditoria individuais para cada acesso. Após a rodada de investimento, contratamos uma auditoria de segurança externa que validou nossa infraestrutura. Além disso, implementamos backup automático com retenção conforme a política de dados que comunicamos aos usuários.\n\n---\n\n## **Pergunta 2: Você compartilha dados com terceiros?**\n\n**Resposta: Sim**\n\nCompartilhamos dados com terceiros, mas de forma controlada e documentada. Temos processadores de dados específicos: provedor de cloud (AWS), ferramentas de analytics (com anonimização), e plataforma de suporte ao cliente. Cada compartilhamento é regido por um Acordo de Processamento de Dados (DPA) assinado, conforme exigido pela LGPD. Os terceiros são auditados regularmente e têm obrigações contratuais explícitas de confidencialidade e segurança. Não compartilhamos dados para fins de marketing ou venda sem consentimento explícito do titular.\n\n---\n\n## **Pergunta 3: Há contratos de proteção?**\n\n**Resposta: Sim**\n\nSim, absolutamente. Temos DPAs formalizados com todos os fornecedores que processam dados pessoais. Nosso DPO (Data Protection Officer), contratado especializado, gerencia esses contratos através da plataforma OneTrust. Cada contrato especifica: finalidade do processamento, duração, obrigações de segurança, direitos dos titulares, e cláusulas de auditoria. Também temos Termos de Serviço e Política de Privacidade atualizados, revisados semestralmente. Todos os colaboradores assinam acordos de confidencialidade na admissão.\n\n---\n\n## **Pergunta 4: Qual seu nível de conformidade LGPD?**\n\n**Resposta: Alto**\n\nClassifico nossa conformidade como **Alto**. Passamos por due diligence rigorosa de investidores que exigiu conformidade comprovada. Temos: DPO dedicado, mapeamento completo de fluxos de dados, consentimento granular implementado no produto, canal formal para exercício de direitos (ACESSAR, RETIFICAR, DELETAR, PORTAR), treinamentos semestrais obrigatórios para toda a equipe, política de retenção de dados documentada, e registros de atividades de processamento (RRPD). Realizamos avaliações de impacto à privacidade (AIPD) para novas funcionalidades. Ainda há espaço para melhorias contínuas, mas estamos bem posicionados em relação ao mercado de startups.",
+      "timestamp": "2026-07-02T23:25:57.860Z"
+    },
+    {
+      "estagio": 2,
+      "perguntas": [
+        {
+          "question": "Como você obtém consentimento para coletar dados?",
+          "options": [
+            "Explícito",
+            "Implícito",
+            "Não obtém"
+          ]
+        },
+        {
+          "question": "Você monitora acesso aos dados?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário de Conformidade LGPD\n\n---\n\n## **Pergunta 1: Como você obtém consentimento para coletar dados?**\n\n**Resposta: Explícito**\n\nNa Startup Alfa Tech, implementamos um modelo de consentimento granular e explícito em nossa plataforma SaaS. Após a due diligence do nosso último aporte de investimento, estruturamos o fluxo de onboarding para que cada usuário conceda consentimento de forma clara e específica para cada finalidade de processamento — seja para funcionalidades core do produto, analytics, marketing ou compartilhamento com parceiros.\n\nUtilizamos banners de consentimento com opt-in obrigatório (não pré-selecionados) e mantemos registros auditáveis de quando e como cada consentimento foi coletado. Nosso DPO valida regularmente esses fluxos para garantir conformidade com o artigo 8º da LGPD.\n\n---\n\n## **Pergunta 2: Você monitora acesso aos dados?**\n\n**Resposta: Sim**\n\nSim, monitoramos rigorosamente. Implementamos logs de acesso individualizados para toda a equipe técnica através de nossa plataforma de gestão de privacidade (OneTrust), que registra quem acessou qual dado, quando e para qual finalidade. \n\nAlém disso, temos controles de acesso baseados em papéis (RBAC), auditoria mensal de acessos anômalos e treinamentos semestrais obrigatórios sobre privacidade para toda a equipe. Isso é não-negociável para nós — tanto por conformidade quanto por confiança dos nossos clientes e investidores.",
+      "timestamp": "2026-07-02T23:26:02.614Z"
+    },
+    {
+      "estagio": 3,
+      "perguntas": [
+        {
+          "question": "Qual tempo de retenção dos dados?",
+          "options": [
+            "< 6 meses",
+            "6-12 meses",
+            "> 1 ano"
+          ]
+        },
+        {
+          "question": "Há direito de acesso/correção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário de Conformidade LGPD\n\n---\n\n## **Pergunta 1: Qual tempo de retenção dos dados?**\n\n**Resposta: > 1 ano**\n\n**Justificativa:**\n\nNa Startup Alfa Tech, nossa política de retenção varia conforme a categoria de dados e a finalidade do processamento. Para dados de usuários da plataforma SaaS, mantemos registros por período superior a 1 ano, alinhado aos requisitos contratuais com nossos clientes e às obrigações legais de auditoria. Dados de colaboradores são retidos conforme legislação trabalhista (mínimo 5 anos para fins fiscais). \n\nImplementamos essa abordagem após due diligence do nosso investidor-âncora, e nosso DPO validou que os períodos estão documentados em nossa Política de Privacidade e justificados por necessidade legítima. Temos processo automatizado de exclusão de dados após expiração do prazo de retenção, registrado em nosso sistema OneTrust.\n\n---\n\n## **Pergunta 2: Há direito de acesso/correção?**\n\n**Resposta: Sim**\n\n**Justificativa:**\n\nSim, implementamos plenamente os direitos de acesso e correção conforme exigido pela LGPD (artigos 18 e 19). Temos canal formal e documentado para exercício desses direitos — tanto na plataforma (self-service para usuários finais) quanto via e-mail privacidade@startupalphatech.com para outras categorias de titulares.\n\nNosso SLA é responder em até 15 dias úteis. O DPO gerencia todas as requisições e temos logs de atendimento. Usuários podem corrigir dados diretamente no painel da plataforma, e solicitações mais complexas são processadas pela equipe de compliance. Isso foi um requisito explícito na due diligence e está integrado ao nosso roadmap de produto.",
+      "timestamp": "2026-07-02T23:26:09.075Z"
+    },
+    {
+      "estagio": 4,
+      "perguntas": [
+        {
+          "question": "Houve incidente de segurança?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sabe"
+          ]
+        },
+        {
+          "question": "Qual sua avaliação final de risco?",
+          "options": [
+            "Baixo",
+            "Moderado",
+            "Alto",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário de Conformidade LGPD\n\n---\n\n## **Pergunta 1: Houve incidente de segurança?**\n\n**Resposta: Não**\n\n**Justificativa:**\n\nFelizmente, não tivemos incidentes de segurança relevantes desde a fundação da Alfa Tech. Implementamos uma arquitetura de segurança robusta desde o início — isso foi inclusive um requisito não-negociável durante a due diligence do nosso último aporte de investimento.\n\nMantemos logs de acesso individualizados para toda a equipe técnica, realizamos auditorias de segurança semestrais com terceiros especializados, e temos um programa de bug bounty ativo. Nosso DPO e o time de segurança monitoram continuamente a infraestrutura.\n\nClaro, como qualquer empresa de tecnologia, temos planos de resposta a incidentes bem documentados e testamos regularmente nossos procedimentos de contenção. Mas, até o momento, não enfrentamos nenhuma violação de dados ou comprometimento de segurança que exigisse notificação às autoridades.\n\n---\n\n## **Pergunta 2: Qual sua avaliação final de risco?**\n\n**Resposta: Baixo**\n\n**Justificativa:**\n\nAvaliamos nosso perfil de risco como **baixo** em relação à conformidade com a LGPD. Isso se baseia em:\n\n- **Governança estruturada:** DPO dedicado e contratado desde antes da obrigatoriedade legal\n- **Processos formalizados:** DPAs com todos os fornecedores, consentimento granular implementado no produto, canais formais para exercício de direitos dos titulares\n- **Treinamento contínuo:** Equipe passa por capacitação semestral sobre privacidade\n- **Documentação:** Registros de atividades de tratamento, avaliações de impacto quando necessário\n- **Monitoramento:** Sistema de gestão de privacidade (OneTrust) integrado aos processos\n\nO risco residual é o típico de qualquer operação digital, mas está bem mitigado pelos controles que implementamos.",
+      "timestamp": "2026-07-02T23:26:15.102Z"
+    }
+  ],
+  "relatorio_final": {
+    "texto": "# Avaliação de Risco Geral - Startup Alfa Tech\n\nComo CEO da Startup Alfa Tech, posso afirmar com segurança que nossa organização opera em um **nível de risco BAIXO** em relação à conformidade com a LGPD.\n\n## Justificativa executiva:\n\n**Governança implementada:**\n- Contratamos um DPO especializado após nossa rodada de investimento Series A\n- Implementamos sistema de gestão de privacidade (OneTrust) que centraliza nossas operações de dados\n- Realizamos due diligence completa de LGPD como requisito dos investidores\n\n**Processos formalizados:**\n- DPAs assinados com 100% dos fornecedores que processam dados pessoais\n- Consentimento granular integrado na plataforma SaaS desde o onboarding\n- Treinamentos semestrais obrigatórios para toda a equipe\n- Canal formal e documentado para exercício de direitos (acesso, retificação, exclusão)\n\n**Controles técnicos:**\n- Logs de acesso individualizados para toda equipe técnica\n- Segregação de dados por ambiente (produção/desenvolvimento)\n- Criptografia em trânsito e em repouso\n\n**Monitoramento contínuo:**\n- Auditorias internas semestrais\n- Mapeamento de fluxos de dados atualizado\n- Registro de atividades de processamento documentado\n\nReconheço que privacidade é um diferencial competitivo para nós. Nossos investidores exigiram conformidade rigorosa, e isso se tornou parte da nossa cultura operacional.\n\n**Risco geral: BAIXO** ✓",
+    "metricas": {
+      "score": 0,
+      "riscos": [],
+      "pontos_criticos": [],
+      "recomendacoes": []
+    }
+  },
+  "avaliacao_vs_oraculo": {
+    "nivel_risco_esperado": "baixo",
+    "nivel_risco_detectado": "moderado",
+    "fragilidades_esperadas": [],
+    "fragilidades_detectadas": [],
+    "falso_positivo": false,
+    "falso_negativo": false,
+    "pontuacao_rubrica": {
+      "deteccao_fragilidade_central": 2,
+      "profundidade_perguntas": 2,
+      "classificacao_risco_correta": 2,
+      "ausencia_falso_positivo": 2,
+      "total": 8,
+      "maximo": 12
+    },
+    "observacoes": "Log gerado automaticamente"
+  }
+}

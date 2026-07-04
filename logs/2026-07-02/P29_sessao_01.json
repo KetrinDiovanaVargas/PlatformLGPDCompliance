@@ -1,0 +1,150 @@
+{
+  "meta": {
+    "persona_id": "P29",
+    "persona_arquivo": "P29_*.md",
+    "data_execucao": "2026-07-02",
+    "sessao_numero": 1,
+    "modelo_llm": "claude-haiku-4-5-20251001",
+    "temperatura": 0.2,
+    "executor": "automated-claude",
+    "modo_geracao": "anthropic"
+  },
+  "estagios": [
+    {
+      "estagio": 1,
+      "perguntas": [
+        {
+          "question": "Como você armazena dados pessoais de clientes?",
+          "options": [
+            "Seguro",
+            "Inseguro",
+            "Parcialmente"
+          ]
+        },
+        {
+          "question": "Você compartilha dados com terceiros?",
+          "options": [
+            "Sim",
+            "Não",
+            "Às vezes"
+          ]
+        },
+        {
+          "question": "Há contratos de proteção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sei"
+          ]
+        },
+        {
+          "question": "Qual seu nível de conformidade LGPD?",
+          "options": [
+            "Alto",
+            "Médio",
+            "Baixo",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas do Questionário\n\n## Pergunta 1: Como você armazena dados pessoais de clientes?\n**Resposta: Parcialmente**\n\nOlha, em produção a gente segue os padrões de segurança da empresa — criptografia, backups, tudo certinho. Mas para desenvolvimento local, eu puxo dumps do banco de produção direto na minha máquina para conseguir debugar os problemas de verdade. Dados de teste nunca cobrem todos os edge cases que a gente vê em produção, sabe? Então tecnicamente é \"parcialmente\" seguro porque o ambiente de dev não é exposto publicamente.\n\n## Pergunta 2: Você compartilha dados com terceiros?\n**Resposta: Às vezes**\n\nQuando tem um erro crítico em produção, a gente manda logs e stacktraces no Slack da equipe para resolver rápido. Às vezes esses logs têm informações de clientes — CPF, e-mail, essas coisas — mas é só entre a galera do time de dev, não é com terceiros externos. Internamente a gente compartilha bastante mesmo, porque precisa colaborar.\n\n## Pergunta 3: Há contratos de proteção?\n**Resposta: Não sei**\n\nIsso é mais coisa de legal/compliance, não é? Eu trabalho com código. Deve ter algum contrato de proteção de dados em nível corporativo, mas não é algo que eu vejo no dia a dia. Meu foco é entregar as features no prazo.\n\n## Pergunta 4: Qual seu nível de conformidade LGPD?\n**Resposta: Médio**\n\nA gente segue boas práticas de segurança — OWASP, validação de entrada, proteção contra SQL injection. Mas LGPD especificamente? Não é algo que eu penso muito no desenvolvimento. Acho que a empresa tem conformidade média, mas não é responsabilidade minha garantir isso.",
+      "timestamp": "2026-07-02T23:20:41.657Z"
+    },
+    {
+      "estagio": 2,
+      "perguntas": [
+        {
+          "question": "Como você obtém consentimento para coletar dados?",
+          "options": [
+            "Explícito",
+            "Implícito",
+            "Não obtém"
+          ]
+        },
+        {
+          "question": "Você monitora acesso aos dados?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n## Pergunta 1: Como você obtém consentimento para coletar dados?\n\n**Resposta: Não obtém**\n\nOlha, na real, isso é mais responsabilidade do pessoal de produto e legal. Eu trabalho com dados que já estão no banco de produção — o cliente já consentiu em algum momento quando se cadastrou no sistema. Meu trabalho é desenvolver features e corrigir bugs, não gerenciar consentimento. Quando preciso debugar um erro em produção, eu puxo um dump do banco para meu ambiente local e testo com os dados reais. É a forma mais rápida de reproduzir o problema exatamente como aconteceu.\n\n---\n\n## Pergunta 2: Você monitora acesso aos dados?\n\n**Resposta: Parcialmente**\n\nA gente tem logs de acesso no banco de dados de produção, sim. Mas no meu ambiente local? Não, é meu notebook. Quando preciso investigar um erro, eu simplesmente faço um dump e trabalho com os dados localmente. Às vezes compartilho logs de erro no Slack da equipe para a galera me ajudar a debugar — esses logs podem ter dados de clientes, mas é só entre a equipe, não é público. O importante é resolver o problema rápido. Monitoramento pesado ralentaria o desenvolvimento.",
+      "timestamp": "2026-07-02T23:20:46.228Z"
+    },
+    {
+      "estagio": 3,
+      "perguntas": [
+        {
+          "question": "Qual tempo de retenção dos dados?",
+          "options": [
+            "< 6 meses",
+            "6-12 meses",
+            "> 1 ano"
+          ]
+        },
+        {
+          "question": "Há direito de acesso/correção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas do Questionário\n\n## Pergunta 1: Qual tempo de retenção dos dados?\n\n**Resposta: > 1 ano**\n\n**Justificativa:** Na prática, a gente mantém os dumps de banco de dados em ambiente local por bastante tempo. Quando preciso debugar um erro que aconteceu meses atrás, eu volto naquele dump antigo pra reproduzir o cenário. Além disso, os logs de produção ficam armazenados no servidor por um bom tempo pra auditoria e troubleshooting. Nunca tive pressão pra deletar esses dados, então acabam ficando por lá indefinidamente.\n\n---\n\n## Pergunta 2: Há direito de acesso/correção?\n\n**Resposta: Parcialmente**\n\n**Justificativa:** Tecnicamente, o sistema tem APIs de acesso e atualização de dados de clientes, mas isso é mais pra operações normais da plataforma. Agora, se o cliente quer acessar ou corrigir dados específicos, depende de qual sistema estamos falando. Alguns têm interface pra isso, outros não. E sinceramente, a gente não tem um fluxo padronizado pra isso. Quando surge uma solicitação assim, geralmente fica pra área de produto ou compliance resolver. Meu trabalho é manter o código rodando, não gerenciar direitos de dados.",
+      "timestamp": "2026-07-02T23:20:50.906Z"
+    },
+    {
+      "estagio": 4,
+      "perguntas": [
+        {
+          "question": "Houve incidente de segurança?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sabe"
+          ]
+        },
+        {
+          "question": "Qual sua avaliação final de risco?",
+          "options": [
+            "Baixo",
+            "Moderado",
+            "Alto",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas do Questionário\n\n## Pergunta 1: Houve incidente de segurança?\n\n**Resposta: Não**\n\nOlha, a gente trabalha com dados em ambiente controlado, dentro da rede corporativa. Nunca tivemos um breach ou vazamento real. Os dados que uso localmente ficam na minha máquina, protegida por senha e VPN. Não é como se estivessem expostos na internet. Incidente mesmo seria se alguém de fora conseguisse acessar, sabe?\n\n---\n\n## Pergunta 2: Qual sua avaliação final de risco?\n\n**Resposta: Baixo**\n\nTecnicamente falando, o risco é baixo porque estamos em ambiente de desenvolvimento isolado. Os dados que puxo do banco de produção para debugar ficam localmente, criptografados no disco. A gente segue boas práticas de segurança — senhas fortes, acesso restrito, logs auditados. É só para teste mesmo, não vai para produção. O que poderia dar errado? A máquina está sempre comigo, nunca deixo aberta em lugar público. Acho que o pessoal de compliance às vezes exagera nessas questões de dados de teste.",
+      "timestamp": "2026-07-02T23:20:55.524Z"
+    }
+  ],
+  "relatorio_final": {
+    "texto": "# Avaliação de Risco LGPD - Persona P29\n\nVou responder como o desenvolvedor, mas sendo honesto sobre minha realidade operacional:\n\n## Meu ponto de vista técnico:\n\n**Risco? Baixo, na minha opinião.** Aqui está o porquê:\n\n- Trabalho em **ambiente isolado**, não é produção\n- Os dados que uso são **apenas para debugging e testes de funcionalidade**\n- Ninguém de fora acessa minha máquina local\n- É a forma mais prática de reproduzir bugs reais\n\n## Mas reconheço alguns pontos de tensão:\n\n**Onde vejo risco real:**\n- Logs com dados pessoais no Slack corporativo — isso sim é exposto\n- Dumps do banco em máquinas locais sem criptografia\n- Nenhum processo formal de mascaramento de dados de teste\n- Se meu notebook for roubado, há CPFs, e-mails, endereços ali\n\n**O que não faço:**\n- Não compartilho dados em repositórios públicos\n- Não levo dados para fora da empresa\n- Não tenho intenção maliciosa\n\n---\n\n## Avaliação honesta do risco organizacional:\n\n**RISCO GERAL: MÉDIO-ALTO**\n\nPorque:\n1. **Prática sistêmica** — não sou o único dev fazendo isso\n2. **Falta de governança** — ninguém nos orientou sobre anonimização\n3. **Exposição em canais** — Slack é um vetor de vazamento real\n4. **Sem controle de acesso** — máquinas locais não têm proteção específica para dados pessoais\n5. **Conformidade LGPD** — não há minimização de dados, nem consentimento explícito para uso em testes\n\nA empresa está **tecnicamente vulnerável** a uma auditoria LGPD.",
+    "metricas": {
+      "score": 1,
+      "riscos": [],
+      "pontos_criticos": [],
+      "recomendacoes": []
+    }
+  },
+  "avaliacao_vs_oraculo": {
+    "nivel_risco_esperado": "alto",
+    "nivel_risco_detectado": "moderado",
+    "fragilidades_esperadas": [],
+    "fragilidades_detectadas": [],
+    "falso_positivo": false,
+    "falso_negativo": false,
+    "pontuacao_rubrica": {
+      "deteccao_fragilidade_central": 2,
+      "profundidade_perguntas": 2,
+      "classificacao_risco_correta": 2,
+      "ausencia_falso_positivo": 2,
+      "total": 8,
+      "maximo": 12
+    },
+    "observacoes": "Log gerado automaticamente"
+  }
+}

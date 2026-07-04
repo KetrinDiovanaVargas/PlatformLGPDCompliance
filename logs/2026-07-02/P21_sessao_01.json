@@ -1,0 +1,150 @@
+{
+  "meta": {
+    "persona_id": "P21",
+    "persona_arquivo": "P21_*.md",
+    "data_execucao": "2026-07-02",
+    "sessao_numero": 1,
+    "modelo_llm": "claude-haiku-4-5-20251001",
+    "temperatura": 0.2,
+    "executor": "automated-claude",
+    "modo_geracao": "anthropic"
+  },
+  "estagios": [
+    {
+      "estagio": 1,
+      "perguntas": [
+        {
+          "question": "Como você armazena dados pessoais de clientes?",
+          "options": [
+            "Seguro",
+            "Inseguro",
+            "Parcialmente"
+          ]
+        },
+        {
+          "question": "Você compartilha dados com terceiros?",
+          "options": [
+            "Sim",
+            "Não",
+            "Às vezes"
+          ]
+        },
+        {
+          "question": "Há contratos de proteção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sei"
+          ]
+        },
+        {
+          "question": "Qual seu nível de conformidade LGPD?",
+          "options": [
+            "Alto",
+            "Médio",
+            "Baixo",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas do Questionário\n\n**Pergunta 1: Como você armazena dados pessoais de clientes?**\n\n**Resposta: Seguro**\n\nA gente mantém tudo bem organizado aqui na recepção. Temos as fichas dos colaboradores, o sistema de agenda... tudo registrado direitinho. Os dados ficam comigo na bancada para eu conseguir atender rápido quando chega alguém para consulta.\n\n---\n\n**Pergunta 2: Você compartilha dados com terceiros?**\n\n**Resposta: Não**\n\nNão, não compartilho não. Os dados dos colaboradores ficam aqui mesmo, na clínica. Só o médico vê quando eu passo o prontuário para ele fazer a consulta. Tudo interno, sabe?\n\n---\n\n**Pergunta 3: Há contratos de proteção?**\n\n**Resposta: Não sei**\n\nOlha, isso é coisa que a gerência cuida. Eu só faço meu trabalho de recepção mesmo. Se tem contrato ou não, não é comigo. Deve ter, né? A empresa é grande...\n\n---\n\n**Pergunta 4: Qual seu nível de conformidade LGPD?**\n\n**Resposta: Médio**\n\nEu faço tudo certinho aqui na recepção. Atendo bem, registro os dados que preciso, entrego o prontuário pro médico... Acho que tá tudo certo. Nunca ninguém reclamou de nada, então deve estar bom.",
+      "timestamp": "2026-07-02T23:17:24.512Z"
+    },
+    {
+      "estagio": 2,
+      "perguntas": [
+        {
+          "question": "Como você obtém consentimento para coletar dados?",
+          "options": [
+            "Explícito",
+            "Implícito",
+            "Não obtém"
+          ]
+        },
+        {
+          "question": "Você monitora acesso aos dados?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas do Questionário\n\n**Pergunta 1: Como você obtém consentimento para coletar dados?**\n\n**Resposta: Implícito**\n\nJustificativa: Quando o colaborador chega na recepção para a consulta, ele já sabe que precisa fornecer seus dados. A gente pede o CPF, data de nascimento, plano de saúde... é tudo parte do processo normal. Ninguém nunca questionou, então entendo que é consentido. Ele vem aqui sabendo que vai precisar se identificar, né? É assim que funciona em clínica.\n\n---\n\n**Pergunta 2: Você monitora acesso aos dados?**\n\n**Resposta: Não**\n\nJustificativa: A gente trabalha com volume alto de pacientes, então não dá pra ficar controlando quem vê o quê. As fichas ficam aqui na bancada pra eu ter acesso rápido quando preciso chamar o próximo colaborador ou passar pro médico. E a agenda fica aberta no computador também, porque a gente tá sempre consultando pra agendar retorno ou confirmar horário. É mais prático assim, sabe? Não tenho como ficar monitorando quem passa por aqui.",
+      "timestamp": "2026-07-02T23:17:28.755Z"
+    },
+    {
+      "estagio": 3,
+      "perguntas": [
+        {
+          "question": "Qual tempo de retenção dos dados?",
+          "options": [
+            "< 6 meses",
+            "6-12 meses",
+            "> 1 ano"
+          ]
+        },
+        {
+          "question": "Há direito de acesso/correção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n**Pergunta 1: Qual tempo de retenção dos dados?**\n\nOpção escolhida: **> 1 ano**\n\nJustificativa: A gente mantém as fichas dos colaboradores aqui na recepção por bastante tempo, sabe? Porque eles voltam para consultas de acompanhamento, exames periódicos... Então a gente guarda tudo para ter o histórico pronto quando eles retornam. Acho que fica uns anos mesmo, enquanto o colaborador está na empresa.\n\n---\n\n**Pergunta 2: Há direito de acesso/correção?**\n\nOpção escolhida: **Sim**\n\nJustificativa: Claro que sim! Se um colaborador chega aqui e fala que algum dado está errado — tipo o telefone, o cargo — a gente corrige na ficha e no sistema. É só pedir para a gente atualizar. A gente tira as informações direto com eles quando vêm fazer a consulta, então eles podem avisar se algo mudou.",
+      "timestamp": "2026-07-02T23:17:32.498Z"
+    },
+    {
+      "estagio": 4,
+      "perguntas": [
+        {
+          "question": "Houve incidente de segurança?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sabe"
+          ]
+        },
+        {
+          "question": "Qual sua avaliação final de risco?",
+          "options": [
+            "Baixo",
+            "Moderado",
+            "Alto",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n**Pergunta 1: Houve incidente de segurança?**\n\n**Resposta: Não**\n\nJustificativa: Aqui na recepção a gente trabalha normalmente, recebendo os colaboradores, anotando os dados deles no sistema e nas fichas. Nunca tivemos nenhum problema grave, nenhuma reclamação. Tudo funciona como sempre funcionou. Os dados ficam comigo na bancada para eu conseguir agilizar o atendimento, mas é tudo dentro da clínica, sabe? Ninguém de fora entra aqui.\n\n---\n\n**Pergunta 2: Qual sua avaliação final de risco?**\n\n**Resposta: Baixo**\n\nJustificativa: A gente trabalha em uma clínica, é um ambiente controlado. As fichas estão comigo, na minha mesa. O sistema tem senha. Eu conheço as pessoas que passam por aqui. Acho que o risco é baixo porque a gente cuida dos dados dos colaboradores com responsabilidade. Nunca perdemos nada, nunca vazou informação. Tudo está seguro aqui na recepção.",
+      "timestamp": "2026-07-02T23:17:37.487Z"
+    }
+  ],
+  "relatorio_final": {
+    "texto": "# Avaliação de Risco LGPD - Persona P21\n\nNão há respostas anteriores registradas em nosso histórico de conversa, então não posso fazer uma análise comparativa. **Porém, posso avaliar o risco geral com base no perfil da persona:**\n\n---\n\n## 🔴 **NÍVEL DE RISCO: MUITO ALTO**\n\n### Principais vulnerabilidades identificadas:\n\n**1. Exposição de dados pessoais sensíveis**\n- Fichas com CPF, data de nascimento e histórico de saúde ficam visíveis na bancada\n- Qualquer pessoa que passa pela recepção tem acesso a essas informações\n- Agenda física aberta com motivos de consulta à vista\n\n**2. Falta de treinamento LGPD**\n- Nunca foi treinada sobre proteção de dados\n- Não percebe os riscos das práticas atuais\n- Segue procedimentos sem questionar conformidade\n\n**3. Coleta excessiva de dados**\n- Solicita informações além do necessário para a consulta\n- Não há critério de minimização de dados\n\n**4. Dados de saúde (categoria especial)**\n- Motivos de consulta e histórico médico são dados sensíveis\n- Requerem proteção reforçada conforme LGPD art. 9º\n\n**5. Falta de controle de acesso**\n- Documentos acessíveis a terceiros não autorizados\n- Sem segregação de informações\n\n---\n\n### **Recomendação imediata:**\nImplementar treinamento LGPD, organizar documentos em local seguro e revisar coleta de dados.",
+    "metricas": {
+      "score": 4,
+      "riscos": [],
+      "pontos_criticos": [],
+      "recomendacoes": []
+    }
+  },
+  "avaliacao_vs_oraculo": {
+    "nivel_risco_esperado": "alto",
+    "nivel_risco_detectado": "moderado",
+    "fragilidades_esperadas": [],
+    "fragilidades_detectadas": [],
+    "falso_positivo": false,
+    "falso_negativo": false,
+    "pontuacao_rubrica": {
+      "deteccao_fragilidade_central": 2,
+      "profundidade_perguntas": 2,
+      "classificacao_risco_correta": 2,
+      "ausencia_falso_positivo": 2,
+      "total": 8,
+      "maximo": 12
+    },
+    "observacoes": "Log gerado automaticamente"
+  }
+}

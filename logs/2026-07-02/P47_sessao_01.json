@@ -1,0 +1,150 @@
+{
+  "meta": {
+    "persona_id": "P47",
+    "persona_arquivo": "P47_*.md",
+    "data_execucao": "2026-07-02",
+    "sessao_numero": 1,
+    "modelo_llm": "claude-haiku-4-5-20251001",
+    "temperatura": 0.2,
+    "executor": "automated-claude",
+    "modo_geracao": "anthropic"
+  },
+  "estagios": [
+    {
+      "estagio": 1,
+      "perguntas": [
+        {
+          "question": "Como você armazena dados pessoais de clientes?",
+          "options": [
+            "Seguro",
+            "Inseguro",
+            "Parcialmente"
+          ]
+        },
+        {
+          "question": "Você compartilha dados com terceiros?",
+          "options": [
+            "Sim",
+            "Não",
+            "Às vezes"
+          ]
+        },
+        {
+          "question": "Há contratos de proteção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sei"
+          ]
+        },
+        {
+          "question": "Qual seu nível de conformidade LGPD?",
+          "options": [
+            "Alto",
+            "Médio",
+            "Baixo",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário de Conformidade LGPD\n\n**Pergunta 1: Como você armazena dados pessoais de clientes?**\n\n**Resposta: Seguro**\n\nNa ONG Alfa Inclusão, utilizamos um sistema de gestão de beneficiários com acesso restrito e autenticação. Os dados são armazenados em servidor seguro, com backup regular. Dado que trabalhamos com populações vulneráveis, incluindo crianças, a segurança é uma prioridade absoluta. Apenas colaboradores que precisam acessar esses dados têm permissão — aplicamos o princípio da necessidade.\n\n---\n\n**Pergunta 2: Você compartilha dados com terceiros?**\n\n**Resposta: Não**\n\nNão compartilhamos dados de beneficiários com terceiros. Os dados de doadores também são mantidos em sigilo absoluto — isso é fundamental para manter a confiança de quem nos apoia. Quando precisamos trabalhar com parceiros (como universidades em pesquisas), sempre obtemos consentimento específico e assinamos termos de confidencialidade.\n\n---\n\n**Pergunta 3: Há contratos de proteção?**\n\n**Resposta: Sim**\n\nTemos contratos de proteção de dados com todos os fornecedores que acessam informações pessoais. Além disso, contamos com termos de consentimento documentados — especialmente importante para dados de crianças, onde obtemos autorização dos responsáveis legais.\n\n---\n\n**Pergunta 4: Qual seu nível de conformidade LGPD?**\n\n**Resposta: Médio**\n\nEstamos em conformidade com os requisitos principais da LGPD, mas reconheço que há espaço para melhorias. Participei de treinamento específico para ONGs e implementamos boas práticas. Contudo, ainda estamos estruturando uma política de retenção mais robusta e aprimorando nossa documentação de consentimentos.",
+      "timestamp": "2026-07-02T23:28:01.452Z"
+    },
+    {
+      "estagio": 2,
+      "perguntas": [
+        {
+          "question": "Como você obtém consentimento para coletar dados?",
+          "options": [
+            "Explícito",
+            "Implícito",
+            "Não obtém"
+          ]
+        },
+        {
+          "question": "Você monitora acesso aos dados?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n## Pergunta 1: Como você obtém consentimento para coletar dados?\n\n**Resposta: Explícito**\n\nNa ONG Alfa Inclusão, obtemos consentimento explícito de todas as partes. Isso é especialmente rigoroso quando lidamos com dados de crianças e famílias em situação de vulnerabilidade – nestes casos, exigimos consentimento documentado dos responsáveis legais. Para doadores e voluntários, também utilizamos formulários e termos de consentimento claros que especificam como seus dados serão utilizados. Entendemos que trabalhar com populações vulneráveis exige transparência total e documentação adequada.\n\n---\n\n## Pergunta 2: Você monitora acesso aos dados?\n\n**Resposta: Sim**\n\nSim, monitoramos rigorosamente o acesso aos dados. Nosso sistema de gestão de beneficiários possui controle de acesso restrito – apenas colaboradores e voluntários que realmente precisam acessar determinadas informações têm permissão para fazê-lo. Mantemos registros de quem acessa quais dados e quando. Essa prática é fundamental para proteger a privacidade de nossos beneficiários, especialmente as crianças. Além disso, realizamos auditorias periódicas para garantir que o acesso está sendo feito de forma apropriada e conforme nossas políticas internas.",
+      "timestamp": "2026-07-02T23:28:05.221Z"
+    },
+    {
+      "estagio": 3,
+      "perguntas": [
+        {
+          "question": "Qual tempo de retenção dos dados?",
+          "options": [
+            "< 6 meses",
+            "6-12 meses",
+            "> 1 ano"
+          ]
+        },
+        {
+          "question": "Há direito de acesso/correção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n## Pergunta 1: Qual tempo de retenção dos dados?\n\n**Resposta: > 1 ano**\n\nNa ONG Alfa Inclusão, mantemos uma política de retenção bem definida que varia conforme o tipo de dado. Para os beneficiários, especialmente crianças e famílias em situação de vulnerabilidade, precisamos reter os dados por períodos mais longos para garantir continuidade dos projetos, acompanhamento de resultados e cumprimento de obrigações legais com nossos doadores. Geralmente mantemos registros por 2 a 3 anos após o encerramento do atendimento, tanto para fins de avaliação de impacto quanto para conformidade com exigências de prestação de contas. Dados de doadores também são mantidos por períodos similares para fins fiscais e de relacionamento institucional.\n\n## Pergunta 2: Há direito de acesso/correção?\n\n**Resposta: Sim**\n\nAbsolutamente. Reconhecemos plenamente os direitos dos titulares de dados conforme a LGPD. Para os beneficiários e seus responsáveis legais, oferecemos acesso aos dados pessoais coletados e a possibilidade de solicitar correções quando necessário. No caso de crianças, esses direitos são exercidos pelos pais ou responsáveis. Temos um procedimento formal para essas solicitações, e nossa equipe está preparada para atender em prazos razoáveis. Isso é fundamental para manter a confiança com as famílias que atendemos e garantir a integridade dos dados que utilizamos em nossos projetos.",
+      "timestamp": "2026-07-02T23:28:09.711Z"
+    },
+    {
+      "estagio": 4,
+      "perguntas": [
+        {
+          "question": "Houve incidente de segurança?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sabe"
+          ]
+        },
+        {
+          "question": "Qual sua avaliação final de risco?",
+          "options": [
+            "Baixo",
+            "Moderado",
+            "Alto",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n## Pergunta 1: Houve incidente de segurança?\n\n**Resposta: Não**\n\nJustificativa: Durante meus 6 anos na ONG Alfa Inclusão, mantemos um rigoroso controle de acesso aos dados de beneficiários através do nosso sistema de gestão restrito. Todos os colaboradores e voluntários recebem orientações sobre proteção de dados, especialmente considerando que trabalhamos com populações vulneráveis, incluindo crianças. Não registramos incidentes de segurança ou vazamento de dados até o momento. Nossas práticas de consentimento documentado e compartilhamento limitado de informações têm se mostrado eficazes.\n\n---\n\n## Pergunta 2: Qual sua avaliação final de risco?\n\n**Resposta: Baixo**\n\nJustificativa: Avaliamos nossa organização como baixo risco porque: (1) possuímos consentimento documentado dos responsáveis para todos os dados de crianças que coletamos; (2) implementamos controle de acesso restrito — apenas quem necessita acessa dados de beneficiários; (3) dados de doadores não são compartilhados com terceiros; (4) temos política clara de retenção de dados; e (5) realizamos treinamentos periódicos sobre LGPD com nossa equipe. O cuidado com a privacidade é fundamental no terceiro setor, onde a confiança dos beneficiários e doadores é essencial para nossa missão.",
+      "timestamp": "2026-07-02T23:28:14.044Z"
+    }
+  ],
+  "relatorio_final": {
+    "texto": "# Avaliação de Risco LGPD - ONG Alfa Inclusão\n\nBaseando-me na minha rotina e práticas que implementamos aqui na ONG, avalio nosso nível de risco como **BAIXO**.\n\n## Justificativa:\n\n**Pontos de conformidade que reforçam essa avaliação:**\n\n1. **Consentimento documentado** - Todos os dados de crianças e beneficiários vulneráveis têm consentimento explícito dos responsáveis legais, devidamente arquivado.\n\n2. **Princípio do menor acesso** - Apenas colaboradores que efetivamente precisam acessam dados de beneficiários. Nosso sistema de gestão tem controles de permissão bem definidos.\n\n3. **Proteção de dados sensíveis** - Trabalhamos com populações vulneráveis (crianças, famílias em risco), então temos consciência aguçada sobre a necessidade de proteção reforçada.\n\n4. **Sigilo de doadores** - Nunca compartilhamos dados de doadores com terceiros. Isso é uma política clara aqui.\n\n5. **Retenção definida** - Temos política de retenção de dados estabelecida e a seguimos rigorosamente.\n\n6. **Ferramentas apropriadas** - Usamos sistema de gestão com acesso restrito, não improvisamos com planilhas soltas.\n\nClaro que sempre há espaço para melhorias - por exemplo, poderíamos aprimorar ainda mais nossa documentação de processamento - mas em termos gerais, nossa organização segue as diretrizes da LGPD com seriedade.",
+    "metricas": {
+      "score": 4,
+      "riscos": [],
+      "pontos_criticos": [],
+      "recomendacoes": []
+    }
+  },
+  "avaliacao_vs_oraculo": {
+    "nivel_risco_esperado": "baixo",
+    "nivel_risco_detectado": "moderado",
+    "fragilidades_esperadas": [],
+    "fragilidades_detectadas": [],
+    "falso_positivo": false,
+    "falso_negativo": false,
+    "pontuacao_rubrica": {
+      "deteccao_fragilidade_central": 2,
+      "profundidade_perguntas": 2,
+      "classificacao_risco_correta": 2,
+      "ausencia_falso_positivo": 2,
+      "total": 8,
+      "maximo": 12
+    },
+    "observacoes": "Log gerado automaticamente"
+  }
+}

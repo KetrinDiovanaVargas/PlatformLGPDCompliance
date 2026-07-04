@@ -1,0 +1,150 @@
+{
+  "meta": {
+    "persona_id": "P26",
+    "persona_arquivo": "P26_*.md",
+    "data_execucao": "2026-07-02",
+    "sessao_numero": 1,
+    "modelo_llm": "claude-haiku-4-5-20251001",
+    "temperatura": 0.2,
+    "executor": "automated-claude",
+    "modo_geracao": "anthropic"
+  },
+  "estagios": [
+    {
+      "estagio": 1,
+      "perguntas": [
+        {
+          "question": "Como você armazena dados pessoais de clientes?",
+          "options": [
+            "Seguro",
+            "Inseguro",
+            "Parcialmente"
+          ]
+        },
+        {
+          "question": "Você compartilha dados com terceiros?",
+          "options": [
+            "Sim",
+            "Não",
+            "Às vezes"
+          ]
+        },
+        {
+          "question": "Há contratos de proteção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sei"
+          ]
+        },
+        {
+          "question": "Qual seu nível de conformidade LGPD?",
+          "options": [
+            "Alto",
+            "Médio",
+            "Baixo",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas do Questionário\n\n**Pergunta 1: Como você armazena dados pessoais de clientes?**\n\n**Resposta: Inseguro**\n\nOlha, aqui na produção a gente trabalha com dados dos operadores, não de clientes. Mas vou ser honesto: tenho um caderno físico na minha bancada onde anoto tudo – faltas, atrasos, motivos de ausência. Fica ali mesmo, ao alcance, porque preciso consultar rápido durante o turno. É prático e funciona. Não vejo problema nisso.\n\n---\n\n**Pergunta 2: Você compartilha dados com terceiros?**\n\n**Resposta: Sim**\n\nCompartilho sim. Quando preciso alinhar escala com os outros líderes de produção, mando mensagem no WhatsApp pessoal informando quem faltou, quem tá de atestado, essas coisas. É necessário para a gente não ficar descoberto na linha. Também reporto ao supervisor por e-mail os indicadores de absenteísmo. Faz parte da gestão.\n\n---\n\n**Pergunta 3: Há contratos de proteção?**\n\n**Resposta: Não sei**\n\nContrato? Não sei do que você tá falando. A gente segue o que a empresa determina, mas isso de contrato de proteção de dados não é algo que passa pela minha mão. Isso deve ser coisa de RH ou da diretoria.\n\n---\n\n**Pergunta 4: Qual seu nível de conformidade LGPD?**\n\n**Resposta: Crítico**\n\nCrítico mesmo. Nunca ouvi falar direito sobre isso. LGPD é aquela lei de dados, né? Mas aqui no chão de fábrica a gente trabalha com o que funciona. Se tem alguma exigência legal, ninguém me comunicou direito.",
+      "timestamp": "2026-07-02T23:19:23.482Z"
+    },
+    {
+      "estagio": 2,
+      "perguntas": [
+        {
+          "question": "Como você obtém consentimento para coletar dados?",
+          "options": [
+            "Explícito",
+            "Implícito",
+            "Não obtém"
+          ]
+        },
+        {
+          "question": "Você monitora acesso aos dados?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n## Pergunta 1: Como você obtém consentimento para coletar dados?\n\n**Resposta: Implícito**\n\nOlha, quando o operador entra na empresa, ele assina a documentação de admissão. Tá tudo lá — que a gente vai controlar frequência, desempenho, essas coisas. Ninguém vem reclamar disso depois. É parte do contrato de trabalho. Eu preciso saber quem faltou, quem chegou atrasado, se tá doente ou não — é minha responsabilidade manter a produção em dia e o absenteísmo controlado. Isso é implícito no vínculo empregatício. Não preciso ficar pedindo permissão toda vez que anoto uma falta no meu caderno.\n\n---\n\n## Pergunta 2: Você monitora acesso aos dados?\n\n**Resposta: Parcialmente**\n\nMonitoro sim, mas de forma prática. Meu caderno fica comigo, na bancada, onde eu consigo acompanhar tudo em tempo real. Os dados de ponto eletrônico ficam no sistema corporativo — aí a TI que cuida. Agora, quando preciso alinhar escala com os outros líderes ou passar informação pro supervisor, eu mando por WhatsApp ou e-mail. É rápido e funciona. Não é um monitoramento formal de acesso, mas eu sei quem tem informação do meu pessoal e pra quê. Funciona assim há anos.",
+      "timestamp": "2026-07-02T23:19:29.471Z"
+    },
+    {
+      "estagio": 3,
+      "perguntas": [
+        {
+          "question": "Qual tempo de retenção dos dados?",
+          "options": [
+            "< 6 meses",
+            "6-12 meses",
+            "> 1 ano"
+          ]
+        },
+        {
+          "question": "Há direito de acesso/correção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas do Questionário\n\n**Pergunta 1: Qual tempo de retenção dos dados?**\n\n**Resposta: > 1 ano**\n\nOlha, eu guardo tudo no meu caderno. Preciso ter histórico de faltas, atestados, tudo documentado. Se um operador vier reclamar depois de meses que foi injusto, eu tenho ali registrado. Além disso, a gente precisa desses dados para justificar desligamentos ou advertências. Não faz sentido jogar fora depois de pouco tempo. Mantenho pelo menos 2, 3 anos mesmo.\n\n---\n\n**Pergunta 2: Há direito de acesso/correção?**\n\n**Resposta: Parcialmente**\n\nO operador pode vir conversar comigo se achar que registrei errado uma falta ou justificativa. Aí a gente conversa e eu corrijo no caderno se for o caso. Agora, não é que ele tenha acesso direto ao caderno, sabe? Ele vem falar comigo, eu verifico, e se tiver erro, a gente resolve. É assim que funciona aqui na produção. Transparência sim, mas com ordem.",
+      "timestamp": "2026-07-02T23:19:33.790Z"
+    },
+    {
+      "estagio": 4,
+      "perguntas": [
+        {
+          "question": "Houve incidente de segurança?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sabe"
+          ]
+        },
+        {
+          "question": "Qual sua avaliação final de risco?",
+          "options": [
+            "Baixo",
+            "Moderado",
+            "Alto",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas do Questionário\n\n**Pergunta 1: Houve incidente de segurança?**\n\n**Resposta: Não**\n\nOlha, aqui na produção a gente trabalha com segurança em primeiro lugar. Temos nossos procedimentos, EPI obrigatório, inspeções rotineiras. Incidente mesmo, tipo acidente de trabalho ou coisa assim, não tivemos. A gente mantém tudo organizado e sob controle.\n\n---\n\n**Pergunta 2: Qual sua avaliação final de risco?**\n\n**Resposta: Baixo**\n\nNa minha célula, a gente tem tudo mapeado. Controlo frequência, sei quem falta, quando falta, organizo a escala direitinho. Meu caderno de controle é impecável — cada operador tem seu registro, nada fica solto. Os dados de desempenho estão ali, documentados. Tudo rastreável. Isso é gestão de risco de verdade. Não vejo onde haveria risco alto aqui não. A gente trabalha com disciplina e transparência.",
+      "timestamp": "2026-07-02T23:19:37.680Z"
+    }
+  ],
+  "relatorio_final": {
+    "texto": "# Avaliação de Risco LGPD - Líder de Produção\n\nOlha, eu não tenho respostas anteriores aqui comigo pra consultar, mas posso te falar como funciona meu controle de produção e você avalia o risco.\n\n**Na prática, aqui na Alfa:**\n\nEu mantenho um caderno na bancada com nome, matrícula e registro de faltas de cada operador. Fica ali mesmo, na linha, porque preciso consultar rápido quando surge dúvida sobre escala ou quando o supervisor me cobra indicador de absenteísmo.\n\nQuando preciso alinhar escala com os outros líderes, mando mensagem no WhatsApp pessoal mesmo — \"Fulano faltou segunda por doença\", \"Ciclano tá com atestado de 3 dias\" — pra gente não deixar linha descoberta.\n\n**O que eu vejo como normal:**\n- Caderno físico é ferramenta de trabalho, não vejo risco nisso\n- Comunicar dados de falta entre líderes é necessário pra operação rodar\n- Informação de saúde (doença, atestado) é dado que preciso ter pra gerenciar a equipe\n\n**Mas se você quer saber o risco real:**\n\nEu diria que é **ALTO**. Porque:\n- Dados pessoais e de saúde expostos fisicamente\n- Compartilhamento sem controle em canal pessoal\n- Sem consentimento ou política clara\n- Informações acessíveis a qualquer um na linha\n\nSó que pra mim, isso é só \"ser organizado\". Não vejo como problema.",
+    "metricas": {
+      "score": 5,
+      "riscos": [],
+      "pontos_criticos": [],
+      "recomendacoes": []
+    }
+  },
+  "avaliacao_vs_oraculo": {
+    "nivel_risco_esperado": "alto",
+    "nivel_risco_detectado": "moderado",
+    "fragilidades_esperadas": [],
+    "fragilidades_detectadas": [],
+    "falso_positivo": false,
+    "falso_negativo": false,
+    "pontuacao_rubrica": {
+      "deteccao_fragilidade_central": 2,
+      "profundidade_perguntas": 2,
+      "classificacao_risco_correta": 2,
+      "ausencia_falso_positivo": 2,
+      "total": 8,
+      "maximo": 12
+    },
+    "observacoes": "Log gerado automaticamente"
+  }
+}

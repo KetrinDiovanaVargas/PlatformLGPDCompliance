@@ -1,0 +1,150 @@
+{
+  "meta": {
+    "persona_id": "P32",
+    "persona_arquivo": "P32_*.md",
+    "data_execucao": "2026-07-02",
+    "sessao_numero": 1,
+    "modelo_llm": "claude-haiku-4-5-20251001",
+    "temperatura": 0.2,
+    "executor": "automated-claude",
+    "modo_geracao": "anthropic"
+  },
+  "estagios": [
+    {
+      "estagio": 1,
+      "perguntas": [
+        {
+          "question": "Como você armazena dados pessoais de clientes?",
+          "options": [
+            "Seguro",
+            "Inseguro",
+            "Parcialmente"
+          ]
+        },
+        {
+          "question": "Você compartilha dados com terceiros?",
+          "options": [
+            "Sim",
+            "Não",
+            "Às vezes"
+          ]
+        },
+        {
+          "question": "Há contratos de proteção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sei"
+          ]
+        },
+        {
+          "question": "Qual seu nível de conformidade LGPD?",
+          "options": [
+            "Alto",
+            "Médio",
+            "Baixo",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas do Questionário\n\n**Pergunta 1: Como você armazena dados pessoais de clientes?**\n**Resposta: Parcialmente**\n\nOlha, eu uso o CRM da empresa para os dados principais dos imóveis e contatos, mas na prática mesmo eu anoto tudo num caderno que levo comigo — nome, CPF, renda, essas coisas que preciso saber rápido na hora de qualificar o cliente. É mais ágil, sabe? Na imobiliária a gente não pode perder tempo. O caderno fica comigo, seguro na minha bolsa.\n\n---\n\n**Pergunta 2: Você compartilha dados com terceiros?**\n**Resposta: Às vezes**\n\nSim, às vezes. Quando eu tenho um cliente que não se encaixa no meu portfólio, eu passo para outro corretor da Alfa que pode atendê-lo melhor. É normal no mercado — a gente se ajuda. Também preciso passar informações para o gerente quando tem uma proposta mais séria. Mas é tudo interno, dentro da empresa.\n\n---\n\n**Pergunta 3: Há contratos de proteção?**\n**Resposta: Não sei**\n\nContrato? Não, a gente não faz contrato com cliente sobre isso não. Quando o cliente vem falar comigo, a gente conversa, eu anoto o que preciso saber para ajudá-lo a encontrar o imóvel certo. Deve ter algo lá na empresa sobre proteção de dados, mas francamente não sei te dizer. Isso é coisa de departamento jurídico, não é?\n\n---\n\n**Pergunta 4: Qual seu nível de conformidade LGPD?**\n**Resposta: Baixo**\n\nBaixo mesmo. Olha, LGPD é coisa que a empresa deveria cuidar, não é? Eu sou corretor, meu foco é vender imóvel e fechar negócio. Essa questão de lei de proteção de dados... a gente ouve falar, mas na prática do dia a dia, a gente não para pra pensar nisso. Meu trabalho é qualificar lead e converter em venda.",
+      "timestamp": "2026-07-02T23:21:55.398Z"
+    },
+    {
+      "estagio": 2,
+      "perguntas": [
+        {
+          "question": "Como você obtém consentimento para coletar dados?",
+          "options": [
+            "Explícito",
+            "Implícito",
+            "Não obtém"
+          ]
+        },
+        {
+          "question": "Você monitora acesso aos dados?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n**Pergunta 1: Como você obtém consentimento para coletar dados?**\n\n**Resposta: Implícito**\n\nOlha, quando o cliente vem falar comigo sobre um imóvel, a gente naturalmente conversa sobre a situação financeira dele, sabe? Se ele quer comprar ou alugar, preciso saber se tem capacidade de pagamento. Isso é parte normal da qualificação do lead. O cliente sabe que estou ajudando ele a encontrar o imóvel certo, então ele entende que preciso dessas informações. Não preciso de um formulário assinado para isso – é conversinha mesmo, durante o atendimento. A gente já trabalha assim há anos e funciona perfeitamente.\n\n---\n\n**Pergunta 2: Você monitora acesso aos dados?**\n\n**Resposta: Não**\n\nNão, não monitoro não. Os dados ficam comigo – no meu caderno, no WhatsApp, no CRM da empresa. Quando preciso passar um cliente para outro corretor que tem um imóvel melhor para ele, eu compartilho as informações que anotei. É tudo interno, entre a gente da equipe. Não vejo necessidade de ficar monitorando quem acessa o quê. A prioridade aqui é fechar o negócio rápido e bem, não ficar burocratizando processo.",
+      "timestamp": "2026-07-02T23:22:00.074Z"
+    },
+    {
+      "estagio": 3,
+      "perguntas": [
+        {
+          "question": "Qual tempo de retenção dos dados?",
+          "options": [
+            "< 6 meses",
+            "6-12 meses",
+            "> 1 ano"
+          ]
+        },
+        {
+          "question": "Há direito de acesso/correção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n**Pergunta 1: Qual tempo de retenção dos dados?**\n\n**Resposta: > 1 ano**\n\nOlha, a gente mantém os dados dos clientes pelo tempo que for necessário, sabe? Enquanto o imóvel está em negociação ou depois que fecha a venda, a gente guarda tudo. Tem cliente que volta depois de um tempo procurando outro imóvel, então é bom ter o histórico. Meus cadernos com as anotações ficam comigo, e no CRM da imobiliária fica registrado também. Enquanto tiver potencial de negócio, a gente não descarta.\n\n---\n\n**Pergunta 2: Há direito de acesso/correção?**\n\n**Resposta: Parcialmente**\n\nBom, se o cliente quer saber o que a gente tem anotado sobre ele, a gente conversa, claro. Mas assim... a maioria das informações que coleto é durante a conversa mesmo, informal, pra qualificar o lead e entender se ele tem condição de comprar ou alugar. Se ele quer corrigir algo, a gente vê, mas nem sempre é tão simples porque essas anotações já foram compartilhadas com outros corretores da equipe ou da rede. Então não é que a gente não deixe, é que fica complicado mexer em tudo depois que já circulou.",
+      "timestamp": "2026-07-02T23:22:05.194Z"
+    },
+    {
+      "estagio": 4,
+      "perguntas": [
+        {
+          "question": "Houve incidente de segurança?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sabe"
+          ]
+        },
+        {
+          "question": "Qual sua avaliação final de risco?",
+          "options": [
+            "Baixo",
+            "Moderado",
+            "Alto",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n**Pergunta 1: Houve incidente de segurança?**\n\n**Resposta: Não**\n\nOlha, aqui na Alfa Imóveis a gente trabalha tranquilo. Nunca tive problema com segurança, não. Meus clientes confiam em mim, passo meu WhatsApp, eles ligam, a gente conversa, negocia. Tudo muito direto e pessoal, sabe? Não há incidente nenhum. A gente cuida bem dos dados dos nossos clientes.\n\n---\n\n**Pergunta 2: Qual sua avaliação final de risco?**\n\n**Resposta: Baixo**\n\nRisco baixo, com certeza. Eu tenho 5 anos de experiência aqui, conheço o mercado imobiliário de ponta a ponta. Meus clientes estão sempre satisfeitos, as operações fecham normalmente. Uso o CRM da empresa, tenho meu caderno para anotar os detalhes importantes das conversas, e tudo funciona bem. Não vejo risco nenhum na minha operação. A gente trabalha com profissionalismo e discrição.",
+      "timestamp": "2026-07-02T23:22:09.168Z"
+    }
+  ],
+  "relatorio_final": {
+    "texto": "# Avaliação de Risco LGPD - Alfa Imóveis Ltda.\n\nOlha, não tenho ideia do que você está falando sobre \"respostas anteriores\". Essa é a primeira conversa que estou tendo com você. Mas se quer saber como a gente funciona aqui na Alfa Imóveis, posso te contar.\n\n**Do meu ponto de vista**, a gente trabalha de forma bem simples e direta:\n\n- Converso com o cliente, entendo a necessidade dele, anoto as informações importantes\n- Passo para o CRM quando tenho tempo\n- Se preciso encaminhar para outro colega, compartilho o que anotei\n- Tudo muito ágil, sem burocracia\n\n**Não vejo risco nenhum nisso.** A gente está apenas fazendo nosso trabalho: qualificando leads, entendendo a capacidade financeira do cliente para não perder tempo com propostas inviáveis.\n\nSe você quer falar sobre \"conformidade LGPD\", sinceramente, isso é assunto para o pessoal da administração ou da diretoria. Eu sou corretor. Meu foco é fechar negócios, não ficar preocupado com regulamentações que não afetam meu dia a dia.\n\n**O que você quer saber especificamente?** Se for sobre como eu trabalho com dados de clientes, posso explicar melhor minha rotina.",
+    "metricas": {
+      "score": 1,
+      "riscos": [],
+      "pontos_criticos": [],
+      "recomendacoes": []
+    }
+  },
+  "avaliacao_vs_oraculo": {
+    "nivel_risco_esperado": "alto",
+    "nivel_risco_detectado": "moderado",
+    "fragilidades_esperadas": [],
+    "fragilidades_detectadas": [],
+    "falso_positivo": false,
+    "falso_negativo": false,
+    "pontuacao_rubrica": {
+      "deteccao_fragilidade_central": 2,
+      "profundidade_perguntas": 2,
+      "classificacao_risco_correta": 2,
+      "ausencia_falso_positivo": 2,
+      "total": 8,
+      "maximo": 12
+    },
+    "observacoes": "Log gerado automaticamente"
+  }
+}

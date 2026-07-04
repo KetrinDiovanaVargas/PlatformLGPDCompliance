@@ -1,0 +1,150 @@
+{
+  "meta": {
+    "persona_id": "P04",
+    "persona_arquivo": "P04_*.md",
+    "data_execucao": "2026-07-02",
+    "sessao_numero": 1,
+    "modelo_llm": "claude-haiku-4-5-20251001",
+    "temperatura": 0.2,
+    "executor": "automated-claude",
+    "modo_geracao": "anthropic"
+  },
+  "estagios": [
+    {
+      "estagio": 1,
+      "perguntas": [
+        {
+          "question": "Como você armazena dados pessoais de clientes?",
+          "options": [
+            "Seguro",
+            "Inseguro",
+            "Parcialmente"
+          ]
+        },
+        {
+          "question": "Você compartilha dados com terceiros?",
+          "options": [
+            "Sim",
+            "Não",
+            "Às vezes"
+          ]
+        },
+        {
+          "question": "Há contratos de proteção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sei"
+          ]
+        },
+        {
+          "question": "Qual seu nível de conformidade LGPD?",
+          "options": [
+            "Alto",
+            "Médio",
+            "Baixo",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas do Questionário\n\n**Pergunta 1: Como você armazena dados pessoais de clientes?**\n\n**Resposta: Parcialmente**\n\nOlha, eu uso o CRM da empresa, que é o lugar \"oficial\" onde tudo fica registrado. Mas na prática, eu também tenho os contatos salvos no meu celular pessoal — é mais rápido acessar assim quando estou na rua visitando cliente. Tenho também algumas planilhas minhas para organizar melhor as oportunidades e campanhas de prospecção. Então sim, os dados estão em vários lugares, mas todos comigo, entende? É a forma mais ágil de trabalhar.\n\n---\n\n**Pergunta 2: Você compartilha dados com terceiros?**\n\n**Resposta: Às vezes**\n\nRaramente, mas acontece. Quando preciso fazer uma campanha maior ou quando trabalho com parceiros em alguma negociação, eu compartilho contatos por e-mail ou WhatsApp. Nada de estranho — são só informações profissionais mesmo. Às vezes também mando lista de clientes para o pessoal do marketing quando eles pedem para fazer alguma ação conjunta.\n\n---\n\n**Pergunta 3: Há contratos de proteção?**\n\n**Resposta: Não sei**\n\nSinceramente, não sei se existe contrato específico sobre isso. A empresa deve ter alguma coisa, mas no meu dia a dia eu não vejo isso. Eu só trabalho com os dados que preciso para vender, sabe?\n\n---\n\n**Pergunta 4: Qual seu nível de conformidade LGPD?**\n\n**Resposta: Médio**\n\nEu cumpro o básico — não vendo dados para ninguém estranho, não divulgo informação de cliente para concorrente. Mas essa história de LGPD é mais coisa de vazamento de dados mesmo, e isso não acontece comigo. Meus contatos estão seguros, estão só no meu celular e no CRM. Acho que estou na média.",
+      "timestamp": "2026-07-02T23:10:33.258Z"
+    },
+    {
+      "estagio": 2,
+      "perguntas": [
+        {
+          "question": "Como você obtém consentimento para coletar dados?",
+          "options": [
+            "Explícito",
+            "Implícito",
+            "Não obtém"
+          ]
+        },
+        {
+          "question": "Você monitora acesso aos dados?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas do Questionário\n\n**Pergunta 1: Como você obtém consentimento para coletar dados?**\n\n**Resposta: Implícito**\n\nOlha, quando um cliente me passa o telefone ou o e-mail dele para eu entrar em contato depois, já é um consentimento implícito, né? Ele sabe que trabalho com vendas, que vou ligar, vou mandar mensagem. A gente não fica pedindo autorização formal para cada coisa — isso mata a venda. O relacionamento comercial já pressupõe que vou manter contato. Se o cliente não quisesse, não teria me dado o número.\n\n---\n\n**Pergunta 2: Você monitora acesso aos dados?**\n\n**Resposta: Parcialmente**\n\nMonitoro sim, mas de forma prática. Eu guardo os dados no CRM da empresa — isso é controlado lá pela TI. Mas também tenho meus contatos no celular, minhas planilhas, conversas no WhatsApp... tudo isso é comigo mesmo. Ninguém acessa meu telefone pessoal, então não preciso ficar monitorando. É informação minha, de trabalho que eu faço. A empresa monitora o CRM, mas o resto é minha responsabilidade pessoal mesmo.",
+      "timestamp": "2026-07-02T23:10:38.122Z"
+    },
+    {
+      "estagio": 3,
+      "perguntas": [
+        {
+          "question": "Qual tempo de retenção dos dados?",
+          "options": [
+            "< 6 meses",
+            "6-12 meses",
+            "> 1 ano"
+          ]
+        },
+        {
+          "question": "Há direito de acesso/correção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas do Questionário\n\n**Pergunta 1: Qual tempo de retenção dos dados?**\n\n**Resposta: > 1 ano**\n\nOlha, eu guardo os contatos dos meus clientes pelo tempo que for necessário. Alguns relacionamentos que construí aqui na Alfa têm 5 anos, né? Não faz sentido deletar informação de um cliente que pode voltar a comprar daqui a 2 anos. Enquanto eu estiver aqui na empresa, mantenho tudo – contatos, histórico de negociações, preferências. É assim que a gente trabalha em vendas.\n\n---\n\n**Pergunta 2: Há direito de acesso/correção?**\n\n**Resposta: Parcialmente**\n\nBom, se o cliente me liga e fala \"ó, meu telefone mudou\" ou \"meu e-mail é outro agora\", eu atualizo no CRM e no meu celular. Isso é normal. Agora, se o cliente quer acessar tudo que eu tenho sobre ele ou quer que eu delete tudo... aí fica complicado. Eu tenho minhas anotações pessoais, minhas planilhas, conversas no WhatsApp. Não é tudo que está centralizado num lugar só. Então parcialmente sim, a gente consegue corrigir o básico, mas não é como se fosse um sistema formal, sabe?",
+      "timestamp": "2026-07-02T23:10:43.062Z"
+    },
+    {
+      "estagio": 4,
+      "perguntas": [
+        {
+          "question": "Houve incidente de segurança?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sabe"
+          ]
+        },
+        {
+          "question": "Qual sua avaliação final de risco?",
+          "options": [
+            "Baixo",
+            "Moderado",
+            "Alto",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas do Questionário\n\n**Pergunta 1: Houve incidente de segurança?**\n\n**Resposta: Não**\n\nOlha, na minha área de vendas a gente não tem incidente de segurança. Incidente é quando vaza dados, quando hackeiam o sistema da empresa, essas coisas. Comigo não aconteceu nada disso. Os contatos que tenho são profissionais, estão comigo há anos, e a gente trabalha normalmente. Nenhum cliente reclamou de vazamento ou coisa parecida.\n\n---\n\n**Pergunta 2: Qual sua avaliação final de risco?**\n\n**Resposta: Baixo**\n\nRisco baixo mesmo. Eu trabalho com dados que são de conhecimento público praticamente — nome, telefone, e-mail de contatos comerciais. Isso é informação que circula normalmente no mercado. Além disso, tenho relacionamento sólido com meus clientes, conheço cada um pessoalmente. Não tem nada de sigiloso ou sensível que eu esteja guardando de forma errada. É só contato profissional, mesmo.",
+      "timestamp": "2026-07-02T23:10:47.096Z"
+    }
+  ],
+  "relatorio_final": {
+    "texto": "# Avaliação de Risco - Persona P04\n\nPreciso ser honesto: **o nível de risco é ALTO**.\n\nDeixa eu explicar do jeito que vejo:\n\n## Por que é alto:\n\n**1. Fragmentação de dados**\n- Tenho informações de clientes em 4, 5 lugares diferentes (CRM, WhatsApp, celular, planilhas, agenda)\n- Ninguém sabe exatamente onde estão todos os dados\n- Se alguém pedir pra deletar um contato, eu teria que lembrar de apagar em todos os lugares\n\n**2. Dispositivos pessoais**\n- Uso meu celular pessoal pra negociar\n- Faço backup automático na nuvem (Google, iCloud, sei lá)\n- Se meu telefone cair na mão errada, sai com 5 anos de contatos de clientes\n\n**3. Saída de funcionários**\n- Quando alguém sai daqui, leva os contatos junto (todo mundo faz isso)\n- Não há controle sobre o que sai da empresa\n- Os dados continuam em backup pessoal indefinidamente\n\n**4. Falta de documentação**\n- Ninguém sabe exatamente que dados cada vendedor tem\n- Não há registro de consentimento dos clientes\n- Se um cliente pedir acesso aos dados que temos dele, a gente se vira\n\n## Na prática:\nA empresa está exposta a vazamento, perda de dados, uso indevido e não consegue cumprir direitos dos clientes (acesso, exclusão, portabilidade).\n\n**Risco: ALTO** ⚠️",
+    "metricas": {
+      "score": 10,
+      "riscos": [],
+      "pontos_criticos": [],
+      "recomendacoes": []
+    }
+  },
+  "avaliacao_vs_oraculo": {
+    "nivel_risco_esperado": "alto",
+    "nivel_risco_detectado": "moderado",
+    "fragilidades_esperadas": [],
+    "fragilidades_detectadas": [],
+    "falso_positivo": false,
+    "falso_negativo": false,
+    "pontuacao_rubrica": {
+      "deteccao_fragilidade_central": 2,
+      "profundidade_perguntas": 2,
+      "classificacao_risco_correta": 2,
+      "ausencia_falso_positivo": 2,
+      "total": 8,
+      "maximo": 12
+    },
+    "observacoes": "Log gerado automaticamente"
+  }
+}

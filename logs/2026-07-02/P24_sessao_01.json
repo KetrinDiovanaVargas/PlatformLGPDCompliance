@@ -1,0 +1,150 @@
+{
+  "meta": {
+    "persona_id": "P24",
+    "persona_arquivo": "P24_*.md",
+    "data_execucao": "2026-07-02",
+    "sessao_numero": 1,
+    "modelo_llm": "claude-haiku-4-5-20251001",
+    "temperatura": 0.2,
+    "executor": "automated-claude",
+    "modo_geracao": "anthropic"
+  },
+  "estagios": [
+    {
+      "estagio": 1,
+      "perguntas": [
+        {
+          "question": "Como você armazena dados pessoais de clientes?",
+          "options": [
+            "Seguro",
+            "Inseguro",
+            "Parcialmente"
+          ]
+        },
+        {
+          "question": "Você compartilha dados com terceiros?",
+          "options": [
+            "Sim",
+            "Não",
+            "Às vezes"
+          ]
+        },
+        {
+          "question": "Há contratos de proteção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sei"
+          ]
+        },
+        {
+          "question": "Qual seu nível de conformidade LGPD?",
+          "options": [
+            "Alto",
+            "Médio",
+            "Baixo",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas do Questionário - Analista de E-commerce\n\n---\n\n## **Pergunta 1: Como você armazena dados pessoais de clientes?**\n\n**Resposta: Seguro**\n\nOlha, a gente trabalha com plataforma de e-commerce robusta — VTEX no nosso caso — que já vem com camadas de segurança. Os dados de compra (nome, endereço, CPF) ficam criptografados na plataforma. A gente segue o padrão da indústria. Claro que tem o backup, a gente faz rotina de segurança... é seguro sim.\n\n---\n\n## **Pergunta 2: Você compartilha dados com terceiros?**\n\n**Resposta: Às vezes**\n\nSim, compartilhamos, mas é normal no e-commerce. A gente integra com Google Analytics e Meta Pixel para entender o comportamento do usuário — isso é só analytics, sabe? Também usamos Hotjar para heatmap. Mas dados sensíveis tipo CPF completo? Não, esses ficam só com a gente e com a processadora de pagamento, que tem contrato. O resto é dado de navegação mesmo, que é padrão do mercado.\n\n---\n\n## **Pergunta 3: Há contratos de proteção?**\n\n**Resposta: Sim**\n\nTemos contrato com a processadora de pagamento, claro. E com a plataforma de e-commerce também. Quanto aos terceiros de analytics... deixa eu pensar... a gente tem os termos de serviço do Google e Meta, que cobrem isso. Acho que sim, tem proteção.\n\n---\n\n## **Pergunta 4: Qual seu nível de conformidade LGPD?**\n\n**Resposta: Médio**\n\nA gente tem política de privacidade no site, tem o banner de cookies... o jurídico cuidou disso. Mas honestamente, meu foco é em conversão e métricas. A conformidade é mais responsabilidade do pessoal de compliance. Diria que é médio porque a gente segue o básico, mas não é algo que eu acompanhe dia a dia.",
+      "timestamp": "2026-07-02T23:18:34.700Z"
+    },
+    {
+      "estagio": 2,
+      "perguntas": [
+        {
+          "question": "Como você obtém consentimento para coletar dados?",
+          "options": [
+            "Explícito",
+            "Implícito",
+            "Não obtém"
+          ]
+        },
+        {
+          "question": "Você monitora acesso aos dados?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas do Questionário\n\n## Pergunta 1: Como você obtém consentimento para coletar dados?\n\n**Resposta: Implícito**\n\nOlha, a gente tem a política de privacidade no site, então tecnicamente o usuário está ciente quando navega. A galera do legal disse que está tudo documentado lá. Na prática, a gente usa Google Analytics e Meta Pixel como ferramentas padrão do mercado — todo e-commerce faz isso. O banner de cookies está lá, mas é mais uma formalidade mesmo. O importante é que os dados de navegação e comportamento são essenciais para a gente otimizar a conversão e entender por que o cliente abandona o carrinho. Se a gente pedisse consentimento explícito para cada coisa, ia impactar bastante a taxa de aceitação e prejudicaria nossas métricas.\n\n## Pergunta 2: Você monitora acesso aos dados?\n\n**Resposta: Parcialmente**\n\nA gente tem controle sobre quem acessa a plataforma de e-commerce e o Google Analytics — isso é gerenciado pelo TI com permissões de login. Mas sinceramente, quando preciso fazer uma análise mais profunda, eu baixo os relatórios e trabalho em planilhas locais no meu computador para cruzar dados e identificar padrões de comportamento. Não é um monitoramento formal, mas a gente sabe quem está mexendo nos dados principais. O importante é que os dados estão sendo usados para melhorar a experiência do cliente e aumentar as vendas.",
+      "timestamp": "2026-07-02T23:18:39.774Z"
+    },
+    {
+      "estagio": 3,
+      "perguntas": [
+        {
+          "question": "Qual tempo de retenção dos dados?",
+          "options": [
+            "< 6 meses",
+            "6-12 meses",
+            "> 1 ano"
+          ]
+        },
+        {
+          "question": "Há direito de acesso/correção?",
+          "options": [
+            "Sim",
+            "Não",
+            "Parcialmente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas do Questionário\n\n## Pergunta 1: Qual tempo de retenção dos dados?\n\n**Resposta: > 1 ano**\n\n**Justificativa:** A gente mantém os dados de clientes por mais de um ano porque precisamos acompanhar o histórico de compras, comportamento de navegação e criar audiências de remarketing. Os dados de cookies e sessões ficam no Google Analytics e Meta Pixel praticamente indefinidamente para análise de coortes e tendências. Além disso, os dados de compra (nome, endereço, CPF) precisam ser mantidos por questões fiscais e de atendimento ao cliente. Faz sentido manter tudo por um período longo para não perder insights valiosos.\n\n---\n\n## Pergunta 2: Há direito de acesso/correção?\n\n**Resposta: Parcialmente**\n\n**Justificativa:** Olha, tecnicamente a gente tem um formulário de contato no site e os clientes podem solicitar informações sobre pedidos deles. Mas na prática, a maioria dos dados de navegação e comportamento que a gente coleta via analytics e pixel não é facilmente acessível para o usuário final — esses dados estão fragmentados entre plataformas diferentes. Os dados de compra sim, o cliente consegue acessar no histórico da conta. Mas dados de rastreamento, heatmap, abandono de carrinho... isso fica mais complicado de disponibilizar. Por isso digo que é parcial.",
+      "timestamp": "2026-07-02T23:18:44.141Z"
+    },
+    {
+      "estagio": 4,
+      "perguntas": [
+        {
+          "question": "Houve incidente de segurança?",
+          "options": [
+            "Sim",
+            "Não",
+            "Não sabe"
+          ]
+        },
+        {
+          "question": "Qual sua avaliação final de risco?",
+          "options": [
+            "Baixo",
+            "Moderado",
+            "Alto",
+            "Crítico"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas ao Questionário\n\n## Pergunta 1: Houve incidente de segurança?\n\n**Resposta: Não**\n\nJustificativa: A gente não teve nenhum incidente de segurança reportado. Nosso e-commerce está rodando normalmente, as vendas fluem, não tivemos vazamento de dados ou nada do tipo. Claro que a gente usa as ferramentas padrão do mercado — Google Analytics, Meta Pixel — mas isso é prática comum em qualquer loja online. Nunca tivemos um problema sério que precisasse escalar.\n\n---\n\n## Pergunta 2: Qual sua avaliação final de risco?\n\n**Resposta: Baixo**\n\nJustificativa: Olha, a gente tem uma política de privacidade no site, usa plataformas consolidadas como VTEX e Google Analytics que já vêm com segurança integrada. O risco é baixo porque estamos dentro do que o mercado de e-commerce faz normalmente. A gente coleta dados de compra, claro, mas isso é essencial para processar pedidos. O rastreamento de comportamento é só analytics — todo mundo faz isso. Não vejo onde estaria o risco alto aqui.",
+      "timestamp": "2026-07-02T23:18:48.063Z"
+    }
+  ],
+  "relatorio_final": {
+    "texto": "# Avaliação de Risco LGPD – Alfa Serviços Integrados\n\nBaseado na minha operação aqui no e-commerce, vou ser honesto: **o risco é ALTO**.\n\n## Por quê?\n\n**1. Rastreamento sem consentimento explícito**\nTenho Google Analytics e Meta Pixel rodando no site, mas o banner de cookies é bem genérico. A maioria dos usuários nem lê. Tecnicamente temos uma política de privacidade, mas ela não deixa claro que estamos rastreando comportamento em tempo real.\n\n**2. Dados sensíveis em risco**\nLidamos com CPF, endereço, histórico de compras. Se isso vazar ou for mal gerenciado, é problema sério. Já exportei relatórios para planilhas locais sem criptografia – isso é um risco de segurança.\n\n**3. Falta de governança interna**\nNão temos um DPO ou alguém dedicado a LGPD. Eu instalo ferramentas porque preciso de dados para otimizar conversão. Ninguém aqui questiona se há base legal ou se o usuário foi informado direito.\n\n**4. Remarketing sem transparência clara**\nCriamos audiências de usuários que abandonaram carrinho e os rastreamos em outras plataformas. Isso é coleta de dados pessoais, mas a gente trata como \"só marketing\".\n\n## Resumo do risco:\n- **Conformidade técnica:** Baixa\n- **Documentação:** Insuficiente\n- **Consentimento:** Questionável\n- **Segurança de dados:** Vulnerável\n\nSe a ANPD investigasse, teríamos problemas. Precisamos de uma auditoria urgente.",
+    "metricas": {
+      "score": 7,
+      "riscos": [],
+      "pontos_criticos": [],
+      "recomendacoes": []
+    }
+  },
+  "avaliacao_vs_oraculo": {
+    "nivel_risco_esperado": "alto",
+    "nivel_risco_detectado": "moderado",
+    "fragilidades_esperadas": [],
+    "fragilidades_detectadas": [],
+    "falso_positivo": false,
+    "falso_negativo": false,
+    "pontuacao_rubrica": {
+      "deteccao_fragilidade_central": 2,
+      "profundidade_perguntas": 2,
+      "classificacao_risco_correta": 2,
+      "ausencia_falso_positivo": 2,
+      "total": 8,
+      "maximo": 12
+    },
+    "observacoes": "Log gerado automaticamente"
+  }
+}
