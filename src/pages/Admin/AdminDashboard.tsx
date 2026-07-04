@@ -1411,6 +1411,38 @@ Agradecemos pela sua colaboração.`;
           />
         )}
 
+        {role !== "MASTER" && assessments.length > 0 && (
+          <section className="space-y-4">
+            <div>
+              <h3 className="text-sm font-semibold text-slate-100">
+                Minhas Avaliações
+              </h3>
+              <p className="mt-1 text-xs text-slate-400">
+                Gerenciar, ativar/desativar e visualizar estatísticas de suas avaliações.
+              </p>
+            </div>
+            <div className="grid gap-3">
+              {assessments.map((assessment) => {
+                const stats = getStatsByAssessment(assessment.id);
+                const canDelete =
+                  role === "MASTER" ||
+                  (role === "ADMIN" && assessment.ownerId === adminUid);
+
+                return (
+                  <AssessmentCard
+                    key={assessment.id}
+                    assessment={assessment}
+                    stats={stats}
+                    canDelete={canDelete}
+                    onToggle={toggleAssessment}
+                    onDelete={deleteAssessment}
+                  />
+                );
+              })}
+            </div>
+          </section>
+        )}
+
         <section className="rounded-3xl bg-gradient-to-br from-emerald-500/10 via-slate-900/50 to-cyan-500/10 border border-emerald-500/30 p-8 space-y-6 shadow-[0_0_40px_rgba(16,185,129,0.12)]">
           <div className="flex items-start justify-between gap-4">
             <div>
@@ -1466,38 +1498,6 @@ Agradecemos pela sua colaboração.`;
             </div>
           </div>
         </section>
-
-        {role !== "MASTER" && assessments.length > 0 && (
-          <section className="space-y-4">
-            <div>
-              <h3 className="text-sm font-semibold text-slate-100">
-                Minhas Avaliações
-              </h3>
-              <p className="mt-1 text-xs text-slate-400">
-                Gerenciar, ativar/desativar e visualizar estatísticas de suas avaliações.
-              </p>
-            </div>
-            <div className="grid gap-3">
-              {assessments.map((assessment) => {
-                const stats = getStatsByAssessment(assessment.id);
-                const canDelete =
-                  role === "MASTER" ||
-                  (role === "ADMIN" && assessment.ownerId === adminUid);
-
-                return (
-                  <AssessmentCard
-                    key={assessment.id}
-                    assessment={assessment}
-                    stats={stats}
-                    canDelete={canDelete}
-                    onToggle={toggleAssessment}
-                    onDelete={deleteAssessment}
-                  />
-                );
-              })}
-            </div>
-          </section>
-        )}
 
         {role === "MASTER" && (
           <section className="rounded-3xl bg-white/[0.04] border border-slate-800/80 p-8 shadow-[0_0_60px_rgba(99,102,241,0.14)] space-y-5">
