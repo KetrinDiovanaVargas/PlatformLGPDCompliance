@@ -1738,53 +1738,90 @@ Agradecemos pela sua colaboração.`;
           </div>
         </section>
 
-        <section className="grid gap-5 md:grid-cols-2">
-          <div className="rounded-3xl bg-white/[0.04] border border-slate-800/80 p-6 shadow-[0_0_40px_rgba(15,23,42,0.35)]">
-            <div className="mb-5">
-              <h2 className="text-lg font-semibold text-slate-100 mb-1">
-                Índice de Conformidade LGPD
-              </h2>
-              <p className="text-xs text-slate-400">Score de compliance por avaliação</p>
-            </div>
+        <section>
+          <div className="mb-6">
+            <h2 className="text-lg font-semibold text-slate-100 mb-2">
+              Índice de Conformidade LGPD
+            </h2>
+            <p className="text-xs text-slate-400">Score de compliance por avaliação</p>
+          </div>
 
-            <div className="space-y-3 max-h-[320px] overflow-y-auto">
-              {barData.map((assessment, i) => {
-                const score = Math.round(assessment.scoreAverage);
-                const status = score >= 80 ? { label: "Conforme", color: "bg-emerald-500", textColor: "text-emerald-200", borderColor: "border-emerald-500/30" }
-                             : score >= 60 ? { label: "Atenção", color: "bg-amber-500", textColor: "text-amber-200", borderColor: "border-amber-500/30" }
-                             : { label: "Crítico", color: "bg-red-500", textColor: "text-red-200", borderColor: "border-red-500/30" };
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {barData.map((assessment, i) => {
+              const score = Math.round(assessment.scoreAverage);
+              const status = score >= 80 ? { label: "Conforme", icon: "✓", color: "emerald", bgColor: "bg-emerald-500/10", borderColor: "border-emerald-500/30", textColor: "text-emerald-300", accentColor: "#10b981" }
+                           : score >= 60 ? { label: "Atenção", icon: "⚠", color: "amber", bgColor: "bg-amber-500/10", borderColor: "border-amber-500/30", textColor: "text-amber-300", accentColor: "#f59e0b" }
+                           : { label: "Crítico", icon: "✗", color: "red", bgColor: "bg-red-500/10", borderColor: "border-red-500/30", textColor: "text-red-300", accentColor: "#ef4444" };
 
-                return (
-                  <div key={i} className={`rounded-xl border ${status.borderColor} bg-slate-900/50 p-3.5 space-y-2 transition hover:bg-slate-900/70`}>
-                    <div className="flex items-center justify-between gap-2">
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-semibold text-slate-200 truncate">{assessment.fullName}</p>
-                      </div>
-                      <div className="flex items-center gap-2 shrink-0">
-                        <span className={`text-lg font-bold ${status.textColor}`}>{score}%</span>
-                        <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-bold ${status.color}/20 ${status.textColor} border ${status.borderColor}`}>
-                          {status.label}
-                        </span>
-                      </div>
+              return (
+                <div key={i} className={`rounded-2xl border ${status.borderColor} ${status.bgColor} p-5 transition hover:scale-105 hover:shadow-lg hover:shadow-slate-900/50 backdrop-blur-sm`}>
+                  <div className="flex items-start justify-between gap-4 mb-4">
+                    <div className="flex-1">
+                      <h3 className="text-sm font-bold text-slate-100 leading-tight mb-2">
+                        {assessment.fullName}
+                      </h3>
+                      <p className="text-xs text-slate-400">
+                        {assessment.tipo}
+                      </p>
                     </div>
 
-                    <div className="w-full bg-slate-800/50 rounded-full h-2 overflow-hidden border border-slate-700/50">
-                      <div
-                        className={`h-full transition-all duration-500 ${status.color}`}
-                        style={{ width: `${score}%` }}
-                      />
-                    </div>
-
-                    <div className="flex justify-between items-center text-xs text-slate-400 pt-1">
-                      <span>{assessment.concluidas}/{assessment.respostas} respostas concluídas</span>
-                      <span className="text-slate-500">•</span>
-                      <span>Tipo: {assessment.tipo}</span>
+                    <div className="flex flex-col items-center gap-1.5">
+                      <div className="relative w-16 h-16 flex items-center justify-center">
+                        <svg className="w-16 h-16 transform -rotate-90" viewBox="0 0 64 64">
+                          <circle cx="32" cy="32" r="28" fill="none" stroke="currentColor" strokeWidth="2" className="text-slate-700/50" />
+                          <circle
+                            cx="32"
+                            cy="32"
+                            r="28"
+                            fill="none"
+                            stroke={status.accentColor}
+                            strokeWidth="2.5"
+                            strokeDasharray={`${(score / 100) * 175.9} 175.9`}
+                            strokeLinecap="round"
+                            className="transition-all duration-700"
+                          />
+                        </svg>
+                        <div className="absolute flex flex-col items-center">
+                          <span className="text-xl font-bold text-slate-100">{score}</span>
+                          <span className="text-[10px] text-slate-400">%</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                );
-              })}
-            </div>
+
+                  <div className={`rounded-lg px-3 py-1.5 text-center mb-4 border ${status.borderColor}`}>
+                    <span className={`text-xs font-bold ${status.textColor} flex items-center justify-center gap-1.5`}>
+                      <span>{status.icon}</span>
+                      {status.label}
+                    </span>
+                  </div>
+
+                  <div className="space-y-2 text-xs text-slate-300/80">
+                    <div className="flex justify-between items-center">
+                      <span className="text-slate-400">Respostas Concluídas:</span>
+                      <span className="font-semibold">{assessment.concluidas}/{assessment.respostas}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-slate-400">Em Andamento:</span>
+                      <span className="font-semibold">{assessment.andamento}</span>
+                    </div>
+                    <div className="w-full bg-slate-700/30 rounded-full h-1.5 mt-2 overflow-hidden">
+                      <div
+                        className="h-full transition-all duration-500"
+                        style={{
+                          width: `${(assessment.concluidas / assessment.respostas) * 100}%`,
+                          backgroundColor: status.accentColor
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
+        </section>
+
+        <section className="grid gap-5 md:grid-cols-2" style={{ marginTop: "2rem" }}>
 
           <div className="rounded-3xl bg-white/[0.04] border border-slate-800/80 p-6 h-[380px] shadow-[0_0_40px_rgba(15,23,42,0.35)]">
             <div>
