@@ -1619,11 +1619,11 @@ Agradecemos pela sua colaboração.`;
         <section className="rounded-3xl bg-gradient-to-br from-emerald-500/10 via-slate-900/50 to-cyan-500/10 border border-emerald-500/30 p-8 space-y-6 shadow-[0_0_40px_rgba(16,185,129,0.12)]">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <h2 className="text-2xl font-bold text-slate-100 flex items-center gap-2">
+              <h2 className="text-base font-semibold text-slate-100 flex items-center gap-2">
                 <Target className="w-6 h-6 text-emerald-400" />
                 Conformidade LGPD
               </h2>
-              <p className="mt-1 text-sm text-slate-400">
+              <p className="mt-1 text-xs text-slate-400">
                 Dashboard de compliance e conformidade com a Lei Geral de Proteção de Dados
               </p>
             </div>
