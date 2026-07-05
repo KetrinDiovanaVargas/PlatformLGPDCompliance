@@ -43,9 +43,9 @@ import {
 import { toast } from "sonner";
 import jsPDF from "jspdf";
 import { FormCreationWizard } from "@/components/FormCreationWizard";
+import { AssessmentSelectorModal } from "@/components/AssessmentSelectorModal";
+import { CreateAdminModal } from "@/components/CreateAdminModal";
 import { AssessmentCard } from "@/components/AssessmentCard";
-import { PersonasValidationDashboard } from "@/components/PersonasValidationDashboard";
-import { seedPersonasValidation } from "@/utils/seedPersonasValidation";
 
 type AdminRole = "MASTER" | "ADMIN" | "";
 
@@ -111,11 +111,10 @@ type ConsolidatedAnalysis = {
 const STATUS_COLORS = ["#22c55e", "#eab308", "#ef4444"];
 
 const FORM_TYPE_OPTIONS = [
-  { value: "lgpd_diagnostico", label: "Diagnóstico LGPD" },
-  { value: "lgpd_maturidade", label: "Maturidade LGPD" },
+  { value: "lgpd_diagnostico", label: "Diagnóstico" },
+  { value: "lgpd_maturidade", label: "Maturidade" },
   { value: "privacidade_operacional", label: "Privacidade Operacional" },
   { value: "riscos_e_controles", label: "Riscos e Controles" },
-  { value: "customizado", label: "Customizado" },
 ];
 
 const OBJECTIVE_OPTIONS = [
@@ -128,17 +127,6 @@ const OBJECTIVE_OPTIONS = [
     label: "Treinamento e conscientização",
   },
   { value: "identificacao_riscos", label: "Identificação de riscos" },
-];
-
-const AUDIENCE_OPTIONS = [
-  { value: "alunos", label: "Alunos" },
-  { value: "colaboradores_clt", label: "Colaboradores CLT" },
-  { value: "desempregados", label: "Desempregados" },
-  { value: "clientes", label: "Clientes" },
-  { value: "fornecedores", label: "Fornecedores" },
-  { value: "cooperados", label: "Cooperados" },
-  { value: "comunidade", label: "Comunidade em geral" },
-  { value: "outro", label: "Outro" },
 ];
 
 // Em dev, o Vite já faz proxy de /api -> http://localhost:8787 (vite.config.ts).
@@ -171,8 +159,7 @@ export default function AdminDashboard() {
   const [title, setTitle] = useState("");
   const [formType, setFormType] = useState("lgpd_diagnostico");
   const [objective, setObjective] = useState("diagnostico_inicial");
-  const [audience, setAudience] = useState("alunos");
-  const [audienceOther, setAudienceOther] = useState("");
+  const [audience, setAudience] = useState("");
   const [introText, setIntroText] = useState("");
   const [context, setContext] = useState("");
 
@@ -199,6 +186,10 @@ export default function AdminDashboard() {
   const [loadingConsolidated, setLoadingConsolidated] = useState(false);
   const [consolidatedAnalysis, setConsolidatedAnalysis] =
     useState<ConsolidatedAnalysis | null>(null);
+  const [showAssessmentSelector, setShowAssessmentSelector] = useState(false);
+  const [showCreateAdminModal, setShowCreateAdminModal] = useState(false);
+  const [selectedAssessmentsForChart, setSelectedAssessmentsForChart] = useState<Set<string>>(new Set());
+  const [showChartFilterModal, setShowChartFilterModal] = useState(false);
 
   const [formOpen, setFormOpen] = useState(false);
   const [expandedMessages, setExpandedMessages] = useState<Set<string>>(new Set());
@@ -208,8 +199,6 @@ export default function AdminDashboard() {
   const [filterType, setFilterType] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-
-  const [seedingPersonas, setSeedingPersonas] = useState(false);
 
   const toggleMessage = (id: string) => {
     setExpandedMessages(prev => {
@@ -273,27 +262,6 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleSeedPersonasValidation = async () => {
-    try {
-      setSeedingPersonas(true);
-      const result = await seedPersonasValidation();
-
-      if (result.success) {
-        toast.success(result.message);
-        if (result.count && result.count > 0) {
-          toast.success(`${result.count} personas de validação carregadas!`);
-        }
-      } else {
-        toast.error(result.message);
-      }
-    } catch (error) {
-      console.error("Erro ao fazer seed de personas:", error);
-      toast.error("Erro ao carregar dados de personas");
-    } finally {
-      setSeedingPersonas(false);
-    }
-  };
-
   const labelFromValue = (
     options: Array<{ value: string; label: string }>,
     value?: string
@@ -303,16 +271,7 @@ export default function AdminDashboard() {
   };
 
   const formatAudienceLabel = (assessment: Assessment) => {
-    if (!assessment.audience?.trim()) return "Não definido";
-
-    if (
-      assessment.audience &&
-      !AUDIENCE_OPTIONS.some((item) => item.value === assessment.audience)
-    ) {
-      return assessment.audience;
-    }
-
-    return labelFromValue(AUDIENCE_OPTIONS, assessment.audience);
+    return assessment.audience?.trim() || "Não definido";
   };
 
   const formatAssessmentTitle = (assessment: Assessment) => {
@@ -482,13 +441,6 @@ Agradecemos pela sua colaboração.`;
       return;
     }
 
-    if (audience === "outro" && !audienceOther.trim()) {
-      toast.error('Informe o público-alvo quando selecionar "Outro".');
-      return;
-    }
-
-    const finalAudience = audience === "outro" ? audienceOther.trim() : audience;
-
     try {
       setCreatingAssessment(true);
 
@@ -496,7 +448,7 @@ Agradecemos pela sua colaboração.`;
         title: title.trim(),
         formType,
         objective,
-        audience: finalAudience,
+        audience: audience.trim(),
         introText: introText.trim(),
         context: context.trim(),
         active: true,
@@ -516,8 +468,7 @@ Agradecemos pela sua colaboração.`;
       setTitle("");
       setFormType("lgpd_diagnostico");
       setObjective("diagnostico_inicial");
-      setAudience("alunos");
-      setAudienceOther("");
+      setAudience("");
       setIntroText("");
       setContext("");
 
@@ -530,17 +481,25 @@ Agradecemos pela sua colaboração.`;
     }
   };
 
-  const handleCreateAdmin = async () => {
+  const handleCreateAdmin = async (data?: {
+    name: string;
+    email: string;
+    password: string;
+    role: "ADMIN" | "MASTER";
+  }) => {
     if (role !== "MASTER") {
       toast.error("Apenas o administrador MASTER pode criar acessos.");
       return;
     }
 
-    if (
-      !adminNameInput.trim() ||
-      !adminEmailInput.trim() ||
-      !adminPasswordInput.trim()
-    ) {
+    const adminData = data || {
+      name: adminNameInput.trim(),
+      email: adminEmailInput.trim().toLowerCase(),
+      password: adminPasswordInput.trim(),
+      role: adminRoleInput,
+    };
+
+    if (!adminData.name || !adminData.email || !adminData.password) {
       toast.error("Preencha nome, email e senha do administrador.");
       return;
     }
@@ -557,17 +516,17 @@ Agradecemos pela sua colaboração.`;
         },
         body: JSON.stringify({
           requesterUid,
-          name: adminNameInput.trim(),
-          email: adminEmailInput.trim().toLowerCase(),
-          password: adminPasswordInput.trim(),
-          role: adminRoleInput,
+          name: adminData.name,
+          email: adminData.email.toLowerCase(),
+          password: adminData.password,
+          role: adminData.role,
         }),
       });
 
-      const data = await readJsonResponse(response);
+      const responseData = await readJsonResponse(response);
 
       if (!response.ok) {
-        throw new Error(getApiErrorMessage(data, "Erro ao criar administrador."));
+        throw new Error(getApiErrorMessage(responseData, "Erro ao criar administrador."));
       }
 
       toast.success("Administrador criado com sucesso.");
@@ -747,15 +706,11 @@ Agradecemos pela sua colaboração.`;
     }
   };
 
-  const handleGenerateConsolidatedAnalysis = async () => {
-    if (!selectedAssessmentId) {
-      toast.error("Selecione uma avaliação.");
-      return;
-    }
-
+  const handleGenerateConsolidatedAnalysis = async (assessmentId: string) => {
     try {
       setLoadingConsolidated(true);
       setConsolidatedAnalysis(null);
+      setShowAssessmentSelector(false);
 
       const token = await auth.currentUser?.getIdToken();
       if (!token) {
@@ -772,7 +727,7 @@ Agradecemos pela sua colaboração.`;
             "Authorization": `Bearer ${token}`,
           },
           body: JSON.stringify({
-            assessmentId: selectedAssessmentId,
+            assessmentId: assessmentId,
           }),
         }
       );
@@ -786,6 +741,7 @@ Agradecemos pela sua colaboração.`;
       }
 
       setConsolidatedAnalysis(data);
+      setSelectedAssessmentId(assessmentId);
 
       if (data.mode === "groq") {
         toast.success("Análise consolidada gerada com IA.");
@@ -943,10 +899,16 @@ Agradecemos pela sua colaboração.`;
       const link = document.createElement('a');
       link.href = url;
       link.download = fileName;
+      link.style.display = 'none';
       document.body.appendChild(link);
       link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
+
+      // Wait before removing to ensure download completes
+      setTimeout(() => {
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+      }, 100);
+
       toast.success("PDF gerado e baixado com sucesso!");
     } catch (error) {
       console.error("Erro ao gerar PDF:", error);
@@ -1342,6 +1304,104 @@ Agradecemos pela sua colaboração.`;
           </section>
         )}
 
+        {role === "MASTER" && (
+          <section className="rounded-3xl bg-white/[0.04] border border-slate-800/80 p-8 shadow-[0_0_60px_rgba(99,102,241,0.14)] space-y-5">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="flex items-center gap-2">
+                  <UserCog className="h-4 w-4 text-cyan-300" />
+                  <h3 className="text-sm font-semibold text-slate-200 tracking-tight">
+                    Gestão de administradores
+                  </h3>
+                </div>
+              </div>
+              <Button
+                onClick={() => setShowCreateAdminModal(true)}
+                className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-fuchsia-500 via-purple-500 to-indigo-500 px-4 py-2 text-xs font-semibold text-white hover:brightness-110 transition"
+              >
+                <PlusCircle className="h-3.5 w-3.5" />
+                Criar Acesso
+              </Button>
+            </div>
+
+            <div className="grid gap-4 md:grid-cols-2">
+              {admins.length === 0 ? (
+                <p className="text-sm text-slate-500">
+                  Nenhum administrador cadastrado.
+                </p>
+              ) : (
+                admins.map((admin) => {
+                  const isSelf = admin.id === adminUid;
+                  const isProcessing = processingAdminId === admin.id;
+
+                  return (
+                    <Card
+                      key={admin.id}
+                      className="rounded-xl bg-slate-900/90 border border-slate-700 px-6 py-5 space-y-4 shadow-lg"
+                    >
+                      <div className="flex items-center justify-between gap-3">
+                        <div>
+                          <h4 className="text-sm font-semibold text-slate-100">
+                            {admin.name}
+                          </h4>
+                          <p className="text-xs text-slate-400">{admin.email}</p>
+                        </div>
+
+                        <span
+                          className={`px-3 py-1 rounded-full text-[11px] font-semibold border ${
+                            admin.role === "MASTER"
+                              ? "bg-fuchsia-500/15 text-fuchsia-200 border-fuchsia-500/40"
+                              : "bg-cyan-500/15 text-cyan-200 border-cyan-500/40"
+                          }`}
+                        >
+                          {admin.role}
+                        </span>
+                      </div>
+
+                      <div className="flex items-center justify-between">
+                        <p className="text-xs text-slate-500">
+                          Status: {admin.active ? "Ativo" : "Inativo"}
+                          {isSelf ? " • Você" : ""}
+                        </p>
+
+                        {!isSelf && (
+                          <div className="flex flex-wrap items-center gap-2">
+                            <Button
+                              onClick={() => handleToggleAdminStatus(admin)}
+                              disabled={isProcessing}
+                              className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold text-white shadow-lg transition ${
+                                admin.active
+                                  ? "bg-amber-500 hover:bg-amber-400"
+                                  : "bg-emerald-500 hover:bg-emerald-400"
+                              }`}
+                            >
+                              <Power className="h-3.5 w-3.5" />
+                              {isProcessing
+                                ? "Processando..."
+                                : admin.active
+                                ? "Inativar"
+                                : "Ativar"}
+                            </Button>
+
+                            <Button
+                              onClick={() => handleDeleteAdmin(admin)}
+                              disabled={isProcessing}
+                              className="inline-flex items-center gap-2 rounded-full bg-slate-800 hover:bg-slate-700 px-4 py-2 text-xs font-semibold text-white shadow-lg transition border border-red-500/30"
+                            >
+                              <UserX className="h-3.5 w-3.5 text-red-300" />
+                              Excluir
+                            </Button>
+                          </div>
+                        )}
+                      </div>
+                    </Card>
+                  );
+                })
+              )}
+            </div>
+          </section>
+        )}
+
         <section className="rounded-lg bg-slate-900/50 border border-slate-800 p-6 space-y-4">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
@@ -1353,29 +1413,14 @@ Agradecemos pela sua colaboração.`;
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-2">
-              <select
-                value={selectedAssessmentId}
-                onChange={(e) => setSelectedAssessmentId(e.target.value)}
-                className="min-w-[220px] rounded-lg bg-slate-800 border border-slate-700 text-slate-100 px-3 py-2 outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 text-sm"
-              >
-                <option value="">Selecione uma avaliação</option>
-                {assessments.map((assessment) => (
-                  <option key={assessment.id} value={assessment.id}>
-                    {formatAssessmentTitle(assessment)}
-                  </option>
-                ))}
-              </select>
-
-              <Button
-                onClick={handleGenerateConsolidatedAnalysis}
-                disabled={loadingConsolidated || !selectedAssessmentId}
-                className="rounded-lg bg-sky-500 hover:bg-sky-600 disabled:opacity-50 text-white text-sm font-medium gap-2 inline-flex items-center px-4 py-2"
-              >
-                <Sparkles className="w-4 h-4" />
-                {loadingConsolidated ? "Gerando..." : "Gerar"}
-              </Button>
-            </div>
+            <Button
+              onClick={() => setShowAssessmentSelector(true)}
+              disabled={loadingConsolidated}
+              className="rounded-lg bg-sky-500 hover:bg-sky-600 disabled:opacity-50 text-white text-sm font-medium gap-2 inline-flex items-center px-4 py-2"
+            >
+              <Sparkles className="w-4 h-4" />
+              {loadingConsolidated ? "Gerando..." : "Gerar"}
+            </Button>
           </div>
 
           {consolidatedAnalysis?.mode === "empty" ? (
@@ -1386,6 +1431,19 @@ Agradecemos pela sua colaboração.`;
             </div>
           ) : consolidatedAnalysis ? (
             <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-semibold text-slate-100">
+                  Consolidação dos relatórios de avaliação
+                </h3>
+                <button
+                  onClick={() => setConsolidatedAnalysis(null)}
+                  className="text-slate-400 hover:text-slate-200 transition-colors"
+                  title="Fechar análise"
+                >
+                  <span className="text-xl">✕</span>
+                </button>
+              </div>
+
               {consolidatedAnalysis.notice && (
                 <div className="rounded-lg border border-amber-500/20 bg-amber-500/10 p-3">
                   <p className="text-xs text-amber-200">
@@ -1535,23 +1593,8 @@ Agradecemos pela sua colaboração.`;
                 </button>
               </div>
             </div>
-          ) : (
-            <div className="rounded-lg border border-dashed border-slate-700 bg-slate-800/30 p-6 text-center">
-              <p className="text-sm text-slate-400">
-                Selecione uma avaliação e gere análise para visualizar insights.
-              </p>
-            </div>
-          )}
+          ) : null}
         </section>
-
-        {role === "MASTER" && (
-          <section className="rounded-lg bg-slate-900/50 border border-slate-800 p-6">
-            <PersonasValidationDashboard
-              onSeedData={handleSeedPersonasValidation}
-              seedingPersonas={seedingPersonas}
-            />
-          </section>
-        )}
 
         {role !== "MASTER" && (
           <section className="rounded-lg bg-slate-900/50 border border-slate-800 p-4">
@@ -1582,6 +1625,116 @@ Agradecemos pela sua colaboração.`;
             onSuccess={loadData}
             onCancel={() => setWizardOpen(false)}
           />
+        )}
+
+        {showAssessmentSelector && (
+          <AssessmentSelectorModal
+            assessments={assessments
+              .filter((a) => !a.deleted)
+              .map((a) => {
+                const barItem = barData.find(b => b.id === a.id);
+                return {
+                  id: a.id,
+                  title: formatAssessmentTitle(a),
+                  formType: a.formType || "N/A",
+                  respostas: barItem?.respostas || 0,
+                };
+              })}
+            onSelect={(assessmentId) => {
+              setSelectedAssessmentId(assessmentId);
+              handleGenerateConsolidatedAnalysis(assessmentId);
+            }}
+            onCancel={() => setShowAssessmentSelector(false)}
+            loading={loadingConsolidated}
+          />
+        )}
+
+        {showCreateAdminModal && (
+          <CreateAdminModal
+            onSubmit={async (data) => {
+              await handleCreateAdmin(data);
+              setShowCreateAdminModal(false);
+            }}
+            onCancel={() => setShowCreateAdminModal(false)}
+            loading={creatingAdmin}
+          />
+        )}
+
+        {showChartFilterModal && barData && barData.length > 0 && (
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-start justify-center z-50 overflow-y-auto p-4 pt-20">
+            <Card className="w-full max-w-md bg-slate-950 border border-slate-800 shadow-2xl">
+              <div className="space-y-6 p-6 md:p-8">
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <h2 className="text-2xl font-bold text-slate-100">
+                      Filtrar Avaliações
+                    </h2>
+                    <p className="mt-1 text-sm text-slate-400">
+                      Selecione quais avaliações aparecer no gráfico.
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setShowChartFilterModal(false)}
+                    className="text-slate-400 hover:text-slate-200 transition-colors shrink-0 mt-1"
+                  >
+                    <X className="w-6 h-6" />
+                  </button>
+                </div>
+
+                <div className="space-y-2 max-h-[400px] overflow-y-auto">
+                  {barData && barData.length > 0 && barData.map((item) => (
+                    <button
+                      key={item.id}
+                      onClick={() => {
+                        const newSet = new Set(selectedAssessmentsForChart);
+                        if (newSet.has(item.id)) {
+                          newSet.delete(item.id);
+                        } else {
+                          newSet.add(item.id);
+                        }
+                        setSelectedAssessmentsForChart(newSet);
+                      }}
+                      className={`w-full text-left px-4 py-3 rounded-lg border-2 transition-all ${
+                        selectedAssessmentsForChart.has(item.id)
+                          ? "border-sky-500/60 bg-sky-500/20"
+                          : "border-slate-700 bg-slate-800/50 hover:border-slate-600 hover:bg-slate-800/70"
+                      }`}
+                    >
+                      <p className="text-sm font-medium text-slate-100">
+                        {item.name}
+                      </p>
+                      <p className="text-xs text-slate-400 mt-0.5">
+                        {item.respostas} resposta{item.respostas !== 1 ? "s" : ""}
+                      </p>
+                    </button>
+                  ))}
+                </div>
+
+                <div className="flex justify-between gap-3 pt-4 border-t border-slate-700">
+                  <button
+                    onClick={() => setSelectedAssessmentsForChart(new Set())}
+                    className="text-xs px-3 py-2 rounded-lg bg-slate-700 hover:bg-slate-600 text-white"
+                  >
+                    Limpar
+                  </button>
+                  <div className="flex gap-3">
+                    <button
+                      onClick={() => barData && setSelectedAssessmentsForChart(new Set(barData.map(d => d.id)))}
+                      className="text-xs px-3 py-2 rounded-lg bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 border border-sky-500/30"
+                    >
+                      Todas
+                    </button>
+                    <button
+                      onClick={() => setShowChartFilterModal(false)}
+                      className="text-xs px-3 py-2 rounded-lg bg-sky-500 hover:bg-sky-600 text-white font-medium"
+                    >
+                      Pronto
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </Card>
+          </div>
         )}
 
         {role !== "MASTER" && assessments.length > 0 && (
@@ -1683,7 +1836,7 @@ Agradecemos pela sua colaboração.`;
 
           <div className="overflow-x-auto pb-2">
             <div className="flex gap-3 min-w-min">
-              {barData.filter((a) => a.respostas > 0).map((assessment, idx) => {
+              {barData && barData.filter((a) => a.respostas > 0).map((assessment, idx) => {
                 const isExcelente = assessment.scoreAverage >= 85;
                 const isConforme = assessment.scoreAverage >= 70 && assessment.scoreAverage < 85;
                 const isAtencao = assessment.scoreAverage >= 40 && assessment.scoreAverage < 70;
@@ -1785,143 +1938,6 @@ Agradecemos pela sua colaboração.`;
           </div>
         </section>
 
-        {role === "MASTER" && (
-          <section className="rounded-3xl bg-white/[0.04] border border-slate-800/80 p-8 shadow-[0_0_60px_rgba(99,102,241,0.14)] space-y-5">
-            <div className="flex items-center gap-2">
-              <UserCog className="h-4 w-4 text-cyan-300" />
-              <h3 className="text-sm font-semibold text-slate-200 tracking-tight">
-                Gestão de administradores
-              </h3>
-            </div>
-
-            <div className="grid gap-4 md:grid-cols-4">
-              <input
-                value={adminNameInput}
-                onChange={(e) => setAdminNameInput(e.target.value)}
-                placeholder="Nome do administrador"
-                className="w-full p-3 rounded-xl bg-black/40 border border-white/20 text-white outline-none"
-              />
-
-              <input
-                value={adminEmailInput}
-                onChange={(e) => setAdminEmailInput(e.target.value)}
-                placeholder="Email do administrador"
-                className="w-full p-3 rounded-xl bg-black/40 border border-white/20 text-white outline-none"
-              />
-
-              <input
-                type="password"
-                value={adminPasswordInput}
-                onChange={(e) => setAdminPasswordInput(e.target.value)}
-                placeholder="Senha temporária"
-                className="w-full p-3 rounded-xl bg-black/40 border border-white/20 text-white outline-none"
-              />
-
-              <select
-                value={adminRoleInput}
-                onChange={(e) =>
-                  setAdminRoleInput(e.target.value as "ADMIN" | "MASTER")
-                }
-                className="w-full p-3 rounded-xl bg-black/40 border border-white/20 text-white outline-none"
-              >
-                <option value="ADMIN" className="bg-slate-950 text-white">
-                  ADMIN
-                </option>
-                <option value="MASTER" className="bg-slate-950 text-white">
-                  MASTER
-                </option>
-              </select>
-            </div>
-
-            <div className="flex justify-end">
-              <Button
-                onClick={handleCreateAdmin}
-                disabled={creatingAdmin}
-                className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-fuchsia-500 via-purple-500 to-indigo-500 px-5 py-2 text-sm font-semibold text-white shadow-lg hover:brightness-110 transition"
-              >
-                <PlusCircle className="h-4 w-4" />
-                {creatingAdmin ? "Criando..." : "Criar Acesso"}
-              </Button>
-            </div>
-
-            <div className="grid gap-4 md:grid-cols-2">
-              {admins.length === 0 ? (
-                <p className="text-sm text-slate-500">
-                  Nenhum administrador cadastrado.
-                </p>
-              ) : (
-                admins.map((admin) => {
-                  const isSelf = admin.id === adminUid;
-                  const isProcessing = processingAdminId === admin.id;
-
-                  return (
-                    <Card
-                      key={admin.id}
-                      className="rounded-xl bg-slate-900/90 border border-slate-700 px-6 py-5 space-y-4 shadow-lg"
-                    >
-                      <div className="flex items-center justify-between gap-3">
-                        <div>
-                          <h4 className="text-sm font-semibold text-slate-100">
-                            {admin.name}
-                          </h4>
-                          <p className="text-xs text-slate-400">{admin.email}</p>
-                        </div>
-
-                        <span
-                          className={`px-3 py-1 rounded-full text-[11px] font-semibold border ${
-                            admin.role === "MASTER"
-                              ? "bg-fuchsia-500/15 text-fuchsia-200 border-fuchsia-500/40"
-                              : "bg-cyan-500/15 text-cyan-200 border-cyan-500/40"
-                          }`}
-                        >
-                          {admin.role}
-                        </span>
-                      </div>
-
-                      <div className="flex items-center justify-between">
-                        <p className="text-xs text-slate-500">
-                          Status: {admin.active ? "Ativo" : "Inativo"}
-                          {isSelf ? " • Você" : ""}
-                        </p>
-
-                        {!isSelf && (
-                          <div className="flex flex-wrap items-center gap-2">
-                            <Button
-                              onClick={() => handleToggleAdminStatus(admin)}
-                              disabled={isProcessing}
-                              className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold text-white shadow-lg transition ${
-                                admin.active
-                                  ? "bg-amber-500 hover:bg-amber-400"
-                                  : "bg-emerald-500 hover:bg-emerald-400"
-                              }`}
-                            >
-                              <Power className="h-3.5 w-3.5" />
-                              {isProcessing
-                                ? "Processando..."
-                                : admin.active
-                                ? "Inativar"
-                                : "Ativar"}
-                            </Button>
-
-                            <Button
-                              onClick={() => handleDeleteAdmin(admin)}
-                              disabled={isProcessing}
-                              className="inline-flex items-center gap-2 rounded-full bg-slate-800 hover:bg-slate-700 px-4 py-2 text-xs font-semibold text-white shadow-lg transition border border-red-500/30"
-                            >
-                              <UserX className="h-3.5 w-3.5 text-red-300" />
-                              Excluir
-                            </Button>
-                          </div>
-                        )}
-                      </div>
-                    </Card>
-                  );
-                })
-              )}
-            </div>
-          </section>
-        )}
-
         <section className="grid gap-5 md:grid-cols-3">
           <div className="rounded-2xl bg-gradient-to-br from-slate-900/40 to-slate-800/20 border border-slate-700/50 p-6 shadow-lg">
             <div className="mb-5">
@@ -1965,7 +1981,7 @@ Agradecemos pela sua colaboração.`;
             </div>
           </div>
 
-          <div className="rounded-2xl bg-gradient-to-br from-slate-900/40 to-slate-800/20 border border-slate-700/50 p-6 md:col-span-2 h-[420px] shadow-lg">
+          <div className="rounded-2xl bg-gradient-to-br from-slate-900/40 to-slate-800/20 border border-slate-700/50 p-6 md:col-span-2 h-auto shadow-lg">
             <div className="mb-4">
               <h2 className="text-base font-semibold text-slate-100">
                 {role === "MASTER"
@@ -1975,9 +1991,20 @@ Agradecemos pela sua colaboração.`;
               <p className="text-xs text-slate-400 mt-1">Número de respostas coletadas por avaliação</p>
             </div>
 
+            {role === "MASTER" && barData && barData.length > 0 && (
+              <div className="mb-4 flex justify-end">
+                <button
+                  onClick={() => setShowChartFilterModal(true)}
+                  className="text-xs px-3 py-1.5 rounded-lg bg-sky-500/20 text-sky-300 border border-sky-500/30 hover:bg-sky-500/30 transition-colors font-medium"
+                >
+                  Filtrar Avaliações
+                </button>
+              </div>
+            )}
+
             <div className="h-[320px]">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={barData}>
+                <BarChart data={barData && selectedAssessmentsForChart.size > 0 ? barData.filter(d => selectedAssessmentsForChart.has(d.id)) : (barData || [])}>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} />
                   <XAxis
                     dataKey="name"

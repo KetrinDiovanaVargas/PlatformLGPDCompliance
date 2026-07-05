@@ -21,11 +21,10 @@ import { db } from "@/lib/firebase";
 type Step = 1 | 2 | 3 | 4;
 
 const FORM_TYPE_OPTIONS = [
-  { value: "lgpd_diagnostico", label: "Diagnóstico LGPD" },
-  { value: "lgpd_maturidade", label: "Maturidade LGPD" },
+  { value: "lgpd_diagnostico", label: "Diagnóstico" },
+  { value: "lgpd_maturidade", label: "Maturidade" },
   { value: "privacidade_operacional", label: "Privacidade Operacional" },
   { value: "riscos_e_controles", label: "Riscos e Controles" },
-  { value: "customizado", label: "Customizado" },
 ];
 
 const OBJECTIVE_OPTIONS = [
@@ -38,17 +37,6 @@ const OBJECTIVE_OPTIONS = [
     label: "Treinamento e conscientização",
   },
   { value: "identificacao_riscos", label: "Identificação de riscos" },
-];
-
-const AUDIENCE_OPTIONS = [
-  { value: "alunos", label: "Alunos" },
-  { value: "colaboradores_clt", label: "Colaboradores CLT" },
-  { value: "desempregados", label: "Desempregados" },
-  { value: "clientes", label: "Clientes" },
-  { value: "fornecedores", label: "Fornecedores" },
-  { value: "cooperados", label: "Cooperados" },
-  { value: "comunidade", label: "Comunidade em geral" },
-  { value: "outro", label: "Outro" },
 ];
 
 type WizardProps = {
@@ -70,17 +58,20 @@ export function FormCreationWizard({
   const [title, setTitle] = useState("");
   const [formType, setFormType] = useState("lgpd_diagnostico");
   const [objective, setObjective] = useState("diagnostico_inicial");
-  const [audience, setAudience] = useState("alunos");
-  const [audienceOther, setAudienceOther] = useState("");
+  const [audience, setAudience] = useState("");
   const [introText, setIntroText] = useState("");
   const [context, setContext] = useState("");
+
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const canProceed = () => {
     switch (step) {
       case 1:
         return title.trim() && formType;
       case 2:
-        return audience && (audience !== "outro" || audienceOther.trim());
+        return audience.trim();
       case 3:
         return introText.trim() && context.trim();
       case 4:
@@ -108,14 +99,11 @@ export function FormCreationWizard({
     try {
       setLoading(true);
 
-      const finalAudience =
-        audience === "outro" ? audienceOther.trim() : audience;
-
       const docRef = await addDoc(collection(db, "assessments"), {
         title: title.trim(),
         formType,
         objective,
-        audience: finalAudience,
+        audience: audience.trim(),
         introText: introText.trim(),
         context: context.trim(),
         active: true,
@@ -149,16 +137,9 @@ export function FormCreationWizard({
     "Revise e Crie",
   ];
 
-  const modalContent = (
-    <div
-      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fade-in"
-      onClick={(e) => {
-        if (e.target === e.currentTarget) {
-          onCancel();
-        }
-      }}
-    >
-      <Card className="w-full max-w-2xl bg-slate-950 border border-slate-800 shadow-2xl animate-scale-in">
+  return (
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-start justify-center z-50 overflow-y-auto p-4 pt-20">
+      <Card className="w-full max-w-2xl bg-slate-950 border border-slate-800 shadow-2xl">
         <div className="space-y-6 p-6 md:p-8">
           {/* Header */}
           <div className="flex items-start justify-between gap-4">
@@ -241,33 +222,14 @@ export function FormCreationWizard({
                 <label className="block text-sm font-medium text-slate-300 mb-2">
                   Público-Alvo *
                 </label>
-                <select
+                <input
+                  type="text"
                   value={audience}
                   onChange={(e) => setAudience(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-lg bg-slate-900 border border-slate-700 text-slate-100 outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
-                >
-                  {AUDIENCE_OPTIONS.map((opt) => (
-                    <option key={opt.value} value={opt.value}>
-                      {opt.label}
-                    </option>
-                  ))}
-                </select>
+                  placeholder="Ex: Alunos, Colaboradores CLT, Clientes, etc"
+                  className="w-full px-4 py-2.5 rounded-lg bg-slate-900 border border-slate-700 text-slate-100 placeholder-slate-500 outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+                />
               </div>
-
-              {audience === "outro" && (
-                <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">
-                    Informe o público-alvo customizado *
-                  </label>
-                  <input
-                    type="text"
-                    value={audienceOther}
-                    onChange={(e) => setAudienceOther(e.target.value)}
-                    placeholder="Ex: Executivos da área de TI"
-                    className="w-full px-4 py-2.5 rounded-lg bg-slate-900 border border-slate-700 text-slate-100 placeholder-slate-500 outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
-                  />
-                </div>
-              )}
 
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-2">
@@ -361,10 +323,7 @@ export function FormCreationWizard({
                       Público-Alvo
                     </p>
                     <p className="text-sm text-slate-300">
-                      {audience === "outro"
-                        ? audienceOther
-                        : AUDIENCE_OPTIONS.find((o) => o.value === audience)
-                            ?.label}
+                      {audience}
                     </p>
                   </div>
                   <div>
