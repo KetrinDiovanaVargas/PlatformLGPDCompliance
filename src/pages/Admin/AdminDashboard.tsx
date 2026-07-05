@@ -1637,12 +1637,12 @@ Agradecemos pela sua colaboração.`;
         </section>
 
         <section className="grid gap-5 md:grid-cols-2">
-          <div className="rounded-3xl bg-white/[0.04] border border-slate-800/80 p-6 h-[380px] shadow-[0_0_40px_rgba(15,23,42,0.35)]">
-            <div>
-              <h2 className="text-lg font-semibold text-slate-100 mb-1">
+          <div className="rounded-2xl bg-gradient-to-br from-emerald-900/20 to-slate-800/20 border border-emerald-700/30 p-6 h-[380px] shadow-lg">
+            <div className="mb-4">
+              <h2 className="text-base font-semibold text-emerald-100">
                 Índice de Conformidade LGPD
               </h2>
-              <p className="text-xs text-slate-400 mb-4">Score médio de compliance por avaliação</p>
+              <p className="text-xs text-slate-400">Score médio de compliance por avaliação - Dados Firestore</p>
             </div>
 
             <div className="h-[280px]">
@@ -1673,12 +1673,12 @@ Agradecemos pela sua colaboração.`;
             </div>
           </div>
 
-          <div className="rounded-3xl bg-white/[0.04] border border-slate-800/80 p-6 h-[380px] shadow-[0_0_40px_rgba(15,23,42,0.35)]">
-            <div>
-              <h2 className="text-lg font-semibold text-slate-100 mb-1">
+          <div className="rounded-2xl bg-gradient-to-br from-amber-900/20 to-slate-800/20 border border-amber-700/30 p-6 h-[380px] shadow-lg">
+            <div className="mb-4">
+              <h2 className="text-base font-semibold text-amber-100">
                 Distribuição de Maturidade
               </h2>
-              <p className="text-xs text-slate-400 mb-4">Classificação de conformidade das avaliações - dados reais do Firestore</p>
+              <p className="text-xs text-slate-400">Classificação de conformidade das avaliações - Dados Firestore</p>
             </div>
 
             <div className="h-[280px]">
@@ -1843,10 +1843,13 @@ Agradecemos pela sua colaboração.`;
         )}
 
         <section className="grid gap-5 md:grid-cols-3">
-          <div className="rounded-3xl bg-white/[0.04] border border-slate-800/80 p-6 flex flex-col justify-between h-[420px] shadow-[0_0_40px_rgba(15,23,42,0.35)]">
-            <h2 className="text-lg font-semibold text-slate-100 mb-6">
-              Distribuição de Respostas
-            </h2>
+          <div className="rounded-2xl bg-gradient-to-br from-slate-900/40 to-slate-800/20 border border-slate-700/50 p-6 flex flex-col justify-between h-[420px] shadow-lg">
+            <div>
+              <h2 className="text-base font-semibold text-slate-100 mb-1">
+                Distribuição de Respostas
+              </h2>
+              <p className="text-xs text-slate-400">Status das avaliações em andamento</p>
+            </div>
 
             <div className="flex-1">
               <ResponsiveContainer width="100%" height="100%">
@@ -1882,34 +1885,44 @@ Agradecemos pela sua colaboração.`;
               {pieData.map((item, i) => (
                 <div
                   key={i}
-                  className="flex justify-between items-center px-3 py-1.5 rounded-lg bg-slate-900/70 border shadow-sm"
-                  style={{ borderColor: `${STATUS_COLORS[i]}55` }}
+                  className="flex items-center justify-between p-3 rounded-lg bg-slate-950/30 border border-slate-700/30 hover:border-slate-600/50 transition"
                 >
-                  <div className="flex items-center gap-2">
-                    <span
-                      className="h-2 w-2 rounded-full"
-                      style={{ backgroundColor: STATUS_COLORS[i] }}
+                  <div className="flex items-center gap-3">
+                    <div
+                      className="h-3 w-3 rounded-full shadow-sm"
+                      style={{
+                        backgroundColor: STATUS_COLORS[i],
+                        boxShadow: `0 0 8px ${STATUS_COLORS[i]}80`
+                      }}
                     />
-                    <span className="text-[12px]">{item.name}</span>
+                    <span className="text-sm font-medium text-slate-200">{item.name}</span>
                   </div>
 
-                  <span
-                    className="font-semibold text-[12px]"
-                    style={{ color: STATUS_COLORS[i] }}
-                  >
-                    {item.value}
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <span
+                      className="font-bold text-base"
+                      style={{ color: STATUS_COLORS[i] }}
+                    >
+                      {item.value}
+                    </span>
+                    <span className="text-xs text-slate-400">
+                      {summary.totalResponses > 0 ? Math.round((item.value / summary.totalResponses) * 100) : 0}%
+                    </span>
+                  </div>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="rounded-3xl bg-white/[0.04] border border-slate-800/80 p-6 md:col-span-2 h-[420px] shadow-[0_0_40px_rgba(15,23,42,0.35)]">
-            <h2 className="text-lg font-semibold text-slate-100 mb-4">
-              {role === "MASTER"
-                ? "Respostas por Avaliação"
-                : "Minhas Respostas por Avaliação"}
-            </h2>
+          <div className="rounded-2xl bg-gradient-to-br from-slate-900/40 to-slate-800/20 border border-slate-700/50 p-6 md:col-span-2 h-[420px] shadow-lg">
+            <div className="mb-4">
+              <h2 className="text-base font-semibold text-slate-100">
+                {role === "MASTER"
+                  ? "Respostas por Avaliação"
+                  : "Minhas Respostas por Avaliação"}
+              </h2>
+              <p className="text-xs text-slate-400 mt-1">Número de respostas coletadas por avaliação</p>
+            </div>
 
             <div className="h-[320px]">
               <ResponsiveContainer width="100%" height="100%">
@@ -1945,12 +1958,12 @@ Agradecemos pela sua colaboração.`;
         </section>
 
         <section className="grid gap-5 md:grid-cols-1">
-          <div className="rounded-3xl bg-white/[0.04] border border-slate-800/80 p-6 h-[380px] shadow-[0_0_40px_rgba(15,23,42,0.35)]">
-            <div>
-              <h2 className="text-lg font-semibold text-slate-100 mb-1">
+          <div className="rounded-2xl bg-gradient-to-br from-red-900/15 to-slate-800/20 border border-red-700/30 p-6 h-[420px] shadow-lg">
+            <div className="mb-4">
+              <h2 className="text-base font-semibold text-red-100">
                 Análise de Risco
               </h2>
-              <p className="text-xs text-slate-400 mb-4">Identificação de fragilidades críticas - dados reais do Firestore</p>
+              <p className="text-xs text-slate-400">Identificação de fragilidades críticas por eixo - Dados Firestore</p>
             </div>
 
             <div className="h-[280px]">
