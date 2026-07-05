@@ -1836,7 +1836,7 @@ Agradecemos pela sua colaboração.`;
 
           <div className="overflow-x-auto pb-2">
             <div className="flex gap-3 min-w-min">
-              {barData.filter((a) => a.respostas > 0).map((assessment, idx) => {
+              {barData && barData.filter((a) => a.respostas > 0).map((assessment, idx) => {
                 const isExcelente = assessment.scoreAverage >= 85;
                 const isConforme = assessment.scoreAverage >= 70 && assessment.scoreAverage < 85;
                 const isAtencao = assessment.scoreAverage >= 40 && assessment.scoreAverage < 70;
