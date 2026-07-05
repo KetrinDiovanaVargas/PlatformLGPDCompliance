@@ -60,6 +60,10 @@ export function FormCreationWizard({
   const [introText, setIntroText] = useState("");
   const [context, setContext] = useState("");
 
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const canProceed = () => {
     switch (step) {
       case 1:
@@ -132,7 +136,7 @@ export function FormCreationWizard({
   ];
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-start justify-center z-50 overflow-y-auto p-4 pt-20">
       <Card className="w-full max-w-2xl bg-slate-950 border border-slate-800 shadow-2xl">
         <div className="space-y-6 p-6 md:p-8">
           {/* Header */}
