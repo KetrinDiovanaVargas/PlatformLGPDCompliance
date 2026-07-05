@@ -1739,39 +1739,50 @@ Agradecemos pela sua colaboração.`;
         </section>
 
         <section className="grid gap-5 md:grid-cols-2">
-          <div className="rounded-3xl bg-white/[0.04] border border-slate-800/80 p-6 h-[380px] shadow-[0_0_40px_rgba(15,23,42,0.35)]">
-            <div>
+          <div className="rounded-3xl bg-white/[0.04] border border-slate-800/80 p-6 shadow-[0_0_40px_rgba(15,23,42,0.35)]">
+            <div className="mb-5">
               <h2 className="text-lg font-semibold text-slate-100 mb-1">
                 Índice de Conformidade LGPD
               </h2>
-              <p className="text-xs text-slate-400 mb-4">Score médio de compliance por avaliação</p>
+              <p className="text-xs text-slate-400">Score de compliance por avaliação</p>
             </div>
 
-            <div className="h-[280px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart
-                  data={barData}
-                  layout="vertical"
-                  margin={{ top: 5, right: 30, left: 140, bottom: 5 }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" vertical={true} stroke="#334155" />
-                  <XAxis type="number" tick={{ fill: "#cbd5f5", fontSize: 11 }} domain={[0, 100]} />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: "#0f172a",
-                      border: "1px solid #334155",
-                      borderRadius: "12px",
-                      color: "#fff",
-                    }}
-                    formatter={(value: any) => {
-                      const v = Math.round(value);
-                      const status = v >= 80 ? "Conforme" : v >= 60 ? "Atenção" : "Crítico";
-                      return [`${v}% (${status})`, "Conformidade"];
-                    }}
-                  />
-                  <Bar dataKey="scoreAverage" radius={[0, 8, 8, 0]} fill="#10b981" />
-                </BarChart>
-              </ResponsiveContainer>
+            <div className="space-y-3 max-h-[320px] overflow-y-auto">
+              {barData.map((assessment, i) => {
+                const score = Math.round(assessment.scoreAverage);
+                const status = score >= 80 ? { label: "Conforme", color: "bg-emerald-500", textColor: "text-emerald-200", borderColor: "border-emerald-500/30" }
+                             : score >= 60 ? { label: "Atenção", color: "bg-amber-500", textColor: "text-amber-200", borderColor: "border-amber-500/30" }
+                             : { label: "Crítico", color: "bg-red-500", textColor: "text-red-200", borderColor: "border-red-500/30" };
+
+                return (
+                  <div key={i} className={`rounded-xl border ${status.borderColor} bg-slate-900/50 p-3.5 space-y-2 transition hover:bg-slate-900/70`}>
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-semibold text-slate-200 truncate">{assessment.fullName}</p>
+                      </div>
+                      <div className="flex items-center gap-2 shrink-0">
+                        <span className={`text-lg font-bold ${status.textColor}`}>{score}%</span>
+                        <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-bold ${status.color}/20 ${status.textColor} border ${status.borderColor}`}>
+                          {status.label}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="w-full bg-slate-800/50 rounded-full h-2 overflow-hidden border border-slate-700/50">
+                      <div
+                        className={`h-full transition-all duration-500 ${status.color}`}
+                        style={{ width: `${score}%` }}
+                      />
+                    </div>
+
+                    <div className="flex justify-between items-center text-xs text-slate-400 pt-1">
+                      <span>{assessment.concluidas}/{assessment.respostas} respostas concluídas</span>
+                      <span className="text-slate-500">•</span>
+                      <span>Tipo: {assessment.tipo}</span>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
 
