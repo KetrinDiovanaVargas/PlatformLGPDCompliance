@@ -1659,111 +1659,113 @@ Agradecemos pela sua colaboração.`;
           </div>
         </section>
 
-        <section className="space-y-4">
-          <div>
+        <section className="rounded-2xl bg-gradient-to-br from-slate-900/40 to-slate-800/20 border border-slate-700/50 p-6 shadow-lg">
+          <div className="mb-5">
             <h2 className="text-base font-semibold text-slate-100">Índice de Conformidade LGPD</h2>
             <p className="text-xs text-slate-400">Score de compliance por avaliação</p>
           </div>
 
-          <div className="grid gap-3 md:grid-cols-4 lg:grid-cols-5">
-            {barData.filter((a) => a.respostas > 0).map((assessment, idx) => {
-              const isExcelente = assessment.scoreAverage >= 85;
-              const isConforme = assessment.scoreAverage >= 70 && assessment.scoreAverage < 85;
-              const isAtencao = assessment.scoreAverage >= 40 && assessment.scoreAverage < 70;
-              const progressPercent = assessment.concluidas && assessment.respostas ? Math.round((assessment.concluidas / assessment.respostas) * 100) : 0;
+          <div className="overflow-x-auto pb-2">
+            <div className="flex gap-3 min-w-min">
+              {barData.filter((a) => a.respostas > 0).map((assessment, idx) => {
+                const isExcelente = assessment.scoreAverage >= 85;
+                const isConforme = assessment.scoreAverage >= 70 && assessment.scoreAverage < 85;
+                const isAtencao = assessment.scoreAverage >= 40 && assessment.scoreAverage < 70;
+                const progressPercent = assessment.concluidas && assessment.respostas ? Math.round((assessment.concluidas / assessment.respostas) * 100) : 0;
 
-              let statusColor = "text-red-400";
-              let statusText = "Crítico";
-              let borderColor = "border-red-500/20";
-              let bgColor = "bg-red-500/5";
-              let circleColor = "#ef4444";
+                let statusColor = "text-red-400";
+                let statusText = "Crítico";
+                let borderColor = "border-red-500/20";
+                let bgColor = "bg-red-500/5";
+                let circleColor = "#ef4444";
 
-              if (isExcelente) {
-                statusColor = "text-emerald-400";
-                statusText = "Excelente";
-                borderColor = "border-emerald-500/20";
-                bgColor = "bg-emerald-500/5";
-                circleColor = "#10b981";
-              } else if (isConforme) {
-                statusColor = "text-emerald-400";
-                statusText = "Conforme";
-                borderColor = "border-emerald-500/20";
-                bgColor = "bg-emerald-500/5";
-                circleColor = "#10b981";
-              } else if (isAtencao) {
-                statusColor = "text-amber-400";
-                statusText = "Atenção";
-                borderColor = "border-amber-500/20";
-                bgColor = "bg-amber-500/5";
-                circleColor = "#f59e0b";
-              }
+                if (isExcelente) {
+                  statusColor = "text-emerald-400";
+                  statusText = "Excelente";
+                  borderColor = "border-emerald-500/20";
+                  bgColor = "bg-emerald-500/5";
+                  circleColor = "#10b981";
+                } else if (isConforme) {
+                  statusColor = "text-emerald-400";
+                  statusText = "Conforme";
+                  borderColor = "border-emerald-500/20";
+                  bgColor = "bg-emerald-500/5";
+                  circleColor = "#10b981";
+                } else if (isAtencao) {
+                  statusColor = "text-amber-400";
+                  statusText = "Atenção";
+                  borderColor = "border-amber-500/20";
+                  bgColor = "bg-amber-500/5";
+                  circleColor = "#f59e0b";
+                }
 
-              return (
-                <div
-                  key={assessment.id || idx}
-                  className={`rounded-lg border ${borderColor} ${bgColor} p-3 space-y-3 backdrop-blur-sm`}
-                >
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="flex-1 min-w-0">
-                      <h3 className="text-sm font-semibold text-slate-100 truncate">
-                        {assessment.fullName}
-                      </h3>
-                      <p className="text-xs text-slate-400 mt-0.5 truncate">
-                        {assessment.tipo || assessment.objetivo || "Sem categoria"}
-                      </p>
+                return (
+                  <div
+                    key={assessment.id || idx}
+                    className={`rounded-lg border ${borderColor} ${bgColor} p-3 space-y-3 backdrop-blur-sm flex-shrink-0 w-56`}
+                  >
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-sm font-semibold text-slate-100 truncate">
+                          {assessment.fullName}
+                        </h3>
+                        <p className="text-xs text-slate-400 mt-0.5 truncate">
+                          {assessment.tipo || assessment.objetivo || "Sem categoria"}
+                        </p>
+                      </div>
+                      <div className="relative w-12 h-12 flex-shrink-0 flex items-center justify-center">
+                        <svg className="w-12 h-12 transform -rotate-90" viewBox="0 0 100 100">
+                          <circle
+                            cx="50"
+                            cy="50"
+                            r="45"
+                            fill="none"
+                            stroke="#334155"
+                            strokeWidth="8"
+                          />
+                          <circle
+                            cx="50"
+                            cy="50"
+                            r="45"
+                            fill="none"
+                            stroke={circleColor}
+                            strokeWidth="8"
+                            strokeDasharray={`${assessment.scoreAverage * 2.83} 283`}
+                            strokeLinecap="round"
+                          />
+                        </svg>
+                        <span className="absolute text-xs font-bold text-white">
+                          {assessment.scoreAverage}%
+                        </span>
+                      </div>
                     </div>
-                    <div className="relative w-12 h-12 flex-shrink-0 flex items-center justify-center">
-                      <svg className="w-12 h-12 transform -rotate-90" viewBox="0 0 100 100">
-                        <circle
-                          cx="50"
-                          cy="50"
-                          r="45"
-                          fill="none"
-                          stroke="#334155"
-                          strokeWidth="8"
-                        />
-                        <circle
-                          cx="50"
-                          cy="50"
-                          r="45"
-                          fill="none"
-                          stroke={circleColor}
-                          strokeWidth="8"
-                          strokeDasharray={`${assessment.scoreAverage * 2.83} 283`}
-                          strokeLinecap="round"
-                        />
-                      </svg>
-                      <span className="absolute text-xs font-bold text-white">
-                        {assessment.scoreAverage}%
-                      </span>
+
+                    <div className="flex items-center gap-1 px-2 py-1 rounded bg-black/30 border border-slate-700/50">
+                      <span className="text-emerald-400 text-xs">✓</span>
+                      <span className="text-xs font-medium text-slate-100">{statusText}</span>
+                    </div>
+
+                    <div className="space-y-1 text-xs">
+                      <div className="flex justify-between text-slate-300">
+                        <span>Concluídas:</span>
+                        <span className="font-semibold">{assessment.concluidas}/{assessment.respostas}</span>
+                      </div>
+                      <div className="flex justify-between text-slate-300">
+                        <span>Andamento:</span>
+                        <span className="font-semibold">{assessment.andamento}</span>
+                      </div>
+                    </div>
+
+                    <div className="w-full h-1.5 rounded-full bg-slate-800 overflow-hidden">
+                      <div
+                        className="h-full bg-gradient-to-r from-emerald-500 to-emerald-400 rounded-full transition-all duration-300"
+                        style={{ width: `${progressPercent}%` }}
+                      />
                     </div>
                   </div>
-
-                  <div className="flex items-center gap-1 px-2 py-1 rounded bg-black/30 border border-slate-700/50">
-                    <span className="text-emerald-400 text-xs">✓</span>
-                    <span className="text-xs font-medium text-slate-100">{statusText}</span>
-                  </div>
-
-                  <div className="space-y-1 text-xs">
-                    <div className="flex justify-between text-slate-300">
-                      <span>Concluídas:</span>
-                      <span className="font-semibold">{assessment.concluidas}/{assessment.respostas}</span>
-                    </div>
-                    <div className="flex justify-between text-slate-300">
-                      <span>Andamento:</span>
-                      <span className="font-semibold">{assessment.andamento}</span>
-                    </div>
-                  </div>
-
-                  <div className="w-full h-1.5 rounded-full bg-slate-800 overflow-hidden">
-                    <div
-                      className="h-full bg-gradient-to-r from-emerald-500 to-emerald-400 rounded-full transition-all duration-300"
-                      style={{ width: `${progressPercent}%` }}
-                    />
-                  </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         </section>
 
