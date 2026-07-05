@@ -732,14 +732,7 @@ Agradecemos pela sua colaboração.`;
     }
   };
 
-  const handleGenerateConsolidatedAnalysis = async (assessmentId?: string) => {
-    const idToUse = assessmentId || selectedAssessmentId;
-
-    if (!idToUse) {
-      setShowAssessmentSelector(true);
-      return;
-    }
-
+  const handleGenerateConsolidatedAnalysis = async (assessmentId: string) => {
     try {
       setLoadingConsolidated(true);
       setConsolidatedAnalysis(null);
@@ -760,7 +753,7 @@ Agradecemos pela sua colaboração.`;
             "Authorization": `Bearer ${token}`,
           },
           body: JSON.stringify({
-            assessmentId: idToUse,
+            assessmentId: assessmentId,
           }),
         }
       );
@@ -774,7 +767,7 @@ Agradecemos pela sua colaboração.`;
       }
 
       setConsolidatedAnalysis(data);
-      setSelectedAssessmentId(idToUse);
+      setSelectedAssessmentId(assessmentId);
 
       if (data.mode === "groq") {
         toast.success("Análise consolidada gerada com IA.");
@@ -1349,7 +1342,7 @@ Agradecemos pela sua colaboração.`;
             </div>
 
             <Button
-              onClick={() => handleGenerateConsolidatedAnalysis()}
+              onClick={() => setShowAssessmentSelector(true)}
               disabled={loadingConsolidated}
               className="rounded-lg bg-sky-500 hover:bg-sky-600 disabled:opacity-50 text-white text-sm font-medium gap-2 inline-flex items-center px-4 py-2"
             >
