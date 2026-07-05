@@ -40,9 +40,9 @@ const OBJECTIVE_OPTIONS = [
 ];
 
 const AI_PROVIDER_OPTIONS = [
-  { value: "groq", label: "GROQ (Llama 3.3 70B) - Recomendado" },
-  { value: "deepseek", label: "DeepSeek - Alternativa" },
-  { value: "gemini", label: "Google Gemini - Fallback" },
+  { value: "groq", label: "GROQ" },
+  { value: "deepseek", label: "DeepSeek" },
+  { value: "gemini", label: "Gemini" },
 ];
 
 type WizardProps = {
