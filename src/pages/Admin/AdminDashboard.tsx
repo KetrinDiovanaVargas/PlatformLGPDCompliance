@@ -1991,7 +1991,7 @@ Agradecemos pela sua colaboração.`;
               <p className="text-xs text-slate-400 mt-1">Número de respostas coletadas por avaliação</p>
             </div>
 
-            {role === "MASTER" && barData.length > 0 && (
+            {role === "MASTER" && barData && barData.length > 0 && (
               <div className="mb-4 flex justify-end">
                 <button
                   onClick={() => setShowChartFilterModal(true)}
@@ -2004,7 +2004,7 @@ Agradecemos pela sua colaboração.`;
 
             <div className="h-[320px]">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={selectedAssessmentsForChart.size > 0 ? barData.filter(d => selectedAssessmentsForChart.has(d.id)) : barData}>
+                <BarChart data={barData && selectedAssessmentsForChart.size > 0 ? barData.filter(d => selectedAssessmentsForChart.has(d.id)) : (barData || [])}>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} />
                   <XAxis
                     dataKey="name"
