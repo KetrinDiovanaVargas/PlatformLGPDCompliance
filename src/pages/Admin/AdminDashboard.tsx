@@ -1329,9 +1329,9 @@ Agradecemos pela sua colaboração.`;
               </div>
               <Button
                 onClick={() => setShowCreateAdminModal(true)}
-                className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-fuchsia-500 via-purple-500 to-indigo-500 px-6 py-2.5 text-sm font-semibold text-white shadow-lg hover:brightness-110 transition"
+                className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-fuchsia-500 via-purple-500 to-indigo-500 px-4 py-2 text-xs font-semibold text-white hover:brightness-110 transition"
               >
-                <PlusCircle className="h-4 w-4" />
+                <PlusCircle className="h-3.5 w-3.5" />
                 Criar Acesso
               </Button>
             </div>
@@ -1914,23 +1914,27 @@ Agradecemos pela sua colaboração.`;
             </div>
 
             {role === "MASTER" && barData.length > 0 && (
-              <div className="mb-4 p-4 rounded-lg bg-slate-800/40 border border-slate-700">
-                <p className="text-xs font-semibold text-slate-300 mb-3 uppercase tracking-wider">
-                  Filtrar avaliações:
-                </p>
+              <div className="mb-4 p-3 rounded-lg bg-slate-800/30 border border-slate-700/50">
+                <div className="flex items-center justify-between gap-3 mb-2">
+                  <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                    Filtrar:
+                  </p>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => setSelectedAssessmentsForChart(new Set(barData.map(d => d.id)))}
+                      className="text-xs px-2 py-1 rounded bg-sky-500/30 text-sky-300 hover:bg-sky-500/40 transition-colors border border-sky-500/30"
+                    >
+                      Todas
+                    </button>
+                    <button
+                      onClick={() => setSelectedAssessmentsForChart(new Set())}
+                      className="text-xs px-2 py-1 rounded bg-slate-700/40 text-slate-400 hover:bg-slate-700/60 transition-colors border border-slate-600/30"
+                    >
+                      Limpar
+                    </button>
+                  </div>
+                </div>
                 <div className="flex flex-wrap gap-2">
-                  <button
-                    onClick={() => setSelectedAssessmentsForChart(new Set(barData.map(d => d.id)))}
-                    className="text-xs px-3 py-1.5 rounded-lg bg-sky-500/20 text-sky-300 border border-sky-500/30 hover:bg-sky-500/30 transition-colors"
-                  >
-                    Todas
-                  </button>
-                  <button
-                    onClick={() => setSelectedAssessmentsForChart(new Set())}
-                    className="text-xs px-3 py-1.5 rounded-lg bg-slate-700/50 text-slate-300 border border-slate-600/50 hover:bg-slate-700 transition-colors"
-                  >
-                    Limpar
-                  </button>
                   {barData.map((item) => (
                     <button
                       key={item.id}
@@ -1943,13 +1947,13 @@ Agradecemos pela sua colaboração.`;
                         }
                         setSelectedAssessmentsForChart(newSet);
                       }}
-                      className={`text-xs px-3 py-1.5 rounded-lg border transition-colors ${
+                      className={`text-xs px-2.5 py-1 rounded border transition-colors ${
                         selectedAssessmentsForChart.has(item.id)
-                          ? "bg-sky-500/30 text-sky-100 border-sky-500/50"
-                          : "bg-slate-700/30 text-slate-300 border-slate-600/30 hover:bg-slate-700/50"
+                          ? "bg-sky-500/30 text-sky-200 border-sky-500/40"
+                          : "bg-slate-700/30 text-slate-400 border-slate-600/30 hover:bg-slate-700/40"
                       }`}
                     >
-                      {item.name.length > 20 ? item.name.substring(0, 17) + "..." : item.name}
+                      {item.name.length > 18 ? item.name.substring(0, 15) + "..." : item.name}
                     </button>
                   ))}
                 </div>
