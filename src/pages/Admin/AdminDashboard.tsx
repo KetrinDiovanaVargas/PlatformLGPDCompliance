@@ -1729,6 +1729,114 @@ Agradecemos pela sua colaboração.`;
           </div>
         </section>
 
+        <section className="space-y-5">
+          <div>
+            <h2 className="text-lg font-semibold text-slate-100">Índice de Conformidade LGPD</h2>
+            <p className="text-sm text-slate-400">Score de compliance por avaliação</p>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-3">
+            {barData.slice(0, 3).map((assessment, idx) => {
+              const isExcelente = assessment.scoreAverage >= 85;
+              const isConforme = assessment.scoreAverage >= 70 && assessment.scoreAverage < 85;
+              const isAtencao = assessment.scoreAverage >= 40 && assessment.scoreAverage < 70;
+              const progressPercent = assessment.concluidas && assessment.respostas ? Math.round((assessment.concluidas / assessment.respostas) * 100) : 0;
+
+              let statusColor = "text-red-400";
+              let statusText = "Crítico";
+              let borderColor = "border-red-500/20";
+              let bgColor = "bg-red-500/5";
+              let circleColor = "#ef4444";
+
+              if (isExcelente) {
+                statusColor = "text-emerald-400";
+                statusText = "Excelente";
+                borderColor = "border-emerald-500/20";
+                bgColor = "bg-emerald-500/5";
+                circleColor = "#10b981";
+              } else if (isConforme) {
+                statusColor = "text-emerald-400";
+                statusText = "Conforme";
+                borderColor = "border-emerald-500/20";
+                bgColor = "bg-emerald-500/5";
+                circleColor = "#10b981";
+              } else if (isAtencao) {
+                statusColor = "text-amber-400";
+                statusText = "Atenção";
+                borderColor = "border-amber-500/20";
+                bgColor = "bg-amber-500/5";
+                circleColor = "#f59e0b";
+              }
+
+              return (
+                <div
+                  key={assessment.id || idx}
+                  className={`rounded-2xl border ${borderColor} ${bgColor} p-5 space-y-4 backdrop-blur-sm`}
+                >
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <h3 className="text-base font-semibold text-slate-100">
+                        {assessment.fullName}
+                      </h3>
+                      <p className="text-xs text-slate-400 mt-1">
+                        {assessment.tipo || assessment.objetivo || "Sem categoria"}
+                      </p>
+                    </div>
+                    <div className="relative w-16 h-16 flex items-center justify-center">
+                      <svg className="w-16 h-16 transform -rotate-90" viewBox="0 0 100 100">
+                        <circle
+                          cx="50"
+                          cy="50"
+                          r="45"
+                          fill="none"
+                          stroke="#334155"
+                          strokeWidth="8"
+                        />
+                        <circle
+                          cx="50"
+                          cy="50"
+                          r="45"
+                          fill="none"
+                          stroke={circleColor}
+                          strokeWidth="8"
+                          strokeDasharray={`${assessment.scoreAverage * 2.83} 283`}
+                          strokeLinecap="round"
+                        />
+                      </svg>
+                      <span className="absolute text-sm font-bold text-white">
+                        {assessment.scoreAverage}%
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-black/30 border border-slate-700/50">
+                    <span className="text-emerald-400">✓</span>
+                    <span className="text-sm font-medium text-slate-100">{statusText}</span>
+                  </div>
+
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between text-slate-300">
+                      <span>Respostas Concluídas:</span>
+                      <span className="font-semibold">{assessment.concluidas}/{assessment.respostas}</span>
+                    </div>
+                    <div className="flex justify-between text-slate-300">
+                      <span>Em Andamento:</span>
+                      <span className="font-semibold">{assessment.andamento}</span>
+                    </div>
+                  </div>
+
+                  <div className="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
+                    <div
+                      className="h-full bg-gradient-to-r from-emerald-500 to-emerald-400 rounded-full transition-all duration-300"
+                      style={{ width: `${progressPercent}%` }}
+                    />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+
         {role === "MASTER" && (
           <section className="rounded-3xl bg-white/[0.04] border border-slate-800/80 p-8 shadow-[0_0_60px_rgba(99,102,241,0.14)] space-y-5">
             <div className="flex items-center gap-2">
