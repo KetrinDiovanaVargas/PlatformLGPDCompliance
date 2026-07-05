@@ -1307,26 +1307,31 @@ Agradecemos pela sua colaboração.`;
 
         {role === "MASTER" && (
           <section className="rounded-3xl bg-white/[0.04] border border-slate-800/80 p-8 shadow-[0_0_60px_rgba(99,102,241,0.14)] space-y-5">
-            <div className="flex items-center gap-2">
-              <UserCog className="h-4 w-4 text-cyan-300" />
-              <h3 className="text-sm font-semibold text-slate-200 tracking-tight">
-                Gestão de administradores
-              </h3>
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                <UserCog className="h-4 w-4 text-cyan-300" />
+                <h3 className="text-sm font-semibold text-slate-200 tracking-tight">
+                  Gestão de administradores
+                </h3>
+              </div>
+              <p className="text-xs text-slate-400">
+                Crie novos acessos de administrador preenchendo os campos abaixo. Defina um nome, email, senha temporária e nível de acesso.
+              </p>
             </div>
 
-            <div className="grid gap-4 md:grid-cols-4">
+            <div className="space-y-3">
               <input
                 value={adminNameInput}
                 onChange={(e) => setAdminNameInput(e.target.value)}
                 placeholder="Nome do administrador"
-                className="w-full p-3 rounded-xl bg-black/40 border border-white/20 text-white outline-none"
+                className="w-full p-3 rounded-xl bg-black/40 border border-white/20 text-white outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500"
               />
 
               <input
                 value={adminEmailInput}
                 onChange={(e) => setAdminEmailInput(e.target.value)}
                 placeholder="Email do administrador"
-                className="w-full p-3 rounded-xl bg-black/40 border border-white/20 text-white outline-none"
+                className="w-full p-3 rounded-xl bg-black/40 border border-white/20 text-white outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500"
               />
 
               <input
@@ -1334,7 +1339,7 @@ Agradecemos pela sua colaboração.`;
                 value={adminPasswordInput}
                 onChange={(e) => setAdminPasswordInput(e.target.value)}
                 placeholder="Senha temporária"
-                className="w-full p-3 rounded-xl bg-black/40 border border-white/20 text-white outline-none"
+                className="w-full p-3 rounded-xl bg-black/40 border border-white/20 text-white outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500"
               />
 
               <select
@@ -1342,7 +1347,7 @@ Agradecemos pela sua colaboração.`;
                 onChange={(e) =>
                   setAdminRoleInput(e.target.value as "ADMIN" | "MASTER")
                 }
-                className="w-full p-3 rounded-xl bg-black/40 border border-white/20 text-white outline-none"
+                className="w-full p-3 rounded-xl bg-black/40 border border-white/20 text-white outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500"
               >
                 <option value="ADMIN" className="bg-slate-950 text-white">
                   ADMIN
@@ -1353,11 +1358,11 @@ Agradecemos pela sua colaboração.`;
               </select>
             </div>
 
-            <div className="flex justify-end">
+            <div className="flex justify-end pt-2">
               <Button
                 onClick={handleCreateAdmin}
                 disabled={creatingAdmin}
-                className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-fuchsia-500 via-purple-500 to-indigo-500 px-5 py-2 text-sm font-semibold text-white shadow-lg hover:brightness-110 transition"
+                className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-fuchsia-500 via-purple-500 to-indigo-500 px-6 py-2.5 text-sm font-semibold text-white shadow-lg hover:brightness-110 transition"
               >
                 <PlusCircle className="h-4 w-4" />
                 {creatingAdmin ? "Criando..." : "Criar Acesso"}
