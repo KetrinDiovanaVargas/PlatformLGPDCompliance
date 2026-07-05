@@ -406,133 +406,402 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({
     const pageWidth = pdf.internal.pageSize.getWidth();
     const pageHeight = pdf.internal.pageSize.getHeight();
     const margin = 15;
+    let cursorY = 0;
 
-    const drawPageBg = () => {
-      pdf.setFillColor(4, 7, 29);
-      pdf.rect(0, 0, pageWidth, pageHeight, "F");
+    // Cores profissionais
+    const colors = {
+      primary: [34, 197, 94],      // Verde
+      secondary: [59, 130, 246],   // Azul
+      accent: [168, 85, 247],      // Roxo
+      danger: [239, 68, 68],       // Vermelho
+      warning: [234, 179, 8],      // Amarelo
+      dark: [30, 41, 59],          // Cinza escuro
+      light: [248, 250, 252],      // Branco
+      text: [15, 23, 42],          // Texto escuro
     };
 
-    drawPageBg();
+    const drawHeader = () => {
+      // Header background
+      pdf.setFillColor(colors.dark[0], colors.dark[1], colors.dark[2]);
+      pdf.rect(0, 0, pageWidth, 35, "F");
 
+      // Título principal
+      pdf.setFont("helvetica", "bold");
+      pdf.setFontSize(18);
+      pdf.setTextColor(colors.secondary[0], colors.secondary[1], colors.secondary[2]);
+      pdf.text("🛡️ ANÁLISE DE CONFORMIDADE LGPD", margin, 15);
+
+      // Subtítulo
+      pdf.setFont("helvetica", "normal");
+      pdf.setFontSize(9);
+      pdf.setTextColor(130, 150, 160);
+      pdf.text("Avaliação Técnica | ISO/IEC 27001 | Plataforma LGPD Compliance", margin, 23);
+
+      // Linha separadora
+      pdf.setDrawColor(colors.secondary[0], colors.secondary[1], colors.secondary[2]);
+      pdf.setLineWidth(0.5);
+      pdf.line(margin, 27, pageWidth - margin, 27);
+    };
+
+    const drawFooter = () => {
+      // Footer background
+      pdf.setFillColor(colors.dark[0], colors.dark[1], colors.dark[2]);
+      pdf.rect(0, pageHeight - 12, pageWidth, 12, "F");
+
+      // Texto footer
+      pdf.setFont("helvetica", "normal");
+      pdf.setFontSize(8);
+      pdf.setTextColor(130, 150, 160);
+
+      const pageNum = pdf.internal.pages.length - 1;
+      const totalPages = pdf.internal.pages.length - 1;
+      const date = new Date().toLocaleDateString("pt-BR");
+
+      pdf.text(`${date}`, margin, pageHeight - 4);
+      pdf.text(`Página ${pageNum}`, pageWidth - margin - 20, pageHeight - 4);
+      pdf.text("Relatório Confidencial", pageWidth - margin - 60, pageHeight - 4);
+    };
+
+    const addNewPage = () => {
+      pdf.addPage();
+      drawHeader();
+      drawFooter();
+      return 32;
+    };
+
+    const ensurePageSpace = (needed = 20) => {
+      if (cursorY + needed > pageHeight - 15) {
+        cursorY = addNewPage();
+      }
+    };
+
+    // ========== PÁGINA 1: HEADER ==========
+    drawHeader();
+    drawFooter();
+    cursorY = 32;
+
+    // Card de informações principais
+    pdf.setFillColor(247, 250, 252);
+    pdf.rect(margin, cursorY, pageWidth - margin * 2, 35, "F");
+    pdf.setDrawColor(200, 210, 220);
+    pdf.setLineWidth(0.5);
+    pdf.rect(margin, cursorY, pageWidth - margin * 2, 35);
+
+    // Score destacado
+    pdf.setFont("helvetica", "bold");
+    pdf.setFontSize(14);
+    pdf.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
+    pdf.text("Score de Conformidade:", margin + 5, cursorY + 8);
+
+    pdf.setFillColor(colors.primary[0], colors.primary[1], colors.primary[2]);
+    pdf.circle(pageWidth - margin - 15, cursorY + 12, 8, "F");
     pdf.setFont("helvetica", "bold");
     pdf.setFontSize(16);
-    pdf.setTextColor(186, 230, 253);
-    pdf.text("Plataforma LGPD – Análise Técnica Completa", margin, 20);
+    pdf.setTextColor(255, 255, 255);
+    pdf.text(`${score}`, pageWidth - margin - 18, cursorY + 15, { align: "center" });
 
-    let cursorY = 30;
+    // Informações secundárias
+    pdf.setFont("helvetica", "normal");
+    pdf.setFontSize(9);
+    pdf.setTextColor(100, 116, 139);
 
+    let infoY = cursorY + 12;
     if (assessmentTitle) {
-      pdf.setFont("helvetica", "bold");
-      pdf.setFontSize(13);
-      pdf.setTextColor(255, 255, 255);
-      pdf.text(`Avaliação: ${assessmentTitle}`, margin, cursorY);
-      cursorY += 8;
+      pdf.text(`Avaliação: ${assessmentTitle}`, margin + 5, infoY);
+      infoY += 5;
+    }
+    if (assessmentFormType) {
+      pdf.text(`Tipo: ${assessmentFormType}`, margin + 5, infoY);
+      infoY += 5;
+    }
+    if (assessmentObjective) {
+      pdf.text(`Objetivo: ${assessmentObjective}`, margin + 5, infoY);
     }
 
-    const metaLine = [assessmentFormType, assessmentObjective]
-      .filter(Boolean)
-      .join(" • ");
+    cursorY += 40;
 
-    if (metaLine) {
-      pdf.setFont("helvetica", "normal");
-      pdf.setFontSize(10);
-      pdf.setTextColor(180, 180, 220);
-      pdf.text(metaLine, margin, cursorY);
-      cursorY += 10;
-    }
+    // ========== RESUMO DE MÉTRICAS ==========
+    ensurePageSpace(40);
 
     pdf.setFont("helvetica", "bold");
     pdf.setFontSize(12);
-    pdf.setTextColor(130, 230, 180);
-    pdf.text(`Score de Conformidade: ${score}/100`, margin, cursorY);
-    cursorY += 10;
+    pdf.setTextColor(colors.dark[0], colors.dark[1], colors.dark[2]);
+    pdf.text("Resumo de Métricas", margin, cursorY);
+    cursorY += 8;
 
-    const ensurePageSpace = (extra = 0) => {
-      if (cursorY > pageHeight - 30 - extra) {
-        pdf.addPage();
-        drawPageBg();
-        cursorY = 20;
-      }
-    };
+    // Tabela de métricas
+    const metricsTable = [
+      ["Métrica", "Valor", "Status"],
+      ["Conformidade", `${score}%`, score >= 70 ? "✓ Conforme" : score >= 40 ? "⚠ Parcial" : "✗ Crítico"],
+      ["Pontos Fortes", `${strengths.length}`, ""],
+      ["Áreas de Atenção", `${attention.length}`, ""],
+      ["Riscos Críticos", `${critical.length}`, ""],
+    ];
 
-    reportSections.forEach((sec) => {
-      ensurePageSpace(24);
+    let tableY = cursorY;
+    const cellHeight = 6;
+    const col1Width = 60;
+    const col2Width = 40;
+    const col3Width = pageWidth - margin * 2 - col1Width - col2Width;
 
-      pdf.setFont("helvetica", "bold");
-      pdf.setFontSize(13);
-      pdf.setTextColor(180, 170, 255);
-      pdf.text(sec.title, margin, cursorY);
-      cursorY += 6;
+    // Header da tabela
+    pdf.setFillColor(colors.secondary[0], colors.secondary[1], colors.secondary[2]);
+    pdf.setTextColor(255, 255, 255);
+    pdf.setFont("helvetica", "bold");
+    pdf.setFontSize(9);
 
-      if (sec.body) {
-        pdf.setFont("helvetica", "normal");
-        pdf.setFontSize(11);
-        pdf.setTextColor(222, 228, 240);
-
-        const bodyLines = pdf.splitTextToSize(sec.body, pageWidth - margin * 2);
-        pdf.text(bodyLines, margin, cursorY);
-        cursorY += bodyLines.length * 6;
-      }
-
-      sec.bullets.forEach((b) => {
-        ensurePageSpace(8);
-        pdf.setFont("helvetica", "normal");
-        pdf.setFontSize(11);
-        pdf.setTextColor(222, 228, 240);
-
-        const lines = pdf.splitTextToSize(`• ${b}`, pageWidth - margin * 2);
-        pdf.text(lines, margin, cursorY);
-        cursorY += lines.length * 6;
-      });
-
-      cursorY += 5;
+    metricsTable[0].forEach((header, i) => {
+      const x = margin + (i === 0 ? 0 : i === 1 ? col1Width : col1Width + col2Width);
+      const width = i === 0 ? col1Width : i === 1 ? col2Width : col3Width;
+      pdf.text(header, x + 2, tableY + 4);
     });
 
-    if (enrichedRecommendations.length > 0) {
-      ensurePageSpace(20);
+    tableY += cellHeight;
 
+    // Linhas da tabela
+    metricsTable.slice(1).forEach((row, idx) => {
+      pdf.setFillColor(...(idx % 2 === 0 ? [240, 244, 248] : [255, 255, 255]));
+      pdf.rect(margin, tableY, pageWidth - margin * 2, cellHeight, "F");
+      pdf.setDrawColor(200, 210, 220);
+      pdf.setLineWidth(0.3);
+      pdf.rect(margin, tableY, pageWidth - margin * 2, cellHeight);
+
+      pdf.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
+      pdf.setFont("helvetica", "normal");
+      pdf.setFontSize(8);
+
+      row.forEach((cell, i) => {
+        const x = margin + (i === 0 ? 0 : i === 1 ? col1Width : col1Width + col2Width);
+        pdf.text(cell, x + 2, tableY + 4);
+      });
+
+      tableY += cellHeight;
+    });
+
+    cursorY = tableY + 5;
+
+    // ========== FRAGILIDADES LGPD ==========
+    ensurePageSpace(30);
+
+    pdf.setFont("helvetica", "bold");
+    pdf.setFontSize(12);
+    pdf.setTextColor(colors.dark[0], colors.dark[1], colors.dark[2]);
+    pdf.text("Fragilidades LGPD Detectadas", margin, cursorY);
+    cursorY += 8;
+
+    const detectedFragilities = lgpdFragilities.filter(f => f.detected);
+    const notDetectedFragilities = lgpdFragilities.filter(f => !f.detected);
+
+    if (detectedFragilities.length > 0) {
       pdf.setFont("helvetica", "bold");
-      pdf.setFontSize(13);
-      pdf.setTextColor(255, 160, 220);
-      pdf.text("Recomendações Personalizadas", margin, cursorY);
-      cursorY += 8;
+      pdf.setFontSize(9);
+      pdf.setTextColor(colors.danger[0], colors.danger[1], colors.danger[2]);
+      pdf.text("Detectadas:", margin, cursorY);
+      cursorY += 5;
 
-      enrichedRecommendations.forEach((rec) => {
-        ensurePageSpace(18);
+      detectedFragilities.forEach((frag) => {
+        ensurePageSpace(5);
+        pdf.setFont("helvetica", "normal");
+        pdf.setFontSize(8);
+        pdf.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
+        pdf.text(`✗ ${frag.code} - ${frag.name}`, margin + 5, cursorY);
+        cursorY += 4;
+      });
+      cursorY += 3;
+    }
 
-        pdf.setFont("helvetica", "bold");
-        pdf.setFontSize(11);
-        pdf.setTextColor(255, 255, 255);
-        pdf.text(`• ${rec.title} (${rec.priority})`, margin, cursorY);
-        cursorY += 6;
+    if (notDetectedFragilities.length > 0 && detectedFragilities.length > 0) {
+      pdf.setFont("helvetica", "bold");
+      pdf.setFontSize(9);
+      pdf.setTextColor(colors.primary[0], colors.primary[1], colors.primary[2]);
+      pdf.text("Resolvidas:", margin, cursorY);
+      cursorY += 5;
 
-        if (rec.description) {
-          pdf.setFont("helvetica", "normal");
-          pdf.setFontSize(10);
-          pdf.setTextColor(220, 220, 235);
-          const descLines = pdf.splitTextToSize(
-            rec.description,
-            pageWidth - margin * 2
-          );
-          pdf.text(descLines, margin + 4, cursorY);
-          cursorY += descLines.length * 5;
-        }
-
-        rec.actions.forEach((action) => {
-          ensurePageSpace(6);
-          const actionLines = pdf.splitTextToSize(
-            `- ${action}`,
-            pageWidth - margin * 2 - 4
-          );
-          pdf.text(actionLines, margin + 4, cursorY);
-          cursorY += actionLines.length * 5;
-        });
-
+      notDetectedFragilities.slice(0, 3).forEach((frag) => {
+        ensurePageSpace(4);
+        pdf.setFont("helvetica", "normal");
+        pdf.setFontSize(8);
+        pdf.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
+        pdf.text(`✓ ${frag.code} - ${frag.name}`, margin + 5, cursorY);
         cursorY += 4;
       });
     }
 
-    pdf.save("analise-completa.pdf");
+    cursorY += 5;
+
+    // ========== PONTOS FORTES ==========
+    ensurePageSpace(25);
+
+    pdf.setFont("helvetica", "bold");
+    pdf.setFontSize(11);
+    pdf.setTextColor(colors.primary[0], colors.primary[1], colors.primary[2]);
+    pdf.text("✓ Pontos Fortes", margin, cursorY);
+    cursorY += 6;
+
+    strengths.slice(0, 5).forEach((item) => {
+      ensurePageSpace(5);
+      pdf.setFont("helvetica", "normal");
+      pdf.setFontSize(8);
+      pdf.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
+      const lines = pdf.splitTextToSize(`• ${item}`, pageWidth - margin * 2 - 4);
+      pdf.text(lines, margin + 4, cursorY);
+      cursorY += lines.length * 4;
+    });
+
+    cursorY += 3;
+
+    // ========== ÁREAS DE ATENÇÃO ==========
+    ensurePageSpace(25);
+
+    pdf.setFont("helvetica", "bold");
+    pdf.setFontSize(11);
+    pdf.setTextColor(colors.warning[0], colors.warning[1], colors.warning[2]);
+    pdf.text("⚠️ Áreas de Atenção", margin, cursorY);
+    cursorY += 6;
+
+    attention.slice(0, 5).forEach((item) => {
+      ensurePageSpace(5);
+      pdf.setFont("helvetica", "normal");
+      pdf.setFontSize(8);
+      pdf.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
+      const lines = pdf.splitTextToSize(`• ${item}`, pageWidth - margin * 2 - 4);
+      pdf.text(lines, margin + 4, cursorY);
+      cursorY += lines.length * 4;
+    });
+
+    cursorY += 3;
+
+    // ========== RISCOS CRÍTICOS ==========
+    ensurePageSpace(25);
+
+    pdf.setFont("helvetica", "bold");
+    pdf.setFontSize(11);
+    pdf.setTextColor(colors.danger[0], colors.danger[1], colors.danger[2]);
+    pdf.text("✗ Riscos Críticos", margin, cursorY);
+    cursorY += 6;
+
+    critical.slice(0, 5).forEach((item) => {
+      ensurePageSpace(5);
+      pdf.setFont("helvetica", "normal");
+      pdf.setFontSize(8);
+      pdf.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
+      const lines = pdf.splitTextToSize(`• ${item}`, pageWidth - margin * 2 - 4);
+      pdf.text(lines, margin + 4, cursorY);
+      cursorY += lines.length * 4;
+    });
+
+    // ========== RECOMENDAÇÕES ==========
+    enrichedRecommendations.forEach((rec) => {
+      cursorY = addNewPage();
+
+      // Título da recomendação
+      pdf.setFillColor(colors.accent[0], colors.accent[1], colors.accent[2]);
+      pdf.rect(margin, cursorY, pageWidth - margin * 2, 8, "F");
+      pdf.setFont("helvetica", "bold");
+      pdf.setFontSize(10);
+      pdf.setTextColor(255, 255, 255);
+      pdf.text(`${rec.title}`, margin + 3, cursorY + 5);
+
+      cursorY += 10;
+
+      // Prioridade e categoria
+      if (rec.priority || rec.category) {
+        const priorityColor = rec.priority === "Alta" ? colors.danger : rec.priority === "Média" ? colors.warning : colors.primary;
+
+        if (rec.priority) {
+          pdf.setFillColor(priorityColor[0], priorityColor[1], priorityColor[2]);
+          pdf.rect(margin, cursorY, 30, 5, "F");
+          pdf.setFont("helvetica", "bold");
+          pdf.setFontSize(8);
+          pdf.setTextColor(255, 255, 255);
+          pdf.text(`Prioridade: ${rec.priority}`, margin + 2, cursorY + 3.5);
+        }
+
+        if (rec.category) {
+          pdf.setFillColor(colors.secondary[0], colors.secondary[1], colors.secondary[2]);
+          pdf.rect(margin + 35, cursorY, 50, 5, "F");
+          pdf.setFont("helvetica", "bold");
+          pdf.setFontSize(8);
+          pdf.setTextColor(255, 255, 255);
+          pdf.text(`Categoria: ${rec.category}`, margin + 37, cursorY + 3.5);
+        }
+
+        cursorY += 8;
+      }
+
+      // Descrição
+      if (rec.description) {
+        pdf.setFont("helvetica", "normal");
+        pdf.setFontSize(9);
+        pdf.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
+        const descLines = pdf.splitTextToSize(rec.description, pageWidth - margin * 2);
+        pdf.text(descLines, margin, cursorY);
+        cursorY += descLines.length * 4 + 2;
+      }
+
+      // Ações
+      if (rec.actions && rec.actions.length > 0) {
+        ensurePageSpace(15);
+        pdf.setFont("helvetica", "bold");
+        pdf.setFontSize(9);
+        pdf.setTextColor(colors.dark[0], colors.dark[1], colors.dark[2]);
+        pdf.text("Ações Recomendadas:", margin, cursorY);
+        cursorY += 5;
+
+        rec.actions.forEach((action) => {
+          ensurePageSpace(5);
+          pdf.setFont("helvetica", "normal");
+          pdf.setFontSize(8);
+          pdf.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
+          const actionLines = pdf.splitTextToSize(`→ ${action}`, pageWidth - margin * 2 - 4);
+          pdf.text(actionLines, margin + 4, cursorY);
+          cursorY += actionLines.length * 4;
+        });
+
+        cursorY += 2;
+      }
+
+      // Recursos de aprendizado
+      if (rec.learning) {
+        ensurePageSpace(20);
+        pdf.setDrawColor(200, 210, 220);
+        pdf.setLineWidth(0.3);
+        pdf.line(margin, cursorY, pageWidth - margin, cursorY);
+        cursorY += 4;
+
+        pdf.setFont("helvetica", "bold");
+        pdf.setFontSize(9);
+        pdf.setTextColor(colors.dark[0], colors.dark[1], colors.dark[2]);
+        pdf.text("Recursos de Aprendizado:", margin, cursorY);
+        cursorY += 5;
+
+        if (rec.learning.book) {
+          pdf.setFont("helvetica", "normal");
+          pdf.setFontSize(8);
+          pdf.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
+          pdf.text(`📖 Livro: ${rec.learning.book}`, margin + 3, cursorY);
+          cursorY += 4;
+        }
+
+        if (rec.learning.isoRefs) {
+          pdf.setFont("helvetica", "normal");
+          pdf.setFontSize(8);
+          pdf.setTextColor(colors.secondary[0], colors.secondary[1], colors.secondary[2]);
+          pdf.text(`📋 ${rec.learning.isoRefs}`, margin + 3, cursorY);
+          cursorY += 4;
+        }
+
+        if (rec.learning.lgpdRefs) {
+          pdf.setFont("helvetica", "normal");
+          pdf.setFontSize(8);
+          pdf.setTextColor(colors.accent[0], colors.accent[1], colors.accent[2]);
+          pdf.text(`⚖️ ${rec.learning.lgpdRefs}`, margin + 3, cursorY);
+          cursorY += 4;
+        }
+      }
+    });
+
+    pdf.save(`Analise-LGPD-${new Date().toISOString().split('T')[0]}.pdf`);
   };
 
   return (

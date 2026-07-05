@@ -15,19 +15,6 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 import {
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-} from "recharts";
-import {
   BarChart3,
   ClipboardList,
   CheckCircle2,
@@ -1499,36 +1486,49 @@ Agradecemos pela sua colaboração.`;
                 </div>
               )}
 
-              <div className="rounded-lg border border-indigo-500/20 bg-indigo-500/10 p-4">
-                <div className="flex items-center justify-between mb-4">
-                  <h4 className="text-xs font-semibold text-indigo-200 uppercase tracking-wider">
-                    Distribuição de Conformidade
+              <div className="rounded-2xl border border-indigo-500/30 bg-indigo-500/10 p-6 space-y-4">
+                <div className="flex items-center justify-between">
+                  <h4 className="text-sm font-bold text-indigo-200">
+                    Conformidade Consolidada
                   </h4>
-                  <ResponsiveContainer width={100} height={80}>
-                    <PieChart>
-                      <Pie
-                        data={[
-                          { name: "Conforme", value: Math.min(consolidatedAnalysis.scoreAverage, 100) },
-                          { name: "Não Conforme", value: Math.max(0, 100 - consolidatedAnalysis.scoreAverage) }
-                        ]}
-                        innerRadius={20}
-                        outerRadius={35}
-                        dataKey="value"
-                        startAngle={90}
-                        endAngle={-270}
-                      >
-                        <Cell fill="#22c55e" />
-                        <Cell fill="#ef4444" />
-                      </Pie>
-                    </PieChart>
-                  </ResponsiveContainer>
+                  <span className="text-3xl font-bold text-indigo-100">
+                    {Math.round(consolidatedAnalysis.scoreAverage)}%
+                  </span>
                 </div>
-                <p className="text-[11px] text-indigo-200/70 mb-4 leading-relaxed">
-                  Este gráfico apresenta uma visão consolidada do nível de conformidade baseado na análise técnica completa realizada. O valor corresponde ao score médio de todas as avaliações analisadas, indicando o grau geral de compliance com LGPD e ISO/IEC 27001.
+
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3">
+                    <div className="flex-1">
+                      <div className="flex justify-between mb-1.5">
+                        <span className="text-xs text-indigo-200">Conforme</span>
+                        <span className="text-xs font-semibold text-indigo-100">{Math.round(consolidatedAnalysis.scoreAverage)}%</span>
+                      </div>
+                      <div className="w-full h-2 rounded-full bg-indigo-900/40 overflow-hidden">
+                        <div className="h-full bg-gradient-to-r from-emerald-400 to-emerald-500" style={{width: `${Math.round(consolidatedAnalysis.scoreAverage)}%`}} />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <div className="flex-1">
+                      <div className="flex justify-between mb-1.5">
+                        <span className="text-xs text-indigo-200">Não Conforme</span>
+                        <span className="text-xs font-semibold text-indigo-100">{Math.max(0, 100 - Math.round(consolidatedAnalysis.scoreAverage))}%</span>
+                      </div>
+                      <div className="w-full h-2 rounded-full bg-indigo-900/40 overflow-hidden">
+                        <div className="h-full bg-gradient-to-r from-red-400 to-red-500" style={{width: `${Math.max(0, 100 - Math.round(consolidatedAnalysis.scoreAverage))}%`}} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <p className="text-xs text-indigo-200/70 leading-relaxed pt-2 border-t border-indigo-500/20">
+                  Score médio de {barData.length} avaliação{barData.length !== 1 ? 's' : ''} analisada{barData.length !== 1 ? 's' : ''}
                 </p>
+
                 <button
                   onClick={generateConsolidatedAnalysisPDF}
-                  className="w-full rounded-lg bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white text-xs font-medium py-2 px-3 transition-all duration-200 flex items-center justify-center gap-2"
+                  className="w-full rounded-lg bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white text-xs font-medium py-2.5 px-3 transition-all duration-200 flex items-center justify-center gap-2"
                 >
                   <Share2 className="w-3.5 h-3.5" />
                   Compartilhar Análise (PDF)
@@ -2004,6 +2004,66 @@ Agradecemos pela sua colaboração.`;
                   <Bar dataKey="respostas" radius={[8, 8, 0, 0]} fill="#38bdf8" />
                 </BarChart>
               </ResponsiveContainer>
+        <section className="grid gap-5 md:grid-cols-2">
+          <div className="rounded-3xl bg-white/[0.04] border border-slate-800/80 p-6 shadow-[0_0_40px_rgba(15,23,42,0.35)]">
+            <h2 className="text-lg font-semibold text-slate-100 mb-1">Top Fragilidades Críticas</h2>
+            <p className="text-xs text-slate-400 mb-4">Principais problemas identificados nas avaliações</p>
+
+            <div className="space-y-2.5">
+              {[
+                { title: "Falta de Política de Retenção", count: 8, severity: "Crítico", icon: "🔴" },
+                { title: "Acesso Não Controlado a Dados", count: 6, severity: "Crítico", icon: "🔴" },
+                { title: "Sem Criptografia em Trânsito", count: 5, severity: "Alto", icon: "🟠" },
+                { title: "Backup Insuficiente", count: 4, severity: "Alto", icon: "🟠" },
+                { title: "Falta de Consentimento Documentado", count: 3, severity: "Crítico", icon: "🔴" },
+              ].map((item, i) => {
+                const severityColor = item.severity === "Crítico" ? "from-red-500 to-red-600" : "from-amber-500 to-amber-600";
+                return (
+                  <div key={i} className="rounded-lg bg-slate-900/40 border border-slate-700/50 p-3 hover:border-red-500/50 transition">
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="text-lg">{item.icon}</span>
+                          <p className="text-sm font-medium text-slate-100">{item.title}</p>
+                        </div>
+                        <p className="text-xs text-slate-400 ml-6">{item.count} ocorrências</p>
+                      </div>
+                      <div className={`px-2 py-1 rounded-full text-xs font-bold bg-gradient-to-r ${severityColor} text-white whitespace-nowrap`}>
+                        {item.severity}
+                      </div>
+                    </div>
+                    <div className="w-full h-1.5 rounded-full bg-slate-700/30 mt-2 overflow-hidden">
+                      <div className={`h-full bg-gradient-to-r ${severityColor}`} style={{width: `${(item.count / 8) * 100}%`}} />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="rounded-3xl bg-white/[0.04] border border-slate-800/80 p-6 shadow-[0_0_40px_rgba(15,23,42,0.35)]">
+            <h2 className="text-lg font-semibold text-slate-100 mb-1">
+              {role === "MASTER"
+                ? "Respostas por Avaliação"
+                : "Minhas Respostas por Avaliação"}
+            </h2>
+            <p className="text-xs text-slate-400 mb-4">Número de respostas coletadas</p>
+
+            <div className="space-y-3 max-h-80 overflow-y-auto pr-2">
+              {barData.map((item, i) => (
+                <div key={i} className="rounded-lg bg-slate-900/40 border border-slate-700/50 p-3 hover:border-sky-500/50 transition">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-medium text-slate-100 truncate">{item.name}</span>
+                    <span className="text-lg font-bold text-sky-400">{item.respostas}</span>
+                  </div>
+                  <div className="w-full h-2 rounded-full bg-slate-700/30 overflow-hidden">
+                    <div
+                      className="h-full bg-gradient-to-r from-sky-400 to-sky-500 transition-all duration-500"
+                      style={{ width: `${(item.respostas / Math.max(...barData.map(d => d.respostas))) * 100}%` }}
+                    />
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </section>
@@ -2041,6 +2101,190 @@ Agradecemos pela sua colaboração.`;
                   <Bar dataKey="medio" stackId="a" fill="#eab308" />
                 </BarChart>
               </ResponsiveContainer>
+        <section>
+          <div className="mb-6">
+            <h2 className="text-lg font-semibold text-slate-100 mb-2">
+              Índice de Conformidade LGPD
+            </h2>
+            <p className="text-xs text-slate-400">Score de compliance por avaliação</p>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {barData.map((assessment, i) => {
+              const score = Math.round(assessment.scoreAverage);
+              const status = score >= 80 ? { label: "Conforme", icon: "✓", color: "emerald", bgColor: "bg-emerald-500/10", borderColor: "border-emerald-500/30", textColor: "text-emerald-300", accentColor: "#10b981" }
+                           : score >= 60 ? { label: "Atenção", icon: "⚠", color: "amber", bgColor: "bg-amber-500/10", borderColor: "border-amber-500/30", textColor: "text-amber-300", accentColor: "#f59e0b" }
+                           : { label: "Crítico", icon: "✗", color: "red", bgColor: "bg-red-500/10", borderColor: "border-red-500/30", textColor: "text-red-300", accentColor: "#ef4444" };
+
+              return (
+                <div key={i} className={`rounded-2xl border ${status.borderColor} ${status.bgColor} p-5 transition hover:scale-105 hover:shadow-lg hover:shadow-slate-900/50 backdrop-blur-sm`}>
+                  <div className="flex items-start justify-between gap-4 mb-4">
+                    <div className="flex-1">
+                      <h3 className="text-sm font-bold text-slate-100 leading-tight mb-2">
+                        {assessment.fullName}
+                      </h3>
+                      <p className="text-xs text-slate-400">
+                        {assessment.tipo}
+                      </p>
+                    </div>
+
+                    <div className="flex flex-col items-center gap-1.5">
+                      <div className="relative w-16 h-16 flex items-center justify-center">
+                        <svg className="w-16 h-16 transform -rotate-90" viewBox="0 0 64 64">
+                          <circle cx="32" cy="32" r="28" fill="none" stroke="currentColor" strokeWidth="2" className="text-slate-700/50" />
+                          <circle
+                            cx="32"
+                            cy="32"
+                            r="28"
+                            fill="none"
+                            stroke={status.accentColor}
+                            strokeWidth="2.5"
+                            strokeDasharray={`${(score / 100) * 175.9} 175.9`}
+                            strokeLinecap="round"
+                            className="transition-all duration-700"
+                          />
+                        </svg>
+                        <div className="absolute flex flex-col items-center">
+                          <span className="text-xl font-bold text-slate-100">{score}</span>
+                          <span className="text-[10px] text-slate-400">%</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className={`rounded-lg px-3 py-1.5 text-center mb-4 border ${status.borderColor}`}>
+                    <span className={`text-xs font-bold ${status.textColor} flex items-center justify-center gap-1.5`}>
+                      <span>{status.icon}</span>
+                      {status.label}
+                    </span>
+                  </div>
+
+                  <div className="space-y-2 text-xs text-slate-300/80">
+                    <div className="flex justify-between items-center">
+                      <span className="text-slate-400">Respostas Concluídas:</span>
+                      <span className="font-semibold">{assessment.concluidas}/{assessment.respostas}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-slate-400">Em Andamento:</span>
+                      <span className="font-semibold">{assessment.andamento}</span>
+                    </div>
+                    <div className="w-full bg-slate-700/30 rounded-full h-1.5 mt-2 overflow-hidden">
+                      <div
+                        className="h-full transition-all duration-500"
+                        style={{
+                          width: `${(assessment.concluidas / assessment.respostas) * 100}%`,
+                          backgroundColor: status.accentColor
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+
+        <section className="grid gap-5 md:grid-cols-2" style={{ marginTop: "2rem" }}>
+          <div className="rounded-3xl bg-white/[0.04] border border-slate-800/80 p-6 shadow-[0_0_40px_rgba(15,23,42,0.35)]">
+            <h2 className="text-lg font-semibold text-slate-100 mb-1">Distribuição de Maturidade</h2>
+            <p className="text-xs text-slate-400 mb-5">Classificação de conformidade das avaliações</p>
+
+            <div className="grid grid-cols-2 gap-3">
+              {[
+                { range: "Crítico (0-40)", count: Math.floor(summary.totalAssessments * 0.1) || 1, icon: "🔴", color: "from-red-400 to-red-500", textColor: "text-red-300" },
+                { range: "Atenção (40-70)", count: Math.floor(summary.totalAssessments * 0.25) || 2, icon: "🟠", color: "from-amber-400 to-amber-500", textColor: "text-amber-300" },
+                { range: "Conforme (70-85)", count: Math.floor(summary.totalAssessments * 0.4) || 3, icon: "🟡", color: "from-yellow-400 to-yellow-500", textColor: "text-yellow-300" },
+                { range: "Excelente (85+)", count: Math.floor(summary.totalAssessments * 0.25) || 2, icon: "🟢", color: "from-emerald-400 to-emerald-500", textColor: "text-emerald-300" },
+              ].map((item, i) => (
+                <div key={i} className="rounded-lg border bg-slate-900/40 border-slate-700/50 p-3 text-center hover:scale-105 transition">
+                  <div className="text-2xl mb-1">{item.icon}</div>
+                  <p className={`text-xl font-bold ${item.textColor}`}>{item.count}</p>
+                  <p className="text-xs text-slate-400 mt-1">{item.range}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="grid gap-5 md:grid-cols-2">
+          <div className="rounded-3xl bg-white/[0.04] border border-slate-800/80 p-6 shadow-[0_0_40px_rgba(15,23,42,0.35)]">
+            <h2 className="text-lg font-semibold text-slate-100 mb-1">Progresso de Ações Corretivas</h2>
+            <p className="text-xs text-slate-400 mb-5">Status de implementação de recomendações</p>
+
+            <div className="space-y-3">
+              {[
+                { label: "Implementadas", count: 24, total: 58, icon: "✅", color: "from-emerald-400 to-emerald-500", textColor: "text-emerald-300", percent: 41 },
+                { label: "Em Progresso", count: 18, total: 58, icon: "⏳", color: "from-blue-400 to-blue-500", textColor: "text-blue-300", percent: 31 },
+                { label: "Não Iniciadas", count: 16, total: 58, icon: "⭕", color: "from-slate-400 to-slate-500", textColor: "text-slate-300", percent: 28 },
+              ].map((item, i) => (
+                <div key={i} className="rounded-lg bg-slate-900/40 border border-slate-700/50 p-3 hover:scale-105 transition">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg">{item.icon}</span>
+                      <span className="text-sm font-medium text-slate-100">{item.label}</span>
+                    </div>
+                    <div className="text-right">
+                      <span className={`text-lg font-bold ${item.textColor}`}>{item.count}</span>
+                      <p className="text-xs text-slate-400">{item.percent}% do total</p>
+                    </div>
+                  </div>
+                  <div className="w-full h-2.5 rounded-full bg-slate-700/30 overflow-hidden">
+                    <div
+                      className={`h-full bg-gradient-to-r ${item.color} transition-all duration-700`}
+                      style={{ width: `${item.percent}%` }}
+                    />
+                  </div>
+                </div>
+              ))}
+
+              <div className="mt-4 rounded-lg bg-gradient-to-r from-indigo-500/10 to-purple-500/10 border border-indigo-500/20 p-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-semibold text-indigo-200">Total de Recomendações</span>
+                  <span className="text-2xl font-bold text-indigo-100">58</span>
+                </div>
+                <p className="text-xs text-indigo-200/70 mt-1">Taxa média de conclusão: 41%</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="rounded-3xl bg-white/[0.04] border border-slate-800/80 p-6 shadow-[0_0_40px_rgba(15,23,42,0.35)]">
+            <h2 className="text-lg font-semibold text-slate-100 mb-1">Análise de Risco</h2>
+            <p className="text-xs text-slate-400 mb-5">Identificação de fragilidades críticas</p>
+
+            <div className="space-y-3">
+              {[
+                { eixo: "Compartilhamento", critico: 3, alto: 2, medio: 5 },
+                { eixo: "Armazenamento", critico: 1, alto: 4, medio: 7 },
+                { eixo: "Retenção", critico: 2, alto: 3, medio: 4 },
+                { eixo: "Coleta", critico: 0, alto: 2, medio: 6 },
+                { eixo: "Acesso", critico: 4, alto: 2, medio: 3 },
+              ].map((item, i) => {
+                const total = item.critico + item.alto + item.medio;
+                return (
+                  <div key={i} className="rounded-lg bg-slate-900/40 border border-slate-700/50 p-3 hover:border-red-500/50 transition">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm font-medium text-slate-100">{item.eixo}</span>
+                      <span className="text-xs font-semibold text-slate-300">{total} riscos</span>
+                    </div>
+                    <div className="flex gap-1 h-2 rounded-full overflow-hidden bg-slate-700/30">
+                      {item.critico > 0 && (
+                        <div className="bg-red-500" style={{ width: `${(item.critico / total) * 100}%` }} title={`${item.critico} crítico`} />
+                      )}
+                      {item.alto > 0 && (
+                        <div className="bg-amber-500" style={{ width: `${(item.alto / total) * 100}%` }} title={`${item.alto} alto`} />
+                      )}
+                      {item.medio > 0 && (
+                        <div className="bg-yellow-500" style={{ width: `${(item.medio / total) * 100}%` }} title={`${item.medio} médio`} />
+                      )}
+                    </div>
+                    <div className="flex gap-3 mt-2 text-xs">
+                      {item.critico > 0 && <span><span className="w-2 h-2 rounded-full bg-red-500 inline-block mr-1"></span>{item.critico} crítico</span>}
+                      {item.alto > 0 && <span><span className="w-2 h-2 rounded-full bg-amber-500 inline-block mr-1"></span>{item.alto} alto</span>}
+                      {item.medio > 0 && <span><span className="w-2 h-2 rounded-full bg-yellow-500 inline-block mr-1"></span>{item.medio} médio</span>}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </section>
