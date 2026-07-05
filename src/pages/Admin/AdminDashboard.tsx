@@ -1660,7 +1660,7 @@ Agradecemos pela sua colaboração.`;
           />
         )}
 
-        {showChartFilterModal && (
+        {showChartFilterModal && barData && barData.length > 0 && (
           <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-start justify-center z-50 overflow-y-auto p-4 pt-20">
             <Card className="w-full max-w-md bg-slate-950 border border-slate-800 shadow-2xl">
               <div className="space-y-6 p-6 md:p-8">
@@ -1682,7 +1682,7 @@ Agradecemos pela sua colaboração.`;
                 </div>
 
                 <div className="space-y-2 max-h-[400px] overflow-y-auto">
-                  {barData.map((item) => (
+                  {barData && barData.length > 0 && barData.map((item) => (
                     <button
                       key={item.id}
                       onClick={() => {
@@ -1719,7 +1719,7 @@ Agradecemos pela sua colaboração.`;
                   </button>
                   <div className="flex gap-3">
                     <button
-                      onClick={() => setSelectedAssessmentsForChart(new Set(barData.map(d => d.id)))}
+                      onClick={() => barData && setSelectedAssessmentsForChart(new Set(barData.map(d => d.id)))}
                       className="text-xs px-3 py-2 rounded-lg bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 border border-sky-500/30"
                     >
                       Todas
