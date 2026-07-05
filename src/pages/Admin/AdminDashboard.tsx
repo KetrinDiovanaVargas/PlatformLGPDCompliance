@@ -1659,62 +1659,6 @@ Agradecemos pela sua colaboração.`;
           </div>
         </section>
 
-        <section className="rounded-2xl bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/30 p-6 shadow-lg">
-          <div className="mb-6">
-            <h2 className="text-base font-semibold text-slate-100">
-              Distribuição de Maturidade
-            </h2>
-            <p className="text-xs text-slate-400">Classificação de conformidade das avaliações</p>
-          </div>
-
-          <div className="grid gap-5 md:grid-cols-4">
-            {maturityDistribution.map((item, idx) => {
-              let dotColor = "#ef4444";
-              let dotBg = "bg-red-500/10";
-              let borderColor = "border-red-500/30";
-              let labelColor = "text-red-400";
-
-              if (item.range.includes("Atenção")) {
-                dotColor = "#f59e0b";
-                dotBg = "bg-amber-500/10";
-                borderColor = "border-amber-500/30";
-                labelColor = "text-amber-400";
-              } else if (item.range.includes("Conforme")) {
-                dotColor = "#eab308";
-                dotBg = "bg-yellow-500/10";
-                borderColor = "border-yellow-500/30";
-                labelColor = "text-yellow-400";
-              } else if (item.range.includes("Excelente")) {
-                dotColor = "#10b981";
-                dotBg = "bg-emerald-500/10";
-                borderColor = "border-emerald-500/30";
-                labelColor = "text-emerald-400";
-              }
-
-              return (
-                <div
-                  key={idx}
-                  className={`rounded-2xl border ${borderColor} ${dotBg} p-6 flex flex-col items-center justify-center gap-3 backdrop-blur-sm transition-all hover:border-opacity-60`}
-                >
-                  <div
-                    className="w-16 h-16 rounded-full flex items-center justify-center"
-                    style={{ backgroundColor: dotColor + "20" }}
-                  >
-                    <div
-                      className="w-12 h-12 rounded-full"
-                      style={{ backgroundColor: dotColor }}
-                    />
-                  </div>
-                  <p className="text-3xl font-bold text-slate-100">{item.count}</p>
-                  <p className={`text-xs font-medium text-center ${labelColor}`}>
-                    {item.range}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-        </section>
-
         <section className="space-y-5">
           <div>
             <h2 className="text-lg font-semibold text-slate-100">Índice de Conformidade LGPD</h2>
@@ -2081,7 +2025,7 @@ Agradecemos pela sua colaboração.`;
               <h2 className="text-base font-semibold text-red-100">
                 Análise de Risco
               </h2>
-              <p className="text-xs text-slate-400">Identificação de fragilidades críticas por eixo - Dados Firestore</p>
+              <p className="text-xs text-slate-400">Identificação de fragilidades críticas por eixo</p>
             </div>
 
             <div className="h-[280px]">
