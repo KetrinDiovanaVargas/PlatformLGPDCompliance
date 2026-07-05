@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import ReactDOM from "react-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -148,7 +149,7 @@ export function FormCreationWizard({
     "Revise e Crie",
   ];
 
-  return (
+  const modalContent = (
     <div
       className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fade-in"
       onClick={(e) => {
@@ -432,4 +433,6 @@ export function FormCreationWizard({
       </Card>
     </div>
   );
+
+  return ReactDOM.createPortal(modalContent, document.body);
 }
