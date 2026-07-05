@@ -936,9 +936,22 @@ Agradecemos pela sua colaboração.`;
     pdf.setTextColor(100, 100, 120);
     pdf.text(`Gerado em: ${new Date().toLocaleString("pt-BR")}`, margin, pageHeight - 10);
 
-    const fileName = `analise-consolidada-${selectedAssessmentId}-${new Date().toISOString().split('T')[0]}.pdf`;
-    pdf.save(fileName);
-    toast.success("PDF gerado e baixado com sucesso!");
+    try {
+      const fileName = `analise-consolidada-${selectedAssessmentId}-${new Date().toISOString().split('T')[0]}.pdf`;
+      const pdfBlob = pdf.output('blob');
+      const url = URL.createObjectURL(pdfBlob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+      toast.success("PDF gerado e baixado com sucesso!");
+    } catch (error) {
+      console.error("Erro ao gerar PDF:", error);
+      toast.error("Erro ao gerar PDF. Tente novamente.");
+    }
   };
 
   const getStatsByAssessment = (assessmentId: string) => {
@@ -1043,33 +1056,140 @@ Agradecemos pela sua colaboração.`;
   }, [sessions]);
 
   const barData = useMemo(() => {
-    const data = assessments.map((a) => {
-      const stats = getStatsByAssessment(a.id);
+    return assessments.map((a) => {
       const assessmentSessions = sessions.filter(s => s.assessmentId === a.id && s.status === 'completed');
       const scores = assessmentSessions
         .map(s => s.finalReport?.metrics?.score)
         .filter((score): score is number => typeof score === 'number');
       const scoreAverage = scores.length > 0
         ? Math.round(scores.reduce((sum, s) => sum + s, 0) / scores.length)
-        : Math.floor(Math.random() * 40) + 60; // Simula scores entre 60-100
+        : 0;
+
+      const totalSessions = sessions.filter(s => s.assessmentId === a.id).length;
+      const completedSessions = assessmentSessions.length;
+      const inProgressSessions = sessions.filter(s => s.assessmentId === a.id && s.status === 'in_progress').length;
+
       return {
         id: a.id,
         fullName: formatAssessmentTitle(a),
         name: formatChartLabel(a),
-        respostas: stats.total || Math.floor(Math.random() * 20) + 5,
-        concluidas: stats.completed || Math.floor(Math.random() * 15) + 2,
-        andamento: stats.inProgress || Math.floor(Math.random() * 5),
+        respostas: totalSessions,
+        concluidas: completedSessions,
+        andamento: inProgressSessions,
         scoreAverage,
         tipo: labelFromValue(FORM_TYPE_OPTIONS, a.formType),
         objetivo: labelFromValue(OBJECTIVE_OPTIONS, a.objective),
       };
     });
-    return data.length > 0 ? data : [
-      { name: "Diagnóstico LGPD", fullName: "Diagnóstico LGPD", respostas: 12, concluidas: 8, andamento: 2, scoreAverage: 78 },
-      { name: "Maturidade", fullName: "Maturidade LGPD", respostas: 9, concluidas: 7, andamento: 1, scoreAverage: 82 },
-      { name: "Riscos", fullName: "Riscos e Controles", respostas: 15, concluidas: 12, andamento: 2, scoreAverage: 71 },
-    ];
   }, [assessments, sessions]);
+
+  const conformanceByType = useMemo(() => {
+    const typeMap = new Map<string, { count: number; totalScore: number }>();
+
+    barData.forEach((item) => {
+      const type = item.tipo || "Sem categoria";
+      if (!typeMap.has(type)) {
+        typeMap.set(type, { count: 0, totalScore: 0 });
+      }
+      const current = typeMap.get(type)!;
+      current.count += 1;
+      current.totalScore += item.scoreAverage;
+    });
+
+    return Array.from(typeMap.entries()).map(([type, data]) => ({
+      type,
+      compliance: Math.round(data.totalScore / data.count),
+      responses: data.count,
+    }));
+  }, [barData]);
+
+  const riskAnalysis = useMemo(() => {
+    const axes = ["Compartilhamento", "Armazenamento", "Retenção", "Coleta", "Acesso"];
+    const riskMap = new Map<string, { critico: number; alto: number; medio: number }>();
+
+    axes.forEach((axis) => {
+      riskMap.set(axis, { critico: 0, alto: 0, medio: 0 });
+    });
+
+    const completedSessions = sessions.filter((s) => s.status === "completed");
+    completedSessions.forEach((s) => {
+      const risks = (s as any).finalReport?.analysis?.risks || [];
+      risks.forEach((risk: any) => {
+        let axis = "Compartilhamento";
+        if (risk.category?.includes("Armaz") || risk.fragilidade?.includes("Armaz")) {
+          axis = "Armazenamento";
+        } else if (risk.category?.includes("Reten") || risk.fragilidade?.includes("Reten")) {
+          axis = "Retenção";
+        } else if (risk.category?.includes("Coleta") || risk.fragilidade?.includes("Coleta")) {
+          axis = "Coleta";
+        } else if (risk.category?.includes("Acesso") || risk.fragilidade?.includes("Acesso")) {
+          axis = "Acesso";
+        }
+
+        const current = riskMap.get(axis)!;
+        if (risk.severity === "critica" || risk.level === "crítico") {
+          current.critico += 1;
+        } else if (risk.severity === "alta" || risk.level === "alto" || risk.priority === "Alta") {
+          current.alto += 1;
+        } else {
+          current.medio += 1;
+        }
+      });
+    });
+
+    return axes.map((axis) => ({
+      eixo: axis,
+      ...riskMap.get(axis)!,
+    }));
+  }, [sessions]);
+
+  const maturityDistribution = useMemo(() => {
+    const ranges = {
+      critico: 0,
+      atencao: 0,
+      conforme: 0,
+      excelente: 0,
+    };
+
+    barData.forEach((item) => {
+      const score = item.scoreAverage;
+      if (score < 40) ranges.critico += 1;
+      else if (score < 70) ranges.atencao += 1;
+      else if (score < 85) ranges.conforme += 1;
+      else ranges.excelente += 1;
+    });
+
+    return [
+      { range: "Crítico (0-40)", count: ranges.critico || 0 },
+      { range: "Atenção (40-70)", count: ranges.atencao || 0 },
+      { range: "Conforme (70-85)", count: ranges.conforme || 0 },
+      { range: "Excelente (85+)", count: ranges.excelente || 0 },
+    ];
+  }, [barData]);
+
+  const conformancePieData = useMemo(() => {
+    const ranges = {
+      critico: 0,
+      atencao: 0,
+      conforme: 0,
+      excelente: 0,
+    };
+
+    barData.forEach((item) => {
+      const score = item.scoreAverage;
+      if (score < 40) ranges.critico += 1;
+      else if (score < 70) ranges.atencao += 1;
+      else if (score < 85) ranges.conforme += 1;
+      else ranges.excelente += 1;
+    });
+
+    return [
+      { name: "Crítico", value: ranges.critico, fill: "#ef4444" },
+      { name: "Atenção", value: ranges.atencao, fill: "#f59e0b" },
+      { name: "Conforme", value: ranges.conforme, fill: "#84cc16" },
+      { name: "Excelente", value: ranges.excelente, fill: "#10b981" },
+    ].filter(item => item.value > 0);
+  }, [barData]);
 
   const topAssessments = useMemo(() => {
     return assessments
@@ -1499,55 +1619,168 @@ Agradecemos pela sua colaboração.`;
         <section className="rounded-3xl bg-gradient-to-br from-emerald-500/10 via-slate-900/50 to-cyan-500/10 border border-emerald-500/30 p-8 space-y-6 shadow-[0_0_40px_rgba(16,185,129,0.12)]">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <h2 className="text-2xl font-bold text-slate-100 flex items-center gap-2">
+              <h2 className="text-base font-semibold text-slate-100 flex items-center gap-2">
                 <Target className="w-6 h-6 text-emerald-400" />
                 Conformidade LGPD
               </h2>
-              <p className="mt-1 text-sm text-slate-400">
+              <p className="mt-1 text-xs text-slate-400">
                 Dashboard de compliance e conformidade com a Lei Geral de Proteção de Dados
               </p>
             </div>
           </div>
 
           <div className="grid gap-4 md:grid-cols-4">
-            <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/5 p-5 space-y-2">
-              <p className="text-xs uppercase tracking-wider text-emerald-300 font-semibold">Taxa Global de Conformidade</p>
-              <p className="text-3xl font-bold text-emerald-100">
+            <div className="rounded-lg border border-slate-700/50 bg-slate-900/30 p-5 space-y-2">
+              <p className="text-xs font-semibold text-slate-400">Taxa de Conformidade</p>
+              <p className="text-3xl font-bold text-emerald-400">
                 {summary.globalConformanceRate}%
               </p>
-              <p className="text-xs text-emerald-200/70">
-                Média real de {summary.completedResponses} avaliação{summary.completedResponses !== 1 ? 's' : ''} concluída{summary.completedResponses !== 1 ? 's' : ''}
+              <p className="text-xs text-slate-500">
+                {summary.completedResponses} avaliações
               </p>
             </div>
 
-            <div className="rounded-2xl border border-red-500/20 bg-red-500/5 p-5 space-y-2">
-              <p className="text-xs uppercase tracking-wider text-red-300 font-semibold">Riscos Críticos Identificados</p>
-              <p className="text-3xl font-bold text-red-100">
+            <div className="rounded-lg border border-slate-700/50 bg-slate-900/30 p-5 space-y-2">
+              <p className="text-xs font-semibold text-slate-400">Riscos Críticos</p>
+              <p className="text-3xl font-bold text-red-400">
                 {summary.criticalRisks}
               </p>
-              <p className="text-xs text-red-200/70">
-                Detectados em avaliações reais
+              <p className="text-xs text-slate-500">
+                Identificados
               </p>
             </div>
 
-            <div className="rounded-2xl border border-amber-500/20 bg-amber-500/5 p-5 space-y-2">
-              <p className="text-xs uppercase tracking-wider text-amber-300 font-semibold">Avaliações em Andamento</p>
-              <p className="text-3xl font-bold text-amber-100">
+            <div className="rounded-lg border border-slate-700/50 bg-slate-900/30 p-5 space-y-2">
+              <p className="text-xs font-semibold text-slate-400">Em Andamento</p>
+              <p className="text-3xl font-bold text-amber-400">
                 {summary.inProgressResponses}
               </p>
-              <p className="text-xs text-amber-200/70">
+              <p className="text-xs text-slate-500">
                 {summary.totalResponses > 0 ? Math.round((summary.inProgressResponses / summary.totalResponses) * 100) : 0}% do total
               </p>
             </div>
 
-            <div className="rounded-2xl border border-blue-500/20 bg-blue-500/5 p-5 space-y-2">
-              <p className="text-xs uppercase tracking-wider text-blue-300 font-semibold">Taxa de Conclusão</p>
-              <p className="text-3xl font-bold text-blue-100">
+            <div className="rounded-lg border border-slate-700/50 bg-slate-900/30 p-5 space-y-2">
+              <p className="text-xs font-semibold text-slate-400">Taxa de Conclusão</p>
+              <p className="text-3xl font-bold text-blue-400">
                 {summary.totalResponses > 0 ? Math.round((summary.completedResponses / summary.totalResponses) * 100) : 0}%
               </p>
-              <p className="text-xs text-blue-200/70">
+              <p className="text-xs text-slate-500">
                 {summary.completedResponses} de {summary.totalResponses}
               </p>
+            </div>
+          </div>
+        </section>
+
+        <section className="rounded-2xl bg-gradient-to-br from-slate-900/40 to-slate-800/20 border border-slate-700/50 p-6 shadow-lg">
+          <div className="mb-5">
+            <h2 className="text-base font-semibold text-slate-100 flex items-center gap-2">
+              <CheckCircle2 className="w-5 h-5 text-emerald-400" />
+              Índice de Conformidade
+            </h2>
+            <p className="text-xs text-slate-400">Score de compliance por avaliação</p>
+          </div>
+
+          <div className="overflow-x-auto pb-2">
+            <div className="flex gap-3 min-w-min">
+              {barData.filter((a) => a.respostas > 0).map((assessment, idx) => {
+                const isExcelente = assessment.scoreAverage >= 85;
+                const isConforme = assessment.scoreAverage >= 70 && assessment.scoreAverage < 85;
+                const isAtencao = assessment.scoreAverage >= 40 && assessment.scoreAverage < 70;
+                const progressPercent = assessment.concluidas && assessment.respostas ? Math.round((assessment.concluidas / assessment.respostas) * 100) : 0;
+
+                let statusColor = "text-red-400";
+                let statusText = "Crítico";
+                let borderColor = "border-red-500/20";
+                let bgColor = "bg-red-500/5";
+                let circleColor = "#ef4444";
+
+                if (isExcelente) {
+                  statusColor = "text-emerald-400";
+                  statusText = "Excelente";
+                  borderColor = "border-emerald-500/20";
+                  bgColor = "bg-emerald-500/5";
+                  circleColor = "#10b981";
+                } else if (isConforme) {
+                  statusColor = "text-emerald-400";
+                  statusText = "Conforme";
+                  borderColor = "border-emerald-500/20";
+                  bgColor = "bg-emerald-500/5";
+                  circleColor = "#10b981";
+                } else if (isAtencao) {
+                  statusColor = "text-amber-400";
+                  statusText = "Atenção";
+                  borderColor = "border-amber-500/20";
+                  bgColor = "bg-amber-500/5";
+                  circleColor = "#f59e0b";
+                }
+
+                return (
+                  <div
+                    key={assessment.id || idx}
+                    className={`rounded-lg border ${borderColor} ${bgColor} p-3 space-y-3 backdrop-blur-sm flex-shrink-0 w-56`}
+                  >
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-sm font-semibold text-slate-100 truncate">
+                          {assessment.fullName}
+                        </h3>
+                        <p className="text-xs text-slate-400 mt-0.5 truncate">
+                          {assessment.tipo || assessment.objetivo || "Sem categoria"}
+                        </p>
+                      </div>
+                      <div className="relative w-12 h-12 flex-shrink-0 flex items-center justify-center">
+                        <svg className="w-12 h-12 transform -rotate-90" viewBox="0 0 100 100">
+                          <circle
+                            cx="50"
+                            cy="50"
+                            r="45"
+                            fill="none"
+                            stroke="#334155"
+                            strokeWidth="8"
+                          />
+                          <circle
+                            cx="50"
+                            cy="50"
+                            r="45"
+                            fill="none"
+                            stroke={circleColor}
+                            strokeWidth="8"
+                            strokeDasharray={`${assessment.scoreAverage * 2.83} 283`}
+                            strokeLinecap="round"
+                          />
+                        </svg>
+                        <span className="absolute text-xs font-bold text-white">
+                          {assessment.scoreAverage}%
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-1 px-2 py-1 rounded bg-black/30 border border-slate-700/50">
+                      <span className="text-emerald-400 text-xs">✓</span>
+                      <span className="text-xs font-medium text-slate-100">{statusText}</span>
+                    </div>
+
+                    <div className="space-y-1 text-xs">
+                      <div className="flex justify-between text-slate-300">
+                        <span>Concluídas:</span>
+                        <span className="font-semibold">{assessment.concluidas}/{assessment.respostas}</span>
+                      </div>
+                      <div className="flex justify-between text-slate-300">
+                        <span>Andamento:</span>
+                        <span className="font-semibold">{assessment.andamento}</span>
+                      </div>
+                    </div>
+
+                    <div className="w-full h-1.5 rounded-full bg-slate-800 overflow-hidden">
+                      <div
+                        className="h-full bg-gradient-to-r from-emerald-500 to-emerald-400 rounded-full transition-all duration-300"
+                        style={{ width: `${progressPercent}%` }}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </section>
@@ -1689,6 +1922,88 @@ Agradecemos pela sua colaboração.`;
           </section>
         )}
 
+        <section className="grid gap-5 md:grid-cols-3">
+          <div className="rounded-2xl bg-gradient-to-br from-slate-900/40 to-slate-800/20 border border-slate-700/50 p-6 shadow-lg">
+            <div className="mb-5">
+              <h2 className="text-base font-semibold text-slate-100 mb-1 flex items-center gap-2">
+                <BarChart3 className="w-5 h-5 text-blue-400" />
+                Distribuição de Respostas
+              </h2>
+              <p className="text-xs text-slate-400">Status das avaliações</p>
+            </div>
+
+            <div className="space-y-2">
+              {pieData.map((item, i) => (
+                <div
+                  key={i}
+                  className="flex items-center justify-between p-3 rounded-lg bg-slate-950/30 border border-slate-700/30 hover:border-slate-600/50 transition"
+                >
+                  <div className="flex items-center gap-3">
+                    <div
+                      className="h-3 w-3 rounded-full shadow-sm"
+                      style={{
+                        backgroundColor: STATUS_COLORS[i],
+                        boxShadow: `0 0 8px ${STATUS_COLORS[i]}80`
+                      }}
+                    />
+                    <span className="text-sm font-medium text-slate-200">{item.name}</span>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <span
+                      className="font-bold text-base"
+                      style={{ color: STATUS_COLORS[i] }}
+                    >
+                      {item.value}
+                    </span>
+                    <span className="text-xs text-slate-400">
+                      {summary.totalResponses > 0 ? Math.round((item.value / summary.totalResponses) * 100) : 0}%
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="rounded-2xl bg-gradient-to-br from-slate-900/40 to-slate-800/20 border border-slate-700/50 p-6 md:col-span-2 h-[420px] shadow-lg">
+            <div className="mb-4">
+              <h2 className="text-base font-semibold text-slate-100">
+                {role === "MASTER"
+                  ? "Respostas por Avaliação"
+                  : "Minhas Respostas por Avaliação"}
+              </h2>
+              <p className="text-xs text-slate-400 mt-1">Número de respostas coletadas por avaliação</p>
+            </div>
+
+            <div className="h-[320px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={barData}>
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                  <XAxis
+                    dataKey="name"
+                    tick={{ fill: "#cbd5f5", fontSize: 11 }}
+                    interval={0}
+                    angle={0}
+                  />
+                  <YAxis
+                    tick={{ fill: "#cbd5f5", fontSize: 11 }}
+                    allowDecimals={false}
+                  />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: "#0f172a",
+                      border: "1px solid #334155",
+                      borderRadius: "12px",
+                      color: "#fff",
+                    }}
+                    formatter={(value: any, name: string) => [value, name]}
+                    labelFormatter={(_, payload) =>
+                      payload?.[0]?.payload?.fullName || ""
+                    }
+                  />
+                  <Bar dataKey="respostas" radius={[8, 8, 0, 0]} fill="#38bdf8" />
+                </BarChart>
+              </ResponsiveContainer>
         <section className="grid gap-5 md:grid-cols-2">
           <div className="rounded-3xl bg-white/[0.04] border border-slate-800/80 p-6 shadow-[0_0_40px_rgba(15,23,42,0.35)]">
             <h2 className="text-lg font-semibold text-slate-100 mb-1">Top Fragilidades Críticas</h2>
@@ -1753,6 +2068,39 @@ Agradecemos pela sua colaboração.`;
           </div>
         </section>
 
+        <section className="grid gap-5 md:grid-cols-1">
+          <div className="rounded-2xl bg-gradient-to-br from-red-900/15 to-slate-800/20 border border-red-700/30 p-6 h-[420px] shadow-lg">
+            <div className="mb-4">
+              <h2 className="text-base font-semibold text-red-100 flex items-center gap-2">
+                <AlertTriangle className="w-5 h-5 text-red-400" />
+                Análise de Risco
+              </h2>
+              <p className="text-xs text-slate-400">Identificação de fragilidades críticas por eixo</p>
+            </div>
+
+            <div className="h-[280px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart
+                  data={riskAnalysis.length > 0 ? riskAnalysis : [
+                    { eixo: "Sem dados", critico: 0, alto: 0, medio: 0 },
+                  ]}
+                >
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#334155" />
+                  <XAxis dataKey="eixo" tick={{ fill: "#cbd5f5", fontSize: 10 }} angle={-45} textAnchor="end" height={80} />
+                  <YAxis tick={{ fill: "#cbd5f5", fontSize: 11 }} />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: "#0f172a",
+                      border: "1px solid #334155",
+                      borderRadius: "12px",
+                      color: "#fff",
+                    }}
+                  />
+                  <Bar dataKey="critico" stackId="a" radius={[8, 8, 0, 0]} fill="#ef4444" />
+                  <Bar dataKey="alto" stackId="a" fill="#f59e0b" />
+                  <Bar dataKey="medio" stackId="a" fill="#eab308" />
+                </BarChart>
+              </ResponsiveContainer>
         <section>
           <div className="mb-6">
             <h2 className="text-lg font-semibold text-slate-100 mb-2">
