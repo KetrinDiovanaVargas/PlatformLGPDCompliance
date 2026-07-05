@@ -1405,6 +1405,19 @@ Agradecemos pela sua colaboração.`;
             </div>
           ) : consolidatedAnalysis ? (
             <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-semibold text-slate-100">
+                  Consolidação dos relatórios de avaliação
+                </h3>
+                <button
+                  onClick={() => setConsolidatedAnalysis(null)}
+                  className="text-slate-400 hover:text-slate-200 transition-colors"
+                  title="Fechar análise"
+                >
+                  <span className="text-xl">✕</span>
+                </button>
+              </div>
+
               {consolidatedAnalysis.notice && (
                 <div className="rounded-lg border border-amber-500/20 bg-amber-500/10 p-3">
                   <p className="text-xs text-amber-200">
