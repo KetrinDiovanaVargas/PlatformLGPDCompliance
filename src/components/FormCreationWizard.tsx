@@ -38,17 +38,6 @@ const OBJECTIVE_OPTIONS = [
   { value: "identificacao_riscos", label: "Identificação de riscos" },
 ];
 
-const AUDIENCE_OPTIONS = [
-  { value: "alunos", label: "Alunos" },
-  { value: "colaboradores_clt", label: "Colaboradores CLT" },
-  { value: "desempregados", label: "Desempregados" },
-  { value: "clientes", label: "Clientes" },
-  { value: "fornecedores", label: "Fornecedores" },
-  { value: "cooperados", label: "Cooperados" },
-  { value: "comunidade", label: "Comunidade em geral" },
-  { value: "outro", label: "Outro" },
-];
-
 type WizardProps = {
   adminUid: string;
   adminName: string;
@@ -68,8 +57,7 @@ export function FormCreationWizard({
   const [title, setTitle] = useState("");
   const [formType, setFormType] = useState("lgpd_diagnostico");
   const [objective, setObjective] = useState("diagnostico_inicial");
-  const [audience, setAudience] = useState("alunos");
-  const [audienceOther, setAudienceOther] = useState("");
+  const [audience, setAudience] = useState("");
   const [introText, setIntroText] = useState("");
   const [context, setContext] = useState("");
 
@@ -78,7 +66,7 @@ export function FormCreationWizard({
       case 1:
         return title.trim() && formType;
       case 2:
-        return audience && (audience !== "outro" || audienceOther.trim());
+        return audience.trim();
       case 3:
         return introText.trim() && context.trim();
       case 4:
@@ -106,14 +94,11 @@ export function FormCreationWizard({
     try {
       setLoading(true);
 
-      const finalAudience =
-        audience === "outro" ? audienceOther.trim() : audience;
-
       const docRef = await addDoc(collection(db, "assessments"), {
         title: title.trim(),
         formType,
         objective,
-        audience: finalAudience,
+        audience: audience.trim(),
         introText: introText.trim(),
         context: context.trim(),
         active: true,
@@ -223,33 +208,14 @@ export function FormCreationWizard({
                 <label className="block text-sm font-medium text-slate-300 mb-2">
                   Público-Alvo *
                 </label>
-                <select
+                <input
+                  type="text"
                   value={audience}
                   onChange={(e) => setAudience(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-lg bg-slate-900 border border-slate-700 text-slate-100 outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
-                >
-                  {AUDIENCE_OPTIONS.map((opt) => (
-                    <option key={opt.value} value={opt.value}>
-                      {opt.label}
-                    </option>
-                  ))}
-                </select>
+                  placeholder="Ex: Alunos, Colaboradores CLT, Clientes, etc"
+                  className="w-full px-4 py-2.5 rounded-lg bg-slate-900 border border-slate-700 text-slate-100 placeholder-slate-500 outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+                />
               </div>
-
-              {audience === "outro" && (
-                <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">
-                    Informe o público-alvo customizado *
-                  </label>
-                  <input
-                    type="text"
-                    value={audienceOther}
-                    onChange={(e) => setAudienceOther(e.target.value)}
-                    placeholder="Ex: Executivos da área de TI"
-                    className="w-full px-4 py-2.5 rounded-lg bg-slate-900 border border-slate-700 text-slate-100 placeholder-slate-500 outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
-                  />
-                </div>
-              )}
 
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-2">
@@ -343,10 +309,7 @@ export function FormCreationWizard({
                       Público-Alvo
                     </p>
                     <p className="text-sm text-slate-300">
-                      {audience === "outro"
-                        ? audienceOther
-                        : AUDIENCE_OPTIONS.find((o) => o.value === audience)
-                            ?.label}
+                      {audience}
                     </p>
                   </div>
                   <div>

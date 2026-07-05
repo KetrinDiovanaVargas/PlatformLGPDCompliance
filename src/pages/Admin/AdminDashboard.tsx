@@ -142,17 +142,6 @@ const OBJECTIVE_OPTIONS = [
   { value: "identificacao_riscos", label: "Identificação de riscos" },
 ];
 
-const AUDIENCE_OPTIONS = [
-  { value: "alunos", label: "Alunos" },
-  { value: "colaboradores_clt", label: "Colaboradores CLT" },
-  { value: "desempregados", label: "Desempregados" },
-  { value: "clientes", label: "Clientes" },
-  { value: "fornecedores", label: "Fornecedores" },
-  { value: "cooperados", label: "Cooperados" },
-  { value: "comunidade", label: "Comunidade em geral" },
-  { value: "outro", label: "Outro" },
-];
-
 // Em dev, o Vite já faz proxy de /api -> http://localhost:8787 (vite.config.ts).
 // Se VITE_API_BASE_URL não estiver definido, usamos "" para manter URLs relativas.
 const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL ?? "").replace(/\/$/, "");
@@ -183,8 +172,7 @@ export default function AdminDashboard() {
   const [title, setTitle] = useState("");
   const [formType, setFormType] = useState("lgpd_diagnostico");
   const [objective, setObjective] = useState("diagnostico_inicial");
-  const [audience, setAudience] = useState("alunos");
-  const [audienceOther, setAudienceOther] = useState("");
+  const [audience, setAudience] = useState("");
   const [introText, setIntroText] = useState("");
   const [context, setContext] = useState("");
 
@@ -315,16 +303,7 @@ export default function AdminDashboard() {
   };
 
   const formatAudienceLabel = (assessment: Assessment) => {
-    if (!assessment.audience?.trim()) return "Não definido";
-
-    if (
-      assessment.audience &&
-      !AUDIENCE_OPTIONS.some((item) => item.value === assessment.audience)
-    ) {
-      return assessment.audience;
-    }
-
-    return labelFromValue(AUDIENCE_OPTIONS, assessment.audience);
+    return assessment.audience?.trim() || "Não definido";
   };
 
   const formatAssessmentTitle = (assessment: Assessment) => {
@@ -494,13 +473,6 @@ Agradecemos pela sua colaboração.`;
       return;
     }
 
-    if (audience === "outro" && !audienceOther.trim()) {
-      toast.error('Informe o público-alvo quando selecionar "Outro".');
-      return;
-    }
-
-    const finalAudience = audience === "outro" ? audienceOther.trim() : audience;
-
     try {
       setCreatingAssessment(true);
 
@@ -508,7 +480,7 @@ Agradecemos pela sua colaboração.`;
         title: title.trim(),
         formType,
         objective,
-        audience: finalAudience,
+        audience: audience.trim(),
         introText: introText.trim(),
         context: context.trim(),
         active: true,
@@ -528,8 +500,7 @@ Agradecemos pela sua colaboração.`;
       setTitle("");
       setFormType("lgpd_diagnostico");
       setObjective("diagnostico_inicial");
-      setAudience("alunos");
-      setAudienceOther("");
+      setAudience("");
       setIntroText("");
       setContext("");
 
