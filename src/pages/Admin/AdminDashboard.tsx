@@ -201,6 +201,7 @@ export default function AdminDashboard() {
     useState<ConsolidatedAnalysis | null>(null);
   const [showAssessmentSelector, setShowAssessmentSelector] = useState(false);
   const [showCreateAdminModal, setShowCreateAdminModal] = useState(false);
+  const [selectedAssessmentsForChart, setSelectedAssessmentsForChart] = useState<Set<string>>(new Set());
 
   const [formOpen, setFormOpen] = useState(false);
   const [expandedMessages, setExpandedMessages] = useState<Set<string>>(new Set());
@@ -1902,7 +1903,7 @@ Agradecemos pela sua colaboração.`;
             </div>
           </div>
 
-          <div className="rounded-2xl bg-gradient-to-br from-slate-900/40 to-slate-800/20 border border-slate-700/50 p-6 md:col-span-2 h-[420px] shadow-lg">
+          <div className="rounded-2xl bg-gradient-to-br from-slate-900/40 to-slate-800/20 border border-slate-700/50 p-6 md:col-span-2 h-auto shadow-lg">
             <div className="mb-4">
               <h2 className="text-base font-semibold text-slate-100">
                 {role === "MASTER"
@@ -1912,9 +1913,52 @@ Agradecemos pela sua colaboração.`;
               <p className="text-xs text-slate-400 mt-1">Número de respostas coletadas por avaliação</p>
             </div>
 
+            {role === "MASTER" && barData.length > 0 && (
+              <div className="mb-4 p-4 rounded-lg bg-slate-800/40 border border-slate-700">
+                <p className="text-xs font-semibold text-slate-300 mb-3 uppercase tracking-wider">
+                  Filtrar avaliações:
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    onClick={() => setSelectedAssessmentsForChart(new Set(barData.map(d => d.id)))}
+                    className="text-xs px-3 py-1.5 rounded-lg bg-sky-500/20 text-sky-300 border border-sky-500/30 hover:bg-sky-500/30 transition-colors"
+                  >
+                    Todas
+                  </button>
+                  <button
+                    onClick={() => setSelectedAssessmentsForChart(new Set())}
+                    className="text-xs px-3 py-1.5 rounded-lg bg-slate-700/50 text-slate-300 border border-slate-600/50 hover:bg-slate-700 transition-colors"
+                  >
+                    Limpar
+                  </button>
+                  {barData.map((item) => (
+                    <button
+                      key={item.id}
+                      onClick={() => {
+                        const newSet = new Set(selectedAssessmentsForChart);
+                        if (newSet.has(item.id)) {
+                          newSet.delete(item.id);
+                        } else {
+                          newSet.add(item.id);
+                        }
+                        setSelectedAssessmentsForChart(newSet);
+                      }}
+                      className={`text-xs px-3 py-1.5 rounded-lg border transition-colors ${
+                        selectedAssessmentsForChart.has(item.id)
+                          ? "bg-sky-500/30 text-sky-100 border-sky-500/50"
+                          : "bg-slate-700/30 text-slate-300 border-slate-600/30 hover:bg-slate-700/50"
+                      }`}
+                    >
+                      {item.name.length > 20 ? item.name.substring(0, 17) + "..." : item.name}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
             <div className="h-[320px]">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={barData}>
+                <BarChart data={selectedAssessmentsForChart.size > 0 ? barData.filter(d => selectedAssessmentsForChart.has(d.id)) : barData}>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} />
                   <XAxis
                     dataKey="name"
