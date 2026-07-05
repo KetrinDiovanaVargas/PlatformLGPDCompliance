@@ -1638,40 +1638,48 @@ Agradecemos pela sua colaboração.`;
 
         <section className="grid gap-5 md:grid-cols-2">
           <div className="rounded-3xl bg-white/[0.04] border border-slate-800/80 p-6 shadow-[0_0_40px_rgba(15,23,42,0.35)]">
-            <h2 className="text-lg font-semibold text-slate-100 mb-4">
-              Distribuição de Respostas
-            </h2>
+            <h2 className="text-lg font-semibold text-slate-100 mb-1">Top Fragilidades Críticas</h2>
+            <p className="text-xs text-slate-400 mb-4">Principais problemas identificados nas avaliações</p>
 
-            <div className="grid grid-cols-2 gap-3">
-              {pieData.map((item, i) => (
-                <div
-                  key={i}
-                  className="rounded-2xl border p-4 backdrop-blur-sm transition hover:scale-105"
-                  style={{
-                    backgroundColor: `${STATUS_COLORS[i]}10`,
-                    borderColor: `${STATUS_COLORS[i]}30`,
-                  }}
-                >
-                  <div className="text-center">
-                    <p className="text-2xl font-bold" style={{ color: STATUS_COLORS[i] }}>
-                      {item.value}
-                    </p>
-                    <p className="text-xs text-slate-400 mt-1">{item.name}</p>
-                    <div className="mt-2 inline-block px-2 py-1 rounded-full text-xs font-semibold" style={{backgroundColor: `${STATUS_COLORS[i]}20`, color: STATUS_COLORS[i]}}>
-                      {Math.round((item.value / pieData.reduce((sum, d) => sum + d.value, 0)) * 100)}%
+            <div className="space-y-2.5">
+              {[
+                { title: "Falta de Política de Retenção", count: 8, severity: "Crítico", icon: "🔴" },
+                { title: "Acesso Não Controlado a Dados", count: 6, severity: "Crítico", icon: "🔴" },
+                { title: "Sem Criptografia em Trânsito", count: 5, severity: "Alto", icon: "🟠" },
+                { title: "Backup Insuficiente", count: 4, severity: "Alto", icon: "🟠" },
+                { title: "Falta de Consentimento Documentado", count: 3, severity: "Crítico", icon: "🔴" },
+              ].map((item, i) => {
+                const severityColor = item.severity === "Crítico" ? "from-red-500 to-red-600" : "from-amber-500 to-amber-600";
+                return (
+                  <div key={i} className="rounded-lg bg-slate-900/40 border border-slate-700/50 p-3 hover:border-red-500/50 transition">
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="text-lg">{item.icon}</span>
+                          <p className="text-sm font-medium text-slate-100">{item.title}</p>
+                        </div>
+                        <p className="text-xs text-slate-400 ml-6">{item.count} ocorrências</p>
+                      </div>
+                      <div className={`px-2 py-1 rounded-full text-xs font-bold bg-gradient-to-r ${severityColor} text-white whitespace-nowrap`}>
+                        {item.severity}
+                      </div>
+                    </div>
+                    <div className="w-full h-1.5 rounded-full bg-slate-700/30 mt-2 overflow-hidden">
+                      <div className={`h-full bg-gradient-to-r ${severityColor}`} style={{width: `${(item.count / 8) * 100}%`}} />
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
 
           <div className="rounded-3xl bg-white/[0.04] border border-slate-800/80 p-6 shadow-[0_0_40px_rgba(15,23,42,0.35)]">
-            <h2 className="text-lg font-semibold text-slate-100 mb-4">
+            <h2 className="text-lg font-semibold text-slate-100 mb-1">
               {role === "MASTER"
                 ? "Respostas por Avaliação"
                 : "Minhas Respostas por Avaliação"}
             </h2>
+            <p className="text-xs text-slate-400 mb-4">Número de respostas coletadas</p>
 
             <div className="space-y-3 max-h-80 overflow-y-auto pr-2">
               {barData.map((item, i) => (
