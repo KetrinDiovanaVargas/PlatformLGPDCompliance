@@ -57,6 +57,7 @@ import { toast } from "sonner";
 import jsPDF from "jspdf";
 import { FormCreationWizard } from "@/components/FormCreationWizard";
 import { AssessmentSelectorModal } from "@/components/AssessmentSelectorModal";
+import { CreateAdminModal } from "@/components/CreateAdminModal";
 import { AssessmentCard } from "@/components/AssessmentCard";
 
 type AdminRole = "MASTER" | "ADMIN" | "";
@@ -199,6 +200,7 @@ export default function AdminDashboard() {
   const [consolidatedAnalysis, setConsolidatedAnalysis] =
     useState<ConsolidatedAnalysis | null>(null);
   const [showAssessmentSelector, setShowAssessmentSelector] = useState(false);
+  const [showCreateAdminModal, setShowCreateAdminModal] = useState(false);
 
   const [formOpen, setFormOpen] = useState(false);
   const [expandedMessages, setExpandedMessages] = useState<Set<string>>(new Set());
@@ -490,17 +492,25 @@ Agradecemos pela sua colaboração.`;
     }
   };
 
-  const handleCreateAdmin = async () => {
+  const handleCreateAdmin = async (data?: {
+    name: string;
+    email: string;
+    password: string;
+    role: "ADMIN" | "MASTER";
+  }) => {
     if (role !== "MASTER") {
       toast.error("Apenas o administrador MASTER pode criar acessos.");
       return;
     }
 
-    if (
-      !adminNameInput.trim() ||
-      !adminEmailInput.trim() ||
-      !adminPasswordInput.trim()
-    ) {
+    const adminData = data || {
+      name: adminNameInput.trim(),
+      email: adminEmailInput.trim().toLowerCase(),
+      password: adminPasswordInput.trim(),
+      role: adminRoleInput,
+    };
+
+    if (!adminData.name || !adminData.email || !adminData.password) {
       toast.error("Preencha nome, email e senha do administrador.");
       return;
     }
@@ -517,17 +527,17 @@ Agradecemos pela sua colaboração.`;
         },
         body: JSON.stringify({
           requesterUid,
-          name: adminNameInput.trim(),
-          email: adminEmailInput.trim().toLowerCase(),
-          password: adminPasswordInput.trim(),
-          role: adminRoleInput,
+          name: adminData.name,
+          email: adminData.email.toLowerCase(),
+          password: adminData.password,
+          role: adminData.role,
         }),
       });
 
-      const data = await readJsonResponse(response);
+      const responseData = await readJsonResponse(response);
 
       if (!response.ok) {
-        throw new Error(getApiErrorMessage(data, "Erro ao criar administrador."));
+        throw new Error(getApiErrorMessage(responseData, "Erro ao criar administrador."));
       }
 
       toast.success("Administrador criado com sucesso.");
@@ -1307,65 +1317,21 @@ Agradecemos pela sua colaboração.`;
 
         {role === "MASTER" && (
           <section className="rounded-3xl bg-white/[0.04] border border-slate-800/80 p-8 shadow-[0_0_60px_rgba(99,102,241,0.14)] space-y-5">
-            <div>
-              <div className="flex items-center gap-2 mb-2">
-                <UserCog className="h-4 w-4 text-cyan-300" />
-                <h3 className="text-sm font-semibold text-slate-200 tracking-tight">
-                  Gestão de administradores
-                </h3>
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="flex items-center gap-2">
+                  <UserCog className="h-4 w-4 text-cyan-300" />
+                  <h3 className="text-sm font-semibold text-slate-200 tracking-tight">
+                    Gestão de administradores
+                  </h3>
+                </div>
               </div>
-              <p className="text-xs text-slate-400">
-                Crie novos acessos de administrador preenchendo os campos abaixo. Defina um nome, email, senha temporária e nível de acesso.
-              </p>
-            </div>
-
-            <div className="space-y-3">
-              <input
-                value={adminNameInput}
-                onChange={(e) => setAdminNameInput(e.target.value)}
-                placeholder="Nome do administrador"
-                className="w-full p-3 rounded-xl bg-black/40 border border-white/20 text-white outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500"
-              />
-
-              <input
-                value={adminEmailInput}
-                onChange={(e) => setAdminEmailInput(e.target.value)}
-                placeholder="Email do administrador"
-                className="w-full p-3 rounded-xl bg-black/40 border border-white/20 text-white outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500"
-              />
-
-              <input
-                type="password"
-                value={adminPasswordInput}
-                onChange={(e) => setAdminPasswordInput(e.target.value)}
-                placeholder="Senha temporária"
-                className="w-full p-3 rounded-xl bg-black/40 border border-white/20 text-white outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500"
-              />
-
-              <select
-                value={adminRoleInput}
-                onChange={(e) =>
-                  setAdminRoleInput(e.target.value as "ADMIN" | "MASTER")
-                }
-                className="w-full p-3 rounded-xl bg-black/40 border border-white/20 text-white outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500"
-              >
-                <option value="ADMIN" className="bg-slate-950 text-white">
-                  ADMIN
-                </option>
-                <option value="MASTER" className="bg-slate-950 text-white">
-                  MASTER
-                </option>
-              </select>
-            </div>
-
-            <div className="flex justify-end pt-2">
               <Button
-                onClick={handleCreateAdmin}
-                disabled={creatingAdmin}
+                onClick={() => setShowCreateAdminModal(true)}
                 className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-fuchsia-500 via-purple-500 to-indigo-500 px-6 py-2.5 text-sm font-semibold text-white shadow-lg hover:brightness-110 transition"
               >
                 <PlusCircle className="h-4 w-4" />
-                {creatingAdmin ? "Criando..." : "Criar Acesso"}
+                Criar Acesso
               </Button>
             </div>
 
@@ -1678,6 +1644,17 @@ Agradecemos pela sua colaboração.`;
             }}
             onCancel={() => setShowAssessmentSelector(false)}
             loading={loadingConsolidated}
+          />
+        )}
+
+        {showCreateAdminModal && (
+          <CreateAdminModal
+            onSubmit={async (data) => {
+              await handleCreateAdmin(data);
+              setShowCreateAdminModal(false);
+            }}
+            onCancel={() => setShowCreateAdminModal(false)}
+            loading={creatingAdmin}
           />
         )}
 
