@@ -949,9 +949,22 @@ Agradecemos pela sua colaboração.`;
     pdf.setTextColor(100, 100, 120);
     pdf.text(`Gerado em: ${new Date().toLocaleString("pt-BR")}`, margin, pageHeight - 10);
 
-    const fileName = `analise-consolidada-${selectedAssessmentId}-${new Date().toISOString().split('T')[0]}.pdf`;
-    pdf.save(fileName);
-    toast.success("PDF gerado e baixado com sucesso!");
+    try {
+      const fileName = `analise-consolidada-${selectedAssessmentId}-${new Date().toISOString().split('T')[0]}.pdf`;
+      const pdfBlob = pdf.output('blob');
+      const url = URL.createObjectURL(pdfBlob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+      toast.success("PDF gerado e baixado com sucesso!");
+    } catch (error) {
+      console.error("Erro ao gerar PDF:", error);
+      toast.error("Erro ao gerar PDF. Tente novamente.");
+    }
   };
 
   const getStatsByAssessment = (assessmentId: string) => {
@@ -1661,8 +1674,8 @@ Agradecemos pela sua colaboração.`;
 
         <section className="rounded-2xl bg-gradient-to-br from-slate-900/40 to-slate-800/20 border border-slate-700/50 p-6 shadow-lg">
           <div className="mb-5">
-            <h2 className="text-base font-semibold text-slate-100">Índice de Conformidade LGPD</h2>
-            <p className="text-xs text-slate-400">Score de compliance por avaliação</p>
+            <h2 className="text-2xl font-bold text-slate-100">Índice de Conformidade LGPD</h2>
+            <p className="text-sm text-slate-400">Score de compliance por avaliação</p>
           </div>
 
           <div className="overflow-x-auto pb-2">
