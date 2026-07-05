@@ -1168,6 +1168,30 @@ Agradecemos pela sua colaboração.`;
     ];
   }, [barData]);
 
+  const conformancePieData = useMemo(() => {
+    const ranges = {
+      critico: 0,
+      atencao: 0,
+      conforme: 0,
+      excelente: 0,
+    };
+
+    barData.forEach((item) => {
+      const score = item.scoreAverage;
+      if (score < 40) ranges.critico += 1;
+      else if (score < 70) ranges.atencao += 1;
+      else if (score < 85) ranges.conforme += 1;
+      else ranges.excelente += 1;
+    });
+
+    return [
+      { name: "Crítico", value: ranges.critico, fill: "#ef4444" },
+      { name: "Atenção", value: ranges.atencao, fill: "#f59e0b" },
+      { name: "Conforme", value: ranges.conforme, fill: "#84cc16" },
+      { name: "Excelente", value: ranges.excelente, fill: "#10b981" },
+    ].filter(item => item.value > 0);
+  }, [barData]);
+
   const topAssessments = useMemo(() => {
     return assessments
       .map((a) => ({
@@ -1640,20 +1664,25 @@ Agradecemos pela sua colaboração.`;
           <div className="rounded-2xl bg-gradient-to-br from-emerald-900/20 to-slate-800/20 border border-emerald-700/30 p-6 h-[380px] shadow-lg">
             <div className="mb-4">
               <h2 className="text-base font-semibold text-emerald-100">
-                Índice de Conformidade LGPD
+                Distribuição de Conformidade
               </h2>
-              <p className="text-xs text-slate-400">Score médio de compliance por avaliação - Dados Firestore</p>
+              <p className="text-xs text-slate-400">Status das avaliações por nível de conformidade</p>
             </div>
 
             <div className="h-[280px]">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart
-                  data={barData}
-                  layout="vertical"
-                  margin={{ top: 5, right: 30, left: 140, bottom: 5 }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" vertical={true} stroke="#334155" />
-                  <XAxis type="number" tick={{ fill: "#cbd5f5", fontSize: 11 }} domain={[0, 100]} />
+                <PieChart>
+                  <Pie
+                    data={conformancePieData}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={false}
+                    label={(entry) => `${entry.name}: ${entry.value}`}
+                    outerRadius={80}
+                    fill="#10b981"
+                    dataKey="value"
+                  >
+                  </Pie>
                   <Tooltip
                     contentStyle={{
                       backgroundColor: "#0f172a",
@@ -1661,14 +1690,9 @@ Agradecemos pela sua colaboração.`;
                       borderRadius: "12px",
                       color: "#fff",
                     }}
-                    formatter={(value: any) => {
-                      const v = Math.round(value);
-                      const status = v >= 80 ? "Conforme" : v >= 60 ? "Atenção" : "Crítico";
-                      return [`${v}% (${status})`, "Conformidade"];
-                    }}
+                    formatter={(value: any) => [value, "Avaliações"]}
                   />
-                  <Bar dataKey="scoreAverage" radius={[0, 8, 8, 0]} fill="#10b981" />
-                </BarChart>
+                </PieChart>
               </ResponsiveContainer>
             </div>
           </div>
@@ -1678,7 +1702,7 @@ Agradecemos pela sua colaboração.`;
               <h2 className="text-base font-semibold text-amber-100">
                 Distribuição de Maturidade
               </h2>
-              <p className="text-xs text-slate-400">Classificação de conformidade das avaliações - Dados Firestore</p>
+              <p className="text-xs text-slate-400">Classificação de conformidade das avaliações</p>
             </div>
 
             <div className="h-[280px]">
