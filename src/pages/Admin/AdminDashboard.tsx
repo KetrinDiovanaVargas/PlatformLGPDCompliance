@@ -956,10 +956,16 @@ Agradecemos pela sua colaboração.`;
       const link = document.createElement('a');
       link.href = url;
       link.download = fileName;
+      link.style.display = 'none';
       document.body.appendChild(link);
       link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
+
+      // Wait before removing to ensure download completes
+      setTimeout(() => {
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+      }, 100);
+
       toast.success("PDF gerado e baixado com sucesso!");
     } catch (error) {
       console.error("Erro ao gerar PDF:", error);
