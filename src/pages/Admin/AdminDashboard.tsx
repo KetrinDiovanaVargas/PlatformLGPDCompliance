@@ -1594,42 +1594,42 @@ Agradecemos pela sua colaboração.`;
           </div>
 
           <div className="grid gap-4 md:grid-cols-4">
-            <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/5 p-5 space-y-2">
-              <p className="text-xs uppercase tracking-wider text-emerald-300 font-semibold">Taxa Global de Conformidade</p>
-              <p className="text-3xl font-bold text-emerald-100">
+            <div className="rounded-lg border border-slate-700/50 bg-slate-900/30 p-5 space-y-2">
+              <p className="text-xs font-semibold text-slate-400">Taxa de Conformidade</p>
+              <p className="text-3xl font-bold text-emerald-400">
                 {summary.globalConformanceRate}%
               </p>
-              <p className="text-xs text-emerald-200/70">
-                Média real de {summary.completedResponses} avaliação{summary.completedResponses !== 1 ? 's' : ''} concluída{summary.completedResponses !== 1 ? 's' : ''}
+              <p className="text-xs text-slate-500">
+                {summary.completedResponses} avaliações
               </p>
             </div>
 
-            <div className="rounded-2xl border border-red-500/20 bg-red-500/5 p-5 space-y-2">
-              <p className="text-xs uppercase tracking-wider text-red-300 font-semibold">Riscos Críticos Identificados</p>
-              <p className="text-3xl font-bold text-red-100">
+            <div className="rounded-lg border border-slate-700/50 bg-slate-900/30 p-5 space-y-2">
+              <p className="text-xs font-semibold text-slate-400">Riscos Críticos</p>
+              <p className="text-3xl font-bold text-red-400">
                 {summary.criticalRisks}
               </p>
-              <p className="text-xs text-red-200/70">
-                Detectados em avaliações reais
+              <p className="text-xs text-slate-500">
+                Identificados
               </p>
             </div>
 
-            <div className="rounded-2xl border border-amber-500/20 bg-amber-500/5 p-5 space-y-2">
-              <p className="text-xs uppercase tracking-wider text-amber-300 font-semibold">Avaliações em Andamento</p>
-              <p className="text-3xl font-bold text-amber-100">
+            <div className="rounded-lg border border-slate-700/50 bg-slate-900/30 p-5 space-y-2">
+              <p className="text-xs font-semibold text-slate-400">Em Andamento</p>
+              <p className="text-3xl font-bold text-amber-400">
                 {summary.inProgressResponses}
               </p>
-              <p className="text-xs text-amber-200/70">
+              <p className="text-xs text-slate-500">
                 {summary.totalResponses > 0 ? Math.round((summary.inProgressResponses / summary.totalResponses) * 100) : 0}% do total
               </p>
             </div>
 
-            <div className="rounded-2xl border border-blue-500/20 bg-blue-500/5 p-5 space-y-2">
-              <p className="text-xs uppercase tracking-wider text-blue-300 font-semibold">Taxa de Conclusão</p>
-              <p className="text-3xl font-bold text-blue-100">
+            <div className="rounded-lg border border-slate-700/50 bg-slate-900/30 p-5 space-y-2">
+              <p className="text-xs font-semibold text-slate-400">Taxa de Conclusão</p>
+              <p className="text-3xl font-bold text-blue-400">
                 {summary.totalResponses > 0 ? Math.round((summary.completedResponses / summary.totalResponses) * 100) : 0}%
               </p>
-              <p className="text-xs text-blue-200/70">
+              <p className="text-xs text-slate-500">
                 {summary.completedResponses} de {summary.totalResponses}
               </p>
             </div>
