@@ -1084,6 +1084,90 @@ Agradecemos pela sua colaboração.`;
     ];
   }, [assessments, sessions]);
 
+  const conformanceByType = useMemo(() => {
+    const typeMap = new Map<string, { count: number; totalScore: number }>();
+
+    barData.forEach((item) => {
+      const type = item.tipo || "Sem categoria";
+      if (!typeMap.has(type)) {
+        typeMap.set(type, { count: 0, totalScore: 0 });
+      }
+      const current = typeMap.get(type)!;
+      current.count += 1;
+      current.totalScore += item.scoreAverage;
+    });
+
+    return Array.from(typeMap.entries()).map(([type, data]) => ({
+      type,
+      compliance: Math.round(data.totalScore / data.count),
+      responses: data.count,
+    }));
+  }, [barData]);
+
+  const riskAnalysis = useMemo(() => {
+    const axes = ["Compartilhamento", "Armazenamento", "Retenção", "Coleta", "Acesso"];
+    const riskMap = new Map<string, { critico: number; alto: number; medio: number }>();
+
+    axes.forEach((axis) => {
+      riskMap.set(axis, { critico: 0, alto: 0, medio: 0 });
+    });
+
+    const completedSessions = sessions.filter((s) => s.status === "completed");
+    completedSessions.forEach((s) => {
+      const risks = (s as any).finalReport?.analysis?.risks || [];
+      risks.forEach((risk: any) => {
+        let axis = "Compartilhamento";
+        if (risk.category?.includes("Armaz") || risk.fragilidade?.includes("Armaz")) {
+          axis = "Armazenamento";
+        } else if (risk.category?.includes("Reten") || risk.fragilidade?.includes("Reten")) {
+          axis = "Retenção";
+        } else if (risk.category?.includes("Coleta") || risk.fragilidade?.includes("Coleta")) {
+          axis = "Coleta";
+        } else if (risk.category?.includes("Acesso") || risk.fragilidade?.includes("Acesso")) {
+          axis = "Acesso";
+        }
+
+        const current = riskMap.get(axis)!;
+        if (risk.severity === "critica" || risk.level === "crítico") {
+          current.critico += 1;
+        } else if (risk.severity === "alta" || risk.level === "alto" || risk.priority === "Alta") {
+          current.alto += 1;
+        } else {
+          current.medio += 1;
+        }
+      });
+    });
+
+    return axes.map((axis) => ({
+      eixo: axis,
+      ...riskMap.get(axis)!,
+    }));
+  }, [sessions]);
+
+  const maturityDistribution = useMemo(() => {
+    const ranges = {
+      critico: 0,
+      atencao: 0,
+      conforme: 0,
+      excelente: 0,
+    };
+
+    barData.forEach((item) => {
+      const score = item.scoreAverage;
+      if (score < 40) ranges.critico += 1;
+      else if (score < 70) ranges.atencao += 1;
+      else if (score < 85) ranges.conforme += 1;
+      else ranges.excelente += 1;
+    });
+
+    return [
+      { range: "Crítico (0-40)", count: ranges.critico || 0 },
+      { range: "Atenção (40-70)", count: ranges.atencao || 0 },
+      { range: "Conforme (70-85)", count: ranges.conforme || 0 },
+      { range: "Excelente (85+)", count: ranges.excelente || 0 },
+    ];
+  }, [barData]);
+
   const topAssessments = useMemo(() => {
     return assessments
       .map((a) => ({
@@ -1552,6 +1636,75 @@ Agradecemos pela sua colaboração.`;
           </div>
         </section>
 
+        <section className="grid gap-5 md:grid-cols-2">
+          <div className="rounded-3xl bg-white/[0.04] border border-slate-800/80 p-6 h-[380px] shadow-[0_0_40px_rgba(15,23,42,0.35)]">
+            <div>
+              <h2 className="text-lg font-semibold text-slate-100 mb-1">
+                Índice de Conformidade LGPD
+              </h2>
+              <p className="text-xs text-slate-400 mb-4">Score médio de compliance por avaliação</p>
+            </div>
+
+            <div className="h-[280px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart
+                  data={barData}
+                  layout="vertical"
+                  margin={{ top: 5, right: 30, left: 140, bottom: 5 }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" vertical={true} stroke="#334155" />
+                  <XAxis type="number" tick={{ fill: "#cbd5f5", fontSize: 11 }} domain={[0, 100]} />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: "#0f172a",
+                      border: "1px solid #334155",
+                      borderRadius: "12px",
+                      color: "#fff",
+                    }}
+                    formatter={(value: any) => {
+                      const v = Math.round(value);
+                      const status = v >= 80 ? "Conforme" : v >= 60 ? "Atenção" : "Crítico";
+                      return [`${v}% (${status})`, "Conformidade"];
+                    }}
+                  />
+                  <Bar dataKey="scoreAverage" radius={[0, 8, 8, 0]} fill="#10b981" />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+          <div className="rounded-3xl bg-white/[0.04] border border-slate-800/80 p-6 h-[380px] shadow-[0_0_40px_rgba(15,23,42,0.35)]">
+            <div>
+              <h2 className="text-lg font-semibold text-slate-100 mb-1">
+                Distribuição de Maturidade
+              </h2>
+              <p className="text-xs text-slate-400 mb-4">Classificação de conformidade das avaliações - dados reais do Firestore</p>
+            </div>
+
+            <div className="h-[280px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart
+                  data={maturityDistribution}
+                >
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#334155" />
+                  <XAxis dataKey="range" tick={{ fill: "#cbd5f5", fontSize: 10 }} angle={-45} textAnchor="end" height={80} />
+                  <YAxis tick={{ fill: "#cbd5f5", fontSize: 11 }} />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: "#0f172a",
+                      border: "1px solid #334155",
+                      borderRadius: "12px",
+                      color: "#fff",
+                    }}
+                    formatter={(value: any) => [value, "Avaliações"]}
+                  />
+                  <Bar dataKey="count" radius={[8, 8, 0, 0]} fill="#f59e0b" />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        </section>
+
         {role === "MASTER" && (
           <section className="rounded-3xl bg-white/[0.04] border border-slate-800/80 p-8 shadow-[0_0_60px_rgba(99,102,241,0.14)] space-y-5">
             <div className="flex items-center gap-2">
@@ -1795,93 +1948,16 @@ Agradecemos pela sua colaboração.`;
           <div className="rounded-3xl bg-white/[0.04] border border-slate-800/80 p-6 h-[380px] shadow-[0_0_40px_rgba(15,23,42,0.35)]">
             <div>
               <h2 className="text-lg font-semibold text-slate-100 mb-1">
-                Índice de Conformidade LGPD
-              </h2>
-              <p className="text-xs text-slate-400 mb-4">Score médio de compliance por avaliação</p>
-            </div>
-
-            <div className="h-[280px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart
-                  data={barData}
-                  layout="vertical"
-                  margin={{ top: 5, right: 30, left: 140, bottom: 5 }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" vertical={true} stroke="#334155" />
-                  <XAxis type="number" tick={{ fill: "#cbd5f5", fontSize: 11 }} domain={[0, 100]} />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: "#0f172a",
-                      border: "1px solid #334155",
-                      borderRadius: "12px",
-                      color: "#fff",
-                    }}
-                    formatter={(value: any) => {
-                      const v = Math.round(value);
-                      const status = v >= 80 ? "Conforme" : v >= 60 ? "Atenção" : "Crítico";
-                      return [`${v}% (${status})`, "Conformidade"];
-                    }}
-                  />
-                  <Bar dataKey="scoreAverage" radius={[0, 8, 8, 0]} fill="#10b981" />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-
-          <div className="rounded-3xl bg-white/[0.04] border border-slate-800/80 p-6 h-[380px] shadow-[0_0_40px_rgba(15,23,42,0.35)]">
-            <div>
-              <h2 className="text-lg font-semibold text-slate-100 mb-1">
-                Distribuição de Maturidade
-              </h2>
-              <p className="text-xs text-slate-400 mb-4">Classificação de conformidade das avaliações</p>
-            </div>
-
-            <div className="h-[280px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart
-                  data={[
-                    { range: "Crítico (0-40)", count: Math.floor(summary.totalAssessments * 0.1) || 1 },
-                    { range: "Atenção (40-70)", count: Math.floor(summary.totalAssessments * 0.25) || 2 },
-                    { range: "Conforme (70-85)", count: Math.floor(summary.totalAssessments * 0.4) || 3 },
-                    { range: "Excelente (85+)", count: Math.floor(summary.totalAssessments * 0.25) || 2 },
-                  ]}
-                >
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#334155" />
-                  <XAxis dataKey="range" tick={{ fill: "#cbd5f5", fontSize: 10 }} angle={-45} textAnchor="end" height={80} />
-                  <YAxis tick={{ fill: "#cbd5f5", fontSize: 11 }} />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: "#0f172a",
-                      border: "1px solid #334155",
-                      borderRadius: "12px",
-                      color: "#fff",
-                    }}
-                    formatter={(value: any) => [value, "Avaliações"]}
-                  />
-                  <Bar dataKey="count" radius={[8, 8, 0, 0]} fill="#f59e0b" />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-        </section>
-
-        <section className="grid gap-5 md:grid-cols-2">
-          <div className="rounded-3xl bg-white/[0.04] border border-slate-800/80 p-6 h-[380px] shadow-[0_0_40px_rgba(15,23,42,0.35)]">
-            <div>
-              <h2 className="text-lg font-semibold text-slate-100 mb-1">
                 Conformidade por Tipo
               </h2>
-              <p className="text-xs text-slate-400 mb-4">Detalhamento por categoria de formulário</p>
+              <p className="text-xs text-slate-400 mb-4">Detalhamento por categoria de formulário - dados reais do Firestore</p>
             </div>
 
             <div className="h-[280px]">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
-                  data={[
-                    { type: "LGPD Diagnóstico", compliance: 82, responses: 8 },
-                    { type: "Maturidade LGPD", compliance: 78, responses: 6 },
-                    { type: "Privacidade Op.", compliance: 75, responses: 5 },
-                    { type: "Riscos & Controles", compliance: 71, responses: 9 },
+                  data={conformanceByType.length > 0 ? conformanceByType : [
+                    { type: "Sem dados", compliance: 0, responses: 0 },
                   ]}
                 >
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#334155" />
@@ -1909,18 +1985,14 @@ Agradecemos pela sua colaboração.`;
               <h2 className="text-lg font-semibold text-slate-100 mb-1">
                 Análise de Risco
               </h2>
-              <p className="text-xs text-slate-400 mb-4">Identificação de fragilidades críticas</p>
+              <p className="text-xs text-slate-400 mb-4">Identificação de fragilidades críticas - dados reais do Firestore</p>
             </div>
 
             <div className="h-[280px]">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
-                  data={[
-                    { eixo: "Compartilhamento", critico: 3, alto: 2, medio: 5 },
-                    { eixo: "Armazenamento", critico: 1, alto: 4, medio: 7 },
-                    { eixo: "Retenção", critico: 2, alto: 3, medio: 4 },
-                    { eixo: "Coleta", critico: 0, alto: 2, medio: 6 },
-                    { eixo: "Acesso", critico: 4, alto: 2, medio: 3 },
+                  data={riskAnalysis.length > 0 ? riskAnalysis : [
+                    { eixo: "Sem dados", critico: 0, alto: 0, medio: 0 },
                   ]}
                 >
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#334155" />
