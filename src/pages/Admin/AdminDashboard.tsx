@@ -1659,72 +1659,59 @@ Agradecemos pela sua colaboração.`;
           </div>
         </section>
 
-        <section className="grid gap-5 md:grid-cols-2">
-          <div className="rounded-2xl bg-gradient-to-br from-emerald-900/20 to-slate-800/20 border border-emerald-700/30 p-6 h-[380px] shadow-lg">
-            <div className="mb-4">
-              <h2 className="text-base font-semibold text-emerald-100">
-                Distribuição de Conformidade
-              </h2>
-              <p className="text-xs text-slate-400">Status das avaliações por nível de conformidade</p>
-            </div>
-
-            <div className="h-[280px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={conformancePieData}
-                    cx="50%"
-                    cy="50%"
-                    labelLine={false}
-                    label={(entry) => `${entry.name}: ${entry.value}`}
-                    outerRadius={80}
-                    fill="#10b981"
-                    dataKey="value"
-                  >
-                  </Pie>
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: "#0f172a",
-                      border: "1px solid #334155",
-                      borderRadius: "12px",
-                      color: "#fff",
-                    }}
-                    formatter={(value: any) => [value, "Avaliações"]}
-                  />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
+        <section className="rounded-2xl bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/30 p-6 shadow-lg">
+          <div className="mb-6">
+            <h2 className="text-base font-semibold text-slate-100">
+              Distribuição de Maturidade
+            </h2>
+            <p className="text-xs text-slate-400">Classificação de conformidade das avaliações</p>
           </div>
 
-          <div className="rounded-2xl bg-gradient-to-br from-amber-900/20 to-slate-800/20 border border-amber-700/30 p-6 h-[380px] shadow-lg">
-            <div className="mb-4">
-              <h2 className="text-base font-semibold text-amber-100">
-                Distribuição de Maturidade
-              </h2>
-              <p className="text-xs text-slate-400">Classificação de conformidade das avaliações</p>
-            </div>
+          <div className="grid gap-5 md:grid-cols-4">
+            {maturityDistribution.map((item, idx) => {
+              let dotColor = "#ef4444";
+              let dotBg = "bg-red-500/10";
+              let borderColor = "border-red-500/30";
+              let labelColor = "text-red-400";
 
-            <div className="h-[280px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart
-                  data={maturityDistribution}
+              if (item.range.includes("Atenção")) {
+                dotColor = "#f59e0b";
+                dotBg = "bg-amber-500/10";
+                borderColor = "border-amber-500/30";
+                labelColor = "text-amber-400";
+              } else if (item.range.includes("Conforme")) {
+                dotColor = "#eab308";
+                dotBg = "bg-yellow-500/10";
+                borderColor = "border-yellow-500/30";
+                labelColor = "text-yellow-400";
+              } else if (item.range.includes("Excelente")) {
+                dotColor = "#10b981";
+                dotBg = "bg-emerald-500/10";
+                borderColor = "border-emerald-500/30";
+                labelColor = "text-emerald-400";
+              }
+
+              return (
+                <div
+                  key={idx}
+                  className={`rounded-2xl border ${borderColor} ${dotBg} p-6 flex flex-col items-center justify-center gap-3 backdrop-blur-sm transition-all hover:border-opacity-60`}
                 >
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#334155" />
-                  <XAxis dataKey="range" tick={{ fill: "#cbd5f5", fontSize: 10 }} angle={-45} textAnchor="end" height={80} />
-                  <YAxis tick={{ fill: "#cbd5f5", fontSize: 11 }} />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: "#0f172a",
-                      border: "1px solid #334155",
-                      borderRadius: "12px",
-                      color: "#fff",
-                    }}
-                    formatter={(value: any) => [value, "Avaliações"]}
-                  />
-                  <Bar dataKey="count" radius={[8, 8, 0, 0]} fill="#f59e0b" />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
+                  <div
+                    className="w-16 h-16 rounded-full flex items-center justify-center"
+                    style={{ backgroundColor: dotColor + "20" }}
+                  >
+                    <div
+                      className="w-12 h-12 rounded-full"
+                      style={{ backgroundColor: dotColor }}
+                    />
+                  </div>
+                  <p className="text-3xl font-bold text-slate-100">{item.count}</p>
+                  <p className={`text-xs font-medium text-center ${labelColor}`}>
+                    {item.range}
+                  </p>
+                </div>
+              );
+            })}
           </div>
         </section>
 
