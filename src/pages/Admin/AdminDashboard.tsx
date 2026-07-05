@@ -1056,32 +1056,31 @@ Agradecemos pela sua colaboração.`;
   }, [sessions]);
 
   const barData = useMemo(() => {
-    const data = assessments.map((a) => {
-      const stats = getStatsByAssessment(a.id);
+    return assessments.map((a) => {
       const assessmentSessions = sessions.filter(s => s.assessmentId === a.id && s.status === 'completed');
       const scores = assessmentSessions
         .map(s => s.finalReport?.metrics?.score)
         .filter((score): score is number => typeof score === 'number');
       const scoreAverage = scores.length > 0
         ? Math.round(scores.reduce((sum, s) => sum + s, 0) / scores.length)
-        : Math.floor(Math.random() * 40) + 60; // Simula scores entre 60-100
+        : 0;
+
+      const totalSessions = sessions.filter(s => s.assessmentId === a.id).length;
+      const completedSessions = assessmentSessions.length;
+      const inProgressSessions = sessions.filter(s => s.assessmentId === a.id && s.status === 'in_progress').length;
+
       return {
         id: a.id,
         fullName: formatAssessmentTitle(a),
         name: formatChartLabel(a),
-        respostas: stats.total || Math.floor(Math.random() * 20) + 5,
-        concluidas: stats.completed || Math.floor(Math.random() * 15) + 2,
-        andamento: stats.inProgress || Math.floor(Math.random() * 5),
+        respostas: totalSessions,
+        concluidas: completedSessions,
+        andamento: inProgressSessions,
         scoreAverage,
         tipo: labelFromValue(FORM_TYPE_OPTIONS, a.formType),
         objetivo: labelFromValue(OBJECTIVE_OPTIONS, a.objective),
       };
     });
-    return data.length > 0 ? data : [
-      { name: "Diagnóstico LGPD", fullName: "Diagnóstico LGPD", respostas: 12, concluidas: 8, andamento: 2, scoreAverage: 78 },
-      { name: "Maturidade", fullName: "Maturidade LGPD", respostas: 9, concluidas: 7, andamento: 1, scoreAverage: 82 },
-      { name: "Riscos", fullName: "Riscos e Controles", respostas: 15, concluidas: 12, andamento: 2, scoreAverage: 71 },
-    ];
   }, [assessments, sessions]);
 
   const conformanceByType = useMemo(() => {
