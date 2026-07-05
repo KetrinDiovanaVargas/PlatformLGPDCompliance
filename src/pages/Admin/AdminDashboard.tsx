@@ -128,7 +128,6 @@ const FORM_TYPE_OPTIONS = [
   { value: "lgpd_maturidade", label: "Maturidade LGPD" },
   { value: "privacidade_operacional", label: "Privacidade Operacional" },
   { value: "riscos_e_controles", label: "Riscos e Controles" },
-  { value: "customizado", label: "Customizado" },
 ];
 
 const OBJECTIVE_OPTIONS = [
