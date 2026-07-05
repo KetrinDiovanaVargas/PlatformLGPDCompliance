@@ -57,6 +57,8 @@ import { toast } from "sonner";
 import jsPDF from "jspdf";
 import { FormCreationWizard } from "@/components/FormCreationWizard";
 import { AssessmentCard } from "@/components/AssessmentCard";
+import { PersonasValidationDashboard } from "@/components/PersonasValidationDashboard";
+import { seedPersonasValidation } from "@/utils/seedPersonasValidation";
 
 type AdminRole = "MASTER" | "ADMIN" | "";
 
@@ -220,6 +222,8 @@ export default function AdminDashboard() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
+  const [seedingPersonas, setSeedingPersonas] = useState(false);
+
   const toggleMessage = (id: string) => {
     setExpandedMessages(prev => {
       const next = new Set(prev);
@@ -279,6 +283,27 @@ export default function AdminDashboard() {
       clearAdminSession();
       navigate("/admin/login");
       setLoggingOut(false);
+    }
+  };
+
+  const handleSeedPersonasValidation = async () => {
+    try {
+      setSeedingPersonas(true);
+      const result = await seedPersonasValidation();
+
+      if (result.success) {
+        toast.success(result.message);
+        if (result.count && result.count > 0) {
+          toast.success(`${result.count} personas de validação carregadas!`);
+        }
+      } else {
+        toast.error(result.message);
+      }
+    } catch (error) {
+      console.error("Erro ao fazer seed de personas:", error);
+      toast.error("Erro ao carregar dados de personas");
+    } finally {
+      setSeedingPersonas(false);
     }
   };
 
@@ -1379,6 +1404,15 @@ Agradecemos pela sua colaboração.`;
             </div>
           )}
         </section>
+
+        {role === "MASTER" && (
+          <section className="rounded-lg bg-slate-900/50 border border-slate-800 p-6">
+            <PersonasValidationDashboard
+              onSeedData={handleSeedPersonasValidation}
+              seedingPersonas={seedingPersonas}
+            />
+          </section>
+        )}
 
         {role !== "MASTER" && (
           <section className="rounded-lg bg-slate-900/50 border border-slate-800 p-4">
