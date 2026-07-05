@@ -1252,6 +1252,143 @@ Agradecemos pela sua colaboração.`;
           </div>
         </header>
 
+        {role === "MASTER" && (
+          <section className="rounded-3xl bg-white/[0.04] border border-slate-800/80 p-8 shadow-[0_0_60px_rgba(99,102,241,0.14)] space-y-5">
+            <div className="flex items-center gap-2">
+              <UserCog className="h-4 w-4 text-cyan-300" />
+              <h3 className="text-sm font-semibold text-slate-200 tracking-tight">
+                Gestão de administradores
+              </h3>
+            </div>
+
+            <div className="grid gap-4 md:grid-cols-4">
+              <input
+                value={adminNameInput}
+                onChange={(e) => setAdminNameInput(e.target.value)}
+                placeholder="Nome do administrador"
+                className="w-full p-3 rounded-xl bg-black/40 border border-white/20 text-white outline-none"
+              />
+
+              <input
+                value={adminEmailInput}
+                onChange={(e) => setAdminEmailInput(e.target.value)}
+                placeholder="Email do administrador"
+                className="w-full p-3 rounded-xl bg-black/40 border border-white/20 text-white outline-none"
+              />
+
+              <input
+                type="password"
+                value={adminPasswordInput}
+                onChange={(e) => setAdminPasswordInput(e.target.value)}
+                placeholder="Senha temporária"
+                className="w-full p-3 rounded-xl bg-black/40 border border-white/20 text-white outline-none"
+              />
+
+              <select
+                value={adminRoleInput}
+                onChange={(e) =>
+                  setAdminRoleInput(e.target.value as "ADMIN" | "MASTER")
+                }
+                className="w-full p-3 rounded-xl bg-black/40 border border-white/20 text-white outline-none"
+              >
+                <option value="ADMIN" className="bg-slate-950 text-white">
+                  ADMIN
+                </option>
+                <option value="MASTER" className="bg-slate-950 text-white">
+                  MASTER
+                </option>
+              </select>
+            </div>
+
+            <div className="flex justify-end">
+              <Button
+                onClick={handleCreateAdmin}
+                disabled={creatingAdmin}
+                className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-fuchsia-500 via-purple-500 to-indigo-500 px-5 py-2 text-sm font-semibold text-white shadow-lg hover:brightness-110 transition"
+              >
+                <PlusCircle className="h-4 w-4" />
+                {creatingAdmin ? "Criando..." : "Criar Acesso"}
+              </Button>
+            </div>
+
+            <div className="grid gap-4 md:grid-cols-2">
+              {admins.length === 0 ? (
+                <p className="text-sm text-slate-500">
+                  Nenhum administrador cadastrado.
+                </p>
+              ) : (
+                admins.map((admin) => {
+                  const isSelf = admin.id === adminUid;
+                  const isProcessing = processingAdminId === admin.id;
+
+                  return (
+                    <Card
+                      key={admin.id}
+                      className="rounded-xl bg-slate-900/90 border border-slate-700 px-6 py-5 space-y-4 shadow-lg"
+                    >
+                      <div className="flex items-center justify-between gap-3">
+                        <div>
+                          <h4 className="text-sm font-semibold text-slate-100">
+                            {admin.name}
+                          </h4>
+                          <p className="text-xs text-slate-400">{admin.email}</p>
+                        </div>
+
+                        <span
+                          className={`px-3 py-1 rounded-full text-[11px] font-semibold border ${
+                            admin.role === "MASTER"
+                              ? "bg-fuchsia-500/15 text-fuchsia-200 border-fuchsia-500/40"
+                              : "bg-cyan-500/15 text-cyan-200 border-cyan-500/40"
+                          }`}
+                        >
+                          {admin.role}
+                        </span>
+                      </div>
+
+                      <div className="flex items-center justify-between">
+                        <p className="text-xs text-slate-500">
+                          Status: {admin.active ? "Ativo" : "Inativo"}
+                          {isSelf ? " • Você" : ""}
+                        </p>
+
+                        {!isSelf && (
+                          <div className="flex flex-wrap items-center gap-2">
+                            <Button
+                              onClick={() => handleToggleAdminStatus(admin)}
+                              disabled={isProcessing}
+                              className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold text-white shadow-lg transition ${
+                                admin.active
+                                  ? "bg-amber-500 hover:bg-amber-400"
+                                  : "bg-emerald-500 hover:bg-emerald-400"
+                              }`}
+                            >
+                              <Power className="h-3.5 w-3.5" />
+                              {isProcessing
+                                ? "Processando..."
+                                : admin.active
+                                ? "Inativar"
+                                : "Ativar"}
+                            </Button>
+
+                            <Button
+                              onClick={() => handleDeleteAdmin(admin)}
+                              disabled={isProcessing}
+                              className="inline-flex items-center gap-2 rounded-full bg-slate-800 hover:bg-slate-700 px-4 py-2 text-xs font-semibold text-white shadow-lg transition border border-red-500/30"
+                            >
+                              <UserX className="h-3.5 w-3.5 text-red-300" />
+                              Excluir
+                            </Button>
+                          </div>
+                        )}
+                      </div>
+                    </Card>
+                  );
+                })
+              )}
+            </div>
+          </section>
+        )}
+
         {role === "MASTER" ? (
           <section className="grid gap-5 md:grid-cols-5">
             <KpiCard
@@ -1739,143 +1876,6 @@ Agradecemos pela sua colaboração.`;
             </div>
           </div>
         </section>
-
-        {role === "MASTER" && (
-          <section className="rounded-3xl bg-white/[0.04] border border-slate-800/80 p-8 shadow-[0_0_60px_rgba(99,102,241,0.14)] space-y-5">
-            <div className="flex items-center gap-2">
-              <UserCog className="h-4 w-4 text-cyan-300" />
-              <h3 className="text-sm font-semibold text-slate-200 tracking-tight">
-                Gestão de administradores
-              </h3>
-            </div>
-
-            <div className="grid gap-4 md:grid-cols-4">
-              <input
-                value={adminNameInput}
-                onChange={(e) => setAdminNameInput(e.target.value)}
-                placeholder="Nome do administrador"
-                className="w-full p-3 rounded-xl bg-black/40 border border-white/20 text-white outline-none"
-              />
-
-              <input
-                value={adminEmailInput}
-                onChange={(e) => setAdminEmailInput(e.target.value)}
-                placeholder="Email do administrador"
-                className="w-full p-3 rounded-xl bg-black/40 border border-white/20 text-white outline-none"
-              />
-
-              <input
-                type="password"
-                value={adminPasswordInput}
-                onChange={(e) => setAdminPasswordInput(e.target.value)}
-                placeholder="Senha temporária"
-                className="w-full p-3 rounded-xl bg-black/40 border border-white/20 text-white outline-none"
-              />
-
-              <select
-                value={adminRoleInput}
-                onChange={(e) =>
-                  setAdminRoleInput(e.target.value as "ADMIN" | "MASTER")
-                }
-                className="w-full p-3 rounded-xl bg-black/40 border border-white/20 text-white outline-none"
-              >
-                <option value="ADMIN" className="bg-slate-950 text-white">
-                  ADMIN
-                </option>
-                <option value="MASTER" className="bg-slate-950 text-white">
-                  MASTER
-                </option>
-              </select>
-            </div>
-
-            <div className="flex justify-end">
-              <Button
-                onClick={handleCreateAdmin}
-                disabled={creatingAdmin}
-                className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-fuchsia-500 via-purple-500 to-indigo-500 px-5 py-2 text-sm font-semibold text-white shadow-lg hover:brightness-110 transition"
-              >
-                <PlusCircle className="h-4 w-4" />
-                {creatingAdmin ? "Criando..." : "Criar Acesso"}
-              </Button>
-            </div>
-
-            <div className="grid gap-4 md:grid-cols-2">
-              {admins.length === 0 ? (
-                <p className="text-sm text-slate-500">
-                  Nenhum administrador cadastrado.
-                </p>
-              ) : (
-                admins.map((admin) => {
-                  const isSelf = admin.id === adminUid;
-                  const isProcessing = processingAdminId === admin.id;
-
-                  return (
-                    <Card
-                      key={admin.id}
-                      className="rounded-xl bg-slate-900/90 border border-slate-700 px-6 py-5 space-y-4 shadow-lg"
-                    >
-                      <div className="flex items-center justify-between gap-3">
-                        <div>
-                          <h4 className="text-sm font-semibold text-slate-100">
-                            {admin.name}
-                          </h4>
-                          <p className="text-xs text-slate-400">{admin.email}</p>
-                        </div>
-
-                        <span
-                          className={`px-3 py-1 rounded-full text-[11px] font-semibold border ${
-                            admin.role === "MASTER"
-                              ? "bg-fuchsia-500/15 text-fuchsia-200 border-fuchsia-500/40"
-                              : "bg-cyan-500/15 text-cyan-200 border-cyan-500/40"
-                          }`}
-                        >
-                          {admin.role}
-                        </span>
-                      </div>
-
-                      <div className="flex items-center justify-between">
-                        <p className="text-xs text-slate-500">
-                          Status: {admin.active ? "Ativo" : "Inativo"}
-                          {isSelf ? " • Você" : ""}
-                        </p>
-
-                        {!isSelf && (
-                          <div className="flex flex-wrap items-center gap-2">
-                            <Button
-                              onClick={() => handleToggleAdminStatus(admin)}
-                              disabled={isProcessing}
-                              className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold text-white shadow-lg transition ${
-                                admin.active
-                                  ? "bg-amber-500 hover:bg-amber-400"
-                                  : "bg-emerald-500 hover:bg-emerald-400"
-                              }`}
-                            >
-                              <Power className="h-3.5 w-3.5" />
-                              {isProcessing
-                                ? "Processando..."
-                                : admin.active
-                                ? "Inativar"
-                                : "Ativar"}
-                            </Button>
-
-                            <Button
-                              onClick={() => handleDeleteAdmin(admin)}
-                              disabled={isProcessing}
-                              className="inline-flex items-center gap-2 rounded-full bg-slate-800 hover:bg-slate-700 px-4 py-2 text-xs font-semibold text-white shadow-lg transition border border-red-500/30"
-                            >
-                              <UserX className="h-3.5 w-3.5 text-red-300" />
-                              Excluir
-                            </Button>
-                          </div>
-                        )}
-                      </div>
-                    </Card>
-                  );
-                })
-              )}
-            </div>
-          </section>
-        )}
 
         <section className="grid gap-5 md:grid-cols-3">
           <div className="rounded-2xl bg-gradient-to-br from-slate-900/40 to-slate-800/20 border border-slate-700/50 p-6 shadow-lg">
