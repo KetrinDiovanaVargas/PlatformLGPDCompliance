@@ -56,6 +56,7 @@ import {
 import { toast } from "sonner";
 import jsPDF from "jspdf";
 import { FormCreationWizard } from "@/components/FormCreationWizard";
+import { AssessmentSelectorModal } from "@/components/AssessmentSelectorModal";
 import { AssessmentCard } from "@/components/AssessmentCard";
 import { PersonasValidationDashboard } from "@/components/PersonasValidationDashboard";
 import { seedPersonasValidation } from "@/utils/seedPersonasValidation";
@@ -199,6 +200,7 @@ export default function AdminDashboard() {
   const [loadingConsolidated, setLoadingConsolidated] = useState(false);
   const [consolidatedAnalysis, setConsolidatedAnalysis] =
     useState<ConsolidatedAnalysis | null>(null);
+  const [showAssessmentSelector, setShowAssessmentSelector] = useState(false);
 
   const [formOpen, setFormOpen] = useState(false);
   const [expandedMessages, setExpandedMessages] = useState<Set<string>>(new Set());
@@ -730,15 +732,18 @@ Agradecemos pela sua colaboração.`;
     }
   };
 
-  const handleGenerateConsolidatedAnalysis = async () => {
-    if (!selectedAssessmentId) {
-      toast.error("Selecione uma avaliação.");
+  const handleGenerateConsolidatedAnalysis = async (assessmentId?: string) => {
+    const idToUse = assessmentId || selectedAssessmentId;
+
+    if (!idToUse) {
+      setShowAssessmentSelector(true);
       return;
     }
 
     try {
       setLoadingConsolidated(true);
       setConsolidatedAnalysis(null);
+      setShowAssessmentSelector(false);
 
       const token = await auth.currentUser?.getIdToken();
       if (!token) {
@@ -755,7 +760,7 @@ Agradecemos pela sua colaboração.`;
             "Authorization": `Bearer ${token}`,
           },
           body: JSON.stringify({
-            assessmentId: selectedAssessmentId,
+            assessmentId: idToUse,
           }),
         }
       );
@@ -769,6 +774,7 @@ Agradecemos pela sua colaboração.`;
       }
 
       setConsolidatedAnalysis(data);
+      setSelectedAssessmentId(idToUse);
 
       if (data.mode === "groq") {
         toast.success("Análise consolidada gerada com IA.");
@@ -1342,29 +1348,14 @@ Agradecemos pela sua colaboração.`;
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-2">
-              <select
-                value={selectedAssessmentId}
-                onChange={(e) => setSelectedAssessmentId(e.target.value)}
-                className="min-w-[220px] rounded-lg bg-slate-800 border border-slate-700 text-slate-100 px-3 py-2 outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 text-sm"
-              >
-                <option value="">Selecione uma avaliação</option>
-                {assessments.map((assessment) => (
-                  <option key={assessment.id} value={assessment.id}>
-                    {formatAssessmentTitle(assessment)}
-                  </option>
-                ))}
-              </select>
-
-              <Button
-                onClick={handleGenerateConsolidatedAnalysis}
-                disabled={loadingConsolidated || !selectedAssessmentId}
-                className="rounded-lg bg-sky-500 hover:bg-sky-600 disabled:opacity-50 text-white text-sm font-medium gap-2 inline-flex items-center px-4 py-2"
-              >
-                <Sparkles className="w-4 h-4" />
-                {loadingConsolidated ? "Gerando..." : "Gerar"}
-              </Button>
-            </div>
+            <Button
+              onClick={() => handleGenerateConsolidatedAnalysis()}
+              disabled={loadingConsolidated}
+              className="rounded-lg bg-sky-500 hover:bg-sky-600 disabled:opacity-50 text-white text-sm font-medium gap-2 inline-flex items-center px-4 py-2"
+            >
+              <Sparkles className="w-4 h-4" />
+              {loadingConsolidated ? "Gerando..." : "Gerar"}
+            </Button>
           </div>
 
           {consolidatedAnalysis?.mode === "empty" ? (
@@ -1570,6 +1561,28 @@ Agradecemos pela sua colaboração.`;
             adminName={adminName}
             onSuccess={loadData}
             onCancel={() => setWizardOpen(false)}
+          />
+        )}
+
+        {showAssessmentSelector && (
+          <AssessmentSelectorModal
+            assessments={assessments
+              .filter((a) => !a.deleted)
+              .map((a) => {
+                const barItem = barData.find(b => b.id === a.id);
+                return {
+                  id: a.id,
+                  title: formatAssessmentTitle(a),
+                  formType: a.formType || "N/A",
+                  respostas: barItem?.respostas || 0,
+                };
+              })}
+            onSelect={(assessmentId) => {
+              setSelectedAssessmentId(assessmentId);
+              handleGenerateConsolidatedAnalysis(assessmentId);
+            }}
+            onCancel={() => setShowAssessmentSelector(false)}
+            loading={loadingConsolidated}
           />
         )}
 
