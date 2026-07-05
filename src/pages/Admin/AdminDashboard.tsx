@@ -1666,7 +1666,7 @@ Agradecemos pela sua colaboração.`;
           </div>
 
           <div className="grid gap-3 md:grid-cols-4 lg:grid-cols-5">
-            {barData.map((assessment, idx) => {
+            {barData.filter((a) => a.respostas > 0).map((assessment, idx) => {
               const isExcelente = assessment.scoreAverage >= 85;
               const isConforme = assessment.scoreAverage >= 70 && assessment.scoreAverage < 85;
               const isAtencao = assessment.scoreAverage >= 40 && assessment.scoreAverage < 70;
