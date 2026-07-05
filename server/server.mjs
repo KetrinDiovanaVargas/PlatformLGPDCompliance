@@ -32,6 +32,7 @@ const app = express();
 const PORT = process.env.PORT || 8787;
 
 const allowedOrigins = [
+  "https://platformlgpdcompliance.com.br",
   "https://platform-lgpd-compliance.vercel.app",
   "http://localhost:5173",
 ];
