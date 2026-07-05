@@ -1252,6 +1252,59 @@ Agradecemos pela sua colaboração.`;
           </div>
         </header>
 
+        {role === "MASTER" ? (
+          <section className="grid gap-5 md:grid-cols-5">
+            <KpiCard
+              icon={<Users className="h-4 w-4 text-fuchsia-300" />}
+              label="Admins"
+              value={summary.totalAdmins}
+            />
+            <KpiCard
+              icon={<ShieldCheck className="h-4 w-4 text-cyan-300" />}
+              label="Masters"
+              value={summary.totalMasters}
+            />
+            <KpiCard
+              icon={<ClipboardList className="h-4 w-4 text-cyan-300" />}
+              label="Avaliações"
+              value={summary.totalAssessments}
+            />
+            <KpiCard
+              icon={<BarChart3 className="h-4 w-4 text-indigo-300" />}
+              label="Respostas"
+              value={summary.totalResponses}
+            />
+            <KpiCard
+              icon={<CheckCircle2 className="h-4 w-4 text-emerald-300" />}
+              label="Concluídas"
+              value={summary.completedResponses}
+            />
+          </section>
+        ) : (
+          <section className="grid gap-5 md:grid-cols-4">
+            <KpiCard
+              icon={<ClipboardList className="h-4 w-4 text-cyan-300" />}
+              label="Minhas avaliações"
+              value={summary.totalAssessments}
+            />
+            <KpiCard
+              icon={<BarChart3 className="h-4 w-4 text-indigo-300" />}
+              label="Minhas respostas"
+              value={summary.totalResponses}
+            />
+            <KpiCard
+              icon={<CheckCircle2 className="h-4 w-4 text-emerald-300" />}
+              label="Concluídas"
+              value={summary.completedResponses}
+            />
+            <KpiCard
+              icon={<Clock3 className="h-4 w-4 text-amber-300" />}
+              label="Em andamento"
+              value={summary.inProgressResponses}
+            />
+          </section>
+        )}
+
         {role === "MASTER" && (
           <section className="rounded-3xl bg-white/[0.04] border border-slate-800/80 p-8 shadow-[0_0_60px_rgba(99,102,241,0.14)] space-y-5">
             <div className="flex items-center gap-2">
@@ -1386,59 +1439,6 @@ Agradecemos pela sua colaboração.`;
                 })
               )}
             </div>
-          </section>
-        )}
-
-        {role === "MASTER" ? (
-          <section className="grid gap-5 md:grid-cols-5">
-            <KpiCard
-              icon={<Users className="h-4 w-4 text-fuchsia-300" />}
-              label="Admins"
-              value={summary.totalAdmins}
-            />
-            <KpiCard
-              icon={<ShieldCheck className="h-4 w-4 text-cyan-300" />}
-              label="Masters"
-              value={summary.totalMasters}
-            />
-            <KpiCard
-              icon={<ClipboardList className="h-4 w-4 text-cyan-300" />}
-              label="Avaliações"
-              value={summary.totalAssessments}
-            />
-            <KpiCard
-              icon={<BarChart3 className="h-4 w-4 text-indigo-300" />}
-              label="Respostas"
-              value={summary.totalResponses}
-            />
-            <KpiCard
-              icon={<CheckCircle2 className="h-4 w-4 text-emerald-300" />}
-              label="Concluídas"
-              value={summary.completedResponses}
-            />
-          </section>
-        ) : (
-          <section className="grid gap-5 md:grid-cols-4">
-            <KpiCard
-              icon={<ClipboardList className="h-4 w-4 text-cyan-300" />}
-              label="Minhas avaliações"
-              value={summary.totalAssessments}
-            />
-            <KpiCard
-              icon={<BarChart3 className="h-4 w-4 text-indigo-300" />}
-              label="Minhas respostas"
-              value={summary.totalResponses}
-            />
-            <KpiCard
-              icon={<CheckCircle2 className="h-4 w-4 text-emerald-300" />}
-              label="Concluídas"
-              value={summary.completedResponses}
-            />
-            <KpiCard
-              icon={<Clock3 className="h-4 w-4 text-amber-300" />}
-              label="Em andamento"
-              value={summary.inProgressResponses}
-            />
           </section>
         )}
 
