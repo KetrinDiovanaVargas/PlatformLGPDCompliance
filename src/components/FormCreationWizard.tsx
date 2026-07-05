@@ -19,11 +19,10 @@ import { db } from "@/lib/firebase";
 type Step = 1 | 2 | 3 | 4;
 
 const FORM_TYPE_OPTIONS = [
-  { value: "lgpd_diagnostico", label: "Diagnóstico LGPD" },
-  { value: "lgpd_maturidade", label: "Maturidade LGPD" },
+  { value: "lgpd_diagnostico", label: "Diagnóstico" },
+  { value: "lgpd_maturidade", label: "Maturidade" },
   { value: "privacidade_operacional", label: "Privacidade Operacional" },
   { value: "riscos_e_controles", label: "Riscos e Controles" },
-  { value: "customizado", label: "Customizado" },
 ];
 
 const OBJECTIVE_OPTIONS = [
