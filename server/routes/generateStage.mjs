@@ -1,22 +1,12 @@
 import express from "express";
-import Groq from "groq-sdk";
 import { getAdminDb } from "../firebaseAdmin.mjs";
 import { generateStagePrompt } from "../promptGroq.mjs";
+import { chatCompletion } from "../lib/ai-client.mjs";
 
 const router = express.Router();
 
 const ALLOWED_TYPES = ["select", "checkbox", "textarea"];
 const MAX_STAGE = 4;
-
-function getGroqClient() {
-  const apiKey = process.env.GROQ_API_KEY;
-
-  if (!apiKey) {
-    throw new Error("GROQ_API_KEY não carregada no backend");
-  }
-
-  return new Groq({ apiKey });
-}
 
 function extractJson(text) {
   if (!text) return null;
@@ -630,6 +620,7 @@ async function loadAssessmentMetadata(adminDb, assessmentId) {
     context: safeString(data.context),
     audience: safeString(data.audience),
     introText: safeString(data.introText),
+    aiProvider: safeString(data.aiProvider, "groq"),
     active: data.active !== false,
     ownerId: safeString(data.ownerId),
     ownerName: safeString(data.ownerName),
@@ -720,6 +711,8 @@ router.post("/", async (req, res) => {
     const officialIntroText =
       officialAssessment?.introText || safeString(introText);
 
+    const aiProvider = officialAssessment?.aiProvider || "groq";
+
     const metadata = {
       assessmentTitle: officialTitle,
       assessmentFormType: officialFormType,
@@ -733,13 +726,11 @@ router.post("/", async (req, res) => {
     const audienceOrProfile =
       officialAudience || profile || respondentContext || "respondente";
 
-    const groq = getGroqClient();
     const prompt = generateStagePrompt(numericStage, context ?? {}, metadata);
 
     try {
-      const completion = await groq.chat.completions.create({
-        model: "llama-3.3-70b-versatile",
-        messages: [
+      const raw = await chatCompletion(
+        [
           {
             role: "system",
             content:
@@ -750,15 +741,17 @@ router.post("/", async (req, res) => {
             content: prompt,
           },
         ],
-        temperature: 0.2,
-        response_format: { type: "json_object" },
-      });
+        {
+          preferredProvider: aiProvider,
+          temperature: 0.2,
+          jsonMode: true,
+        }
+      );
 
-      const raw = completion?.choices?.[0]?.message?.content || "";
       const parsed = extractJson(raw);
 
       if (!parsed) {
-        console.error("❌ Resposta do Groq não é JSON válido.");
+        console.error("❌ Resposta da IA não é JSON válido.");
 
         return res.json(
           buildStageResponse({
@@ -783,12 +776,14 @@ router.post("/", async (req, res) => {
           audience: audienceOrProfile,
           objective: officialObjective,
           previousQuestions,
-          generationMode: "groq",
+          generationMode: aiProvider,
           generationNotice: "",
         })
       );
     } catch (err) {
       console.error("❌ /api/generate-stage:", err);
+
+      const isRateLimit = String(err?.message || "").toLowerCase().includes("rate_limit");
 
       return res.json(
         buildStageResponse({
@@ -799,7 +794,7 @@ router.post("/", async (req, res) => {
           objective: officialObjective,
           previousQuestions,
           generationMode: "fallback",
-          generationNotice: isGroqRateLimitError(err)
+          generationNotice: isRateLimit
             ? "O serviço de IA atingiu temporariamente o limite de uso. Por isso, esta etapa foi montada com perguntas automáticas de contingência."
             : "Não foi possível gerar esta etapa com a IA no momento. Por isso, foram aplicadas perguntas automáticas de contingência.",
         })

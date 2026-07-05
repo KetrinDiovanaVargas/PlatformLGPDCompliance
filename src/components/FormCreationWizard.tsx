@@ -39,6 +39,12 @@ const OBJECTIVE_OPTIONS = [
   { value: "identificacao_riscos", label: "Identificação de riscos" },
 ];
 
+const AI_PROVIDER_OPTIONS = [
+  { value: "groq", label: "GROQ (Llama 3.3 70B) - Recomendado" },
+  { value: "deepseek", label: "DeepSeek - Alternativa" },
+  { value: "gemini", label: "Google Gemini - Fallback" },
+];
+
 type WizardProps = {
   adminUid: string;
   adminName: string;
@@ -61,6 +67,7 @@ export function FormCreationWizard({
   const [audience, setAudience] = useState("");
   const [introText, setIntroText] = useState("");
   const [context, setContext] = useState("");
+  const [aiProvider, setAiProvider] = useState("groq");
 
   React.useEffect(() => {
     window.scrollTo(0, 0);
@@ -106,6 +113,7 @@ export function FormCreationWizard({
         audience: audience.trim(),
         introText: introText.trim(),
         context: context.trim(),
+        aiProvider,
         active: true,
         deleted: false,
         ownerId: adminUid,
@@ -198,6 +206,23 @@ export function FormCreationWizard({
                   className="w-full px-4 py-2.5 rounded-lg bg-slate-900 border border-slate-700 text-slate-100 outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
                 >
                   {FORM_TYPE_OPTIONS.map((opt) => (
+                    <option key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-slate-300 mb-2">
+                  Provedor de IA *
+                </label>
+                <select
+                  value={aiProvider}
+                  onChange={(e) => setAiProvider(e.target.value)}
+                  className="w-full px-4 py-2.5 rounded-lg bg-slate-900 border border-slate-700 text-slate-100 outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+                >
+                  {AI_PROVIDER_OPTIONS.map((opt) => (
                     <option key={opt.value} value={opt.value}>
                       {opt.label}
                     </option>
