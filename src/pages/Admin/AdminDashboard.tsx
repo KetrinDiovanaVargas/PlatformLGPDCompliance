@@ -1674,8 +1674,8 @@ Agradecemos pela sua colaboração.`;
 
         <section className="rounded-2xl bg-gradient-to-br from-slate-900/40 to-slate-800/20 border border-slate-700/50 p-6 shadow-lg">
           <div className="mb-5">
-            <h2 className="text-2xl font-bold text-slate-100">Índice de Conformidade LGPD</h2>
-            <p className="text-sm text-slate-400">Score de compliance por avaliação</p>
+            <h2 className="text-base font-semibold text-slate-100">Índice de Conformidade LGPD</h2>
+            <p className="text-xs text-slate-400">Score de compliance por avaliação</p>
           </div>
 
           <div className="overflow-x-auto pb-2">
