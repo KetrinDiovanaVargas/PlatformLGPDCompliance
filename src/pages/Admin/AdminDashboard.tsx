@@ -39,6 +39,7 @@ import {
   Flame,
   Target,
   MessageCircle,
+  X,
 } from "lucide-react";
 import { toast } from "sonner";
 import jsPDF from "jspdf";
