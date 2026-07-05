@@ -202,6 +202,7 @@ export default function AdminDashboard() {
   const [showAssessmentSelector, setShowAssessmentSelector] = useState(false);
   const [showCreateAdminModal, setShowCreateAdminModal] = useState(false);
   const [selectedAssessmentsForChart, setSelectedAssessmentsForChart] = useState<Set<string>>(new Set());
+  const [showChartFilterModal, setShowChartFilterModal] = useState(false);
 
   const [formOpen, setFormOpen] = useState(false);
   const [expandedMessages, setExpandedMessages] = useState<Set<string>>(new Set());
@@ -1659,6 +1660,83 @@ Agradecemos pela sua colaboração.`;
           />
         )}
 
+        {showChartFilterModal && (
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-start justify-center z-50 overflow-y-auto p-4 pt-20">
+            <Card className="w-full max-w-md bg-slate-950 border border-slate-800 shadow-2xl">
+              <div className="space-y-6 p-6 md:p-8">
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <h2 className="text-2xl font-bold text-slate-100">
+                      Filtrar Avaliações
+                    </h2>
+                    <p className="mt-1 text-sm text-slate-400">
+                      Selecione quais avaliações aparecer no gráfico.
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setShowChartFilterModal(false)}
+                    className="text-slate-400 hover:text-slate-200 transition-colors shrink-0 mt-1"
+                  >
+                    <X className="w-6 h-6" />
+                  </button>
+                </div>
+
+                <div className="space-y-2 max-h-[400px] overflow-y-auto">
+                  {barData.map((item) => (
+                    <button
+                      key={item.id}
+                      onClick={() => {
+                        const newSet = new Set(selectedAssessmentsForChart);
+                        if (newSet.has(item.id)) {
+                          newSet.delete(item.id);
+                        } else {
+                          newSet.add(item.id);
+                        }
+                        setSelectedAssessmentsForChart(newSet);
+                      }}
+                      className={`w-full text-left px-4 py-3 rounded-lg border-2 transition-all ${
+                        selectedAssessmentsForChart.has(item.id)
+                          ? "border-sky-500/60 bg-sky-500/20"
+                          : "border-slate-700 bg-slate-800/50 hover:border-slate-600 hover:bg-slate-800/70"
+                      }`}
+                    >
+                      <p className="text-sm font-medium text-slate-100">
+                        {item.name}
+                      </p>
+                      <p className="text-xs text-slate-400 mt-0.5">
+                        {item.respostas} resposta{item.respostas !== 1 ? "s" : ""}
+                      </p>
+                    </button>
+                  ))}
+                </div>
+
+                <div className="flex justify-between gap-3 pt-4 border-t border-slate-700">
+                  <button
+                    onClick={() => setSelectedAssessmentsForChart(new Set())}
+                    className="text-xs px-3 py-2 rounded-lg bg-slate-700 hover:bg-slate-600 text-white"
+                  >
+                    Limpar
+                  </button>
+                  <div className="flex gap-3">
+                    <button
+                      onClick={() => setSelectedAssessmentsForChart(new Set(barData.map(d => d.id)))}
+                      className="text-xs px-3 py-2 rounded-lg bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 border border-sky-500/30"
+                    >
+                      Todas
+                    </button>
+                    <button
+                      onClick={() => setShowChartFilterModal(false)}
+                      className="text-xs px-3 py-2 rounded-lg bg-sky-500 hover:bg-sky-600 text-white font-medium"
+                    >
+                      Pronto
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </Card>
+          </div>
+        )}
+
         {role !== "MASTER" && assessments.length > 0 && (
           <section className="space-y-4">
             <div>
@@ -1914,49 +1992,13 @@ Agradecemos pela sua colaboração.`;
             </div>
 
             {role === "MASTER" && barData.length > 0 && (
-              <div className="mb-4 p-3 rounded-lg bg-slate-800/30 border border-slate-700/50">
-                <div className="flex items-center justify-between gap-3 mb-2">
-                  <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                    Filtrar:
-                  </p>
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => setSelectedAssessmentsForChart(new Set(barData.map(d => d.id)))}
-                      className="text-xs px-2 py-1 rounded bg-sky-500/30 text-sky-300 hover:bg-sky-500/40 transition-colors border border-sky-500/30"
-                    >
-                      Todas
-                    </button>
-                    <button
-                      onClick={() => setSelectedAssessmentsForChart(new Set())}
-                      className="text-xs px-2 py-1 rounded bg-slate-700/40 text-slate-400 hover:bg-slate-700/60 transition-colors border border-slate-600/30"
-                    >
-                      Limpar
-                    </button>
-                  </div>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {barData.map((item) => (
-                    <button
-                      key={item.id}
-                      onClick={() => {
-                        const newSet = new Set(selectedAssessmentsForChart);
-                        if (newSet.has(item.id)) {
-                          newSet.delete(item.id);
-                        } else {
-                          newSet.add(item.id);
-                        }
-                        setSelectedAssessmentsForChart(newSet);
-                      }}
-                      className={`text-xs px-2.5 py-1 rounded border transition-colors ${
-                        selectedAssessmentsForChart.has(item.id)
-                          ? "bg-sky-500/30 text-sky-200 border-sky-500/40"
-                          : "bg-slate-700/30 text-slate-400 border-slate-600/30 hover:bg-slate-700/40"
-                      }`}
-                    >
-                      {item.name.length > 18 ? item.name.substring(0, 15) + "..." : item.name}
-                    </button>
-                  ))}
-                </div>
+              <div className="mb-4 flex justify-end">
+                <button
+                  onClick={() => setShowChartFilterModal(true)}
+                  className="text-xs px-3 py-1.5 rounded-lg bg-sky-500/20 text-sky-300 border border-sky-500/30 hover:bg-sky-500/30 transition-colors font-medium"
+                >
+                  Filtrar Avaliações
+                </button>
               </div>
             )}
 
