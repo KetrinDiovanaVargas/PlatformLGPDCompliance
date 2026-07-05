@@ -44,6 +44,8 @@ import { toast } from "sonner";
 import jsPDF from "jspdf";
 import { FormCreationWizard } from "@/components/FormCreationWizard";
 import { AssessmentCard } from "@/components/AssessmentCard";
+import { PersonasValidationDashboard } from "@/components/PersonasValidationDashboard";
+import { seedPersonasValidation } from "@/utils/seedPersonasValidation";
 
 type AdminRole = "MASTER" | "ADMIN" | "";
 
@@ -207,6 +209,8 @@ export default function AdminDashboard() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
+  const [seedingPersonas, setSeedingPersonas] = useState(false);
+
   const toggleMessage = (id: string) => {
     setExpandedMessages(prev => {
       const next = new Set(prev);
@@ -266,6 +270,27 @@ export default function AdminDashboard() {
       clearAdminSession();
       navigate("/admin/login");
       setLoggingOut(false);
+    }
+  };
+
+  const handleSeedPersonasValidation = async () => {
+    try {
+      setSeedingPersonas(true);
+      const result = await seedPersonasValidation();
+
+      if (result.success) {
+        toast.success(result.message);
+        if (result.count && result.count > 0) {
+          toast.success(`${result.count} personas de validação carregadas!`);
+        }
+      } else {
+        toast.error(result.message);
+      }
+    } catch (error) {
+      console.error("Erro ao fazer seed de personas:", error);
+      toast.error("Erro ao carregar dados de personas");
+    } finally {
+      setSeedingPersonas(false);
     }
   };
 
@@ -976,6 +1001,23 @@ Agradecemos pela sua colaboração.`;
     const totalAdmins = admins.filter((a) => a.role === "ADMIN").length;
     const totalMasters = admins.filter((a) => a.role === "MASTER").length;
 
+    // Calcular Taxa Global de Conformidade com dados REAIS
+    const completedSessions = sessions.filter((s) => s.status === "completed");
+    const realScores = completedSessions
+      .map((s) => (s as any).finalReport?.metrics?.score)
+      .filter((score): score is number => typeof score === "number");
+    const globalConformanceRate = realScores.length > 0
+      ? Math.round(realScores.reduce((sum, s) => sum + s, 0) / realScores.length)
+      : 0;
+
+    // Calcular Riscos Críticos com dados REAIS
+    const criticalRisks = completedSessions
+      .map((s) => {
+        const risks = (s as any).finalReport?.analysis?.risks || [];
+        return risks.filter((r: any) => r.severity === "critica" || r.level === "crítico" || r.priority === "Alta").length;
+      })
+      .reduce((sum, count) => sum + count, 0);
+
     return {
       totalAssessments,
       totalResponses,
@@ -983,6 +1025,8 @@ Agradecemos pela sua colaboração.`;
       inProgressResponses,
       totalAdmins,
       totalMasters,
+      globalConformanceRate,
+      criticalRisks,
     };
   }, [assessments, sessions, admins]);
 
@@ -1380,6 +1424,15 @@ Agradecemos pela sua colaboração.`;
           )}
         </section>
 
+        {role === "MASTER" && (
+          <section className="rounded-lg bg-slate-900/50 border border-slate-800 p-6">
+            <PersonasValidationDashboard
+              onSeedData={handleSeedPersonasValidation}
+              seedingPersonas={seedingPersonas}
+            />
+          </section>
+        )}
+
         {role !== "MASTER" && (
           <section className="rounded-lg bg-slate-900/50 border border-slate-800 p-4">
             <div className="flex items-center justify-between gap-4">
@@ -1460,20 +1513,20 @@ Agradecemos pela sua colaboração.`;
             <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/5 p-5 space-y-2">
               <p className="text-xs uppercase tracking-wider text-emerald-300 font-semibold">Taxa Global de Conformidade</p>
               <p className="text-3xl font-bold text-emerald-100">
-                {barData.length > 0 ? Math.round(barData.reduce((sum, d) => sum + d.scoreAverage, 0) / barData.length) : 76}%
+                {summary.globalConformanceRate}%
               </p>
               <p className="text-xs text-emerald-200/70">
-                Média de {barData.length} avaliação{barData.length !== 1 ? 's' : ''}
+                Média real de {summary.completedResponses} avaliação{summary.completedResponses !== 1 ? 's' : ''} concluída{summary.completedResponses !== 1 ? 's' : ''}
               </p>
             </div>
 
             <div className="rounded-2xl border border-red-500/20 bg-red-500/5 p-5 space-y-2">
               <p className="text-xs uppercase tracking-wider text-red-300 font-semibold">Riscos Críticos Identificados</p>
               <p className="text-3xl font-bold text-red-100">
-                {Math.floor((sessions.length * 0.15) || 5)}
+                {summary.criticalRisks}
               </p>
               <p className="text-xs text-red-200/70">
-                Requerem ação imediata
+                Detectados em avaliações reais
               </p>
             </div>
 
