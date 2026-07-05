@@ -7,6 +7,7 @@ import {
   Plus,
   Check,
   AlertCircle,
+  X,
 } from "lucide-react";
 import { toast } from "sonner";
 import {
@@ -148,17 +149,33 @@ export function FormCreationWizard({
   ];
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <Card className="w-full max-w-2xl bg-slate-950 border border-slate-800 shadow-2xl">
+    <div
+      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fade-in"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) {
+          onCancel();
+        }
+      }}
+    >
+      <Card className="w-full max-w-2xl bg-slate-950 border border-slate-800 shadow-2xl animate-scale-in">
         <div className="space-y-6 p-6 md:p-8">
           {/* Header */}
-          <div>
-            <h2 className="text-2xl font-bold text-slate-100 mb-2">
-              Nova Avaliação
-            </h2>
-            <p className="text-sm text-slate-400">
-              Etapa {step} de 4: {stepTitles[step - 1]}
-            </p>
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <h2 className="text-2xl font-bold text-slate-100 mb-2">
+                Nova Avaliação
+              </h2>
+              <p className="text-sm text-slate-400">
+                Etapa {step} de 4: {stepTitles[step - 1]}
+              </p>
+            </div>
+            <button
+              onClick={onCancel}
+              className="flex-shrink-0 text-slate-400 hover:text-slate-200 transition"
+              title="Fechar"
+            >
+              <X className="w-5 h-5" />
+            </button>
           </div>
 
           {/* Progress bar */}
