@@ -560,7 +560,7 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({
 
     // Linhas da tabela
     metricsTable.slice(1).forEach((row, idx) => {
-      pdf.setFillColor(idx % 2 === 0 ? 240, 244, 248 : 255, 255, 255);
+      pdf.setFillColor(...(idx % 2 === 0 ? [240, 244, 248] : [255, 255, 255]));
       pdf.rect(margin, tableY, pageWidth - margin * 2, cellHeight, "F");
       pdf.setDrawColor(200, 210, 220);
       pdf.setLineWidth(0.3);
