@@ -5,66 +5,66 @@
 [![React](https://img.shields.io/badge/react-18+-61DAFB?style=flat-square&logo=react)](https://react.dev)
 [![License](https://img.shields.io/badge/license-proprietary-orange?style=flat-square)](LICENSE)
 
-**Plataforma inteligente para avaliação de conformidade LGPD e análise de risco em segurança da informação com IA**.
+**Intelligent SaaS platform for LGPD compliance assessment and information security risk analysis powered by AI**.
 
 ---
 
-## 📋 Visão Geral
+## 📋 Overview
 
-Platform LGPD Compliance é uma solução SaaS desenvolvida para organizações que precisam validar sua conformidade com a **Lei Geral de Proteção de Dados (LGPD)** e identificar fragilidades em segurança da informação alinhadas com **ISO/IEC 27001**.
+Platform LGPD Compliance is a comprehensive SaaS solution designed for organizations that need to validate compliance with the **Brazilian General Data Protection Law (LGPD)** and identify security vulnerabilities aligned with **ISO/IEC 27001** standards.
 
-A plataforma utiliza:
-- 🤖 **IA Generativa** para análise automatizada de respostas
-- 📊 **Dashboards Interativos** para visualização de risco
-- 📈 **Matriz de Confusão** para validação de personas
-- 🔐 **Firebase** para armazenamento seguro
-- ⚡ **Vercel** para deploy contínuo
-
----
-
-## 🎯 Funcionalidades Principais
-
-### 🎯 Avaliação Adaptativa
-- Questionários dinâmicos em 4 estágios
-- Perguntas ajustadas ao perfil do respondente
-- Cobertura de 5 eixos de fragilidade LGPD:
-  - Armazenamento de dados
-  - Compartilhamento
-  - Consentimento
-  - Retenção
-  - Monitoramento
-
-### 📊 Dashboard Executivo
-- **4 KPIs** de conformidade em tempo real
-- Gráficos interativos (Recharts)
-- Análise de risco por eixo
-- Distribuição de maturidade
-- Conformidade por tipo
-
-### 🔍 Matriz de Confusão
-- Comparação Esperado vs Detectado
-- Cálculo automático de métricas:
-  - Acurácia, Precisão, Recall
-  - F1-Score, Especificidade
-- Validação de personas (P01-P50 + A01-A05)
-
-### 📄 Relatórios
-- Exportação em PDF
-- Plano de ação de 5 semanas
-- Recomendações personalizadas
-- Análise estratégica
-
-### 👥 Gestão de Acesso
-- **MASTER**: Controle total, gerencia admins
-- **ADMIN**: Cria avaliações, visualiza resultados
-- **USUÁRIO**: Responde formulários
+The platform leverages:
+- 🤖 **Generative AI** for automated response analysis
+- 📊 **Interactive Dashboards** for risk visualization
+- 📈 **Confusion Matrix** for persona validation
+- 🔐 **Firebase** for secure data storage
+- ⚡ **Vercel** for continuous deployment
 
 ---
 
-## 🏗️ Arquitetura
+## 🎯 Key Features
+
+### 🎯 Adaptive Assessment
+- Dynamic questionnaires across 4 stages
+- Questions adjusted based on respondent profile
+- Coverage of 5 LGPD vulnerability dimensions:
+  - Data Storage
+  - Data Sharing
+  - Consent
+  - Data Retention
+  - Monitoring & Audit
+
+### 📊 Executive Dashboard
+- **4 Real-time Compliance KPIs**
+- Interactive charts (Recharts)
+- Risk analysis by dimension
+- Maturity distribution
+- Compliance by type
+
+### 🔍 Confusion Matrix
+- Expected vs. Detected comparison
+- Automatic metric calculation:
+  - Accuracy, Precision, Recall
+  - F1-Score, Specificity
+- Persona validation (P01-P50 + A01-A05)
+
+### 📄 Reports
+- PDF export functionality
+- 5-week action plan
+- Personalized recommendations
+- Strategic analysis
+
+### 👥 Access Management
+- **MASTER**: Full control, manages admins
+- **ADMIN**: Creates assessments, views results
+- **USER**: Responds to forms
+
+---
+
+## 🏗️ Architecture
 
 ```
-frontend (React + Vite)
+Frontend (React + Vite)
     ↓
     ├── src/
     │   ├── components/     (UI components)
@@ -75,54 +75,54 @@ frontend (React + Vite)
 API Backend (Express.js)
     ├── server/routes/      (API endpoints)
     ├── server/lib/         (Business logic)
-    ├── server/groq/        (IA integration)
+    ├── server/groq/        (AI integration)
     └── server/services/    (Firebase, Auth)
     ↓
 Firebase (Firestore + Auth)
     └── Cloud Storage
 ```
 
-**Stack Completo:**
-| Layer | Tecnologia |
+**Complete Tech Stack:**
+| Layer | Technology |
 |-------|-----------|
 | Frontend | React 18 + Vite + TypeScript |
 | UI | Tailwind CSS + shadcn/ui |
-| Gráficos | Recharts |
+| Charts | Recharts |
 | Backend | Express.js (Node.js) |
-| IA | Groq API (LLM) |
-| Banco de Dados | Firebase Firestore |
-| Autenticação | Firebase Auth |
-| Hospedagem | Vercel |
+| AI | Groq API (LLM) |
+| Database | Firebase Firestore |
+| Authentication | Firebase Auth |
+| Hosting | Vercel |
 
 ---
 
 ## 🚀 Quick Start
 
-### Pré-requisitos
+### Prerequisites
 - Node.js 18+
-- npm ou yarn
-- Conta Firebase
-- Chave de API Groq
+- npm or yarn
+- Firebase account
+- Groq API key
 - Git
 
-### Instalação
+### Installation
 
 ```bash
-# Clone o repositório
+# Clone the repository
 git clone https://github.com/KetrinDiovanaVargas/PlatformLGPDCompliance.git
 cd PlatformLGPDCompliance
 
-# Instale dependências
+# Install dependencies
 npm install
 
-# Configure variáveis de ambiente
+# Configure environment variables
 cp .env.example .env.local
 
-# Inicie o servidor de desenvolvimento
+# Start development server
 npm run dev
 ```
 
-### Configuração de Ambiente
+### Environment Configuration
 
 #### Frontend (`.env.local`)
 ```env
@@ -143,241 +143,241 @@ NODE_ENV=development
 ```
 
 #### Firebase Credentials
-Adicione `server/serviceAccountKey.json`:
+Add `server/serviceAccountKey.json`:
 ```bash
-# Obtenha em: Firebase Console → Settings → Service Accounts
-# NÃO commite este arquivo!
+# Get from: Firebase Console → Settings → Service Accounts
+# DO NOT commit this file!
 ```
 
 ---
 
-## 📖 Documentação
+## 📖 Documentation
 
-Acesse a documentação completa em:
-- **[COMO_EXECUTAR.md](./COMO_EXECUTAR.md)** - Guia de execução com screenshots
-- **[ANALISE_RELATORIO_FINAL.md](./ANALISE_RELATORIO_FINAL.md)** - Análise estratégica
-- **[validation_results/](./validation_results/)** - Exemplos de validação
+Access complete documentation:
+- **[COMO_EXECUTAR.md](./COMO_EXECUTAR.md)** - Execution guide (Portuguese)
+- **[ANALISE_RELATORIO_FINAL.md](./ANALISE_RELATORIO_FINAL.md)** - Strategic analysis
+- **[validation_results/](./validation_results/)** - Validation examples
 
 ---
 
-## 💻 Desenvolvimento
+## 💻 Development
 
-### Scripts Disponíveis
+### Available Scripts
 
 ```bash
-npm run dev              # Iniciar servidor de desenvolvimento
-npm run build            # Build para produção
-npm run preview          # Preview da build
-npm run lint             # Verificar sintaxe
-npm run type-check       # Verificar tipos TypeScript
+npm run dev              # Start development server
+npm run build            # Build for production
+npm run preview          # Preview production build
+npm run lint             # Check syntax
+npm run type-check       # TypeScript type checking
 ```
 
-### Estrutura de Pastas
+### Folder Structure
 
 ```
 src/
-├── components/          # Componentes React reutilizáveis
+├── components/          # Reusable React components
 │   ├── ConfusionMatrix.tsx
 │   ├── AdminDashboard.tsx
 │   └── ValidationDemoPage.tsx
-├── pages/              # Páginas principais
+├── pages/              # Main pages
 │   ├── Admin/
 │   └── Assessment/
 ├── lib/                # Utilities
-│   ├── firebase.ts     # Configuração Firebase
+│   ├── firebase.ts     # Firebase configuration
 │   └── auth.ts
-└── styles/             # CSS global
+└── styles/             # Global CSS
 
 server/
-├── routes/             # Endpoints Express
+├── routes/             # Express endpoints
 │   ├── analyze.mjs      # POST /api/analyze
 │   ├── admin.mjs        # Admin endpoints
 │   └── sitemap.mjs      # GET /sitemap.xml
-├── lib/                # Lógica de negócio
+├── lib/                # Business logic
 │   ├── auth-middleware.mjs
 │   ├── rate-limiter.mjs
 │   └── ai-client.mjs
-└── server.mjs          # Configuração Express
+└── server.mjs          # Express configuration
 ```
 
 ---
 
 ## 📡 API Endpoints
 
-### Público
+### Public
 ```
 GET  /health                    # Health check
-GET  /sitemap.xml               # Sitemap para SEO
-GET  /api/ai-status             # Status da IA
+GET  /sitemap.xml               # SEO sitemap
+GET  /api/ai-status             # AI status
 ```
 
-### Autenticado
+### Authenticated
 ```
-POST   /api/assessment/create           # Criar avaliação
-POST   /api/assessment/submit            # Submeter respostas
-GET    /api/assessment/:id               # Obter avaliação
-GET    /api/admin/dashboard              # Dashboard executivo
-GET    /api/admin/consolidated-analysis  # Análise consolidada
+POST   /api/assessment/create           # Create assessment
+POST   /api/assessment/submit            # Submit responses
+GET    /api/assessment/:id               # Get assessment
+GET    /api/admin/dashboard              # Executive dashboard
+GET    /api/admin/consolidated-analysis  # Consolidated analysis
 ```
 
 ---
 
-## 🧪 Testes
+## 🧪 Testing
 
-### Fluxo de Teste Recomendado
+### Recommended Test Flow
 
-1. **Login como ADMIN**
+1. **Login as ADMIN**
    ```
-   Email: admin@empresa.com
-   Senha: [credenciais Firebase]
+   Email: admin@company.com
+   Password: [Firebase credentials]
    ```
 
-2. **Criar Avaliação**
-   - Dashboard → "Nova Avaliação"
-   - Tipo: "Diagnóstico LGPD"
-   - Público: "Equipe de RH"
+2. **Create Assessment**
+   - Dashboard → "New Assessment"
+   - Type: "LGPD Diagnosis"
+   - Audience: "HR Team"
 
-3. **Distribuir Link**
-   - Copiar link compartilhável
-   - Compartilhar com respondentes
+3. **Distribute Link**
+   - Copy shareable link
+   - Share with respondents
 
-4. **Coletar Respostas**
-   - Aguardar 5+ respondentes
-   - Gráficos aparecem automaticamente
+4. **Collect Responses**
+   - Wait for 5+ respondents
+   - Charts appear automatically
 
-5. **Analisar Resultados**
-   - Score de conformidade
-   - Matriz de confusão
-   - Recomendações
+5. **Analyze Results**
+   - Compliance score
+   - Confusion matrix
+   - Recommendations
 
 ---
 
-## 🌍 Deploy
+## 🌍 Deployment
 
-### Vercel (Automatizado)
+### Vercel (Automated)
 
 ```bash
-# Push para main faz deploy automático
+# Push to main triggers automatic deployment
 git push origin main
 ```
 
-**Configuração automática:**
+**Automatic Configuration:**
 - Build: `npm run build`
 - Output: `.vite/`
-- Variaáveis de ambiente: Configuradas no console Vercel
+- Environment variables: Configured in Vercel console
 
 **URLs:**
-- Produção: https://platformlgpdcompliance.com.br
+- Production: https://platformlgpdcompliance.com.br
 - Preview: https://platform-lgpd-compliance.vercel.app
 
 ---
 
-## 🔐 Segurança
+## 🔐 Security
 
-### Implementado
-- ✅ **Autenticação Firebase** com controle de role
-- ✅ **Rate limiting** em endpoints críticos
-- ✅ **CORS** configurado para domínios autorizados
-- ✅ **Validação de entrada** em todas as APIs
-- ✅ **Headers de segurança** (X-Content-Type-Options, X-Frame-Options)
-- ✅ **Criptografia em trânsito** (HTTPS/TLS 1.3)
-- ✅ **Variáveis sensíveis** em `.env`
+### Implemented
+- ✅ **Firebase Authentication** with role-based access control
+- ✅ **Rate limiting** on critical endpoints
+- ✅ **CORS** configured for authorized domains
+- ✅ **Input validation** on all APIs
+- ✅ **Security headers** (X-Content-Type-Options, X-Frame-Options)
+- ✅ **Encryption in transit** (HTTPS/TLS 1.3)
+- ✅ **Sensitive variables** in `.env`
 
-### Checklist de Segurança
-- [ ] `serviceAccountKey.json` adicionado ao `.gitignore`
-- [ ] Variáveis de ambiente configuradas em produção
-- [ ] Firebase Firestore com regras de segurança
-- [ ] CORS restrito a domínios conhecidos
-- [ ] Rate limiting ativado
+### Security Checklist
+- [ ] `serviceAccountKey.json` added to `.gitignore`
+- [ ] Environment variables configured in production
+- [ ] Firebase Firestore with security rules
+- [ ] CORS restricted to known domains
+- [ ] Rate limiting enabled
 
 ---
 
-## 📊 Métricas de Conformidade
+## 📊 Compliance Metrics
 
-A plataforma avalia conformidade em 5 eixos:
+The platform evaluates compliance across 5 dimensions:
 
-| Eixo | O que avalia | Risco se não conformar |
-|------|-------------|----------------------|
-| **Armazenamento** | Como dados são guardados | Segurança comprometida |
-| **Compartilhamento** | Com quem dados são compartilhados | Vazamento potencial |
-| **Consentimento** | Se há permissão explícita | Violação de direitos |
-| **Retenção** | Por quanto tempo dados são guardados | Acúmulo desnecessário |
-| **Monitoramento** | Se acessos são monitorados | Sem auditoria |
+| Dimension | What it evaluates | Risk if non-compliant |
+|-----------|-----------------|----------------------|
+| **Storage** | How data is stored | Compromised security |
+| **Sharing** | Who data is shared with | Potential leak |
+| **Consent** | Explicit permission | Rights violation |
+| **Retention** | How long data is kept | Unnecessary accumulation |
+| **Monitoring** | Access monitoring | No audit trail |
 
 ---
 
 ## 🐛 Troubleshooting
 
-### Port 5173 já está em uso
+### Port 5173 already in use
 ```bash
 npm run dev -- --port 5174
 ```
 
 ### Firebase credentials not found
 ```bash
-# Verifique .env.local
+# Check .env.local
 cat .env.local | grep VITE_FIREBASE
 ```
 
-### Gráficos não aparecem
+### Charts not appearing
 ```bash
-# Limpar cache
+# Clear cache
 rm -rf node_modules
 npm install
 npm run dev
 ```
 
-### Erro 403 ao acessar endpoints
-- Verifique CORS em `server/server.mjs`
-- Confirme que frontend URL está em `allowedOrigins`
+### 403 error accessing endpoints
+- Check CORS in `server/server.mjs`
+- Confirm frontend URL is in `allowedOrigins`
 
 ---
 
 ## 📈 Performance
 
-| Operação | Tempo |
-|----------|-------|
-| Instalar dependências | 2-3 min |
-| Iniciar dev server | 5-10 seg |
-| Carregar dashboard | 1-2 seg |
-| Gerar PDF com 50 respostas | 3-5 seg |
-| Calcular score conformidade | <100ms |
+| Operation | Time |
+|----------|------|
+| Install dependencies | 2-3 min |
+| Start dev server | 5-10 sec |
+| Load dashboard | 1-2 sec |
+| Generate PDF (50 responses) | 3-5 sec |
+| Calculate compliance score | <100ms |
 
 ---
 
-## 📝 Contribuindo
+## 📝 Contributing
 
-Este projeto é privado. Para contribuições, entre em contato com a autora.
-
----
-
-## 📄 Licença
-
-**Proprietary** - Todos os direitos reservados.
-
-Desenvolvido por **Ketrin Diovana Vargas**
+This project is private. For contributions, please contact the author.
 
 ---
 
-## 📞 Suporte
+## 📄 License
 
-Para dúvidas ou problemas:
+**Proprietary** - All rights reserved.
 
-1. Verifique [COMO_EXECUTAR.md](./COMO_EXECUTAR.md)
-2. Consulte [ANALISE_RELATORIO_FINAL.md](./ANALISE_RELATORIO_FINAL.md)
-3. Acesse [validation_results/](./validation_results/)
-4. Entre em contato: ketrin.diovana.vargas@gmail.com
+Developed by **Ketrin Diovana Vargas**
 
 ---
 
-## 🎓 Stack Educacional
+## 📞 Support
 
-Desenvolvido com:
+For questions or issues:
+
+1. Check [COMO_EXECUTAR.md](./COMO_EXECUTAR.md)
+2. Review [ANALISE_RELATORIO_FINAL.md](./ANALISE_RELATORIO_FINAL.md)
+3. Explore [validation_results/](./validation_results/)
+4. Contact: ketrin.diovana.vargas@gmail.com
+
+---
+
+## 🎓 Educational Stack
+
+Built with:
 - React + TypeScript
 - Firebase (Auth + Firestore)
 - Tailwind CSS
 - Express.js
-- Groq API (IA)
+- Groq API (AI)
 - Vercel
 
-**Última atualização:** 2026-07-05
+**Last Updated:** July 5, 2026
