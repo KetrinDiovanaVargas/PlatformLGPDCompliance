@@ -1508,13 +1508,7 @@ Agradecemos pela sua colaboração.`;
                 </button>
               </div>
             </div>
-          ) : (
-            <div className="rounded-lg border border-dashed border-slate-700 bg-slate-800/30 p-6 text-center">
-              <p className="text-sm text-slate-400">
-                Selecione uma avaliação e gere análise para visualizar insights.
-              </p>
-            </div>
-          )}
+          ) : null}
         </section>
 
         {role === "MASTER" && (
