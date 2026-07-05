@@ -503,6 +503,7 @@ ${JSON.stringify(responses, null, 2)}
 export async function generateFinalReportWithGroq(input) {
   const responses = Array.isArray(input?.responses) ? input.responses : [];
   const metadata = input?.metadata ?? {};
+  const aiProvider = input?.aiProvider ?? "groq";
 
   if (responses.length === 0) {
     return fallbackAnalysis(metadata);
@@ -516,7 +517,7 @@ export async function generateFinalReportWithGroq(input) {
         { role: "system", content: "Siga rigorosamente as instruções recebidas e retorne apenas JSON válido." },
         { role: "user",   content: prompt },
       ],
-      { temperature: 0.2, jsonMode: true }
+      { preferredProvider: aiProvider, temperature: 0.2, jsonMode: true }
     );
     const parsed = extractJson(raw);
 

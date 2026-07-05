@@ -1,18 +1,8 @@
 import express from "express";
-import Groq from "groq-sdk";
 import { getAdminDb } from "../firebaseAdmin.mjs";
+import { chatCompletion } from "../lib/ai-client.mjs";
 
 const router = express.Router();
-
-function getGroqClient() {
-  const apiKey = process.env.GROQ_API_KEY;
-
-  if (!apiKey) {
-    throw new Error("GROQ_API_KEY não configurada. Usando análise em modo contingência.");
-  }
-
-  return new Groq({ apiKey });
-}
 
 function safeString(value, fallback = "") {
   return String(value ?? fallback).trim();
@@ -304,14 +294,12 @@ ${JSON.stringify(compactReports, null, 2)}
 `.trim();
 }
 
-async function tryGroqConsolidation({ assessment, reports }) {
-  const groq = getGroqClient();
+async function tryGroqConsolidation({ assessment, reports, aiProvider = "groq" }) {
   const prompt = buildGroqPrompt({ assessment, reports });
 
   try {
-    const completion = await groq.chat.completions.create({
-      model: "llama-3.3-70b-versatile",
-      messages: [
+    const raw = await chatCompletion(
+      [
         {
           role: "system",
           content:
@@ -322,22 +310,24 @@ async function tryGroqConsolidation({ assessment, reports }) {
           content: prompt,
         },
       ],
-      temperature: 0.2,
-      response_format: { type: "json_object" },
-    });
+      {
+        preferredProvider: aiProvider,
+        temperature: 0.2,
+        jsonMode: true,
+      }
+    );
 
-    const raw = completion?.choices?.[0]?.message?.content || "";
     const parsed = extractJson(raw);
 
     if (!parsed) {
-      console.warn("⚠️ Groq retornou JSON inválido, usando fallback. Raw:", raw.substring(0, 200));
-      throw new Error("Groq retornou JSON inválido na consolidação.");
+      console.warn("⚠️ IA retornou JSON inválido, usando fallback. Raw:", raw.substring(0, 200));
+      throw new Error("IA retornou JSON inválido na consolidação.");
     }
 
-    console.log("✅ Análise consolidada gerada com sucesso via Groq");
+    console.log(`✅ Análise consolidada gerada com sucesso via ${aiProvider}`);
     return normalizeGroqAnalysis(parsed, reports.length);
   } catch (err) {
-    console.error("❌ Erro ao chamar Groq:", err?.message || err);
+    console.error("❌ Erro ao chamar IA:", err?.message || err);
     throw err;
   }
 }
@@ -472,12 +462,13 @@ router.post("/", async (req, res) => {
     }
 
     try {
-      console.log("🤖 Chamando Groq API para análise consolidada...");
-      const groqResult = await tryGroqConsolidation({ assessment, reports });
+      const aiProvider = assessment?.aiProvider || "groq";
+      console.log(`🤖 Chamando ${aiProvider} API para análise consolidada...`);
+      const groqResult = await tryGroqConsolidation({ assessment, reports, aiProvider });
       console.log("✅ Análise consolidada gerada com sucesso");
       return res.json(groqResult);
     } catch (groqError) {
-      console.error("❌ Erro na análise consolidada com Groq:", groqError?.message || groqError);
+      console.error("❌ Erro na análise consolidada:", groqError?.message || groqError);
       console.log("📋 Usando análise em modo contingência (fallback)");
 
       const fallback = buildFallbackAnalysis(assessment, reports);
