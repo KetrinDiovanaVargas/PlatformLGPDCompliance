@@ -26,6 +26,7 @@ import saveResponsesRouter from "./routes/saveResponses.mjs";
 import adminRouter from "./routes/admin.mjs";
 import adminConsolidatedAnalysisRouter from "./routes/adminConsolidatedAnalysis.mjs";
 import aiStatusRouter from "./routes/aiStatus.mjs";
+import sitemapRouter from "./routes/sitemap.mjs";
 
 const app = express();
 const PORT = process.env.PORT || 8787;
@@ -90,6 +91,9 @@ app.get("/", (_req, res) => {
 app.get("/health", (_req, res) => {
   res.json({ status: "ok" });
 });
+
+// Sitemap (público, sem autenticação)
+app.use("/sitemap.xml", sitemapRouter);
 
 // AI Status (público, mas com rate limit)
 app.use("/api/ai-status", aiLimiter, aiStatusRouter);
