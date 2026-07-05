@@ -24,8 +24,12 @@ export function CreateAdminModal({
   const [password, setPassword] = useState("");
   const [role, setRole] = useState<"ADMIN" | "MASTER">("ADMIN");
 
+  const isFormValid = name.trim() && email.trim() && password.trim();
+
   const handleSubmit = async () => {
-    if (name.trim() && email.trim() && password.trim()) {
+    if (!isFormValid) return;
+
+    try {
       await onSubmit({
         name: name.trim(),
         email: email.trim(),
@@ -36,10 +40,10 @@ export function CreateAdminModal({
       setEmail("");
       setPassword("");
       setRole("ADMIN");
+    } catch (error) {
+      console.error("Erro ao criar admin:", error);
     }
   };
-
-  const isFormValid = name.trim() && email.trim() && password.trim();
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-start justify-center z-50 overflow-y-auto p-4 pt-20">
