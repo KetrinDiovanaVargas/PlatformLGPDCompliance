@@ -1807,32 +1807,42 @@ Agradecemos pela sua colaboração.`;
 
         <section className="grid gap-5 md:grid-cols-2">
           <div className="rounded-3xl bg-white/[0.04] border border-slate-800/80 p-6 shadow-[0_0_40px_rgba(15,23,42,0.35)]">
-            <h2 className="text-lg font-semibold text-slate-100 mb-1">Conformidade por Tipo</h2>
-            <p className="text-xs text-slate-400 mb-5">Detalhamento por categoria de formulário</p>
+            <h2 className="text-lg font-semibold text-slate-100 mb-1">Progresso de Ações Corretivas</h2>
+            <p className="text-xs text-slate-400 mb-5">Status de implementação de recomendações</p>
 
             <div className="space-y-3">
               {[
-                { type: "LGPD Diagnóstico", compliance: 82, icon: "📋" },
-                { type: "Maturidade LGPD", compliance: 78, icon: "📊" },
-                { type: "Privacidade Op.", compliance: 75, icon: "🔒" },
-                { type: "Riscos & Controles", compliance: 71, icon: "⚠️" },
+                { label: "Implementadas", count: 24, total: 58, icon: "✅", color: "from-emerald-400 to-emerald-500", textColor: "text-emerald-300", percent: 41 },
+                { label: "Em Progresso", count: 18, total: 58, icon: "⏳", color: "from-blue-400 to-blue-500", textColor: "text-blue-300", percent: 31 },
+                { label: "Não Iniciadas", count: 16, total: 58, icon: "⭕", color: "from-slate-400 to-slate-500", textColor: "text-slate-300", percent: 28 },
               ].map((item, i) => (
-                <div key={i} className="rounded-lg bg-slate-900/40 border border-slate-700/50 p-3 hover:border-cyan-500/50 transition">
+                <div key={i} className="rounded-lg bg-slate-900/40 border border-slate-700/50 p-3 hover:scale-105 transition">
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
                       <span className="text-lg">{item.icon}</span>
-                      <span className="text-sm font-medium text-slate-100">{item.type}</span>
+                      <span className="text-sm font-medium text-slate-100">{item.label}</span>
                     </div>
-                    <span className="text-lg font-bold text-cyan-400">{item.compliance}%</span>
+                    <div className="text-right">
+                      <span className={`text-lg font-bold ${item.textColor}`}>{item.count}</span>
+                      <p className="text-xs text-slate-400">{item.percent}% do total</p>
+                    </div>
                   </div>
-                  <div className="w-full h-2 rounded-full bg-slate-700/30 overflow-hidden">
+                  <div className="w-full h-2.5 rounded-full bg-slate-700/30 overflow-hidden">
                     <div
-                      className="h-full bg-gradient-to-r from-cyan-400 to-cyan-500 transition-all duration-500"
-                      style={{ width: `${item.compliance}%` }}
+                      className={`h-full bg-gradient-to-r ${item.color} transition-all duration-700`}
+                      style={{ width: `${item.percent}%` }}
                     />
                   </div>
                 </div>
               ))}
+
+              <div className="mt-4 rounded-lg bg-gradient-to-r from-indigo-500/10 to-purple-500/10 border border-indigo-500/20 p-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-semibold text-indigo-200">Total de Recomendações</span>
+                  <span className="text-2xl font-bold text-indigo-100">58</span>
+                </div>
+                <p className="text-xs text-indigo-200/70 mt-1">Taxa média de conclusão: 41%</p>
+              </div>
             </div>
           </div>
 
