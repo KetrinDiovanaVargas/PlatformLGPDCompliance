@@ -615,7 +615,7 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({
         pdf.setFont("helvetica", "normal");
         pdf.setFontSize(8);
         pdf.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
-        pdf.text(`✗ ${frag.emoji} ${frag.code} - ${frag.name}`, margin + 5, cursorY);
+        pdf.text(`✗ ${frag.emoji} ${frag.name}`, margin + 5, cursorY);
         cursorY += 4;
       });
       cursorY += 3;
@@ -633,7 +633,7 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({
         pdf.setFont("helvetica", "normal");
         pdf.setFontSize(8);
         pdf.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
-        pdf.text(`✓ ${frag.emoji} ${frag.code} - ${frag.name}`, margin + 5, cursorY);
+        pdf.text(`✓ ${frag.emoji} ${frag.name}`, margin + 5, cursorY);
         cursorY += 4;
       });
     }
@@ -1040,9 +1040,12 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({
         </section>
 
         <section className="rounded-2xl bg-slate-900/80 border border-slate-800 p-5">
-          <h2 className="text-sm font-semibold mb-4">
+          <h2 className="text-sm font-semibold mb-2">
             Fragilidades Detectadas
           </h2>
+          <p className="text-xs text-slate-400 mb-4">
+            Análise dos principais riscos de conformidade com a LGPD detectados na sua organização.
+          </p>
 
           <div className="grid grid-cols-2 gap-3">
             {lgpdFragilities.map((frag, i) => (
@@ -1056,7 +1059,6 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({
               >
                 <div className="flex items-center gap-2 mb-1">
                   <span className="text-lg">{frag.emoji}</span>
-                  <span className="text-xs font-bold text-slate-300 cursor-help" title={`${frag.code}: ${frag.name}`}>{frag.code}</span>
                   <span
                     className={`text-lg ${
                       frag.detected
