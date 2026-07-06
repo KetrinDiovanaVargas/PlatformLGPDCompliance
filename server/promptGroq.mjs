@@ -510,38 +510,52 @@ DIMENSÕES BLOQUEADAS SE JÁ ABORDADAS:
 O histórico de perguntas acima é BLOQUEIO REAL de conteúdo já explorado.
 
 EXEMPLOS DE REPETIÇÃO INACEITÁVEL (SEMPRE DESCARTAR):
-❌ "Quais são os principais desafios para evoluir a maturidade desse processo em \"Teste\"?"
+❌ "Quais são os principais desafios para evoluir a maturidade desse processo?"
    + Se perguntou sobre "desafios" antes = BLOQUEADO
-   + Se perguntou sobre "maturidade/evolução" antes = BLOQUEADO
-   + Se já explorou esse assunto em outra forma = BLOQUEADO
 
-❌ "Quais pontos desta etapa mais chamam sua atenção em relação ao uso ou tratamento das informações?"
+❌ "Quais pontos chamam sua atenção em relação ao tratamento das informações?"
    + Muito similar a perguntas anteriores = BLOQUEADO
 
-✅ NOVO = Perguntas sobre aspectos específicos e não abordados:
-   + Conformidade com leis específicas (LGPD, GDPR)
-   + Tecnologias ou ferramentas utilizadas
-   + Frequência ou escala de operações
-   + Dependências externas ou terceiros
-   + Impacto comercial ou operacional
-   + Planos futuros específicos
+✅ PERGUNTAS SIMPLES E DIRETAS QUE FUNCIONAM:
+   + "Onde vocês guardam essas informações?" (Sobre armazenamento)
+   + "Quem pode acessar esses dados?" (Sobre controle de acesso)
+   + "Com que frequência vocês revisam como usam esses dados?" (Sobre monitoramento)
+   + "Se alguém precisa desses dados, como vocês decidem se pode ou não?" (Sobre autorização)
+   + "Vocês documentam em algum lugar como usam essas informações?" (Sobre documentação)
+   + "O que vocês fazem com esses dados depois que não precisam mais?" (Sobre retenção)
+   + "Como vocês protegem essas informações contra roubo ou vazamento?" (Sobre segurança)
+   + "Quem mais fora da sua equipe precisa dessas informações?" (Sobre compartilhamento)
 
-==================== ACESSIBILIDADE / SEM PONTAS SOLTAS (OBRIGATÓRIO) ====================
+REGRA: Perguntas devem usar linguagem do dia-a-dia, não jargão técnico.
+- ❌ Evite: "implementação de conformidade", "maturidade", "framework"
+- ✅ Use: "Como vocês...", "Onde...", "Quem...", "Com que frequência..."
 
-- Cada pergunta precisa ser respondível por alguém que NÃO domina LGPD.
-- Evite jargões. Se um termo técnico for inevitável, explique em 1 frase no campo "description".
-- Pergunte sobre ações observáveis (rotina, ferramentas, quem acessa, onde guarda, como compartilha, como decide).
-- Para reduzir bloqueios do usuário:
-  - Prefira "select" ou "checkbox" quando for possível guiar a resposta.
-  - Em TODA pergunta do tipo "select": inclua SEMPRE as opções "Não sei informar" e "Não se aplica".
-  - Em TODA pergunta do tipo "checkbox": inclua SEMPRE a opção "Não sei informar".
-  - Use "Outro (especifique)" somente quando realmente fizer sentido.
-  - Em TODA pergunta do tipo "textarea": inclua SEMPRE "description" dizendo explicitamente:
-    "Se não souber responder, escreva: 'Não sei informar'."
+==================== ACESSIBILIDADE / LINGUAGEM SIMPLES (OBRIGATÓRIO) ====================
 
-- Se BAIXO CONHECIMENTO DETECTADO = SIM:
-  - Faça perguntas ainda mais concretas, curtas e guiadas (menos abertas).
-  - Não exija evidências formais; foque no que a pessoa consegue relatar do dia a dia.
+🎯 REGRA DE OURO: Uma criança de 12 anos tem que entender a pergunta.
+
+- ZERO jargão técnico. Nunca use: LGPD, GDPR, compliance, framework, implementação, maturidade, conformidade.
+- Cada pergunta deve ser respondível por alguém que NUNCA ouviu falar em proteção de dados.
+- Pergunte sobre ações observáveis do dia-a-dia (onde guardam, quem acessa, como decidem, com que frequência).
+- Use vocabulário comum: "dados", "informações", "pessoas", "computador", "documento", "sistema".
+
+ESTRUTURA DE PERGUNTA SIMPLES:
+- Comece com: "Como vocês...", "Onde vocês...", "Quem...", "Com que frequência...", "Vocês..."
+- Uma ideia por pergunta. Não combine duas questões.
+- Evite negações: ❌ "Vocês NÃO fazem X?" → ✅ "Vocês fazem X?"
+- Evite muito texto: máximo 2 linhas por pergunta.
+
+PARA REDUZIR BLOQUEIOS:
+- Prefira "select" ou "checkbox" quando for possível guiar a resposta.
+- Em TODA pergunta do tipo "select": inclua SEMPRE as opções "Não sei informar" e "Não se aplica".
+- Em TODA pergunta do tipo "checkbox": inclua SEMPRE a opção "Não sei informar".
+- Em TODA pergunta do tipo "textarea": description deve dizer:
+  "Descreva com suas palavras. Se não souber, escreva: 'Não sei informar'."
+
+SE BAIXO CONHECIMENTO DETECTADO:
+- Faça perguntas AINDA MAIS simples e concretas.
+- Foco no que a pessoa consegue relatar do dia-a-dia (rotina mesmo).
+- Prefira sempre "select" ou "checkbox" sobre "textarea" aberto.
 
 ==================== REGRAS GERAIS ====================
 
