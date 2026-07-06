@@ -167,6 +167,7 @@ function formatReportSections(report?: string): ReportSection[] {
 
 interface LGPDFragility {
   code: string;
+  emoji: string;
   name: string;
   description: string;
   detected: boolean;
@@ -178,60 +179,70 @@ function detectLGPDFragilities(report?: string): LGPDFragility[] {
   const fragilidades: LGPDFragility[] = [
     {
       code: "F1",
+      emoji: "👶",
       name: "Dados de Menores",
       description: "Dados de menores de idade sem consentimento parental",
       detected: /menores?|criança|adolescente/.test(text) && /sem consentimento|ilegal/.test(text),
     },
     {
       code: "F2",
+      emoji: "🔓",
       name: "Sem Criptografia",
       description: "Ausência de criptografia em repouso ou em trânsito",
       detected: /criptografia|encrypt|ssl|tls/.test(text) && (/ausência|falta|sem|não há/.test(text) || /não.*implement|não.*ativar/.test(text)),
     },
     {
       code: "F3",
+      emoji: "⏰",
       name: "Retenção Excessiva",
       description: "Retenção de dados além do necessário",
       detected: /retenção|guardar|armazenar|mantém?/.test(text) && /excessiv|além|período|longo/.test(text),
     },
     {
       code: "F4",
+      emoji: "👤",
       name: "Ausência de DPO",
       description: "Falta de Data Protection Officer ou responsável de dados",
       detected: /dpo|responsável.*dado|encarregado.*dado/.test(text) && /ausência|falta|sem|não/.test(text),
     },
     {
       code: "F5",
+      emoji: "📋",
       name: "Falta de Política",
       description: "Ausência de política de privacidade clara",
       detected: /política.*privacidade|política.*dados/.test(text) && /ausência|falta|sem|não há/.test(text),
     },
     {
       code: "F6",
+      emoji: "🤝",
       name: "Consentimento Inadequado",
       description: "Falta de consentimento explícito ou inadequado",
       detected: /consentimento/.test(text) && /falta|sem|ausência|inadequ|não.*obtém|não.*há/.test(text),
     },
     {
       code: "F7",
+      emoji: "🚫",
       name: "Direitos Negados",
       description: "Não garantir direitos dos titulares (acesso, exclusão, portabilidade)",
       detected: /direito|acesso.*dado|exclusão|portabilidade|esquecimento/.test(text) && /não.*garantir|não.*permite|negado/.test(text),
     },
     {
       code: "F8",
+      emoji: "🛡️",
       name: "Segurança Inadequada",
       description: "Ausência de medidas de segurança técnicas/administrativas",
       detected: /segurança|proteção|controle.*acesso/.test(text) && /inadequ|falta|ausência|sem|fraco/.test(text),
     },
     {
       code: "F9",
+      emoji: "📝",
       name: "Sem Documentação",
       description: "Falta de registros e documentação de tratamento de dados",
       detected: /documenta|registro|audi|compli/.test(text) && /falta|ausência|sem|não.*há/.test(text),
     },
     {
       code: "F10",
+      emoji: "⚖️",
       name: "Violação de Direitos",
       description: "Violação clara de direitos fundamentais ou LGPD",
       detected: /violação|crime|ilegal|inconstitucional|grave/.test(text),
@@ -604,7 +615,7 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({
         pdf.setFont("helvetica", "normal");
         pdf.setFontSize(8);
         pdf.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
-        pdf.text(`✗ ${frag.code} - ${frag.name}`, margin + 5, cursorY);
+        pdf.text(`✗ ${frag.emoji} ${frag.code} - ${frag.name}`, margin + 5, cursorY);
         cursorY += 4;
       });
       cursorY += 3;
@@ -622,7 +633,7 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({
         pdf.setFont("helvetica", "normal");
         pdf.setFontSize(8);
         pdf.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
-        pdf.text(`✓ ${frag.code} - ${frag.name}`, margin + 5, cursorY);
+        pdf.text(`✓ ${frag.emoji} ${frag.code} - ${frag.name}`, margin + 5, cursorY);
         cursorY += 4;
       });
     }
@@ -1044,7 +1055,8 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({
                 }`}
               >
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="text-xs font-bold text-slate-300 cursor-help" title={`${frag.code}: Fragilidade ${frag.code.charAt(1)}`}>{frag.code}</span>
+                  <span className="text-lg">{frag.emoji}</span>
+                  <span className="text-xs font-bold text-slate-300 cursor-help" title={`${frag.code}: ${frag.name}`}>{frag.code}</span>
                   <span
                     className={`text-lg ${
                       frag.detected
