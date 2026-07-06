@@ -289,12 +289,6 @@ function buildFallbackQuestions(stage, assessmentContext, audience, objective) {
     return [
       {
         id: "q1",
-        type: "textarea",
-        question: `Considerando o contexto "${baseContext}" e o objetivo "${normalizedObjective}", como esse tema aparece na realidade do ${normalizedAudience}?`,
-        required: true,
-      },
-      {
-        id: "q2",
         type: "select",
         question:
           "Com que frequência você lida com informações ou dados pessoais nesse contexto?",
@@ -302,7 +296,7 @@ function buildFallbackQuestions(stage, assessmentContext, audience, objective) {
         required: true,
       },
       {
-        id: "q3",
+        id: "q2",
         type: "checkbox",
         question:
           "Quais elementos estão mais presentes na sua rotina relacionada a esse tema?",
@@ -317,7 +311,7 @@ function buildFallbackQuestions(stage, assessmentContext, audience, objective) {
         required: true,
       },
       {
-        id: "q4",
+        id: "q3",
         type: "textarea",
         question:
           "Quais dificuldades ou preocupações você percebe hoje em relação a esse processo?",
