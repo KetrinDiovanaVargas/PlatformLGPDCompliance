@@ -76,7 +76,6 @@ service cloud.firestore {
 
         // Admins can read/delete sessions for their assessments
         allow read: if isAuthenticated() && isAdmin(request.auth.uid) &&
-                       exists(/databases/{database}/documents/assessments/{parent()}/assessment_sessions/{sessionId}) &&
                        (isMaster(request.auth.uid) ||
                         isAssessmentOwner(request.auth.uid, resource.data.assessmentId));
 
