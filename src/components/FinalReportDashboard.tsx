@@ -171,16 +171,8 @@ export function FinalReportDashboard({ fragilites, scoreAverage }: FinalReportDa
 
   return (
     <div className="space-y-8">
-      {/* Header */}
+      {/* Summary Stats */}
       <div className="space-y-4">
-        <div>
-          <h2 className="text-3xl font-bold text-slate-100 mb-2">
-            Fragilidades LGPD Detectadas
-          </h2>
-          <p className="text-slate-400">Clique em cada item para ver as ações recomendadas</p>
-        </div>
-
-        {/* Summary Stats */}
         <div className="grid grid-cols-4 gap-4">
           <div className="rounded-xl bg-red-500/10 border border-red-500/20 p-4">
             <p className="text-2xl font-bold text-red-400">{grouped.critical.length}</p>
