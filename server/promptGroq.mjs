@@ -475,17 +475,56 @@ Quando houver conflito, siga esta ordem de prioridade:
 3. contexto inicial do respondente
 4. histórico das respostas anteriores
 
-==================== REGRA CRÍTICA DE NÃO REPETIÇÃO ====================
+==================== REGRA CRÍTICA DE NÃO REPETIÇÃO (OBRIGATÓRIA) ====================
 
-- NÃO repetir perguntas literalmente.
-- NÃO repetir perguntas semanticamente equivalentes.
-- NÃO reformular com palavras diferentes uma pergunta que já investigou a mesma intenção.
+⚠️ ESTA É A REGRA MAIS IMPORTANTE. VIOLE-A E A QUALIDADE CAI DRASTICAMENTE.
+
+BLOQUEIO ABSOLUTO DE REPETIÇÃO:
+- NÃO repetir perguntas literalmente (palavra por palavra).
+- NÃO repetir perguntas semanticamente equivalentes (mesma ideia, palavras diferentes).
+- NÃO reformular com sinônimos uma pergunta que já investigou a mesma intenção.
 - NÃO repetir o mesmo contexto, o mesmo foco ou a mesma dimensão investigativa em etapas diferentes.
-- Cada nova pergunta deve explorar uma dimensão NOVA e complementar.
-- Se uma pergunta candidata for parecida com qualquer pergunta anterior, DESCARTE e gere outra.
-- Se uma pergunta candidata investigar o mesmo assunto central já coberto, DESCARTE e gere outra.
-- Não use sinônimos para mascarar repetição.
-- O histórico de perguntas acima deve ser tratado como bloqueio real de conteúdo já explorado.
+- NÃO FAZER perguntas sobre "desafios", "maturidade" e "evolução" múltiplas vezes (já foi feito em etapas anteriores).
+
+PROCESSO DE VALIDAÇÃO - PARA CADA PERGUNTA GERADA:
+1. Procure no histórico: existe uma pergunta com os MESMOS PALAVRAS-CHAVE?
+   → SIM: DESCARTE e gere outra.
+2. Procure no histórico: uma pergunta anterior investigou o MESMO ASSUNTO CENTRAL?
+   → SIM: DESCARTE e gere outra.
+3. A pergunta usa "desafios", "maturidade", "evoluir" E já existe algo parecido no histórico?
+   → SIM: DESCARTE e gere outra imediatamente.
+4. A pergunta é uma variação com sinônimos de algo já perguntado?
+   → SIM: DESCARTE e gere outra.
+
+CADA NOVA PERGUNTA = DIMENSÃO TOTALMENTE NOVA:
+- Se já perguntou sobre "desafios para evoluir", não pergunta sobre "principais desafios para maturidade".
+- Se perguntou sobre processo em uma etapa, não pergunta sobre o MESMO processo em outra etapa.
+- Se perguntou sobre "controles", não pergunta sobre "práticas de controle".
+
+DIMENSÕES BLOQUEADAS SE JÁ ABORDADAS:
+- Desafios / Dificuldades / Problemas / Obstacles
+- Maturidade / Evolução / Progresso / Desenvolvimento
+- Fluxo de dados / Circulação de informações / Fluxo de informações
+- Responsabilidades / Atribuições / Papéis / Quem faz o quê
+
+O histórico de perguntas acima é BLOQUEIO REAL de conteúdo já explorado.
+
+EXEMPLOS DE REPETIÇÃO INACEITÁVEL (SEMPRE DESCARTAR):
+❌ "Quais são os principais desafios para evoluir a maturidade desse processo em \"Teste\"?"
+   + Se perguntou sobre "desafios" antes = BLOQUEADO
+   + Se perguntou sobre "maturidade/evolução" antes = BLOQUEADO
+   + Se já explorou esse assunto em outra forma = BLOQUEADO
+
+❌ "Quais pontos desta etapa mais chamam sua atenção em relação ao uso ou tratamento das informações?"
+   + Muito similar a perguntas anteriores = BLOQUEADO
+
+✅ NOVO = Perguntas sobre aspectos específicos e não abordados:
+   + Conformidade com leis específicas (LGPD, GDPR)
+   + Tecnologias ou ferramentas utilizadas
+   + Frequência ou escala de operações
+   + Dependências externas ou terceiros
+   + Impacto comercial ou operacional
+   + Planos futuros específicos
 
 ==================== ACESSIBILIDADE / SEM PONTAS SOLTAS (OBRIGATÓRIO) ====================
 
