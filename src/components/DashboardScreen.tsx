@@ -586,7 +586,7 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({
     pdf.setFont("helvetica", "bold");
     pdf.setFontSize(12);
     pdf.setTextColor(colors.dark[0], colors.dark[1], colors.dark[2]);
-    pdf.text("Fragilidades LGPD Detectadas", margin, cursorY);
+    pdf.text("Fragilidades Detectadas", margin, cursorY);
     cursorY += 8;
 
     const detectedFragilities = lgpdFragilities.filter(f => f.detected);
@@ -1030,7 +1030,7 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({
 
         <section className="rounded-2xl bg-slate-900/80 border border-slate-800 p-5">
           <h2 className="text-sm font-semibold mb-4">
-            Fragilidades LGPD Detectadas
+            Fragilidades Detectadas
           </h2>
 
           <div className="grid grid-cols-2 gap-3">
@@ -1044,7 +1044,7 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({
                 }`}
               >
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="text-xs font-bold text-slate-300">{frag.code}</span>
+                  <span className="text-xs font-bold text-slate-300 cursor-help" title={`${frag.code}: Fragilidade ${frag.code.charAt(1)}`}>{frag.code}</span>
                   <span
                     className={`text-lg ${
                       frag.detected
