@@ -32,6 +32,7 @@ async function loadAssessmentMetadata(adminDb, assessmentId) {
     context: safeString(data.context),
     audience: safeString(data.audience),
     introText: safeString(data.introText),
+    aiProvider: safeString(data.aiProvider, "groq"),
     ownerId: safeString(data.ownerId),
     ownerName: safeString(data.ownerName),
     active: data.active !== false,
@@ -123,6 +124,8 @@ router.post("/", async (req, res) => {
       }
     }
 
+    const aiProvider = officialAssessment?.aiProvider || "groq";
+
     const officialMetadata = {
       assessmentId: officialAssessment?.id ?? assessmentId ?? null,
       assessmentTitle: officialAssessment?.title || "",
@@ -145,11 +148,13 @@ router.post("/", async (req, res) => {
       assessmentTitle: officialMetadata.assessmentTitle || null,
       assessmentObjective: officialMetadata.assessmentObjective || null,
       audience: officialMetadata.audience || null,
+      aiProvider,
     });
 
     const analysis = await generateFinalReportWithGroq({
       responses,
       metadata: officialMetadata,
+      aiProvider,
     });
 
     if (!analysis || typeof analysis !== "object") {

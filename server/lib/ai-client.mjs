@@ -1,16 +1,19 @@
 /**
  * ai-client.mjs
  *
- * Cliente de IA com fallback automático: Groq → Gemini.
+ * Cliente de IA com fallback automático: Groq → DeepSeek → Gemini
+ * Suporta seleção de modelo preferencial com fallback automático
  * Todos os módulos do servidor devem usar este cliente em vez de
- * instanciar Groq diretamente.
+ * instanciar clientes diretamente.
  */
 
 import Groq from 'groq-sdk'
 import { GoogleGenerativeAI } from '@google/generative-ai'
+import { OpenAI } from 'openai'
 
-const GROQ_MODEL   = 'llama-3.3-70b-versatile'
-const GEMINI_MODEL = 'gemini-2.0-flash'
+const GROQ_MODEL     = 'llama-3.3-70b-versatile'
+const GEMINI_MODEL   = 'gemini-2.0-flash'
+const DEEPSEEK_MODEL = 'deepseek-chat'
 
 function isRateLimit(err) {
   return err?.status === 429 ||
@@ -22,6 +25,15 @@ function getGroqClient() {
   const key = process.env.GROQ_API_KEY
   if (!key) return null
   return new Groq({ apiKey: key })
+}
+
+function getDeepSeekClient() {
+  const key = process.env.DEEPSEEK_API_KEY
+  if (!key) return null
+  return new OpenAI({
+    apiKey: key,
+    baseURL: 'https://api.deepseek.com',
+  })
 }
 
 function getGeminiClient() {
@@ -41,120 +53,194 @@ function getGeminiClient() {
  * @returns {Promise<string>}      - texto da resposta
  */
 /**
- * Testa se um provedor de IA está disponível e com tokens.
- * Retorna { available: bool, provider, model, error? }
+ * Testa disponibilidade de todos os provedores de IA
+ * Retorna status de cada um: { groq, deepseek, gemini, recommended }
  */
 export async function checkAIStatus() {
   const probe = [{ role: 'user', content: 'ok' }]
+  const status = {}
 
+  // Testa GROQ
   const groq = getGroqClient()
   if (groq) {
     try {
       await groq.chat.completions.create({ model: GROQ_MODEL, messages: probe, max_tokens: 1 })
-      return { available: true, provider: 'groq', model: GROQ_MODEL }
+      status.groq = { available: true, provider: 'groq', model: GROQ_MODEL }
     } catch (err) {
-      const rateLimited = isRateLimit(err)
-      const groqStatus = { available: false, provider: 'groq', model: GROQ_MODEL,
-        error: rateLimited ? 'rate_limit' : err?.message }
+      status.groq = {
+        available: false,
+        provider: 'groq',
+        model: GROQ_MODEL,
+        error: isRateLimit(err) ? 'rate_limit' : err?.message
+      }
+    }
+  } else {
+    status.groq = { available: false, provider: 'groq', error: 'key_missing' }
+  }
 
-      // Groq caiu — testa Gemini
-      const genai = getGeminiClient()
-      if (genai) {
-        try {
-          const model = genai.getGenerativeModel({ model: GEMINI_MODEL })
-          await model.generateContent('ok')
-          return { available: true, provider: 'gemini', model: GEMINI_MODEL, groq: groqStatus }
-        } catch (geminiErr) {
-          return {
-            available: false,
-            provider: null,
-            error: 'both_unavailable',
-            groq: groqStatus,
-            gemini: { available: false, provider: 'gemini', model: GEMINI_MODEL,
-              error: geminiErr?.status === 429 ? 'rate_limit' : geminiErr?.message },
+  // Testa DeepSeek
+  const deepseek = getDeepSeekClient()
+  if (deepseek) {
+    try {
+      await deepseek.chat.completions.create({
+        model: DEEPSEEK_MODEL,
+        messages: probe,
+        max_tokens: 1
+      })
+      status.deepseek = { available: true, provider: 'deepseek', model: DEEPSEEK_MODEL }
+    } catch (err) {
+      status.deepseek = {
+        available: false,
+        provider: 'deepseek',
+        model: DEEPSEEK_MODEL,
+        error: isRateLimit(err) ? 'rate_limit' : err?.message
+      }
+    }
+  } else {
+    status.deepseek = { available: false, provider: 'deepseek', error: 'key_missing' }
+  }
+
+  // Testa Gemini
+  const genai = getGeminiClient()
+  if (genai) {
+    try {
+      const model = genai.getGenerativeModel({ model: GEMINI_MODEL })
+      await model.generateContent('ok')
+      status.gemini = { available: true, provider: 'gemini', model: GEMINI_MODEL }
+    } catch (err) {
+      status.gemini = {
+        available: false,
+        provider: 'gemini',
+        model: GEMINI_MODEL,
+        error: err?.status === 429 ? 'rate_limit' : err?.message
+      }
+    }
+  } else {
+    status.gemini = { available: false, provider: 'gemini', error: 'key_missing' }
+  }
+
+  // Recomenda o primeiro disponível
+  const recommended = status.groq.available ? 'groq'
+                    : status.deepseek.available ? 'deepseek'
+                    : status.gemini.available ? 'gemini'
+                    : null
+
+  return { ...status, recommended }
+}
+
+/**
+ * Executa uma chamada de chat com fallback automático
+ * @param {Array} messages - Array de mensagens OpenAI format
+ * @param {object} opts - Opções
+ * @param {string} opts.preferredProvider - 'groq', 'deepseek', ou 'gemini' (default: auto)
+ * @param {number} opts.temperature - 0-1
+ * @param {boolean} opts.jsonMode - Se ativa modo JSON
+ * @returns {Promise<string>} - Resposta de texto
+ */
+export async function chatCompletion(messages, { preferredProvider = null, temperature = 0.2, jsonMode = false } = {}) {
+  // Define ordem de fallback baseada na preferência
+  const getProviderOrder = (preferred) => {
+    if (preferred === 'groq') return ['groq', 'deepseek', 'gemini']
+    if (preferred === 'deepseek') return ['deepseek', 'groq', 'gemini']
+    if (preferred === 'gemini') return ['gemini', 'deepseek', 'groq']
+    // Default: tenta em ordem
+    return ['groq', 'deepseek', 'gemini']
+  }
+
+  const order = getProviderOrder(preferredProvider)
+  const errors = {}
+
+  // Tenta cada provedor em ordem
+  for (const provider of order) {
+    try {
+      if (provider === 'groq') {
+        const groq = getGroqClient()
+        if (!groq) {
+          errors.groq = 'key_missing'
+          continue
+        }
+
+        const params = {
+          model: GROQ_MODEL,
+          messages,
+          temperature,
+        }
+        if (jsonMode) params.response_format = { type: 'json_object' }
+
+        const completion = await groq.chat.completions.create(params)
+        console.log(`✓ Chat com Groq (${GROQ_MODEL}) bem-sucedido`)
+        return completion.choices[0].message.content ?? ''
+
+      } else if (provider === 'deepseek') {
+        const deepseek = getDeepSeekClient()
+        if (!deepseek) {
+          errors.deepseek = 'key_missing'
+          continue
+        }
+
+        const params = {
+          model: DEEPSEEK_MODEL,
+          messages,
+          temperature,
+        }
+        if (jsonMode) params.response_format = { type: 'json_object' }
+
+        const completion = await deepseek.chat.completions.create(params)
+        console.log(`✓ Chat com DeepSeek (${DEEPSEEK_MODEL}) bem-sucedido`)
+        return completion.choices[0].message.content ?? ''
+
+      } else if (provider === 'gemini') {
+        const genai = getGeminiClient()
+        if (!genai) {
+          errors.gemini = 'key_missing'
+          continue
+        }
+
+        const model = genai.getGenerativeModel({ model: GEMINI_MODEL })
+
+        // Converte do formato OpenAI para Gemini
+        const systemMsg = messages.find(m => m.role === 'system')?.content ?? ''
+        const userMsgs = messages.filter(m => m.role !== 'system')
+
+        const history = userMsgs.slice(0, -1).map(m => ({
+          role: m.role === 'assistant' ? 'model' : 'user',
+          parts: [{ text: m.content }],
+        }))
+
+        const lastMsg = userMsgs.at(-1)?.content ?? ''
+        const fullPrompt = systemMsg ? `${systemMsg}\n\n${lastMsg}` : lastMsg
+
+        const chat = model.startChat({ history })
+
+        for (let tentativa = 1; tentativa <= 3; tentativa++) {
+          try {
+            const result = await chat.sendMessage(fullPrompt)
+            console.log(`✓ Chat com Gemini (${GEMINI_MODEL}) bem-sucedido`)
+            return result.response.text()
+          } catch (err) {
+            if (err?.status === 429 && tentativa < 3) {
+              const segundos = 30
+              console.warn(`⚠️  Gemini rate limit. Aguardando ${segundos}s (tentativa ${tentativa}/3)...`)
+              await new Promise(r => setTimeout(r, segundos * 1000))
+            } else {
+              throw err
+            }
           }
         }
       }
 
-      return { available: false, provider: null, error: 'gemini_key_missing', groq: groqStatus }
-    }
-  }
-
-  // Sem chave Groq — testa só Gemini
-  const genai = getGeminiClient()
-  if (!genai) {
-    return { available: false, provider: null, error: 'no_keys_configured' }
-  }
-  try {
-    const model = genai.getGenerativeModel({ model: GEMINI_MODEL })
-    await model.generateContent('ok')
-    return { available: true, provider: 'gemini', model: GEMINI_MODEL }
-  } catch (err) {
-    return { available: false, provider: null, error: err?.status === 429 ? 'rate_limit' : err?.message }
-  }
-}
-
-export async function chatCompletion(messages, { temperature = 0.2, jsonMode = false } = {}) {
-  const groq = getGroqClient()
-
-  if (groq) {
-    try {
-      const params = {
-        model: GROQ_MODEL,
-        messages,
-        temperature,
-      }
-      if (jsonMode) params.response_format = { type: 'json_object' }
-
-      const completion = await groq.chat.completions.create(params)
-      return completion.choices[0].message.content ?? ''
-
     } catch (err) {
       if (isRateLimit(err)) {
-        console.warn('⚠️  Groq rate limit atingido — usando Gemini como fallback')
+        console.warn(`⚠️  ${provider} rate limit — tentando próximo...`)
+        errors[provider] = 'rate_limit'
       } else {
-        throw err
+        console.warn(`⚠️  ${provider} erro: ${err.message} — tentando próximo...`)
+        errors[provider] = err.message
       }
-    }
-  } else {
-    console.warn('⚠️  GROQ_API_KEY ausente — usando Gemini')
-  }
-
-  // ── Fallback: Gemini ──────────────────────────────────────────────────────
-  const genai = getGeminiClient()
-  if (!genai) {
-    throw new Error('Nenhuma IA disponível: GROQ_API_KEY e GEMINI_API_KEY ausentes')
-  }
-
-  const model = genai.getGenerativeModel({ model: GEMINI_MODEL })
-
-  // Converte o formato OpenAI para o formato Gemini
-  const systemMsg = messages.find(m => m.role === 'system')?.content ?? ''
-  const userMsgs  = messages.filter(m => m.role !== 'system')
-
-  const history = userMsgs.slice(0, -1).map(m => ({
-    role: m.role === 'assistant' ? 'model' : 'user',
-    parts: [{ text: m.content }],
-  }))
-
-  const lastMsg = userMsgs.at(-1)?.content ?? ''
-  const fullPrompt = systemMsg ? `${systemMsg}\n\n${lastMsg}` : lastMsg
-
-  const chat = model.startChat({ history })
-
-  for (let tentativa = 1; tentativa <= 5; tentativa++) {
-    try {
-      const result = await chat.sendMessage(fullPrompt)
-      return result.response.text()
-    } catch (err) {
-      if (err?.status === 429 && tentativa < 5) {
-        const retryDelay = err?.errorDetails?.find(d => d['@type']?.includes('RetryInfo'))?.retryDelay
-        const segundos = (parseInt(retryDelay ?? '60') + 5)
-        console.warn(`⚠️  Gemini rate limit. Aguardando ${Math.ceil(segundos / 60)} min (tentativa ${tentativa}/5)...`)
-        await new Promise(r => setTimeout(r, segundos * 1000))
-      } else {
-        throw err
-      }
+      continue
     }
   }
+
+  // Nenhum provedor funcionou
+  throw new Error(`Nenhuma IA disponível. Erros: ${JSON.stringify(errors)}`)
 }
