@@ -38,6 +38,7 @@ import {
 
 import jsPDF from "jspdf";
 import { motion } from "framer-motion";
+import { FinalReportDashboard } from "./FinalReportDashboard";
 
 // ======================================================
 // TIPOS
@@ -57,6 +58,16 @@ interface Recommendation {
     isoRefs?: string;
     lgpdRefs?: string;
   };
+}
+
+interface Fragility {
+  id: string;
+  name: string;
+  description: string;
+  risk: string;
+  actions: string[];
+  daysToResolve: number;
+  severity: "critical" | "high" | "medium";
 }
 
 type DashboardScreenProps = {
@@ -241,6 +252,52 @@ function detectLGPDFragilities(report?: string): LGPDFragility[] {
   return fragilidades;
 }
 
+function transformFragilitiesToReportFormat(
+  lgpdFragilities: LGPDFragility[],
+  critical: string[],
+  recommendations: Recommendation[]
+): Fragility[] {
+  const detectedFragilities = lgpdFragilities.filter(f => f.detected);
+
+  return detectedFragilities.map(frag => {
+    // Determine severity based on detection and if in critical issues
+    const inCritical = critical.some(c => c.toLowerCase().includes(frag.name.toLowerCase()));
+    const severity: "critical" | "high" | "medium" = inCritical ? "critical" : "high";
+
+    // Build risk description
+    const riskDescription = frag.description;
+
+    // Find related recommendations/actions for this fragility
+    const relatedRecommendations = recommendations.filter(rec =>
+      rec.title.toLowerCase().includes(frag.name.toLowerCase()) ||
+      frag.name.toLowerCase().includes(rec.title.toLowerCase().substring(0, 20))
+    );
+
+    const actions = relatedRecommendations.length > 0
+      ? relatedRecommendations.flatMap(rec => rec.actions).slice(0, 5)
+      : [
+          `Implementar medidas para resolver: ${frag.name}`,
+          "Documentar processo de remedição",
+          "Revisar políticas relacionadas",
+          "Treinar equipe responsável",
+          "Auditar implementação",
+        ];
+
+    // Assign days to resolve based on severity
+    const daysToResolve = severity === "critical" ? 30 : severity === "high" ? 45 : 60;
+
+    return {
+      id: frag.code,
+      name: frag.name,
+      description: frag.description,
+      risk: riskDescription,
+      actions: actions.filter(a => a && a.length > 0),
+      daysToResolve,
+      severity,
+    };
+  });
+}
+
 // ======================================================
 // NORMALIZAÇÃO DE MÉTRICAS
 // ======================================================
@@ -393,6 +450,11 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({
         : [],
       learning: r.learning || buildLearningResources(r.title || ""),
     })
+  );
+
+  const reportFragilities: Fragility[] = useMemo(
+    () => transformFragilitiesToReportFormat(lgpdFragilities, critical, enrichedRecommendations),
+    [lgpdFragilities, critical, enrichedRecommendations]
   );
 
   const chartStatsData = [
@@ -1028,40 +1090,14 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({
           </div>
         </section>
 
-        <section className="rounded-2xl bg-slate-900/80 border border-slate-800 p-5">
-          <h2 className="text-sm font-semibold mb-4">
-            Fragilidades LGPD Detectadas
-          </h2>
-
-          <div className="grid grid-cols-2 gap-3">
-            {lgpdFragilities.map((frag, i) => (
-              <div
-                key={i}
-                className={`rounded-lg p-3 border-2 transition ${
-                  frag.detected
-                    ? "border-red-500/60 bg-red-500/10"
-                    : "border-emerald-500/30 bg-emerald-500/5"
-                }`}
-              >
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="text-xs font-bold text-slate-300">{frag.code}</span>
-                  <span
-                    className={`text-lg ${
-                      frag.detected
-                        ? "opacity-100 text-red-400"
-                        : "opacity-50 text-emerald-400"
-                    }`}
-                  >
-                    {frag.detected ? "✗" : "✓"}
-                  </span>
-                </div>
-                <p className="text-xs font-medium text-slate-200 leading-tight">
-                  {frag.name}
-                </p>
-              </div>
-            ))}
-          </div>
-        </section>
+        {reportFragilities.length > 0 && (
+          <section>
+            <FinalReportDashboard
+              fragilites={reportFragilities}
+              scoreAverage={score}
+            />
+          </section>
+        )}
 
         <section className="grid md:grid-cols-2 gap-5">
           <div className="rounded-2xl bg-emerald-900/20 border border-emerald-600/40 p-5">
