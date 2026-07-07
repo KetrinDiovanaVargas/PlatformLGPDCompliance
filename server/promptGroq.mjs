@@ -475,34 +475,87 @@ Quando houver conflito, siga esta ordem de prioridade:
 3. contexto inicial do respondente
 4. histórico das respostas anteriores
 
-==================== REGRA CRÍTICA DE NÃO REPETIÇÃO ====================
+==================== REGRA CRÍTICA DE NÃO REPETIÇÃO (OBRIGATÓRIA) ====================
 
-- NÃO repetir perguntas literalmente.
-- NÃO repetir perguntas semanticamente equivalentes.
-- NÃO reformular com palavras diferentes uma pergunta que já investigou a mesma intenção.
+⚠️ ESTA É A REGRA MAIS IMPORTANTE. VIOLE-A E A QUALIDADE CAI DRASTICAMENTE.
+
+BLOQUEIO ABSOLUTO DE REPETIÇÃO:
+- NÃO repetir perguntas literalmente (palavra por palavra).
+- NÃO repetir perguntas semanticamente equivalentes (mesma ideia, palavras diferentes).
+- NÃO reformular com sinônimos uma pergunta que já investigou a mesma intenção.
 - NÃO repetir o mesmo contexto, o mesmo foco ou a mesma dimensão investigativa em etapas diferentes.
-- Cada nova pergunta deve explorar uma dimensão NOVA e complementar.
-- Se uma pergunta candidata for parecida com qualquer pergunta anterior, DESCARTE e gere outra.
-- Se uma pergunta candidata investigar o mesmo assunto central já coberto, DESCARTE e gere outra.
-- Não use sinônimos para mascarar repetição.
-- O histórico de perguntas acima deve ser tratado como bloqueio real de conteúdo já explorado.
+- NÃO FAZER perguntas sobre "desafios", "maturidade" e "evolução" múltiplas vezes (já foi feito em etapas anteriores).
 
-==================== ACESSIBILIDADE / SEM PONTAS SOLTAS (OBRIGATÓRIO) ====================
+PROCESSO DE VALIDAÇÃO - PARA CADA PERGUNTA GERADA:
+1. Procure no histórico: existe uma pergunta com os MESMOS PALAVRAS-CHAVE?
+   → SIM: DESCARTE e gere outra.
+2. Procure no histórico: uma pergunta anterior investigou o MESMO ASSUNTO CENTRAL?
+   → SIM: DESCARTE e gere outra.
+3. A pergunta usa "desafios", "maturidade", "evoluir" E já existe algo parecido no histórico?
+   → SIM: DESCARTE e gere outra imediatamente.
+4. A pergunta é uma variação com sinônimos de algo já perguntado?
+   → SIM: DESCARTE e gere outra.
 
-- Cada pergunta precisa ser respondível por alguém que NÃO domina LGPD.
-- Evite jargões. Se um termo técnico for inevitável, explique em 1 frase no campo "description".
-- Pergunte sobre ações observáveis (rotina, ferramentas, quem acessa, onde guarda, como compartilha, como decide).
-- Para reduzir bloqueios do usuário:
-  - Prefira "select" ou "checkbox" quando for possível guiar a resposta.
-  - Em TODA pergunta do tipo "select": inclua SEMPRE as opções "Não sei informar" e "Não se aplica".
-  - Em TODA pergunta do tipo "checkbox": inclua SEMPRE a opção "Não sei informar".
-  - Use "Outro (especifique)" somente quando realmente fizer sentido.
-  - Em TODA pergunta do tipo "textarea": inclua SEMPRE "description" dizendo explicitamente:
-    "Se não souber responder, escreva: 'Não sei informar'."
+CADA NOVA PERGUNTA = DIMENSÃO TOTALMENTE NOVA:
+- Se já perguntou sobre "desafios para evoluir", não pergunta sobre "principais desafios para maturidade".
+- Se perguntou sobre processo em uma etapa, não pergunta sobre o MESMO processo em outra etapa.
+- Se perguntou sobre "controles", não pergunta sobre "práticas de controle".
 
-- Se BAIXO CONHECIMENTO DETECTADO = SIM:
-  - Faça perguntas ainda mais concretas, curtas e guiadas (menos abertas).
-  - Não exija evidências formais; foque no que a pessoa consegue relatar do dia a dia.
+DIMENSÕES BLOQUEADAS SE JÁ ABORDADAS:
+- Desafios / Dificuldades / Problemas / Obstacles
+- Maturidade / Evolução / Progresso / Desenvolvimento
+- Fluxo de dados / Circulação de informações / Fluxo de informações
+- Responsabilidades / Atribuições / Papéis / Quem faz o quê
+
+O histórico de perguntas acima é BLOQUEIO REAL de conteúdo já explorado.
+
+EXEMPLOS DE REPETIÇÃO INACEITÁVEL (SEMPRE DESCARTAR):
+❌ "Quais são os principais desafios para evoluir a maturidade desse processo?"
+   + Se perguntou sobre "desafios" antes = BLOQUEADO
+
+❌ "Quais pontos chamam sua atenção em relação ao tratamento das informações?"
+   + Muito similar a perguntas anteriores = BLOQUEADO
+
+✅ PERGUNTAS SIMPLES E DIRETAS QUE FUNCIONAM:
+   + "Onde vocês guardam essas informações?" (Sobre armazenamento)
+   + "Quem pode acessar esses dados?" (Sobre controle de acesso)
+   + "Com que frequência vocês revisam como usam esses dados?" (Sobre monitoramento)
+   + "Se alguém precisa desses dados, como vocês decidem se pode ou não?" (Sobre autorização)
+   + "Vocês documentam em algum lugar como usam essas informações?" (Sobre documentação)
+   + "O que vocês fazem com esses dados depois que não precisam mais?" (Sobre retenção)
+   + "Como vocês protegem essas informações contra roubo ou vazamento?" (Sobre segurança)
+   + "Quem mais fora da sua equipe precisa dessas informações?" (Sobre compartilhamento)
+
+REGRA: Perguntas devem usar linguagem do dia-a-dia, não jargão técnico.
+- ❌ Evite: "implementação de conformidade", "maturidade", "framework"
+- ✅ Use: "Como vocês...", "Onde...", "Quem...", "Com que frequência..."
+
+==================== ACESSIBILIDADE / LINGUAGEM SIMPLES (OBRIGATÓRIO) ====================
+
+🎯 REGRA DE OURO: Uma criança de 12 anos tem que entender a pergunta.
+
+- ZERO jargão técnico. Nunca use: LGPD, GDPR, compliance, framework, implementação, maturidade, conformidade.
+- Cada pergunta deve ser respondível por alguém que NUNCA ouviu falar em proteção de dados.
+- Pergunte sobre ações observáveis do dia-a-dia (onde guardam, quem acessa, como decidem, com que frequência).
+- Use vocabulário comum: "dados", "informações", "pessoas", "computador", "documento", "sistema".
+
+ESTRUTURA DE PERGUNTA SIMPLES:
+- Comece com: "Como vocês...", "Onde vocês...", "Quem...", "Com que frequência...", "Vocês..."
+- Uma ideia por pergunta. Não combine duas questões.
+- Evite negações: ❌ "Vocês NÃO fazem X?" → ✅ "Vocês fazem X?"
+- Evite muito texto: máximo 2 linhas por pergunta.
+
+PARA REDUZIR BLOQUEIOS:
+- Prefira "select" ou "checkbox" quando for possível guiar a resposta.
+- Em TODA pergunta do tipo "select": inclua SEMPRE as opções "Não sei informar" e "Não se aplica".
+- Em TODA pergunta do tipo "checkbox": inclua SEMPRE a opção "Não sei informar".
+- Em TODA pergunta do tipo "textarea": description deve dizer:
+  "Descreva com suas palavras. Se não souber, escreva: 'Não sei informar'."
+
+SE BAIXO CONHECIMENTO DETECTADO:
+- Faça perguntas AINDA MAIS simples e concretas.
+- Foco no que a pessoa consegue relatar do dia-a-dia (rotina mesmo).
+- Prefira sempre "select" ou "checkbox" sobre "textarea" aberto.
 
 ==================== REGRAS GERAIS ====================
 
