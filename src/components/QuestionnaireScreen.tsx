@@ -971,7 +971,7 @@ export const QuestionnaireScreen = ({
 
     return (
       <Textarea
-        className="min-h-[120px] bg-black/20 border-white/20 text-white"
+        className="min-h-[100px] sm:min-h-[120px] bg-black/20 border-white/20 text-white text-sm sm:text-base"
         value={textValue}
         onChange={(e) => handleResponse(e.target.value)}
         placeholder="Digite sua resposta aqui..."
@@ -1019,8 +1019,8 @@ export const QuestionnaireScreen = ({
           </div>
         </div>
 
-        <div className="mb-8">
-          <div className="flex justify-between mb-1 text-white/80 text-sm">
+        <div className="mb-6 sm:mb-8">
+          <div className="flex flex-col sm:flex-row sm:justify-between gap-1 mb-1 text-white/80 text-xs sm:text-sm">
             <span>
               Questão {currentQuestion + 1} de {stage.questions.length} (Etapa{" "}
               {displayStageNumber})
@@ -1032,49 +1032,62 @@ export const QuestionnaireScreen = ({
           <Progress value={progress} className="h-2" />
         </div>
 
-        <Card className="p-8 bg-white/5 backdrop-blur-md border-white/10 shadow-xl">
-          <h2 className="text-2xl font-bold text-white mb-2">
+        <Card className="p-4 md:p-8 bg-white/5 backdrop-blur-md border-white/10 shadow-xl">
+          <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-2 leading-tight">
             {question.question}
           </h2>
 
           {question.description && (
-            <p className="text-white/70 mb-2">{question.description}</p>
+            <p className="text-white/70 mb-3 text-xs sm:text-sm">{question.description}</p>
           )}
 
           {question.required && (
             <p className="text-red-400 text-xs mb-4">* Campo obrigatório</p>
           )}
 
-          {renderQuestionInput()}
+          <div className="mb-6 md:mb-8">
+            {renderQuestionInput()}
+          </div>
 
-          <div className="flex gap-4 mt-8">
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
             <Button
               variant="outline"
               onClick={
                 currentStage === 0 && currentQuestion === 0 ? onBack : handlePrevious
               }
-              className="flex-1"
+              className="flex-1 text-xs sm:text-sm py-2 sm:py-3"
             >
-              <ChevronLeft className="w-4 h-4 mr-2" />
-              {currentStage === 0 && currentQuestion === 0
-                ? "Voltar ao Início"
-                : "Anterior"}
+              <ChevronLeft className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">
+                {currentStage === 0 && currentQuestion === 0
+                  ? "Voltar ao Início"
+                  : "Anterior"}
+              </span>
+              <span className="sm:hidden">
+                {currentStage === 0 && currentQuestion === 0 ? "Voltar" : "Ant."}
+              </span>
             </Button>
 
             <Button
               onClick={handleNext}
               disabled={isSubmitting || isProcessingNext || !sessionId}
-              className="flex-1"
+              className="flex-1 text-xs sm:text-sm py-2 sm:py-3"
             >
               {isSubmitting || isProcessingNext ? (
                 <>
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  Processando...
+                  <Loader2 className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2 animate-spin" />
+                  <span className="hidden sm:inline">Processando...</span>
+                  <span className="sm:hidden">...</span>
                 </>
               ) : (
                 <>
-                  {isLastStep ? "Finalizar" : "Próxima"}
-                  <ChevronRight className="w-4 h-4 ml-2" />
+                  <span className="hidden sm:inline">
+                    {isLastStep ? "Finalizar" : "Próxima"}
+                  </span>
+                  <span className="sm:hidden">
+                    {isLastStep ? "Fim" : "Próx."}
+                  </span>
+                  <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4 ml-1 sm:ml-2" />
                 </>
               )}
             </Button>
