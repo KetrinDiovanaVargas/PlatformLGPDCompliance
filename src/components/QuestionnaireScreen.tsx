@@ -60,6 +60,41 @@ interface Assessment {
   [key: string]: unknown;
 }
 
+const OBJECTIVE_LABELS: Record<string, string> = {
+  diagnostico_inicial: "Diagnóstico inicial",
+  mapeamento_maturidade: "Mapeamento de maturidade",
+  levantamento_percepcao: "Levantamento de percepção",
+  auditoria_interna: "Auditoria interna",
+  treinamento_conscientizacao: "Treinamento e conscientização",
+  identificacao_riscos: "Identificação de riscos",
+  compliance: "Compliance",
+  juridico: "Jurídico",
+  rh: "RH",
+  ti: "TI",
+  seguranca: "Segurança",
+  operacoes: "Operações",
+  outro: "Outro",
+};
+
+const FORM_TYPE_LABELS: Record<string, string> = {
+  lgpd_diagnostico: "Diagnóstico LGPD",
+  lgpd_maturidade: "Maturidade LGPD",
+  privacidade_operacional: "Privacidade Operacional",
+  riscos_e_controles: "Riscos e Controles",
+  customizado: "Customizado",
+};
+
+const AUDIENCE_LABELS: Record<string, string> = {
+  alunos: "Alunos",
+  colaboradores_clt: "Colaboradores CLT",
+  desempregados: "Desempregados",
+  clientes: "Clientes",
+  fornecedores: "Fornecedores",
+  cooperados: "Cooperados",
+  comunidade: "Comunidade em geral",
+  outro: "Outro",
+};
+
 interface QuestionnaireCompletePayload {
   sessionId: string;
   assessmentId: string | null;
@@ -266,8 +301,10 @@ export const QuestionnaireScreen = ({
   const assessmentId = assessment?.id ?? null;
   const assessmentContext = String(assessment?.context ?? "");
   const assessmentTitle = String(assessment?.title ?? "");
-  const assessmentFormType = String(assessment?.formType ?? "");
-  const assessmentObjective = String(assessment?.objective ?? "");
+  const assessmentFormType =
+    FORM_TYPE_LABELS[assessment?.formType || ""] || String(assessment?.formType ?? "");
+  const assessmentObjective =
+    OBJECTIVE_LABELS[assessment?.objective || ""] || String(assessment?.objective ?? "");
 
   const [stages, setStages] = useState<Stage[]>([]);
   const [currentStage, setCurrentStage] = useState(0);
