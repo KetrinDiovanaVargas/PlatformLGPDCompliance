@@ -247,6 +247,13 @@ function detectLGPDFragilities(report?: string): LGPDFragility[] {
       description: "Violação clara de direitos fundamentais ou LGPD",
       detected: /violação|crime|ilegal|inconstitucional|grave/.test(text),
     },
+    {
+      code: "F11",
+      emoji: "👧",
+      name: "Direito de Menores",
+      description: "Proteção inadequada dos direitos de crianças e adolescentes",
+      detected: /menor|criança|adolescente|criança de idade/.test(text) && /proteção|direito|segurança|adequad/.test(text),
+    },
   ];
 
   return fragilidades;
@@ -1047,7 +1054,7 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({
             Análise dos principais riscos de conformidade com a LGPD detectados na sua organização.
           </p>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
             {lgpdFragilities.map((frag, i) => (
               <div
                 key={i}
