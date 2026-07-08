@@ -241,13 +241,19 @@ function isSemanticallyTooClose(a, b) {
 
   const similarity = jaccardSimilarity(tokensA, tokensB);
 
-  if (similarity >= 0.72) return true;
+  // CRÍTICO: Threshold EXTREMAMENTE alto (0.95)
+  // Só filtra se perguntas são PRATICAMENTE IDÊNTICAS
+  // Estratégia: deixar PASSAR quase tudo da IA
+  // Contar com fallbacks staged para evitar repetição
+  if (similarity >= 0.95) return true;
 
   const bigA = tokensA.filter((t) => t.length > 4);
   const bigB = tokensB.filter((t) => t.length > 4);
   const strongSimilarity = jaccardSimilarity(bigA, bigB);
 
-  return strongSimilarity >= 0.62;
+  // Para palavras longas (>4 chars), threshold: 0.90
+  // Máxima tolerância: deixar diversidade passar
+  return strongSimilarity >= 0.90;
 }
 
 function filterDuplicateQuestions(questions, previousQuestions = []) {
@@ -355,12 +361,50 @@ function ensureUniqueStagePayload(
   }
 
   if (deduped.length < expected) {
+    // Gerar fallbacks DIFERENTES para cada etapa e posição
+    // Evitar que o mesmo fallback apareça em etapas diferentes
+    const stageFallbackTemplates = {
+      1: [
+        "Qual é a situação atual e como você se relaciona com este tema no dia a dia?",
+        "Que desafios ou dificuldades você enfrenta neste contexto?",
+        "Como você vê a evolução ou maturidade desta área em sua realidade?",
+        "Existem aspectos específicos que você gostaria de esclarecer melhor?",
+      ],
+      2: [
+        "Como os dados fluem neste contexto? De onde vêm e para onde vão?",
+        "Quem acessa ou trabalha com esses dados no dia a dia?",
+        "Que sistemas ou ferramentas são usados para guardar ou compartilhar informações?",
+        "Existem práticas informais que complementam os processos formais?",
+      ],
+      3: [
+        "Como as decisões sobre compartilhamento de dados são tomadas?",
+        "Quem é responsável por diferentes partes do processo?",
+        "Como as informações se movem entre departamentos ou pessoas?",
+        "Há integração entre os diferentes sistemas ou processos?",
+      ],
+      4: [
+        "Que medidas de proteção ou cuidado existem para esses dados?",
+        "Como você sabe que os dados estão sendo tratados corretamente?",
+        "Existem políticas escritas ou documentadas sobre este processo?",
+        "Como você mensuraria a maturidade ou qualidade deste tratamento?",
+      ],
+    };
+
+    const templates = stageFallbackTemplates[stage] || stageFallbackTemplates[1];
+
+    // CRÍTICO: Filtrar fallbacks que já apareceram em etapas anteriores
+    const availableFallbacks = templates.filter(
+      (fallback) => !previousQuestions.some(prevQ => isSemanticallyTooClose(fallback, prevQ))
+    );
+
+    const fallbacksToUse = availableFallbacks.length > 0 ? availableFallbacks : templates;
+
     const safeGenericFallbacks = Array.from({
       length: expected - deduped.length,
     }).map((_, index) => ({
       id: `safe_${stage}_${index + 1}`,
       type: "textarea",
-      question: `Descreva um aspecto novo e relevante sobre este tema que ainda não foi abordado na etapa ${stage}.`,
+      question: fallbacksToUse[index % fallbacksToUse.length],
       required: true,
     }));
 

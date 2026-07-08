@@ -34,7 +34,9 @@ const PORT = process.env.PORT || 8787;
 const allowedOrigins = [
   "https://platformlgpdcompliance.com.br",
   "https://platform-lgpd-compliance.vercel.app",
+  "https://platformlgpd-compliance.vercel.app", // Vercel deployment domain (actual)
   "http://localhost:5173",
+  "http://localhost:3000",
 ];
 
 // ========================================================================
@@ -44,20 +46,39 @@ const allowedOrigins = [
 app.use((req, res, next) => {
   const origin = req.headers.origin;
 
-  if (origin && allowedOrigins.includes(origin)) {
-    res.header("Access-Control-Allow-Origin", origin);
+  let isOriginAllowed = false;
+
+  if (origin) {
+    // Check exact matches
+    isOriginAllowed = allowedOrigins.includes(origin);
+
+    // Allow Vercel preview domains (dynamic branch previews)
+    // Matches: https://xxx-yyy-zzz.vercel.app
+    if (!isOriginAllowed && origin.includes("vercel.app")) {
+      isOriginAllowed = /^https:\/\/[a-z0-9\-]+\.vercel\.app$/.test(origin);
+    }
   }
 
+  // Always set these headers for CORS preflight
   res.header("Vary", "Origin");
-  res.header(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PUT, PATCH, DELETE, OPTIONS"
-  );
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS");
   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  // Add security headers
+
+  // Set CORS header only if origin is allowed
+  if (isOriginAllowed) {
+    res.header("Access-Control-Allow-Origin", origin);
+    res.header("Access-Control-Allow-Credentials", "true");
+  }
+
+  // Security headers
   res.header("X-Content-Type-Options", "nosniff");
   res.header("X-Frame-Options", "DENY");
   res.header("X-XSS-Protection", "1; mode=block");
+
+  // Log CORS info for debugging
+  if (origin) {
+    console.log(`CORS: ${origin} → ${isOriginAllowed ? "✓ ALLOWED" : "✗ DENIED"}`);
+  }
 
   if (req.method === "OPTIONS") {
     return res.sendStatus(204);
