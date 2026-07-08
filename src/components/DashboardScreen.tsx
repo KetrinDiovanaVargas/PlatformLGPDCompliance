@@ -426,7 +426,7 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({
     const margin = 15;
     let cursorY = 0;
 
-    // Cores profissionais
+    // Cores profissionais - identidade visual
     const colors = {
       primary: [34, 197, 94],      // Verde
       secondary: [59, 130, 246],   // Azul
@@ -438,53 +438,60 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({
       text: [15, 23, 42],          // Texto escuro
     };
 
-    const drawHeader = () => {
-      // Header background
-      pdf.setFillColor(colors.dark[0], colors.dark[1], colors.dark[2]);
-      pdf.rect(0, 0, pageWidth, 35, "F");
+    const drawHeader = (pageNum = 1) => {
+      // Fundo degradado (simula com dois retângulos)
+      pdf.setFillColor(colors.secondary[0], colors.secondary[1], colors.secondary[2]);
+      pdf.rect(0, 0, pageWidth, 40, "F");
 
-      // Título principal
+      // Logo/marca
       pdf.setFont("helvetica", "bold");
-      pdf.setFontSize(18);
-      pdf.setTextColor(colors.secondary[0], colors.secondary[1], colors.secondary[2]);
-      pdf.text("🛡️ ANÁLISE DE CONFORMIDADE LGPD", margin, 15);
+      pdf.setFontSize(16);
+      pdf.setTextColor(255, 255, 255);
+      pdf.text("Ø=báb", margin, 12);
+
+      // Título
+      pdf.setFont("helvetica", "bold");
+      pdf.setFontSize(20);
+      pdf.setTextColor(255, 255, 255);
+      pdf.text("ANÁLISE DE CONFORMIDADE LGPD", margin + 12, 12);
 
       // Subtítulo
       pdf.setFont("helvetica", "normal");
-      pdf.setFontSize(9);
-      pdf.setTextColor(130, 150, 160);
-      pdf.text("Avaliação Técnica | ISO/IEC 27001 | Plataforma LGPD Compliance", margin, 23);
+      pdf.setFontSize(8);
+      pdf.setTextColor(200, 220, 255);
+      pdf.text("Avaliação Técnica | ISO/IEC 27001 | Plataforma LGPD Compliance", margin + 12, 18);
 
-      // Linha separadora
-      pdf.setDrawColor(colors.secondary[0], colors.secondary[1], colors.secondary[2]);
-      pdf.setLineWidth(0.5);
-      pdf.line(margin, 27, pageWidth - margin, 27);
+      // Linha decorativa
+      pdf.setDrawColor(255, 255, 255);
+      pdf.setLineWidth(1);
+      pdf.line(margin, 22, pageWidth - margin, 22);
+
+      // Data e página
+      pdf.setFont("helvetica", "normal");
+      pdf.setFontSize(7);
+      pdf.setTextColor(200, 220, 255);
+      const date = new Date().toLocaleDateString("pt-BR");
+      pdf.text(`${date} | Página ${pageNum}`, pageWidth - margin - 35, 36);
     };
 
     const drawFooter = () => {
-      // Footer background
-      pdf.setFillColor(colors.dark[0], colors.dark[1], colors.dark[2]);
-      pdf.rect(0, pageHeight - 12, pageWidth, 12, "F");
+      // Linha separadora
+      pdf.setDrawColor(200, 210, 220);
+      pdf.setLineWidth(0.5);
+      pdf.line(margin, pageHeight - 10, pageWidth - margin, pageHeight - 10);
 
-      // Texto footer
+      // Rodapé
       pdf.setFont("helvetica", "normal");
-      pdf.setFontSize(8);
-      pdf.setTextColor(130, 150, 160);
-
-      const pageNum = pdf.internal.pages.length - 1;
-      const totalPages = pdf.internal.pages.length - 1;
-      const date = new Date().toLocaleDateString("pt-BR");
-
-      pdf.text(`${date}`, margin, pageHeight - 4);
-      pdf.text(`Página ${pageNum}`, pageWidth - margin - 20, pageHeight - 4);
-      pdf.text("Relatório Confidencial", pageWidth - margin - 60, pageHeight - 4);
+      pdf.setFontSize(7);
+      pdf.setTextColor(100, 116, 139);
+      pdf.text("Relatório Confidencial - LGPD Compliance Platform", margin, pageHeight - 5);
     };
 
     const addNewPage = () => {
       pdf.addPage();
-      drawHeader();
+      drawHeader(pdf.internal.pages.length - 1);
       drawFooter();
-      return 32;
+      return 45;
     };
 
     const ensurePageSpace = (needed = 20) => {
@@ -494,118 +501,125 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({
     };
 
     // ========== PÁGINA 1: HEADER ==========
-    drawHeader();
+    drawHeader(1);
     drawFooter();
-    cursorY = 32;
+    cursorY = 45;
 
-    // Card de informações principais
+    // Card principal - Score de Conformidade
+    const cardHeight = 40;
     pdf.setFillColor(247, 250, 252);
-    pdf.rect(margin, cursorY, pageWidth - margin * 2, 35, "F");
-    pdf.setDrawColor(200, 210, 220);
-    pdf.setLineWidth(0.5);
-    pdf.rect(margin, cursorY, pageWidth - margin * 2, 35);
+    pdf.rect(margin, cursorY, pageWidth - margin * 2, cardHeight, "F");
+    pdf.setDrawColor(colors.secondary[0], colors.secondary[1], colors.secondary[2]);
+    pdf.setLineWidth(1.5);
+    pdf.rect(margin, cursorY, pageWidth - margin * 2, cardHeight);
 
-    // Score destacado
+    // Score - lado esquerdo
     pdf.setFont("helvetica", "bold");
-    pdf.setFontSize(14);
+    pdf.setFontSize(11);
     pdf.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
     pdf.text("Score de Conformidade:", margin + 5, cursorY + 8);
 
+    // Circle com score - lado direito
+    const circleX = pageWidth - margin - 16;
+    const circleY = cursorY + 12;
     pdf.setFillColor(colors.primary[0], colors.primary[1], colors.primary[2]);
-    pdf.circle(pageWidth - margin - 15, cursorY + 12, 8, "F");
+    pdf.circle(circleX, circleY, 8, "F");
     pdf.setFont("helvetica", "bold");
-    pdf.setFontSize(16);
+    pdf.setFontSize(18);
     pdf.setTextColor(255, 255, 255);
-    pdf.text(`${score}`, pageWidth - margin - 18, cursorY + 15, { align: "center" });
+    pdf.text(`${score}%`, circleX, circleY + 2.5, { align: "center" });
 
-    // Informações secundárias
+    // Informações - abaixo do score
     pdf.setFont("helvetica", "normal");
-    pdf.setFontSize(9);
+    pdf.setFontSize(8);
     pdf.setTextColor(100, 116, 139);
 
-    let infoY = cursorY + 12;
+    let infoY = cursorY + 18;
     if (assessmentTitle) {
       pdf.text(`Avaliação: ${assessmentTitle}`, margin + 5, infoY);
-      infoY += 5;
+      infoY += 4;
     }
     if (assessmentFormType) {
       pdf.text(`Tipo: ${assessmentFormType}`, margin + 5, infoY);
-      infoY += 5;
+      infoY += 4;
     }
     if (assessmentObjective) {
       pdf.text(`Objetivo: ${assessmentObjective}`, margin + 5, infoY);
     }
 
-    cursorY += 40;
+    cursorY += cardHeight + 5;
 
     // ========== RESUMO DE MÉTRICAS ==========
-    ensurePageSpace(40);
+    ensurePageSpace(35);
 
+    // Título da seção
     pdf.setFont("helvetica", "bold");
     pdf.setFontSize(12);
-    pdf.setTextColor(colors.dark[0], colors.dark[1], colors.dark[2]);
+    pdf.setTextColor(colors.secondary[0], colors.secondary[1], colors.secondary[2]);
     pdf.text("Resumo de Métricas", margin, cursorY);
-    cursorY += 8;
+    cursorY += 6;
 
-    // Tabela de métricas
-    const metricsTable = [
-      ["Métrica", "Valor", "Status"],
-      ["Conformidade", `${score}%`, score >= 70 ? "✓ Conforme" : score >= 40 ? "⚠ Parcial" : "✗ Crítico"],
-      ["Pontos Fortes", `${strengths.length}`, ""],
-      ["Áreas de Atenção", `${attention.length}`, ""],
-      ["Riscos Críticos", `${critical.length}`, ""],
+    // Linha decorativa
+    pdf.setDrawColor(colors.secondary[0], colors.secondary[1], colors.secondary[2]);
+    pdf.setLineWidth(0.5);
+    pdf.line(margin, cursorY, margin + 40, cursorY);
+    cursorY += 4;
+
+    // Cards de métricas em 2 colunas
+    const colWidth = (pageWidth - margin * 2 - 2) / 2;
+    const cardWidth = colWidth - 1;
+    const cardTop = cursorY;
+
+    const metrics = [
+      { label: "Conformidade", value: `${score}%`, color: colors.secondary },
+      { label: "Pontos Fortes", value: `${strengths.length}`, color: colors.primary },
+      { label: "Áreas de Atenção", value: `${attention.length}`, color: colors.warning },
+      { label: "Riscos Críticos", value: `${critical.length}`, color: colors.danger },
     ];
 
-    let tableY = cursorY;
-    const cellHeight = 6;
-    const col1Width = 60;
-    const col2Width = 40;
-    const col3Width = pageWidth - margin * 2 - col1Width - col2Width;
+    metrics.forEach((metric, idx) => {
+      const col = idx % 2;
+      const row = Math.floor(idx / 2);
+      const x = margin + col * (cardWidth + 2);
+      const y = cardTop + row * 11;
 
-    // Header da tabela
-    pdf.setFillColor(colors.secondary[0], colors.secondary[1], colors.secondary[2]);
-    pdf.setTextColor(255, 255, 255);
-    pdf.setFont("helvetica", "bold");
-    pdf.setFontSize(9);
+      // Card background
+      pdf.setFillColor(248, 250, 252);
+      pdf.rect(x, y, cardWidth, 10, "F");
+      pdf.setDrawColor(...metric.color);
+      pdf.setLineWidth(0.5);
+      pdf.rect(x, y, cardWidth, 10);
 
-    metricsTable[0].forEach((header, i) => {
-      const x = margin + (i === 0 ? 0 : i === 1 ? col1Width : col1Width + col2Width);
-      const width = i === 0 ? col1Width : i === 1 ? col2Width : col3Width;
-      pdf.text(header, x + 2, tableY + 4);
-    });
-
-    tableY += cellHeight;
-
-    // Linhas da tabela
-    metricsTable.slice(1).forEach((row, idx) => {
-      pdf.setFillColor(...(idx % 2 === 0 ? [240, 244, 248] : [255, 255, 255]));
-      pdf.rect(margin, tableY, pageWidth - margin * 2, cellHeight, "F");
-      pdf.setDrawColor(200, 210, 220);
-      pdf.setLineWidth(0.3);
-      pdf.rect(margin, tableY, pageWidth - margin * 2, cellHeight);
-
-      pdf.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
+      // Rótulo
       pdf.setFont("helvetica", "normal");
       pdf.setFontSize(8);
+      pdf.setTextColor(100, 116, 139);
+      pdf.text(metric.label, x + 2, y + 3);
 
-      row.forEach((cell, i) => {
-        const x = margin + (i === 0 ? 0 : i === 1 ? col1Width : col1Width + col2Width);
-        pdf.text(cell, x + 2, tableY + 4);
-      });
-
-      tableY += cellHeight;
+      // Valor
+      pdf.setFont("helvetica", "bold");
+      pdf.setFontSize(11);
+      pdf.setTextColor(...metric.color);
+      pdf.text(metric.value, x + 2, y + 7);
     });
 
-    cursorY = tableY + 5;
+    cursorY = cardTop + 24;
 
     // ========== FRAGILIDADES LGPD ==========
-    ensurePageSpace(30);
+    ensurePageSpace(35);
 
+    // Título da seção
     pdf.setFont("helvetica", "bold");
     pdf.setFontSize(12);
-    pdf.setTextColor(colors.dark[0], colors.dark[1], colors.dark[2]);
+    pdf.setTextColor(colors.danger[0], colors.danger[1], colors.danger[2]);
     pdf.text("Fragilidades Detectadas", margin, cursorY);
-    cursorY += 8;
+    cursorY += 6;
+
+    // Linha decorativa
+    pdf.setDrawColor(colors.danger[0], colors.danger[1], colors.danger[2]);
+    pdf.setLineWidth(0.5);
+    pdf.line(margin, cursorY, margin + 40, cursorY);
+    cursorY += 4;
 
     const detectedFragilities = lgpdFragilities.filter(f => f.detected);
     const notDetectedFragilities = lgpdFragilities.filter(f => !f.detected);
@@ -614,7 +628,7 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({
       pdf.setFont("helvetica", "bold");
       pdf.setFontSize(9);
       pdf.setTextColor(colors.danger[0], colors.danger[1], colors.danger[2]);
-      pdf.text("Detectadas:", margin, cursorY);
+      pdf.text("⚠ Em Risco:", margin, cursorY);
       cursorY += 5;
 
       detectedFragilities.forEach((frag) => {
@@ -622,30 +636,37 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({
         pdf.setFont("helvetica", "normal");
         pdf.setFontSize(8);
         pdf.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
-        pdf.text(`✗ ${frag.emoji} ${frag.name}`, margin + 5, cursorY);
+        pdf.text(`${frag.emoji} ${frag.code} - ${frag.name}`, margin + 5, cursorY);
         cursorY += 4;
       });
       cursorY += 3;
+    } else {
+      pdf.setFont("helvetica", "normal");
+      pdf.setFontSize(8);
+      pdf.setTextColor(colors.primary[0], colors.primary[1], colors.primary[2]);
+      pdf.text("✓ Nenhuma fragilidade detectada!", margin + 5, cursorY);
+      cursorY += 4;
     }
 
     if (notDetectedFragilities.length > 0 && detectedFragilities.length > 0) {
+      cursorY += 2;
       pdf.setFont("helvetica", "bold");
       pdf.setFontSize(9);
       pdf.setTextColor(colors.primary[0], colors.primary[1], colors.primary[2]);
-      pdf.text("Resolvidas:", margin, cursorY);
+      pdf.text("✓ Resolvidas:", margin, cursorY);
       cursorY += 5;
 
-      notDetectedFragilities.slice(0, 3).forEach((frag) => {
+      notDetectedFragilities.slice(0, 4).forEach((frag) => {
         ensurePageSpace(4);
         pdf.setFont("helvetica", "normal");
         pdf.setFontSize(8);
         pdf.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
-        pdf.text(`✓ ${frag.emoji} ${frag.name}`, margin + 5, cursorY);
+        pdf.text(`${frag.emoji} ${frag.code} - ${frag.name}`, margin + 5, cursorY);
         cursorY += 4;
       });
     }
 
-    cursorY += 5;
+    cursorY += 3;
 
     // ========== PONTOS FORTES ==========
     ensurePageSpace(25);
@@ -654,16 +675,21 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({
     pdf.setFontSize(11);
     pdf.setTextColor(colors.primary[0], colors.primary[1], colors.primary[2]);
     pdf.text("✓ Pontos Fortes", margin, cursorY);
-    cursorY += 6;
+    cursorY += 5;
 
-    strengths.slice(0, 5).forEach((item) => {
+    pdf.setDrawColor(colors.primary[0], colors.primary[1], colors.primary[2]);
+    pdf.setLineWidth(0.5);
+    pdf.line(margin, cursorY, margin + 30, cursorY);
+    cursorY += 4;
+
+    strengths.slice(0, 4).forEach((item) => {
       ensurePageSpace(5);
       pdf.setFont("helvetica", "normal");
       pdf.setFontSize(8);
       pdf.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
       const lines = pdf.splitTextToSize(`• ${item}`, pageWidth - margin * 2 - 4);
       pdf.text(lines, margin + 4, cursorY);
-      cursorY += lines.length * 4;
+      cursorY += lines.length * 3.5 + 1;
     });
 
     cursorY += 3;
@@ -674,17 +700,22 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({
     pdf.setFont("helvetica", "bold");
     pdf.setFontSize(11);
     pdf.setTextColor(colors.warning[0], colors.warning[1], colors.warning[2]);
-    pdf.text("⚠️ Áreas de Atenção", margin, cursorY);
-    cursorY += 6;
+    pdf.text("⚠ Áreas de Atenção", margin, cursorY);
+    cursorY += 5;
 
-    attention.slice(0, 5).forEach((item) => {
+    pdf.setDrawColor(colors.warning[0], colors.warning[1], colors.warning[2]);
+    pdf.setLineWidth(0.5);
+    pdf.line(margin, cursorY, margin + 30, cursorY);
+    cursorY += 4;
+
+    attention.slice(0, 4).forEach((item) => {
       ensurePageSpace(5);
       pdf.setFont("helvetica", "normal");
       pdf.setFontSize(8);
       pdf.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
       const lines = pdf.splitTextToSize(`• ${item}`, pageWidth - margin * 2 - 4);
       pdf.text(lines, margin + 4, cursorY);
-      cursorY += lines.length * 4;
+      cursorY += lines.length * 3.5 + 1;
     });
 
     cursorY += 3;
@@ -696,21 +727,39 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({
     pdf.setFontSize(11);
     pdf.setTextColor(colors.danger[0], colors.danger[1], colors.danger[2]);
     pdf.text("✗ Riscos Críticos", margin, cursorY);
-    cursorY += 6;
+    cursorY += 5;
 
-    critical.slice(0, 5).forEach((item) => {
+    pdf.setDrawColor(colors.danger[0], colors.danger[1], colors.danger[2]);
+    pdf.setLineWidth(0.5);
+    pdf.line(margin, cursorY, margin + 30, cursorY);
+    cursorY += 4;
+
+    critical.slice(0, 4).forEach((item) => {
       ensurePageSpace(5);
       pdf.setFont("helvetica", "normal");
       pdf.setFontSize(8);
       pdf.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
       const lines = pdf.splitTextToSize(`• ${item}`, pageWidth - margin * 2 - 4);
       pdf.text(lines, margin + 4, cursorY);
-      cursorY += lines.length * 4;
+      cursorY += lines.length * 3.5 + 1;
     });
 
     // ========== RECOMENDAÇÕES ==========
-    enrichedRecommendations.forEach((rec) => {
+    if (enrichedRecommendations.length > 0) {
       cursorY = addNewPage();
+
+      // Título de página
+      pdf.setFont("helvetica", "bold");
+      pdf.setFontSize(12);
+      pdf.setTextColor(colors.secondary[0], colors.secondary[1], colors.secondary[2]);
+      pdf.text("Recomendações Estratégicas", margin, cursorY);
+      cursorY += 8;
+    }
+
+    enrichedRecommendations.forEach((rec) => {
+      if (cursorY > pageHeight - 50) {
+        cursorY = addNewPage();
+      }
 
       // Título da recomendação
       pdf.setFillColor(colors.accent[0], colors.accent[1], colors.accent[2]);
