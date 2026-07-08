@@ -479,12 +479,17 @@ Quando houver conflito, siga esta ordem de prioridade:
 
 ⚠️ ESTA É A REGRA MAIS IMPORTANTE. VIOLE-A E A QUALIDADE CAI DRASTICAMENTE.
 
+⚠️ ATENÇÃO ESPECIAL: NESTA MESMA RESPOSTA, NAS ${totalPerguntas} PERGUNTAS QUE VOCÊ VAI GERAR, NENHUMA DELAS PODE SER REPETIDA OU SIMILAR.
+   Cada uma das ${totalPerguntas} perguntas deve explorar uma DIMENSÃO COMPLETAMENTE DIFERENTE.
+   Não há espaço para questionamentos sobre o mesmo tema com palavras diferentes.
+
 BLOQUEIO ABSOLUTO DE REPETIÇÃO:
 - NÃO repetir perguntas literalmente (palavra por palavra).
 - NÃO repetir perguntas semanticamente equivalentes (mesma ideia, palavras diferentes).
 - NÃO reformular com sinônimos uma pergunta que já investigou a mesma intenção.
 - NÃO repetir o mesmo contexto, o mesmo foco ou a mesma dimensão investigativa em etapas diferentes.
 - NÃO FAZER perguntas sobre "desafios", "maturidade" e "evolução" múltiplas vezes (já foi feito em etapas anteriores).
+- ⚠️ NAS ${totalPerguntas} PERGUNTAS DESTA RESPOSTA: cada pergunta deve ter um ASSUNTO CENTRAL DIFERENTE. Sem exceções.
 
 PROCESSO DE VALIDAÇÃO - PARA CADA PERGUNTA GERADA:
 1. Procure no histórico: existe uma pergunta com os MESMOS PALAVRAS-CHAVE?
@@ -662,14 +667,21 @@ ETAPA 4 (5 perguntas):
 
 ==================== VALIDAÇÃO INTERNA OBRIGATÓRIA ANTES DE RESPONDER ====================
 
-Antes de gerar o JSON final, faça esta checagem mental:
-1. Esta pergunta já foi feita antes?
-2. Esta pergunta é parecida com alguma anterior, mesmo com palavras diferentes?
-3. Esta pergunta investiga a mesma intenção de alguma anterior?
-4. Esta pergunta repete o mesmo contexto ou dimensão já explorada?
-5. Esta pergunta acrescenta informação realmente nova?
+Antes de gerar o JSON final, faça esta checagem mental PARA CADA PERGUNTA:
 
-Se qualquer resposta acima for "sim", descarte a pergunta e gere outra.
+CHECAGEM CONTRA HISTÓRICO (perguntas anteriores):
+1. Esta pergunta já foi feita antes em etapas anteriores?
+2. Esta pergunta é parecida com alguma anterior, mesmo com palavras diferentes?
+3. Esta pergunta investe a mesma intenção de alguma anterior?
+4. Esta pergunta repete o mesmo contexto ou dimensão já explorada?
+
+CHECAGEM DENTRO DESTA RESPOSTA (Q1 até Q${totalPerguntas}):
+5. Esta pergunta é parecida com alguma OUTRA pergunta que eu já gerei NESTA MESMA RESPOSTA?
+6. Ela investiga a MESMA coisa que Q1, Q2, Q3 ou outra que geraria?
+7. Há sobreposição de tema/dimensão com outras perguntas desta etapa?
+8. Esta pergunta acrescenta informação REALMENTE NOVA em relação às outras?
+
+Se qualquer resposta acima for "sim", descarte a pergunta e gere uma COMPLETAMENTE DIFERENTE.
 
 ==================== FORMATO FINAL ====================
 

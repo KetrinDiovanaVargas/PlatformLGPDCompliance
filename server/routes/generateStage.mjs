@@ -241,13 +241,16 @@ function isSemanticallyTooClose(a, b) {
 
   const similarity = jaccardSimilarity(tokensA, tokensB);
 
-  if (similarity >= 0.72) return true;
+  // Increase threshold from 0.72 to 0.82 - only filter out VERY similar questions
+  // This prevents over-filtering good questions that explore different aspects
+  if (similarity >= 0.82) return true;
 
   const bigA = tokensA.filter((t) => t.length > 4);
   const bigB = tokensB.filter((t) => t.length > 4);
   const strongSimilarity = jaccardSimilarity(bigA, bigB);
 
-  return strongSimilarity >= 0.62;
+  // Increase threshold from 0.62 to 0.75 for strong word similarity
+  return strongSimilarity >= 0.75;
 }
 
 function filterDuplicateQuestions(questions, previousQuestions = []) {
