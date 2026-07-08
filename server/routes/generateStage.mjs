@@ -241,16 +241,19 @@ function isSemanticallyTooClose(a, b) {
 
   const similarity = jaccardSimilarity(tokensA, tokensB);
 
-  // Increase threshold from 0.72 to 0.82 - only filter out VERY similar questions
-  // This prevents over-filtering good questions that explore different aspects
-  if (similarity >= 0.82) return true;
+  // Threshold: 0.90 (muito alto)
+  // Só filtra se perguntas são QUASE idênticas
+  // Ex: "Como vocês armazenam?" vs "De que forma vocês armazenam?" → SIM, filtra
+  // Ex: "Como vocês armazenam?" vs "Quem tem acesso?" → NÃO, deixa passar
+  if (similarity >= 0.90) return true;
 
   const bigA = tokensA.filter((t) => t.length > 4);
   const bigB = tokensB.filter((t) => t.length > 4);
   const strongSimilarity = jaccardSimilarity(bigA, bigB);
 
-  // Increase threshold from 0.62 to 0.75 for strong word similarity
-  return strongSimilarity >= 0.75;
+  // Para palavras longas (>4 chars), threshold: 0.85
+  // Menos agressivo = mais perguntas diversas passam
+  return strongSimilarity >= 0.85;
 }
 
 function filterDuplicateQuestions(questions, previousQuestions = []) {
