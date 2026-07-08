@@ -443,23 +443,17 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({
       pdf.setFillColor(colors.secondary[0], colors.secondary[1], colors.secondary[2]);
       pdf.rect(0, 0, pageWidth, 40, "F");
 
-      // Logo/marca
-      pdf.setFont("helvetica", "bold");
-      pdf.setFontSize(16);
-      pdf.setTextColor(255, 255, 255);
-      pdf.text("Ø=báb", margin, 12);
-
       // Título
       pdf.setFont("helvetica", "bold");
       pdf.setFontSize(20);
       pdf.setTextColor(255, 255, 255);
-      pdf.text("ANÁLISE DE CONFORMIDADE LGPD", margin + 12, 12);
+      pdf.text("ANÁLISE DE CONFORMIDADE LGPD", margin, 12);
 
       // Subtítulo
       pdf.setFont("helvetica", "normal");
       pdf.setFontSize(8);
       pdf.setTextColor(200, 220, 255);
-      pdf.text("Avaliação Técnica | ISO/IEC 27001 | Plataforma LGPD Compliance", margin + 12, 18);
+      pdf.text("Avaliação Técnica | ISO/IEC 27001 | Plataforma LGPD Compliance", margin, 18);
 
       // Linha decorativa
       pdf.setDrawColor(255, 255, 255);
