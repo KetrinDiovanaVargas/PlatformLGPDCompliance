@@ -46,7 +46,19 @@ const allowedOrigins = [
 app.use((req, res, next) => {
   const origin = req.headers.origin;
 
-  if (origin && allowedOrigins.includes(origin)) {
+  let isOriginAllowed = false;
+
+  if (origin) {
+    // Check exact matches
+    isOriginAllowed = allowedOrigins.includes(origin);
+
+    // Allow Vercel preview domains (dynamic branch previews)
+    if (!isOriginAllowed && origin.includes("vercel.app")) {
+      isOriginAllowed = /^https:\/\/[a-z0-9-]+\.vercel\.app$/.test(origin);
+    }
+  }
+
+  if (isOriginAllowed) {
     res.header("Access-Control-Allow-Origin", origin);
   }
 
