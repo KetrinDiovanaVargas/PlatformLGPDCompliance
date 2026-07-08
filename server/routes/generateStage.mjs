@@ -241,19 +241,19 @@ function isSemanticallyTooClose(a, b) {
 
   const similarity = jaccardSimilarity(tokensA, tokensB);
 
-  // Threshold: 0.90 (muito alto)
-  // Só filtra se perguntas são QUASE idênticas
-  // Ex: "Como vocês armazenam?" vs "De que forma vocês armazenam?" → SIM, filtra
-  // Ex: "Como vocês armazenam?" vs "Quem tem acesso?" → NÃO, deixa passar
-  if (similarity >= 0.90) return true;
+  // CRÍTICO: Threshold EXTREMAMENTE alto (0.95)
+  // Só filtra se perguntas são PRATICAMENTE IDÊNTICAS
+  // Estratégia: deixar PASSAR quase tudo da IA
+  // Contar com fallbacks staged para evitar repetição
+  if (similarity >= 0.95) return true;
 
   const bigA = tokensA.filter((t) => t.length > 4);
   const bigB = tokensB.filter((t) => t.length > 4);
   const strongSimilarity = jaccardSimilarity(bigA, bigB);
 
-  // Para palavras longas (>4 chars), threshold: 0.85
-  // Menos agressivo = mais perguntas diversas passam
-  return strongSimilarity >= 0.85;
+  // Para palavras longas (>4 chars), threshold: 0.90
+  // Máxima tolerância: deixar diversidade passar
+  return strongSimilarity >= 0.90;
 }
 
 function filterDuplicateQuestions(questions, previousQuestions = []) {
@@ -391,12 +391,20 @@ function ensureUniqueStagePayload(
     };
 
     const templates = stageFallbackTemplates[stage] || stageFallbackTemplates[1];
+
+    // CRÍTICO: Filtrar fallbacks que já apareceram em etapas anteriores
+    const availableFallbacks = templates.filter(
+      (fallback) => !previousQuestions.some(prevQ => isSemanticallyTooClose(fallback, prevQ))
+    );
+
+    const fallbacksToUse = availableFallbacks.length > 0 ? availableFallbacks : templates;
+
     const safeGenericFallbacks = Array.from({
       length: expected - deduped.length,
     }).map((_, index) => ({
       id: `safe_${stage}_${index + 1}`,
       type: "textarea",
-      question: templates[index % templates.length],
+      question: fallbacksToUse[index % fallbacksToUse.length],
       required: true,
     }));
 
