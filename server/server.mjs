@@ -34,7 +34,9 @@ const PORT = process.env.PORT || 8787;
 const allowedOrigins = [
   "https://platformlgpdcompliance.com.br",
   "https://platform-lgpd-compliance.vercel.app",
+  "https://platformlgpd-compliance.vercel.app", // Vercel deployment domain (actual)
   "http://localhost:5173",
+  "http://localhost:3000",
 ];
 
 // ========================================================================
