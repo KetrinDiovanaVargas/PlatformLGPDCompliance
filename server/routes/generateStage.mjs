@@ -358,12 +358,42 @@ function ensureUniqueStagePayload(
   }
 
   if (deduped.length < expected) {
+    // Gerar fallbacks DIFERENTES para cada etapa e posição
+    // Evitar que o mesmo fallback apareça em etapas diferentes
+    const stageFallbackTemplates = {
+      1: [
+        "Qual é a situação atual e como você se relaciona com este tema no dia a dia?",
+        "Que desafios ou dificuldades você enfrenta neste contexto?",
+        "Como você vê a evolução ou maturidade desta área em sua realidade?",
+        "Existem aspectos específicos que você gostaria de esclarecer melhor?",
+      ],
+      2: [
+        "Como os dados fluem neste contexto? De onde vêm e para onde vão?",
+        "Quem acessa ou trabalha com esses dados no dia a dia?",
+        "Que sistemas ou ferramentas são usados para guardar ou compartilhar informações?",
+        "Existem práticas informais que complementam os processos formais?",
+      ],
+      3: [
+        "Como as decisões sobre compartilhamento de dados são tomadas?",
+        "Quem é responsável por diferentes partes do processo?",
+        "Como as informações se movem entre departamentos ou pessoas?",
+        "Há integração entre os diferentes sistemas ou processos?",
+      ],
+      4: [
+        "Que medidas de proteção ou cuidado existem para esses dados?",
+        "Como você sabe que os dados estão sendo tratados corretamente?",
+        "Existem políticas escritas ou documentadas sobre este processo?",
+        "Como você mensuraria a maturidade ou qualidade deste tratamento?",
+      ],
+    };
+
+    const templates = stageFallbackTemplates[stage] || stageFallbackTemplates[1];
     const safeGenericFallbacks = Array.from({
       length: expected - deduped.length,
     }).map((_, index) => ({
       id: `safe_${stage}_${index + 1}`,
       type: "textarea",
-      question: `Descreva um aspecto novo e relevante sobre este tema que ainda não foi abordado na etapa ${stage}.`,
+      question: templates[index % templates.length],
       required: true,
     }));
 
