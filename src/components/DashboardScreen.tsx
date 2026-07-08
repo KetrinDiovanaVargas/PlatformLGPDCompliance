@@ -415,8 +415,7 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({
     { label: "Pontos Fortes", value: strengths.length },
     { label: "Atenção", value: attention.length },
     { label: "Críticos", value: critical.length },
-    pdf.save(`Analise-LGPD-${new Date().toISOString().split('T')[0]}.pdf`);
-  };
+  ];
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-b from-slate-950 via-slate-950 to-indigo-950 text-slate-50 px-6 py-10">
