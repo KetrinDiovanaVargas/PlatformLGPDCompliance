@@ -1,7 +1,7 @@
 import express from "express";
 import { getAdminDb } from "../firebaseAdmin.mjs";
 import { generateStagePrompt } from "../promptGroq.mjs";
-import { chatCompletion } from "../lib/ai-client.mjs";
+import { queuedChatCompletion } from "../lib/ai-client.mjs";
 
 const router = express.Router();
 
@@ -623,7 +623,7 @@ router.post("/", async (req, res) => {
     const prompt = generateStagePrompt(numericStage, context ?? {}, metadata);
 
     try {
-      const raw = await chatCompletion(
+      const raw = await queuedChatCompletion(
         [
           {
             role: "system",
@@ -639,6 +639,7 @@ router.post("/", async (req, res) => {
           preferredProvider: aiProvider,
           temperature: 0.2,
           jsonMode: true,
+          priority: 'high', // Geração de estágio é de alta prioridade
         }
       );
 

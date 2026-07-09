@@ -5,11 +5,14 @@
  * Suporta seleção de modelo preferencial com fallback automático
  * Todos os módulos do servidor devem usar este cliente em vez de
  * instanciar clientes diretamente.
+ *
+ * Integrado com AIQueue para respeitar rate limits de cada provedor
  */
 
 import Groq from 'groq-sdk'
 import { GoogleGenerativeAI } from '@google/generative-ai'
 import { OpenAI } from 'openai'
+import AIQueue, { getQueue } from './ai-queue.mjs'
 
 const GROQ_MODEL     = 'llama-3.3-70b-versatile'
 const GEMINI_MODEL   = 'gemini-2.0-flash'
@@ -243,4 +246,51 @@ export async function chatCompletion(messages, { preferredProvider = null, tempe
 
   // Nenhum provedor funcionou
   throw new Error(`Nenhuma IA disponível. Erros: ${JSON.stringify(errors)}`)
+}
+
+/**
+ * Executa chat completion com fila de requisições
+ * Respeita rate limits espaçando requisições
+ *
+ * @param {Array} messages - Array de mensagens OpenAI format
+ * @param {object} opts - Opções
+ * @param {string} opts.preferredProvider - Provedor preferencial
+ * @param {number} opts.temperature - 0-1
+ * @param {boolean} opts.jsonMode - Modo JSON
+ * @param {string} opts.priority - 'high', 'normal', 'low'
+ * @param {number} opts.timeout - Timeout em ms
+ * @returns {Promise<string>} - Resposta de texto
+ */
+export async function queuedChatCompletion(messages, opts = {}) {
+  const { priority = 'normal', timeout = 30000, ...chatOpts } = opts
+  const queue = getQueue()
+
+  return new Promise((resolve, reject) => {
+    queue.add({
+      priority,
+      timeout,
+      fn: async () => {
+        return chatCompletion(messages, chatOpts)
+      },
+    }).then(resolve).catch(reject)
+  })
+}
+
+/**
+ * Configura a fila de IA baseado no provedor preferencial
+ * Define o delay apropriado para respeitar rate limits
+ *
+ * @param {string} provider - 'groq', 'deepseek', 'claude', ou 'gemini'
+ */
+export function configureAIQueue(provider = 'groq') {
+  const queue = getQueue()
+  queue.configureForProvider(provider)
+}
+
+/**
+ * Retorna status atual da fila de IA
+ */
+export function getAIQueueStatus() {
+  const queue = getQueue()
+  return queue.getStatus()
 }

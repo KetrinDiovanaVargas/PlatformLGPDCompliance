@@ -26,6 +26,7 @@ import saveResponsesRouter from "./routes/saveResponses.mjs";
 import adminRouter from "./routes/admin.mjs";
 import adminConsolidatedAnalysisRouter from "./routes/adminConsolidatedAnalysis.mjs";
 import aiStatusRouter from "./routes/aiStatus.mjs";
+import queueStatusRouter from "./routes/queueStatus.mjs";
 import sitemapRouter from "./routes/sitemap.mjs";
 
 const app = express();
@@ -120,6 +121,9 @@ app.use("/sitemap.xml", sitemapRouter);
 // AI Status (público, mas com rate limit)
 app.use("/api/ai-status", aiLimiter, aiStatusRouter);
 
+// Queue Status (público para visualização, com rate limit)
+app.use("/api/queue-status", apiLimiter, queueStatusRouter);
+
 // ========================================================================
 // PROTECTED ROUTES (Requerem Autenticação)
 // ========================================================================
@@ -175,6 +179,7 @@ app.listen(PORT, () => {
   console.log("  ✓ Rate Limiting ativo");
   console.log("  ✓ Input Validation com Zod");
   console.log("  ✓ Prompt Injection Protection");
+  console.log("  ✓ AI Request Queue ativo (rate limit handling)");
   console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
   console.log("🔑 GROQ_API_KEY carregada:", !!process.env.GROQ_API_KEY);
   console.log(`🚀 Backend rodando na porta ${PORT}`);
