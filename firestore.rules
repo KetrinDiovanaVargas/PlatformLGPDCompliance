@@ -57,7 +57,49 @@ service cloud.firestore {
     }
 
     // ====================================================================
+    // FEEDBACK COLLECTION - Post-Assessment Survey Responses
+    // ====================================================================
+    // Collects user satisfaction and usability feedback after assessment completion
+
+    match /feedback/{feedbackId} {
+      // Anyone can submit feedback (public survey system)
+      allow create: if true;
+
+      // Only authenticated admins can read all feedback
+      allow read: if request.auth != null &&
+                     request.auth.token.admin == true;
+
+      // Only authenticated admins can update feedback
+      allow update: if request.auth != null &&
+                       request.auth.token.admin == true;
+
+      // Only authenticated admins can delete feedback
+      allow delete: if request.auth != null &&
+                       request.auth.token.admin == true;
+    }
+
+    // ====================================================================
+    // RESPONSES COLLECTION - Questionnaire Responses
+    // ====================================================================
+
+    match /responses/{responseId} {
+      allow read, write: if true;
+    }
+
+    // ====================================================================
+    // RESPOSTAS COLLECTION - Brazilian Portuguese Responses
+    // ====================================================================
+
+    match /respostas/{respostaId} {
+      allow read, write: if true;
+    }
+
+    // ====================================================================
     // DEFAULT - Allow all for development
+    // ⚠️ NOTE: In production, replace with explicit deny:
+    //    match /{document=**} {
+    //      allow read, write: if false;
+    //    }
     // ====================================================================
 
     match /{document=**} {

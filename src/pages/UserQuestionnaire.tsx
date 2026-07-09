@@ -323,6 +323,7 @@ export default function UserQuestionnaire() {
   assessmentTitle={assessmentTitle}
   assessmentFormType={formTypeLabel}
   assessmentObjective={objectiveLabel}
+  assessmentId={id}
   reportMode={completedData.reportMode}
   reportNotice={completedData.reportNotice}
 />

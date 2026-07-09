@@ -137,6 +137,8 @@ export const Index = () => {
           metrics={finalMetrics}
           responses={finalResponses}
           onRestart={handleRestart}
+          assessmentId={assessment?.id}
+          assessmentTitle={assessment?.title}
         />
       )}
     </>

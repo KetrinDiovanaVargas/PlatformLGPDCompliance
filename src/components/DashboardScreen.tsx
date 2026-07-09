@@ -2,7 +2,7 @@
 // DashboardScreen.tsx – Versão Enterprise Corrigida
 // -------------------------------------------------------------
 
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import {
   PieChart,
   Pie,
@@ -33,9 +33,13 @@ import {
   GraduationCap,
   Target,
   Info,
+  Heart,
 } from "lucide-react";
 
 import { motion } from "framer-motion";
+import FeedbackModal from "./FeedbackModal";
+import { db } from "@/lib/firebase";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 // ======================================================
 // TIPOS
@@ -65,6 +69,7 @@ type DashboardScreenProps = {
   assessmentTitle?: string;
   assessmentFormType?: string;
   assessmentObjective?: string;
+  assessmentId?: string;
   reportMode?: "groq" | "fallback";
   reportNotice?: string;
 };
@@ -378,9 +383,40 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({
   assessmentTitle,
   assessmentFormType,
   assessmentObjective,
+  assessmentId,
   reportMode,
   reportNotice,
 }) => {
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  const [feedbackSubmitting, setFeedbackSubmitting] = useState(false);
+
+  const handleFeedbackSubmit = async (
+    feedback: Array<{ questionId: number; answer: 1 | 2 | 3 | 4 }>
+  ) => {
+    if (!assessmentId) {
+      throw new Error("ID de avaliação não encontrado");
+    }
+
+    setFeedbackSubmitting(true);
+    try {
+      await addDoc(collection(db, "feedback"), {
+        assessmentId,
+        assessmentTitle,
+        responses: feedback,
+        timestamp: serverTimestamp(),
+        userAgent: navigator.userAgent,
+      });
+
+      setShowFeedbackModal(false);
+      alert("✅ Obrigado pelo seu feedback! Sua opinião é muito valiosa.");
+    } catch (error) {
+      console.error("Erro ao salvar feedback:", error);
+      throw error;
+    } finally {
+      setFeedbackSubmitting(false);
+    }
+  };
+
   const cleanedReport = report ? sanitizeText(report) : undefined;
   const data = useMemo(
     () => normalizeMetrics(metrics, cleanedReport),
@@ -415,8 +451,7 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({
     { label: "Pontos Fortes", value: strengths.length },
     { label: "Atenção", value: attention.length },
     { label: "Críticos", value: critical.length },
-    pdf.save(`Analise-LGPD-${new Date().toISOString().split('T')[0]}.pdf`);
-  };
+  ];
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-b from-slate-950 via-slate-950 to-indigo-950 text-slate-50 px-6 py-10">
@@ -893,17 +928,34 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({
           </p>
         </div>
 
-        <div className="mx-auto max-w-6xl mt-6 flex justify-center">
-            {onRestart && (
-              <button
-                onClick={onRestart}
-                className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-sky-500 via-cyan-400 to-indigo-500 px-5 py-2 text-sm font-semibold text-white shadow-lg hover:brightness-110 transition"
-              >
-                <RefreshCw className="h-4 w-4" />
-                Nova Avaliação
-              </button>
-            )}
+        <div className="mx-auto max-w-6xl mt-6 flex flex-col sm:flex-row justify-center gap-3 px-4">
+          <button
+            onClick={() => setShowFeedbackModal(true)}
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-red-500 to-pink-500 px-6 py-2.5 text-sm font-semibold text-white shadow-lg hover:brightness-110 transition order-first sm:order-last"
+          >
+            <Heart className="h-5 w-5" />
+            Compartilhar Feedback
+          </button>
+          {onRestart && (
+            <button
+              onClick={onRestart}
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-sky-500 via-cyan-400 to-indigo-500 px-6 py-2.5 text-sm font-semibold text-white shadow-lg hover:brightness-110 transition"
+            >
+              <RefreshCw className="h-4 w-4" />
+              Nova Avaliação
+            </button>
+          )}
         </div>
+
+        {showFeedbackModal && assessmentId && (
+          <FeedbackModal
+            assessmentId={assessmentId}
+            assessmentTitle={assessmentTitle || "Avaliação sem título"}
+            onSubmit={handleFeedbackSubmit}
+            onCancel={() => setShowFeedbackModal(false)}
+            loading={feedbackSubmitting}
+          />
+        )}
       </div>
     </div>
   );
