@@ -21,11 +21,14 @@ class QuestionCache {
     // Estado
     this.cache = new Map();
     this.accessCount = new Map(); // Para LRU
+    this.pendingRequests = new Map(); // FIX #2: Evita race condition
+    this.hashRegistry = new Map(); // FIX #3: Detecta colisões de hash
     this.stats = {
       hits: 0,
       misses: 0,
       evictions: 0,
       refreshes: 0,
+      collisions: 0,
     };
 
     // Inicia limpeza periódica (a cada 1 hora)
@@ -33,30 +36,63 @@ class QuestionCache {
   }
 
   /**
+   * Normaliza contexto para garantir chaves consistentes
+   * FIX #1: Remove null/undefined, ordena chaves, trimma strings
+   */
+  normalizeContext(context = {}) {
+    return JSON.stringify(
+      Object.keys(context)
+        .sort()
+        .reduce((acc, key) => {
+          const val = context[key];
+          if (val !== null && val !== undefined) {
+            acc[key] = typeof val === 'string' ? val.trim() : val;
+          }
+          return acc;
+        }, {})
+    );
+  }
+
+  /**
    * Gera chave de cache única
+   * FIX #1: Normaliza context antes de hash
    * @param {number} stage - Número da etapa
-   * @param {object} context - Contexto (será hasheado)
+   * @param {object} context - Contexto (será normalizado e hasheado)
    * @param {string} audience - Público-alvo
    * @returns {string} Chave de cache
    */
   generateKey(stage, context = {}, audience = 'default') {
-    const contextStr = JSON.stringify(context);
-    const contextHash = this.simpleHash(contextStr);
+    const normalizedContext = this.normalizeContext(context);
+    const contextHash = this.simpleHash(normalizedContext);
     const key = `stage_${stage}_ctx_${contextHash}_aud_${this.sanitize(audience)}`;
     return key;
   }
 
   /**
    * Hash simples para context (não criptográfico, apenas para diferenciação)
+   * FIX #3: Detecta colisões de hash
    */
   simpleHash(str) {
     let hash = 0;
     for (let i = 0; i < str.length; i++) {
       const char = str.charCodeAt(i);
       hash = ((hash << 5) - hash) + char;
-      hash = hash & hash; // Converte para int32
+      hash = hash & hash;
     }
-    return Math.abs(hash).toString(36).substring(0, 8);
+    const hashStr = Math.abs(hash).toString(36).substring(0, 8);
+
+    // Detecta colisão
+    if (this.hashRegistry.has(hashStr)) {
+      const existingStr = this.hashRegistry.get(hashStr);
+      if (existingStr !== str) {
+        console.warn(`⚠️  COLISÃO DE HASH DETECTADA: ${hashStr}`);
+        this.stats.collisions++;
+      }
+    } else {
+      this.hashRegistry.set(hashStr, str);
+    }
+
+    return hashStr;
   }
 
   /**
@@ -181,6 +217,7 @@ class QuestionCache {
       size: this.cache.size,
       maxSize: this.maxSize,
       utilizacao: `${((this.cache.size / this.maxSize) * 100).toFixed(1)}%`,
+      pendingRequests: this.pendingRequests.size,
       stats: {
         ...this.stats,
         totalRequests,
@@ -224,6 +261,8 @@ class QuestionCache {
     clearInterval(this.cleanupInterval);
     this.cache.clear();
     this.accessCount.clear();
+    this.pendingRequests.clear();
+    this.hashRegistry.clear();
   }
 }
 
@@ -242,8 +281,12 @@ export function getQuestionCache(options = {}) {
 
 /**
  * Wrapper para usar cache transparentemente com chatCompletion
- * Se pergunta está em cache, retorna do cache
- * Senão, chama IA e armazena resultado
+ * FIX #2: Evita race condition com lock de requisições pendentes
+ *
+ * Fluxo:
+ * 1. Se em cache → retorna imediatamente
+ * 2. Se sendo processado → aguarda resultado
+ * 3. Se não processado → chama IA e marca como processando
  */
 export async function cachedChatCompletion(messages, opts = {}) {
   const { stage, context, audience, useCache = true } = opts;
@@ -256,22 +299,46 @@ export async function cachedChatCompletion(messages, opts = {}) {
     return queuedChatCompletion(messages, opts);
   }
 
-  // Tenta buscar do cache
+  const cacheKey = cache.generateKey(stage, context, audience);
+
+  // PASSO 1: Tenta buscar do cache (mais rápido)
   const cached = cache.get(stage, context, audience);
   if (cached) {
     console.log(`✓ Pergunta recuperada do cache (stage ${stage})`);
     return cached;
   }
 
-  // Não estava no cache, chama IA
+  // PASSO 2: Verifica se há requisição idêntica sendo processada
+  if (cache.pendingRequests.has(cacheKey)) {
+    console.log(`⏳ Aguardando resultado idêntico em processamento (stage ${stage})`);
+    return cache.pendingRequests.get(cacheKey);
+  }
+
+  // PASSO 3: Inicia processamento e marca como pendente
   console.log(`💭 Gerando pergunta (stage ${stage}) - não estava em cache`);
-  const { queuedChatCompletion } = await import('./ai-client.mjs');
-  const result = await queuedChatCompletion(messages, opts);
 
-  // Armazena no cache
-  cache.set(stage, context, audience, result);
+  const processingPromise = (async () => {
+    try {
+      const { queuedChatCompletion } = await import('./ai-client.mjs');
+      const result = await queuedChatCompletion(messages, opts);
 
-  return result;
+      // Armazena no cache
+      cache.set(stage, context, audience, result);
+
+      return result;
+    } catch (error) {
+      console.error(`❌ Erro ao gerar pergunta (stage ${stage}):`, error.message);
+      throw error;
+    } finally {
+      // Remove do mapa de pendentes
+      cache.pendingRequests.delete(cacheKey);
+    }
+  })();
+
+  // Registra como processando
+  cache.pendingRequests.set(cacheKey, processingPromise);
+
+  return processingPromise;
 }
 
 export default QuestionCache;
