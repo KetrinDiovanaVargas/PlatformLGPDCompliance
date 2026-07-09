@@ -56,6 +56,7 @@ export const Index = () => {
   const [finalResponses, setFinalResponses] = useState<FinalResponseItem[]>([]);
   const [finalReport, setFinalReport] = useState<string>("");
   const [finalMetrics, setFinalMetrics] = useState<Record<string, unknown> | null>(null);
+  const [finalSessionId, setFinalSessionId] = useState<string>("");
 
   useEffect(() => {
     const loadAssessment = async () => {
@@ -91,6 +92,7 @@ export const Index = () => {
     setFinalResponses(payload.responses);
     setFinalReport(payload.report);
     setFinalMetrics(payload.metrics);
+    setFinalSessionId(payload.sessionId);
     setScreen("dashboard");
   };
 
@@ -98,6 +100,7 @@ export const Index = () => {
     setFinalResponses([]);
     setFinalReport("");
     setFinalMetrics(null);
+    setFinalSessionId("");
     setScreen("welcome");
   };
 
@@ -139,6 +142,7 @@ export const Index = () => {
           onRestart={handleRestart}
           assessmentId={assessment?.id}
           assessmentTitle={assessment?.title}
+          sessionId={finalSessionId}
         />
       )}
     </>

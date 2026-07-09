@@ -2,7 +2,7 @@
 // DashboardScreen.tsx – Versão Enterprise Corrigida
 // -------------------------------------------------------------
 
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import {
   PieChart,
   Pie,
@@ -34,12 +34,13 @@ import {
   Target,
   Info,
   Heart,
+  CheckCircle,
 } from "lucide-react";
 
 import { motion } from "framer-motion";
 import FeedbackModal from "./FeedbackModal";
 import { db } from "@/lib/firebase";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp, query, where, getDocs } from "firebase/firestore";
 
 // ======================================================
 // TIPOS
@@ -70,6 +71,7 @@ type DashboardScreenProps = {
   assessmentFormType?: string;
   assessmentObjective?: string;
   assessmentId?: string;
+  sessionId?: string;
   reportMode?: "groq" | "fallback";
   reportNotice?: string;
 };
@@ -384,11 +386,39 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({
   assessmentFormType,
   assessmentObjective,
   assessmentId,
+  sessionId,
   reportMode,
   reportNotice,
 }) => {
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [feedbackSubmitting, setFeedbackSubmitting] = useState(false);
+  const [feedbackAlreadyGiven, setFeedbackAlreadyGiven] = useState(false);
+  const [checkingFeedback, setCheckingFeedback] = useState(true);
+
+  // Verificar se já existe feedback para este sessionId
+  useEffect(() => {
+    const checkExistingFeedback = async () => {
+      if (!sessionId) {
+        setCheckingFeedback(false);
+        return;
+      }
+
+      try {
+        const feedbackQuery = query(
+          collection(db, "feedback"),
+          where("sessionId", "==", sessionId)
+        );
+        const querySnapshot = await getDocs(feedbackQuery);
+        setFeedbackAlreadyGiven(!querySnapshot.empty);
+      } catch (error) {
+        console.error("Erro ao verificar feedback:", error);
+      } finally {
+        setCheckingFeedback(false);
+      }
+    };
+
+    checkExistingFeedback();
+  }, [sessionId]);
 
   const handleFeedbackSubmit = async (
     feedback: Array<{ questionId: number; answer: 1 | 2 | 3 | 4 }>
@@ -397,10 +427,15 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({
       throw new Error("ID de avaliação não encontrado");
     }
 
+    if (!sessionId) {
+      throw new Error("ID de sessão não encontrado");
+    }
+
     setFeedbackSubmitting(true);
     try {
       await addDoc(collection(db, "feedback"), {
         assessmentId,
+        sessionId,
         assessmentTitle,
         responses: feedback,
         timestamp: serverTimestamp(),
@@ -408,6 +443,7 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({
       });
 
       setShowFeedbackModal(false);
+      setFeedbackAlreadyGiven(true);
       alert("✅ Obrigado pelo seu feedback! Sua opinião é muito valiosa.");
     } catch (error) {
       console.error("Erro ao salvar feedback:", error);
@@ -929,13 +965,32 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({
         </div>
 
         <div className="mx-auto max-w-6xl mt-6 flex flex-col sm:flex-row justify-center gap-3 px-4">
-          <button
-            onClick={() => setShowFeedbackModal(true)}
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-red-500 to-pink-500 px-6 py-2.5 text-sm font-semibold text-white shadow-lg hover:brightness-110 transition order-first sm:order-last"
-          >
-            <Heart className="h-5 w-5" />
-            Compartilhar Feedback
-          </button>
+          {checkingFeedback ? (
+            <button
+              disabled
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-gray-500 px-6 py-2.5 text-sm font-semibold text-white shadow-lg opacity-60 cursor-not-allowed"
+            >
+              <span className="inline-block animate-spin">⏳</span>
+              Verificando...
+            </button>
+          ) : feedbackAlreadyGiven ? (
+            <button
+              disabled
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 px-6 py-2.5 text-sm font-semibold text-white shadow-lg order-first sm:order-last"
+            >
+              <CheckCircle className="h-5 w-5" />
+              Feedback Enviado ✓
+            </button>
+          ) : (
+            <button
+              onClick={() => setShowFeedbackModal(true)}
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-red-500 to-pink-500 px-6 py-2.5 text-sm font-semibold text-white shadow-lg hover:brightness-110 transition order-first sm:order-last disabled:opacity-60 disabled:cursor-not-allowed"
+              disabled={!sessionId}
+            >
+              <Heart className="h-5 w-5" />
+              Compartilhar Feedback
+            </button>
+          )}
           {onRestart && (
             <button
               onClick={onRestart}
