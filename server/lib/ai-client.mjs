@@ -13,6 +13,7 @@ import Groq from 'groq-sdk'
 import { GoogleGenerativeAI } from '@google/generative-ai'
 import { OpenAI } from 'openai'
 import AIQueue, { getQueue } from './ai-queue.mjs'
+import { claudeCompletion, testClaudeAvailability } from './claude-client.mjs'
 
 const GROQ_MODEL     = 'llama-3.3-70b-versatile'
 const GEMINI_MODEL   = 'gemini-2.0-flash'
@@ -57,11 +58,31 @@ function getGeminiClient() {
  */
 /**
  * Testa disponibilidade de todos os provedores de IA
- * Retorna status de cada um: { groq, deepseek, gemini, recommended }
+ * Retorna status de cada um: { claude, groq, deepseek, gemini, recommended }
  */
 export async function checkAIStatus() {
   const probe = [{ role: 'user', content: 'ok' }]
   const status = {}
+
+  // Testa CLAUDE (primeiro, pois é preferencial)
+  try {
+    const claudeStatus = await testClaudeAvailability()
+    if (claudeStatus.available) {
+      status.claude = { available: true, provider: 'claude', model: 'claude-3-5-sonnet-20241022' }
+    } else {
+      status.claude = {
+        available: false,
+        provider: 'claude',
+        error: claudeStatus.error
+      }
+    }
+  } catch (err) {
+    status.claude = {
+      available: false,
+      provider: 'claude',
+      error: err?.message
+    }
+  }
 
   // Testa GROQ
   const groq = getGroqClient()
@@ -122,10 +143,11 @@ export async function checkAIStatus() {
     status.gemini = { available: false, provider: 'gemini', error: 'key_missing' }
   }
 
-  // Recomenda o primeiro disponível
-  const recommended = status.groq.available ? 'groq'
-                    : status.deepseek.available ? 'deepseek'
-                    : status.gemini.available ? 'gemini'
+  // Recomenda Claude se disponível, senão Groq, DeepSeek, Gemini
+  const recommended = status.claude?.available ? 'claude'
+                    : status.groq?.available ? 'groq'
+                    : status.deepseek?.available ? 'deepseek'
+                    : status.gemini?.available ? 'gemini'
                     : null
 
   return { ...status, recommended }
@@ -135,7 +157,7 @@ export async function checkAIStatus() {
  * Executa uma chamada de chat com fallback automático
  * @param {Array} messages - Array de mensagens OpenAI format
  * @param {object} opts - Opções
- * @param {string} opts.preferredProvider - 'groq', 'deepseek', ou 'gemini' (default: auto)
+ * @param {string} opts.preferredProvider - 'claude', 'groq', 'deepseek', ou 'gemini' (default: auto)
  * @param {number} opts.temperature - 0-1
  * @param {boolean} opts.jsonMode - Se ativa modo JSON
  * @returns {Promise<string>} - Resposta de texto
@@ -143,11 +165,12 @@ export async function checkAIStatus() {
 export async function chatCompletion(messages, { preferredProvider = null, temperature = 0.2, jsonMode = false } = {}) {
   // Define ordem de fallback baseada na preferência
   const getProviderOrder = (preferred) => {
-    if (preferred === 'groq') return ['groq', 'deepseek', 'gemini']
-    if (preferred === 'deepseek') return ['deepseek', 'groq', 'gemini']
-    if (preferred === 'gemini') return ['gemini', 'deepseek', 'groq']
-    // Default: tenta em ordem
-    return ['groq', 'deepseek', 'gemini']
+    if (preferred === 'claude') return ['claude', 'groq', 'deepseek', 'gemini']
+    if (preferred === 'groq') return ['groq', 'claude', 'deepseek', 'gemini']
+    if (preferred === 'deepseek') return ['deepseek', 'claude', 'groq', 'gemini']
+    if (preferred === 'gemini') return ['gemini', 'claude', 'deepseek', 'groq']
+    // Default: Claude se disponível, senão Groq
+    return ['claude', 'groq', 'deepseek', 'gemini']
   }
 
   const order = getProviderOrder(preferredProvider)
@@ -156,7 +179,24 @@ export async function chatCompletion(messages, { preferredProvider = null, tempe
   // Tenta cada provedor em ordem
   for (const provider of order) {
     try {
-      if (provider === 'groq') {
+      if (provider === 'claude') {
+        try {
+          const result = await claudeCompletion(messages, {
+            temperature,
+            jsonMode,
+          })
+          console.log(`✓ Chat com Claude bem-sucedido`)
+          return result
+        } catch (err) {
+          if (err?.status === 429 || String(err?.message ?? '').includes('rate limit')) {
+            errors.claude = 'rate_limit'
+          } else {
+            errors.claude = err?.message
+          }
+          continue
+        }
+
+      } else if (provider === 'groq') {
         const groq = getGroqClient()
         if (!groq) {
           errors.groq = 'key_missing'
