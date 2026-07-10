@@ -40,6 +40,7 @@ const OBJECTIVE_OPTIONS = [
 ];
 
 const AI_PROVIDER_OPTIONS = [
+  { value: "claude", label: "Claude 3.5 Sonnet (Recomendado)" },
   { value: "groq", label: "GROQ" },
   { value: "deepseek", label: "DeepSeek" },
   { value: "gemini", label: "Gemini" },
@@ -67,7 +68,7 @@ export function FormCreationWizard({
   const [audience, setAudience] = useState("");
   const [introText, setIntroText] = useState("");
   const [context, setContext] = useState("");
-  const [aiProvider, setAiProvider] = useState("groq");
+  const [aiProvider, setAiProvider] = useState("claude");
 
   React.useEffect(() => {
     window.scrollTo(0, 0);
