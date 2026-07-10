@@ -411,14 +411,6 @@ export default function UserQuestionnaire() {
 
                   <div className="flex gap-3">
                     <Button
-                      variant="outline"
-                      onClick={() => navigate("/")}
-                      className="border-white/15 bg-white/5 text-white hover:bg-white/10"
-                    >
-                      Voltar
-                    </Button>
-
-                    <Button
                       onClick={() => setStarted(true)}
                       className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-sky-500 via-cyan-400 to-indigo-500 px-6 py-3 text-sm font-semibold text-white shadow-lg hover:brightness-110 transition"
                     >
