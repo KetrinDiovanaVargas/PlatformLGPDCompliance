@@ -1,16 +1,16 @@
 /**
  * claude-client.mjs
  *
- * Cliente Claude 3.5 Sonnet com integração de fila
+ * Cliente Claude Haiku 4.5 com integração de fila
  * Oferece:
- * - 100k tokens/minuto (sem rate limiting)
- * - Melhor suporte a português
- * - Custo 50% mais baixo que Groq
+ * - Alta capacidade de tokens/minuto (sem rate limiting agressivo)
+ * - Excelente suporte a português
+ * - Modelo rápido e econômico ($1/$5 por 1M tokens)
  */
 
 import Anthropic from '@anthropic-ai/sdk';
 
-const CLAUDE_MODEL = 'claude-3-5-sonnet-20241022';
+const CLAUDE_MODEL = 'claude-haiku-4-5-20251001';
 
 function getClaudeClient() {
   const apiKey = process.env.ANTHROPIC_API_KEY;
