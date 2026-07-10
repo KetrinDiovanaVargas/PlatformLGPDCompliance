@@ -31,7 +31,7 @@ function getClaudeClient() {
  * @returns {Promise<string>} Resposta de texto
  */
 export async function claudeCompletion(messages, opts = {}) {
-  const { temperature = 0.2, jsonMode = false } = opts;
+  const { temperature = 0.2, jsonMode = false, maxTokens = 8192 } = opts;
 
   const client = getClaudeClient();
   if (!client) {
@@ -41,7 +41,9 @@ export async function claudeCompletion(messages, opts = {}) {
   try {
     const params = {
       model: CLAUDE_MODEL,
-      max_tokens: 4096,
+      // Modelos recentes usam parte do orçamento com raciocínio (thinking);
+      // relatórios detalhados exigem folga para não truncar o JSON.
+      max_tokens: maxTokens,
       messages,
     };
 
