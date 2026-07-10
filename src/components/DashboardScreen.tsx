@@ -964,6 +964,23 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({
           </p>
         </div>
 
+        {!checkingFeedback && !feedbackAlreadyGiven && (
+          <div className="mx-auto max-w-2xl mt-8 px-4">
+            <div className="flex items-start gap-3 rounded-xl border border-amber-500/40 bg-amber-500/10 px-4 py-3">
+              <span className="text-xl shrink-0" aria-hidden="true">📝</span>
+              <div>
+                <p className="text-sm font-semibold text-amber-200">
+                  Não esqueça de responder o feedback!
+                </p>
+                <p className="text-xs text-amber-100/80 mt-0.5 leading-relaxed">
+                  Sua opinião é essencial para melhorarmos a plataforma. Leva menos de 1 minuto —
+                  clique em <span className="font-semibold">"Compartilhar Feedback"</span> abaixo.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
         <div className="mx-auto max-w-6xl mt-6 flex flex-col sm:flex-row justify-center gap-3 px-4">
           {checkingFeedback ? (
             <button
