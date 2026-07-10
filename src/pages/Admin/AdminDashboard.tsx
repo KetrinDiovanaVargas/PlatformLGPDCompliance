@@ -7,6 +7,7 @@ import { signOut } from "firebase/auth";
 import {
   addDoc,
   collection,
+  collectionGroup,
   getDocs,
   query,
   where,
@@ -90,6 +91,7 @@ type SessionItem = {
   completedAt?: any;
   updatedAt?: any;
   ownerId?: string;
+  finalReport?: any;
 };
 
 type AdminItem = {
@@ -346,6 +348,34 @@ Agradecemos pela sua colaboração.`;
     window.open(whatsappUrl, "_blank");
   };
 
+  // Busca o relatório final (salvo na subcoleção final_report/latest de cada
+  // sessão) e devolve um mapa sessionId -> relatório, para anexar às sessões.
+  const fetchFinalReportsBySession = async (): Promise<Map<string, any>> => {
+    const map = new Map<string, any>();
+    try {
+      const snap = await getDocs(collectionGroup(db, "final_report"));
+      snap.docs.forEach((d) => {
+        const data = d.data() as any;
+        const sid = data?.sessionId ?? d.ref.parent.parent?.id;
+        if (sid) map.set(String(sid), data);
+      });
+    } catch (err) {
+      console.error("Erro ao carregar relatórios finais:", err);
+    }
+    return map;
+  };
+
+  const attachFinalReports = (
+    sessionsData: SessionItem[],
+    reportsBySession: Map<string, any>
+  ): SessionItem[] =>
+    sessionsData.map((s) => ({
+      ...s,
+      finalReport: s.sessionId
+        ? reportsBySession.get(String(s.sessionId)) ?? null
+        : null,
+    }));
+
   const loadData = async () => {
     try {
       setLoading(true);
@@ -374,8 +404,10 @@ Agradecemos pela sua colaboração.`;
           ...(docItem.data() as Omit<AdminItem, "id">),
         }));
 
+        const reportsBySession = await fetchFinalReportsBySession();
+
         setAssessments(assessmentsData);
-        setSessions(sessionsData);
+        setSessions(attachFinalReports(sessionsData, reportsBySession));
         setAdmins(adminsData);
       } else {
         const assessmentsQuery = query(
@@ -406,8 +438,10 @@ Agradecemos pela sua colaboração.`;
               session.assessmentId && assessmentIds.includes(session.assessmentId)
           );
 
+        const reportsBySession = await fetchFinalReportsBySession();
+
         setAssessments(assessmentsData);
-        setSessions(sessionsData);
+        setSessions(attachFinalReports(sessionsData, reportsBySession));
         setAdmins([]);
       }
     } catch (err) {
@@ -1001,10 +1035,7 @@ Agradecemos pela sua colaboração.`;
 
     // Calcular Riscos Críticos com dados REAIS
     const criticalRisks = completedSessions
-      .map((s) => {
-        const risks = (s as any).finalReport?.analysis?.risks || [];
-        return risks.filter((r: any) => r.severity === "critica" || r.level === "crítico" || r.priority === "Alta").length;
-      })
+      .map((s) => ((s as any).finalReport?.metrics?.criticalIssues || []).length)
       .reduce((sum, count) => sum + count, 0);
 
     return {
@@ -1089,27 +1120,30 @@ Agradecemos pela sua colaboração.`;
 
     const completedSessions = sessions.filter((s) => s.status === "completed");
     completedSessions.forEach((s) => {
-      const risks = (s as any).finalReport?.analysis?.risks || [];
-      risks.forEach((risk: any) => {
+      // O relatório real guarda as fragilidades críticas como texto em
+      // metrics.criticalIssues (sem severidade por eixo). Categorizamos cada
+      // uma por palavra-chave e contamos como risco crítico do eixo.
+      const issues = (s as any).finalReport?.metrics?.criticalIssues || [];
+      issues.forEach((issue: any) => {
+        const text = (typeof issue === "string"
+          ? issue
+          : issue?.title ?? issue?.name ?? issue?.description ?? ""
+        ).toLowerCase();
+
         let axis = "Compartilhamento";
-        if (risk.category?.includes("Armaz") || risk.fragilidade?.includes("Armaz")) {
+        if (text.includes("armazen")) {
           axis = "Armazenamento";
-        } else if (risk.category?.includes("Reten") || risk.fragilidade?.includes("Reten")) {
+        } else if (text.includes("reten") || text.includes("retenç")) {
           axis = "Retenção";
-        } else if (risk.category?.includes("Coleta") || risk.fragilidade?.includes("Coleta")) {
+        } else if (text.includes("coleta") || text.includes("coletar")) {
           axis = "Coleta";
-        } else if (risk.category?.includes("Acesso") || risk.fragilidade?.includes("Acesso")) {
+        } else if (text.includes("acesso")) {
           axis = "Acesso";
+        } else if (text.includes("compartilh")) {
+          axis = "Compartilhamento";
         }
 
-        const current = riskMap.get(axis)!;
-        if (risk.severity === "critica" || risk.level === "crítico") {
-          current.critico += 1;
-        } else if (risk.severity === "alta" || risk.level === "alto" || risk.priority === "Alta") {
-          current.alto += 1;
-        } else {
-          current.medio += 1;
-        }
+        riskMap.get(axis)!.critico += 1;
       });
     });
 
