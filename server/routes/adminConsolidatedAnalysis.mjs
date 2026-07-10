@@ -1,6 +1,6 @@
 import express from "express";
 import { getAdminDb } from "../firebaseAdmin.mjs";
-import { chatCompletion } from "../lib/ai-client.mjs";
+import { queuedChatCompletion } from "../lib/ai-client.mjs";
 
 const router = express.Router();
 
@@ -298,7 +298,7 @@ async function tryGroqConsolidation({ assessment, reports, aiProvider = "groq" }
   const prompt = buildGroqPrompt({ assessment, reports });
 
   try {
-    const raw = await chatCompletion(
+    const raw = await queuedChatCompletion(
       [
         {
           role: "system",
@@ -314,6 +314,7 @@ async function tryGroqConsolidation({ assessment, reports, aiProvider = "groq" }
         preferredProvider: aiProvider,
         temperature: 0.2,
         jsonMode: true,
+        priority: 'normal', // Análise consolidada é background job
       }
     );
 

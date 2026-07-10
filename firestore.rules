@@ -60,10 +60,16 @@ service cloud.firestore {
     // FEEDBACK COLLECTION - Post-Assessment Survey Responses
     // ====================================================================
     // Collects user satisfaction and usability feedback after assessment completion
+    // One feedback per session (identified by sessionId)
 
     match /feedback/{feedbackId} {
       // Anyone can submit feedback (public survey system)
-      allow create: if true;
+      // Validation: sessionId must be non-empty string
+      allow create: if request.resource.data.sessionId is string &&
+                       request.resource.data.sessionId.size() > 0 &&
+                       request.resource.data.assessmentId is string &&
+                       request.resource.data.responses is list &&
+                       request.resource.data.timestamp != null;
 
       // Only authenticated admins can read all feedback
       allow read: if request.auth != null &&
