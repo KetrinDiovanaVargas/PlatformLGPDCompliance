@@ -61,8 +61,13 @@ export async function claudeCompletion(messages, opts = {}) {
 
     const completion = await client.messages.create(params);
 
+    // Modelos Claude recentes (Sonnet 5, Opus 4.8) retornam blocos de
+    // raciocínio (thinking) antes do texto. Pegamos o bloco de texto real,
+    // não o content[0] (que pode ser o thinking vazio).
+    const textBlock = completion.content.find((b) => b.type === 'text');
+
     console.log(`✓ Chat com Claude (${CLAUDE_MODEL}) bem-sucedido`);
-    return completion.content[0].text ?? '';
+    return textBlock?.text ?? '';
 
   } catch (error) {
     console.error(`❌ Erro Claude: ${error.message}`);
@@ -110,15 +115,17 @@ export async function testClaudeAvailability() {
     const testMessages = [{ role: 'user', content: 'ok' }];
     const response = await client.messages.create({
       model: CLAUDE_MODEL,
-      max_tokens: 10,
+      max_tokens: 50,
       messages: testMessages,
     });
+
+    const textBlock = response.content.find((b) => b.type === 'text');
 
     return {
       available: true,
       model: CLAUDE_MODEL,
       provider: 'claude',
-      message: response.content[0].text,
+      message: textBlock?.text ?? '',
     };
 
   } catch (error) {
