@@ -40,7 +40,7 @@ const OBJECTIVE_OPTIONS = [
 ];
 
 const AI_PROVIDER_OPTIONS = [
-  { value: "claude", label: "Claude 3.5 Sonnet (Recomendado)" },
+  { value: "claude", label: "Claude" },
   { value: "groq", label: "GROQ" },
   { value: "deepseek", label: "DeepSeek" },
   { value: "gemini", label: "Gemini" },
