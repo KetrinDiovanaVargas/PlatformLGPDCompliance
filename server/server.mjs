@@ -19,6 +19,7 @@ import express from "express";
 // Security middlewares
 import { authMiddleware, adminMiddleware, masterMiddleware } from "./lib/auth-middleware.mjs";
 import { apiLimiter, loginLimiter, adminLimiter, aiLimiter } from "./lib/rate-limiter.mjs";
+import { configureAIQueue } from "./lib/ai-client.mjs";
 
 import generateStageRouter from "./routes/generateStage.mjs";
 import analyzeRouter from "./routes/analyze.mjs";
@@ -174,6 +175,10 @@ app.use((err, _req, res, _next) => {
 // ========================================================================
 // START SERVER
 // ========================================================================
+
+// Configura a fila de IA para o provedor primário (Claude): sem delay
+// artificial e com processamento em paralelo, reduzindo o tempo de espera.
+configureAIQueue("claude");
 
 app.listen(PORT, () => {
   console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
