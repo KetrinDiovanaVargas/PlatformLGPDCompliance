@@ -1,16 +1,16 @@
 /**
  * claude-client.mjs
  *
- * Cliente Claude 3.5 Sonnet com integração de fila
+ * Cliente Claude Sonnet 5 com integração de fila
  * Oferece:
- * - 100k tokens/minuto (sem rate limiting)
- * - Melhor suporte a português
- * - Custo 50% mais baixo que Groq
+ * - Alta capacidade de tokens/minuto (sem rate limiting agressivo)
+ * - Excelente suporte a português
+ * - Equilíbrio entre qualidade e custo ($3/$15 por 1M tokens)
  */
 
 import Anthropic from '@anthropic-ai/sdk';
 
-const CLAUDE_MODEL = 'claude-3-5-sonnet-20241022';
+const CLAUDE_MODEL = 'claude-sonnet-5';
 
 function getClaudeClient() {
   const apiKey = process.env.ANTHROPIC_API_KEY;
@@ -31,7 +31,7 @@ function getClaudeClient() {
  * @returns {Promise<string>} Resposta de texto
  */
 export async function claudeCompletion(messages, opts = {}) {
-  const { temperature = 0.2, jsonMode = false } = opts;
+  const { temperature = 0.2, jsonMode = false, maxTokens = 8192 } = opts;
 
   const client = getClaudeClient();
   if (!client) {
@@ -41,10 +41,18 @@ export async function claudeCompletion(messages, opts = {}) {
   try {
     const params = {
       model: CLAUDE_MODEL,
-      max_tokens: 4096,
+      // Modelos recentes usam parte do orçamento com raciocínio (thinking);
+      // relatórios detalhados exigem folga para não truncar o JSON.
+      max_tokens: maxTokens,
       messages,
-      temperature,
     };
+
+    // temperature foi descontinuado nos modelos Claude mais recentes
+    // (Sonnet 5, Opus 4.8, etc). Só enviamos para modelos que ainda aceitam.
+    const supportsTemperature = /haiku|claude-3|opus-4-5/.test(CLAUDE_MODEL);
+    if (supportsTemperature) {
+      params.temperature = temperature;
+    }
 
     // Claude não tem modo JSON explícito, mas respeitamos o intent
     // Se jsonMode, adicionamos instrução no system message
@@ -55,8 +63,13 @@ export async function claudeCompletion(messages, opts = {}) {
 
     const completion = await client.messages.create(params);
 
+    // Modelos Claude recentes (Sonnet 5, Opus 4.8) retornam blocos de
+    // raciocínio (thinking) antes do texto. Pegamos o bloco de texto real,
+    // não o content[0] (que pode ser o thinking vazio).
+    const textBlock = completion.content.find((b) => b.type === 'text');
+
     console.log(`✓ Chat com Claude (${CLAUDE_MODEL}) bem-sucedido`);
-    return completion.content[0].text ?? '';
+    return textBlock?.text ?? '';
 
   } catch (error) {
     console.error(`❌ Erro Claude: ${error.message}`);
@@ -104,15 +117,17 @@ export async function testClaudeAvailability() {
     const testMessages = [{ role: 'user', content: 'ok' }];
     const response = await client.messages.create({
       model: CLAUDE_MODEL,
-      max_tokens: 10,
+      max_tokens: 50,
       messages: testMessages,
     });
+
+    const textBlock = response.content.find((b) => b.type === 'text');
 
     return {
       available: true,
       model: CLAUDE_MODEL,
       provider: 'claude',
-      message: response.content[0].text,
+      message: textBlock?.text ?? '',
     };
 
   } catch (error) {

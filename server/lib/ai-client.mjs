@@ -68,7 +68,7 @@ export async function checkAIStatus() {
   try {
     const claudeStatus = await testClaudeAvailability()
     if (claudeStatus.available) {
-      status.claude = { available: true, provider: 'claude', model: 'claude-3-5-sonnet-20241022' }
+      status.claude = { available: true, provider: 'claude', model: 'claude-sonnet-5' }
     } else {
       status.claude = {
         available: false,
