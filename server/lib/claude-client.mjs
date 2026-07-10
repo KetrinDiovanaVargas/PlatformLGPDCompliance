@@ -1,16 +1,16 @@
 /**
  * claude-client.mjs
  *
- * Cliente Claude Haiku 4.5 com integração de fila
+ * Cliente Claude Sonnet 5 com integração de fila
  * Oferece:
  * - Alta capacidade de tokens/minuto (sem rate limiting agressivo)
  * - Excelente suporte a português
- * - Modelo rápido e econômico ($1/$5 por 1M tokens)
+ * - Equilíbrio entre qualidade e custo ($3/$15 por 1M tokens)
  */
 
 import Anthropic from '@anthropic-ai/sdk';
 
-const CLAUDE_MODEL = 'claude-haiku-4-5-20251001';
+const CLAUDE_MODEL = 'claude-sonnet-5';
 
 function getClaudeClient() {
   const apiKey = process.env.ANTHROPIC_API_KEY;
@@ -43,8 +43,14 @@ export async function claudeCompletion(messages, opts = {}) {
       model: CLAUDE_MODEL,
       max_tokens: 4096,
       messages,
-      temperature,
     };
+
+    // temperature foi descontinuado nos modelos Claude mais recentes
+    // (Sonnet 5, Opus 4.8, etc). Só enviamos para modelos que ainda aceitam.
+    const supportsTemperature = /haiku|claude-3|opus-4-5/.test(CLAUDE_MODEL);
+    if (supportsTemperature) {
+      params.temperature = temperature;
+    }
 
     // Claude não tem modo JSON explícito, mas respeitamos o intent
     // Se jsonMode, adicionamos instrução no system message
