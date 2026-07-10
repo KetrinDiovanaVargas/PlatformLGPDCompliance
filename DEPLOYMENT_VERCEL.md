@@ -25,10 +25,17 @@ VITE_API_BASE_URL = https://platformlgpdcompliance.com.br
 
 ### 1.2 Backend Environment Variables
 
-Para a API backend (se deployada como função Vercel):
+Para a API backend (Render em `lgpd-backend.onrender.com`, ou função Vercel).
+
+> ⚠️ **IMPORTANTE**: O backend no Render tem o PRÓPRIO conjunto de variáveis
+> de ambiente — ele NÃO lê o `.env` local. Toda chave abaixo precisa ser
+> cadastrada no painel do Render (Environment). Se a `ANTHROPIC_API_KEY`
+> faltar, o Claude retorna "key_missing", o sistema cai no Groq e aparece a
+> mensagem de "limite de tokens".
 
 ```
 # AI Providers
+ANTHROPIC_API_KEY = sua_chave_claude_aqui   # provedor primário (Claude Sonnet 5)
 GROQ_API_KEY = sua_chave_groq_aqui
 DEEPSEEK_API_KEY = sua_chave_deepseek_aqui
 GEMINI_API_KEY = sua_chave_gemini_aqui (opcional)
