@@ -228,6 +228,44 @@ function jaccardSimilarity(tokensA, tokensB) {
   return union === 0 ? 0 : intersection / union;
 }
 
+// ====================================================================
+// DIMENSÕES TEMÁTICAS (detecção de repetição SEMÂNTICA)
+// Cada pergunta de diagnóstico LGPD investiga uma dimensão. Duas perguntas
+// da mesma dimensão são repetição — mesmo com palavras completamente
+// diferentes. Isso pega paráfrases que o Jaccard (palavras) não detecta.
+// As chaves usam texto normalizado (minúsculo, sem acento).
+// ====================================================================
+// Ordem importa: dimensões mais específicas primeiro (primeiro match vence).
+// As chaves são RADICAIS (stems) para tolerar conjugações e sinônimos.
+const QUESTION_DIMENSIONS = [
+  { dim: "backup", keys: ["backup", "copia de seguranca", "copias de seguranca", "restaur"] },
+  { dim: "dados_sensiveis", keys: ["sensivel", "sensiveis", "biometria", "religi", "orientacao sexual", "dados de crianca", "dados de saude"] },
+  { dim: "incidentes", keys: ["incidente", "extravi", "violacao de dados", "vazar", "vazad", "roubad", "perdid", "perda de", "enviado por engano", "enviado errado", "se algo der errado", "caso aconteca"] },
+  { dim: "retencao", keys: ["descart", "apag", "exclu", "delet", "quanto tempo", "por quanto", "prazo", "depois que", "quando nao precisa", "retenc", "tempo de guarda"] },
+  { dim: "terceiros", keys: ["terceiro", "fornecedor", "parceiro", "empresa externa", "prestador", "servico externo", "outra empresa", "fora da sua equipe", "fora do seu grupo", "de fora"] },
+  { dim: "compartilhamento", keys: ["compartilh", "whatsapp", "repass", "divulg", "transmit", "envia os", "envia essas", "manda os", "manda essas", "passar os dados", "passa os dados", "passar essas", "troca de inform", "trocam inform"] },
+  { dim: "acesso", keys: ["quem pode acessar", "quem acess", "tem acesso", "quem pode ver", "quem consegue ver", "quem ve ", "permissao", "controle de acesso", "quem mais"] },
+  { dim: "armazenamento", keys: ["guard", "armazen", "onde fica", "onde estao", "onde sao mantid", "em qual local", "em que local", "onde voce salva", "ficam salv", "pendrive", "na nuvem", "no servidor", "no computador", "no celular"] },
+  { dim: "coleta", keys: ["colet", "quais dados voce pede", "que dados voce pede", "quais informacoes voce pede", "que informacoes pede", "voce pede", "voce solicita", "solicit", "cadastr", "rg e cpf", "cpf", "pede documento", "quais dados sao pedidos"] },
+  { dim: "consentimento", keys: ["consentimento", "autoriz", "concord", "aceite", "pediu permissao", "permissao da pessoa", "permissao do titular"] },
+  { dim: "transparencia", keys: ["as pessoas sabem", "o titular sabe", "sabem para que", "sabem o que", "informa a pessoa", "informam as pessoas", "avisa as pessoas", "comunica as pessoas", "conhecem a finalidade", "transparencia"] },
+  { dim: "finalidade", keys: ["para que voce usa", "para que sao usad", "para que servem", "qual a finalidade", "por que coleta", "por que voce pede", "por que voce coleta", "motivo do uso", "uso secundario", "com qual objetivo", "para qual finalidade", "finalidade"] },
+  { dim: "monitoramento", keys: ["monitora", "monitoram", "revis", "acompanh", "audit", "fiscaliz", "verifica como", "verificam como", "controle periodico"] },
+  { dim: "documentacao", keys: ["document", "politica", "por escrito", "registr", "norma", "procedimento escrito", "regras escritas"] },
+  { dim: "seguranca", keys: ["proteg", "seguranca", "criptografia", "senha", "contra roubo", "contra vazamento", "medidas de protec"] },
+  { dim: "perfil", keys: ["seu papel", "sua funcao", "o que voce faz", "qual atividade", "seu cargo", "qual dessas atividades", "melhor descreve", "seu dia a dia", "sua rotina", "qual e a sua area"] },
+  { dim: "frequencia_contato", keys: ["com que frequencia", "frequencia com que", "quantas vezes voce", "com que regularidade"] },
+];
+
+function classifyQuestionDimension(text) {
+  const n = normalizeText(text);
+  if (!n) return null;
+  for (const { dim, keys } of QUESTION_DIMENSIONS) {
+    if (keys.length && keys.some((k) => n.includes(k))) return dim;
+  }
+  return null;
+}
+
 function isSemanticallyTooClose(a, b) {
   const textA = normalizeText(a);
   const textB = normalizeText(b);
@@ -236,24 +274,24 @@ function isSemanticallyTooClose(a, b) {
   if (textA === textB) return true;
   if (textA.includes(textB) || textB.includes(textA)) return true;
 
+  // 1) Bloqueio SEMÂNTICO por dimensão: se as duas perguntas investigam a
+  // mesma dimensão temática, são repetição — mesmo com palavras diferentes.
+  const dimA = classifyQuestionDimension(textA);
+  const dimB = classifyQuestionDimension(textB);
+  if (dimA && dimB && dimA === dimB) return true;
+
+  // 2) Bloqueio LEXICAL por sobreposição de palavras (paráfrases próximas).
   const tokensA = tokenizeQuestion(textA);
   const tokensB = tokenizeQuestion(textB);
 
   const similarity = jaccardSimilarity(tokensA, tokensB);
-
-  // CRÍTICO: Threshold EXTREMAMENTE alto (0.95)
-  // Só filtra se perguntas são PRATICAMENTE IDÊNTICAS
-  // Estratégia: deixar PASSAR quase tudo da IA
-  // Contar com fallbacks staged para evitar repetição
-  if (similarity >= 0.95) return true;
+  if (similarity >= 0.6) return true;
 
   const bigA = tokensA.filter((t) => t.length > 4);
   const bigB = tokensB.filter((t) => t.length > 4);
   const strongSimilarity = jaccardSimilarity(bigA, bigB);
 
-  // Para palavras longas (>4 chars), threshold: 0.90
-  // Máxima tolerância: deixar diversidade passar
-  return strongSimilarity >= 0.90;
+  return strongSimilarity >= 0.5;
 }
 
 function filterDuplicateQuestions(questions, previousQuestions = []) {
