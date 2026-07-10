@@ -227,11 +227,14 @@ class AIQueue extends EventEmitter {
    * Configura estatísticas de rate limit baseado no provider
    */
   configureForProvider(provider) {
+    // maxConcurrent = quantas requisições processam em paralelo.
+    // Claude tem alta capacidade (100k tokens/min) → pode processar várias
+    // em paralelo sem delay. Groq tem rate limit baixo → 1 por vez com espaço.
     const configs = {
-      groq: { minDelayMs: 2000 }, // 30 req/min = 2s entre requests
-      deepseek: { minDelayMs: 1000 }, // 60 req/min = 1s entre requests
-      claude: { minDelayMs: 0 }, // Sem delay (100k tokens/min)
-      gemini: { minDelayMs: 1000 }, // Conservador
+      groq: { minDelayMs: 2000, maxConcurrent: 1 }, // 30 req/min = 2s entre requests
+      deepseek: { minDelayMs: 1000, maxConcurrent: 2 }, // 60 req/min
+      claude: { minDelayMs: 0, maxConcurrent: 5 }, // sem delay, paralelo
+      gemini: { minDelayMs: 1000, maxConcurrent: 1 }, // conservador
     };
 
     const config = configs[provider.toLowerCase()] || configs.groq;
@@ -240,6 +243,7 @@ class AIQueue extends EventEmitter {
     this.emit('providerConfigured', {
       provider,
       minDelayMs: this.minDelayMs,
+      maxConcurrent: this.maxConcurrent,
     });
   }
 }
