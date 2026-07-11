@@ -241,7 +241,7 @@ export const WelcomeScreen = ({
         </section>
 
         {/* PARTE 2 — Como funciona */}
-        <section id="como-funciona" className="scroll-mt-16 pt-4 pb-16 md:pt-8 md:pb-20">
+        <section id="como-funciona" className="scroll-mt-6 pb-16 md:pb-20">
           <TimelineComoFunciona />
         </section>
 

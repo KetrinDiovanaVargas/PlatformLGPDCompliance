@@ -156,7 +156,7 @@ const STEPS = [
 
 export default function TimelineComoFunciona() {
   return (
-    <section className="w-full px-4 sm:px-6 md:px-10 py-10 md:py-14 rounded-2xl border border-white/15 bg-white/5 backdrop-blur-md shadow-lg">
+    <section className="w-full px-4 sm:px-6 md:px-10 pt-8 pb-10 md:pt-10 md:pb-14 rounded-2xl border border-white/15 bg-white/5 backdrop-blur-md shadow-lg">
       <div className="text-center mb-10 md:mb-14">
         <span className="inline-block text-xs font-semibold uppercase tracking-[0.2em] text-cyan-300/80 mb-3">
           Passo a passo
