@@ -125,6 +125,8 @@ type ConsolidatedAnalysis = {
 };
 
 const STATUS_COLORS = ["#22c55e", "#eab308", "#ef4444"];
+// Feedback: responderam (verde) vs não responderam (cinza neutro)
+const FEEDBACK_COLORS = ["#22c55e", "#64748b"];
 
 const FORM_TYPE_OPTIONS = [
   { value: "lgpd_diagnostico", label: "Diagnóstico" },
@@ -181,6 +183,7 @@ export default function AdminDashboard() {
 
   const [assessments, setAssessments] = useState<Assessment[]>([]);
   const [sessions, setSessions] = useState<SessionItem[]>([]);
+  const [feedbackSessionIds, setFeedbackSessionIds] = useState<Set<string>>(new Set());
   const [admins, setAdmins] = useState<AdminItem[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -381,6 +384,19 @@ Agradecemos pela sua colaboração.`;
       setLoading(true);
 
       if (!role || !adminUid) return;
+
+      // Carrega os sessionIds que já enviaram feedback (dados reais do banco)
+      try {
+        const feedbackSnap = await getDocs(collection(db, "feedback"));
+        const ids = new Set<string>();
+        feedbackSnap.docs.forEach((d) => {
+          const sid = (d.data() as { sessionId?: string })?.sessionId;
+          if (sid) ids.add(String(sid));
+        });
+        setFeedbackSessionIds(ids);
+      } catch (err) {
+        console.error("Erro ao carregar feedback:", err);
+      }
 
       if (role === "MASTER") {
         const assessmentsSnap = await getDocs(collection(db, "assessments"));
@@ -1061,6 +1077,25 @@ Agradecemos pela sua colaboração.`;
       { name: "Outras", value: pending },
     ];
   }, [sessions]);
+
+  // Feedback: quem concluiu a avaliação respondeu (ou não) o feedback
+  const feedbackData = useMemo(() => {
+    const completedSessions = sessions.filter((s) => s.status === "completed");
+    const responded = completedSessions.filter((s) =>
+      feedbackSessionIds.has(s.sessionId)
+    ).length;
+    const notResponded = Math.max(0, completedSessions.length - responded);
+
+    return {
+      total: completedSessions.length,
+      responded,
+      notResponded,
+      chart: [
+        { name: "Responderam", value: responded },
+        { name: "Não responderam", value: notResponded },
+      ],
+    };
+  }, [sessions, feedbackSessionIds]);
 
   const barData = useMemo(() => {
     return assessments.map((a) => {
@@ -2067,6 +2102,102 @@ Agradecemos pela sua colaboração.`;
                 </BarChart>
               </ResponsiveContainer>
             </div>
+          </div>
+        </section>
+
+        {/* Feedback: respondido vs não respondido */}
+        <section className="grid gap-5 md:grid-cols-1">
+          <div className="rounded-2xl bg-gradient-to-br from-slate-900/40 to-slate-800/20 border border-slate-700/50 p-6 shadow-lg">
+            <div className="mb-5">
+              <h2 className="text-base font-semibold text-slate-100 mb-1 flex items-center gap-2">
+                <MessageCircle className="w-5 h-5 text-cyan-400" />
+                Feedback dos Respondentes
+              </h2>
+              <p className="text-xs text-slate-400">
+                Quantos avaliaram a ferramenta após concluir o questionário
+              </p>
+            </div>
+
+            {feedbackData.total > 0 ? (
+              <div className="flex flex-col sm:flex-row items-center gap-6">
+                <div className="relative w-[170px] h-[170px] shrink-0">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={feedbackData.chart}
+                        dataKey="value"
+                        innerRadius={54}
+                        outerRadius={78}
+                        paddingAngle={
+                          feedbackData.responded > 0 && feedbackData.notResponded > 0 ? 3 : 0
+                        }
+                        stroke="none"
+                      >
+                        {feedbackData.chart.map((_, i) => (
+                          <Cell key={i} fill={FEEDBACK_COLORS[i]} />
+                        ))}
+                      </Pie>
+                      <Tooltip
+                        contentStyle={{
+                          backgroundColor: "#0f172a",
+                          border: "1px solid #334155",
+                          borderRadius: "12px",
+                          color: "#fff",
+                        }}
+                        formatter={(value: any, name: string) => [value, name]}
+                      />
+                    </PieChart>
+                  </ResponsiveContainer>
+                  <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                    <span className="text-2xl font-bold text-slate-100">
+                      {Math.round((feedbackData.responded / feedbackData.total) * 100)}%
+                    </span>
+                    <span className="text-[10px] text-slate-400">responderam</span>
+                  </div>
+                </div>
+
+                <div className="flex-1 w-full space-y-2">
+                  {feedbackData.chart.map((item, i) => (
+                    <div
+                      key={i}
+                      className="flex items-center justify-between p-3 rounded-lg bg-slate-950/30 border border-slate-700/30 hover:border-slate-600/50 transition"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div
+                          className="h-3 w-3 rounded-full"
+                          style={{
+                            backgroundColor: FEEDBACK_COLORS[i],
+                            boxShadow: `0 0 8px ${FEEDBACK_COLORS[i]}80`,
+                          }}
+                        />
+                        <span className="text-sm font-medium text-slate-200">{item.name}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span
+                          className="font-bold text-base"
+                          style={{ color: FEEDBACK_COLORS[i] }}
+                        >
+                          {item.value}
+                        </span>
+                        <span className="text-xs text-slate-400">
+                          {Math.round((item.value / feedbackData.total) * 100)}%
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                  <p className="text-xs text-slate-500 pt-1">
+                    Base: {feedbackData.total}{" "}
+                    {feedbackData.total === 1
+                      ? "avaliação concluída"
+                      : "avaliações concluídas"}
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <div className="flex items-center justify-center h-[170px] text-sm text-slate-500">
+                Ainda não há avaliações concluídas para medir o feedback.
+              </div>
+            )}
           </div>
         </section>
 
