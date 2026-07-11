@@ -149,8 +149,9 @@ export const WelcomeScreen = ({
         </Button>
       </div>
 
-      <div className="container relative z-10 px-4 py-8 sm:py-10 md:py-12 mx-auto max-w-7xl">
-        <div className="text-center mb-12 md:mb-16 animate-fade-up">
+      <div className="container relative z-10 px-4 mx-auto max-w-7xl">
+        {/* PARTE 1 — Hero em tela cheia (título + botão) */}
+        <section className="min-h-[100svh] flex flex-col items-center justify-center text-center animate-fade-up py-20">
           <div className="flex justify-center gap-2 sm:gap-3 mb-6 flex-wrap">
             <div
               className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2
@@ -231,15 +232,16 @@ export const WelcomeScreen = ({
                   ?.scrollIntoView({ behavior: "smooth" })
               }
               size="lg"
-              className="text-base sm:text-lg px-6 sm:px-8 md:px-10 py-3 sm:py-4 md:py-6 bg-gradient-to-r from-blue-600 to-indigo-600 shadow-elegant hover:shadow-glow transition-all duration-300 hover:scale-105"
+              className="group rounded-full px-8 py-6 text-base sm:text-lg font-semibold bg-gradient-to-r from-cyan-500 to-blue-600 text-white ring-1 ring-white/20 shadow-lg shadow-blue-900/40 hover:brightness-110 hover:shadow-xl transition-all duration-300"
             >
-              Conheça mais sobre a ferramenta
-              <ArrowDown className="ml-2 w-4 sm:w-5 h-4 sm:h-5" />
+              Conheça mais
+              <ArrowDown className="ml-2 w-5 h-5 group-hover:translate-y-0.5 transition-transform" />
             </Button>
           </div>
-        </div>
+        </section>
 
-        <div id="recursos" className="scroll-mt-24 mb-12 md:mb-16">
+        {/* PARTE 2 — Recursos */}
+        <section id="recursos" className="scroll-mt-24 py-16 md:py-24">
           {/* Cabeçalho da seção */}
           <div className="text-center max-w-2xl mx-auto mb-10 md:mb-12">
             <span className="inline-block text-xs font-semibold uppercase tracking-[0.2em] text-cyan-300/80 mb-3">
@@ -277,9 +279,12 @@ export const WelcomeScreen = ({
               </div>
             ))}
           </div>
-        </div>
+        </section>
 
-        <TimelineComoFunciona />
+        {/* PARTE 3 — Como funciona */}
+        <section className="pb-16 md:pb-24">
+          <TimelineComoFunciona />
+        </section>
       </div>
     </div>
   );

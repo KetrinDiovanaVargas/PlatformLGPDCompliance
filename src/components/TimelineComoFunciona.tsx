@@ -174,7 +174,7 @@ export default function TimelineComoFunciona() {
         {STEPS.map(({ number, title, desc, ring, badge, Ilustracao }, index) => (
           <div key={number} className="relative flex flex-col">
             <div
-              className={`group rounded-2xl border border-white/10 bg-slate-950/40 p-4 sm:p-5 ring-1 ${ring} transition-all duration-300 hover:-translate-y-1 hover:bg-slate-950/60`}
+              className={`group flex h-full flex-col rounded-2xl border border-white/10 bg-slate-950/40 p-4 sm:p-5 ring-1 ${ring} transition-all duration-300 hover:-translate-y-1 hover:bg-slate-950/60`}
             >
               {/* Ilustração (mockup da tela) */}
               <div className="rounded-xl bg-slate-900/60 border border-white/5 p-3 mb-5">
