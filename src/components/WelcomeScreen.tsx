@@ -10,6 +10,8 @@ import {
   CheckCircle,
   AlertTriangle,
   Users,
+  LogIn,
+  ArrowDown,
 } from "lucide-react";
 import { db } from "@/lib/firebase";
 import { collection, getDocs } from "firebase/firestore";
@@ -75,6 +77,19 @@ export const WelcomeScreen = ({
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent/10 rounded-full blur-3xl animate-pulse"
           style={{ animationDelay: "2s" }}
         />
+      </div>
+
+      {/* Botão de login (canto superior direito) */}
+      <div className="absolute top-4 right-4 sm:top-6 sm:right-6 z-20">
+        <Button
+          onClick={() => navigate("/admin/login")}
+          variant="outline"
+          size="sm"
+          className="gap-2 border-white/20 bg-white/5 text-white backdrop-blur-sm hover:bg-white/10"
+        >
+          <LogIn className="w-4 h-4" />
+          Login
+        </Button>
       </div>
 
       <div className="container relative z-10 px-4 py-8 sm:py-10 md:py-12 mx-auto max-w-7xl">
@@ -153,17 +168,21 @@ export const WelcomeScreen = ({
 
           <div className="flex justify-center">
             <Button
-              onClick={() => navigate("/admin/login")}
+              onClick={() =>
+                document
+                  .getElementById("recursos")
+                  ?.scrollIntoView({ behavior: "smooth" })
+              }
               size="lg"
               className="text-base sm:text-lg px-6 sm:px-8 md:px-10 py-3 sm:py-4 md:py-6 bg-gradient-to-r from-blue-600 to-indigo-600 shadow-elegant hover:shadow-glow transition-all duration-300 hover:scale-105"
             >
-              Iniciar Avaliação
-              <FileCheck className="ml-2 w-4 sm:w-5 h-4 sm:h-5" />
+              Conheça mais sobre a ferramenta
+              <ArrowDown className="ml-2 w-4 sm:w-5 h-4 sm:h-5" />
             </Button>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6 mb-12 md:mb-16">
+        <div id="recursos" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6 mb-12 md:mb-16 scroll-mt-20">
           <Card
             className="p-4 sm:p-5 md:p-6 bg-card/10 backdrop-blur-sm border-border/50 shadow-card hover:shadow-elegant hover:bg-card/10 transition-all duration-300 hover:-translate-y-1 animate-fade-up"
             style={{ animationDelay: "0.1s" }}
