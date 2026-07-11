@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Mail, X, Send, CheckCircle, Sparkles, MessageSquare } from "lucide-react";
-import { db } from "@/lib/firebase";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+
+const API_URL = (import.meta.env.VITE_API_BASE_URL ?? "").replace(/\/$/, "");
 
 type ContactType = "demonstracao" | "contato";
 
@@ -74,14 +74,22 @@ export default function ContactModal({ open, onClose }: ContactModalProps) {
 
     setSubmitting(true);
     try {
-      await addDoc(collection(db, "contacts"), {
-        nome: nome.trim(),
-        email: email.trim().toLowerCase(),
-        tipo,
-        mensagem: mensagem.trim(),
-        status: "novo",
-        createdAt: serverTimestamp(),
+      const res = await fetch(`${API_URL}/api/contact`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          nome: nome.trim(),
+          email: email.trim().toLowerCase(),
+          tipo,
+          mensagem: mensagem.trim(),
+        }),
       });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data?.error || "Falha ao enviar");
+      }
+
       setSent(true);
     } catch (err) {
       console.error("Erro ao enviar contato:", err);
