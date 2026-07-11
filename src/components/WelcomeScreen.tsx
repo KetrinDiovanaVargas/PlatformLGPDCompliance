@@ -292,7 +292,7 @@ export const WelcomeScreen = ({
 
         {/* PARTE 4 — Contato */}
         <section className="pb-16 md:pb-24">
-          <div className="mx-auto max-w-3xl rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.06] to-white/[0.02] px-6 py-10 sm:px-10 sm:py-12 text-center">
+          <div className="w-full rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.06] to-white/[0.02] px-6 py-14 sm:px-10 sm:py-20 text-center">
             <span className="inline-block text-xs font-semibold uppercase tracking-[0.2em] text-cyan-300/80 mb-3">
               Contato
             </span>
