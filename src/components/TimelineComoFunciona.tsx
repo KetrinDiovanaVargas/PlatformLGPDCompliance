@@ -59,28 +59,29 @@ function IlustracaoIA() {
           <stop offset="1" stopColor="#22d3ee" />
         </linearGradient>
       </defs>
-      {/* documento base */}
-      <rect x="30" y="24" width="96" height="112" rx="10" fill="#0f172a" stroke="#334155" />
-      <rect x="44" y="44" width="60" height="7" rx="3.5" fill="#475569" />
-      <rect x="44" y="58" width="68" height="7" rx="3.5" fill="#334155" />
-      <rect x="44" y="72" width="52" height="7" rx="3.5" fill="#334155" />
-      <rect x="44" y="86" width="64" height="7" rx="3.5" fill="#334155" />
-      <rect x="44" y="100" width="44" height="7" rx="3.5" fill="#334155" />
-      {/* núcleo de IA */}
-      <circle cx="168" cy="80" r="38" fill="url(#cf-ia)" opacity="0.15" />
-      <circle cx="168" cy="80" r="26" fill="url(#cf-ia)" opacity="0.25" className="animate-pulse" />
+      {/* moldura de tela — igual às etapas 1 e 3 (enquadramento consistente) */}
+      <rect x="18" y="14" width="204" height="132" rx="14" fill="#0f172a" stroke="#334155" />
+      {/* documento (linhas de texto) à esquerda */}
+      <rect x="40" y="46" width="56" height="7" rx="3.5" fill="#475569" />
+      <rect x="40" y="60" width="64" height="7" rx="3.5" fill="#334155" />
+      <rect x="40" y="74" width="48" height="7" rx="3.5" fill="#334155" />
+      <rect x="40" y="88" width="60" height="7" rx="3.5" fill="#334155" />
+      <rect x="40" y="102" width="40" height="7" rx="3.5" fill="#334155" />
+      {/* núcleo de IA à direita */}
+      <circle cx="168" cy="80" r="34" fill="url(#cf-ia)" opacity="0.15" />
+      <circle cx="168" cy="80" r="23" fill="url(#cf-ia)" opacity="0.28" className="animate-pulse" />
       <g transform="translate(168 80)">
         {/* estrela / sparkle central */}
         <path
-          d="M0 -16 L4 -4 L16 0 L4 4 L0 16 L-4 4 L-16 0 L-4 -4 Z"
+          d="M0 -15 L3.6 -3.6 L15 0 L3.6 3.6 L0 15 L-3.6 3.6 L-15 0 L-3.6 -3.6 Z"
           fill="url(#cf-ia)"
         />
-        <path d="M13 -13 l1.5 4 l4 1.5 l-4 1.5 l-1.5 4 l-1.5 -4 l-4 -1.5 l4 -1.5 Z" fill="#22d3ee" />
+        <path d="M12 -12 l1.3 3.6 l3.6 1.3 l-3.6 1.3 l-1.3 3.6 l-1.3 -3.6 l-3.6 -1.3 l3.6 -1.3 Z" fill="#22d3ee" />
       </g>
       {/* fluxo documento -> IA */}
-      <circle cx="134" cy="80" r="2.5" fill="#38bdf8" />
-      <circle cx="144" cy="80" r="2.5" fill="#38bdf8" opacity="0.7" />
-      <circle cx="154" cy="80" r="2.5" fill="#38bdf8" opacity="0.4" />
+      <circle cx="118" cy="80" r="2.4" fill="#38bdf8" />
+      <circle cx="129" cy="80" r="2.4" fill="#38bdf8" opacity="0.7" />
+      <circle cx="140" cy="80" r="2.4" fill="#38bdf8" opacity="0.4" />
     </svg>
   );
 }
