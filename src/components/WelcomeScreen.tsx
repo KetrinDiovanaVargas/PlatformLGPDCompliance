@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import TimelineComoFunciona from "@/components/TimelineComoFunciona";
 import { useNavigate } from "react-router-dom";
 import {
@@ -15,6 +14,64 @@ import {
 } from "lucide-react";
 import { db } from "@/lib/firebase";
 import { collection, getDocs } from "firebase/firestore";
+
+// Recursos da plataforma (cada card tem seu acento de cor)
+const HOME_FEATURES = [
+  {
+    Icon: FileCheck,
+    title: "Questionário Dinâmico",
+    desc: "Perguntas adaptativas baseadas no seu setor, contexto e perfil de resposta.",
+    tile: "from-blue-500/25 to-blue-500/5",
+    ring: "ring-blue-400/30",
+    icon: "text-blue-300",
+    glow: "bg-blue-500/25",
+  },
+  {
+    Icon: BarChart3,
+    title: "Análise Inteligente",
+    desc: "Processamento avançado das respostas com IA para um diagnóstico mais preciso.",
+    tile: "from-cyan-500/25 to-cyan-500/5",
+    ring: "ring-cyan-400/30",
+    icon: "text-cyan-300",
+    glow: "bg-cyan-500/25",
+  },
+  {
+    Icon: Lock,
+    title: "Dashboard Completo",
+    desc: "Visualização detalhada com gráficos, score e recomendações personalizadas.",
+    tile: "from-violet-500/25 to-violet-500/5",
+    ring: "ring-violet-400/30",
+    icon: "text-violet-300",
+    glow: "bg-violet-500/25",
+  },
+  {
+    Icon: CheckCircle,
+    title: "ISO/IEC 27001",
+    desc: "Recomendações alinhadas com controles internacionais de segurança.",
+    tile: "from-emerald-500/25 to-emerald-500/5",
+    ring: "ring-emerald-400/30",
+    icon: "text-emerald-300",
+    glow: "bg-emerald-500/25",
+  },
+  {
+    Icon: AlertTriangle,
+    title: "Análise de Riscos",
+    desc: "Identificação e classificação de riscos por categoria e prioridade.",
+    tile: "from-amber-500/25 to-amber-500/5",
+    ring: "ring-amber-400/30",
+    icon: "text-amber-300",
+    glow: "bg-amber-500/25",
+  },
+  {
+    Icon: Shield,
+    title: "Dados Seguros",
+    desc: "Suas respostas são armazenadas com segurança e tratamento adequado.",
+    tile: "from-fuchsia-500/25 to-fuchsia-500/5",
+    ring: "ring-fuchsia-400/30",
+    icon: "text-fuchsia-300",
+    glow: "bg-fuchsia-500/25",
+  },
+];
 
 interface WelcomeScreenProps {
   onStart: () => void;
@@ -182,96 +239,44 @@ export const WelcomeScreen = ({
           </div>
         </div>
 
-        <div id="recursos" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6 mb-12 md:mb-16 scroll-mt-20">
-          <Card
-            className="p-4 sm:p-5 md:p-6 bg-card/10 backdrop-blur-sm border-border/50 shadow-card hover:shadow-elegant hover:bg-card/10 transition-all duration-300 hover:-translate-y-1 animate-fade-up"
-            style={{ animationDelay: "0.1s" }}
-          >
-            <div className="w-10 sm:w-12 h-10 sm:h-12 rounded-lg bg-primary/20 flex items-center justify-center mb-3 sm:mb-4">
-              <FileCheck className="w-5 sm:w-6 h-5 sm:h-6 text-primary" />
-            </div>
-            <h3 className="text-lg sm:text-xl font-semibold mb-2 text-white">
-              Questionário Dinâmico
-            </h3>
-            <p className="text-sm sm:text-base text-white/80">
-              Perguntas adaptativas baseadas no seu setor, contexto e perfil de resposta.
+        <div id="recursos" className="scroll-mt-24 mb-12 md:mb-16">
+          {/* Cabeçalho da seção */}
+          <div className="text-center max-w-2xl mx-auto mb-10 md:mb-12">
+            <span className="inline-block text-xs font-semibold uppercase tracking-[0.2em] text-cyan-300/80 mb-3">
+              Recursos
+            </span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white text-balance">
+              Tudo para avaliar sua conformidade com a LGPD
+            </h2>
+            <p className="mt-3 text-sm sm:text-base text-white/60 max-w-xl mx-auto">
+              Do questionário adaptativo ao diagnóstico com recomendações práticas — em
+              uma plataforma só.
             </p>
-          </Card>
+          </div>
 
-          <Card
-            className="p-4 sm:p-5 md:p-6 bg-card/10 backdrop-blur-sm border-border/50 shadow-card hover:shadow-elegant hover:bg-card/10 transition-all duration-300 hover:-translate-y-1 animate-fade-up"
-            style={{ animationDelay: "0.2s" }}
-          >
-            <div className="w-10 sm:w-12 h-10 sm:h-12 rounded-lg bg-accent/20 flex items-center justify-center mb-3 sm:mb-4">
-              <BarChart3 className="w-5 sm:w-6 h-5 sm:h-6 text-accent" />
-            </div>
-            <h3 className="text-lg sm:text-xl font-semibold mb-2 text-white">
-              Análise Inteligente
-            </h3>
-            <p className="text-sm sm:text-base text-white/80">
-              Processamento avançado das respostas para diagnóstico mais preciso.
-            </p>
-          </Card>
-
-          <Card
-            className="p-4 sm:p-5 md:p-6 bg-card/10 backdrop-blur-sm border-border/50 shadow-card hover:shadow-elegant hover:bg-card/10 transition-all duration-300 hover:-translate-y-1 animate-fade-up"
-            style={{ animationDelay: "0.3s" }}
-          >
-            <div className="w-10 sm:w-12 h-10 sm:h-12 rounded-lg bg-primary/20 flex items-center justify-center mb-3 sm:mb-4">
-              <Lock className="w-5 sm:w-6 h-5 sm:h-6 text-primary" />
-            </div>
-            <h3 className="text-lg sm:text-xl font-semibold mb-2 text-white">
-              Dashboard Completo
-            </h3>
-            <p className="text-sm sm:text-base text-white/80">
-              Visualização detalhada com gráficos, score e recomendações personalizadas.
-            </p>
-          </Card>
-
-          <Card
-            className="p-4 sm:p-5 md:p-6 bg-card/10 backdrop-blur-sm border-border/50 shadow-card hover:shadow-elegant hover:bg-card/10 transition-all duration-300 hover:-translate-y-1 animate-fade-up"
-            style={{ animationDelay: "0.4s" }}
-          >
-            <div className="w-10 sm:w-12 h-10 sm:h-12 rounded-lg bg-accent/20 flex items-center justify-center mb-3 sm:mb-4">
-              <CheckCircle className="w-5 sm:w-6 h-5 sm:h-6 text-accent" />
-            </div>
-            <h3 className="text-lg sm:text-xl font-semibold mb-2 text-white">
-              ISO/IEC 27001
-            </h3>
-            <p className="text-sm sm:text-base text-white/80">
-              Recomendações alinhadas com controles internacionais de segurança.
-            </p>
-          </Card>
-
-          <Card
-            className="p-4 sm:p-5 md:p-6 bg-card/10 backdrop-blur-sm border-border/50 shadow-card hover:shadow-elegant hover:bg-card/10 transition-all duration-300 hover:-translate-y-1 animate-fade-up"
-            style={{ animationDelay: "0.5s" }}
-          >
-            <div className="w-10 sm:w-12 h-10 sm:h-12 rounded-lg bg-primary/20 flex items-center justify-center mb-3 sm:mb-4">
-              <AlertTriangle className="w-5 sm:w-6 h-5 sm:h-6 text-primary" />
-            </div>
-            <h3 className="text-lg sm:text-xl font-semibold mb-2 text-white">
-              Análise de Riscos
-            </h3>
-            <p className="text-sm sm:text-base text-white/80">
-              Identificação e classificação de riscos por categoria e prioridade.
-            </p>
-          </Card>
-
-          <Card
-            className="p-4 sm:p-5 md:p-6 bg-card/10 backdrop-blur-sm border-border/50 shadow-card hover:shadow-elegant hover:bg-card/10 transition-all duration-300 hover:-translate-y-1 animate-fade-up"
-            style={{ animationDelay: "0.6s" }}
-          >
-            <div className="w-10 sm:w-12 h-10 sm:h-12 rounded-lg bg-accent/20 flex items-center justify-center mb-3 sm:mb-4">
-              <Shield className="w-5 sm:w-6 h-5 sm:h-6 text-accent" />
-            </div>
-            <h3 className="text-lg sm:text-xl font-semibold mb-2 text-white">
-              Dados Seguros
-            </h3>
-            <p className="text-sm sm:text-base text-white/80">
-              Suas respostas são armazenadas com segurança e tratamento adequado.
-            </p>
-          </Card>
+          {/* Cards de recursos */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+            {HOME_FEATURES.map(({ Icon, title, desc, tile, ring, icon, glow }) => (
+              <div
+                key={title}
+                className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-5 sm:p-6 transition-all duration-300 hover:border-white/25 hover:-translate-y-1 hover:bg-white/[0.05]"
+              >
+                <div
+                  aria-hidden="true"
+                  className={`pointer-events-none absolute -top-14 left-1/2 h-28 w-28 -translate-x-1/2 rounded-full ${glow} opacity-0 blur-2xl transition-opacity duration-300 group-hover:opacity-100`}
+                />
+                <div className="relative">
+                  <div
+                    className={`mb-4 sm:mb-5 inline-flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-xl bg-gradient-to-br ${tile} ring-1 ${ring}`}
+                  >
+                    <Icon className={`h-5 w-5 sm:h-6 sm:w-6 ${icon}`} />
+                  </div>
+                  <h3 className="mb-2 text-lg font-semibold text-white">{title}</h3>
+                  <p className="text-sm leading-relaxed text-white/60">{desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
         <TimelineComoFunciona />
