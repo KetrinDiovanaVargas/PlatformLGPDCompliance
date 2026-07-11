@@ -1,5 +1,7 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import TimelineComoFunciona from "@/components/TimelineComoFunciona";
+import ContactModal from "@/components/ContactModal";
 import { useNavigate } from "react-router-dom";
 import {
   Shield,
@@ -11,6 +13,7 @@ import {
   Users,
   LogIn,
   ArrowDown,
+  Mail,
 } from "lucide-react";
 import { db } from "@/lib/firebase";
 import { collection, getDocs } from "firebase/firestore";
@@ -113,6 +116,7 @@ export const WelcomeScreen = ({
   target,
 }: WelcomeScreenProps) => {
   const navigate = useNavigate();
+  const [contactOpen, setContactOpen] = useState(false);
 
   const isInvitationMode = Boolean(title || description || target);
 
@@ -285,7 +289,34 @@ export const WelcomeScreen = ({
             ))}
           </div>
         </section>
+
+        {/* PARTE 4 — Contato */}
+        <section className="pb-16 md:pb-24">
+          <div className="mx-auto max-w-3xl rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.06] to-white/[0.02] px-6 py-10 sm:px-10 sm:py-12 text-center">
+            <span className="inline-block text-xs font-semibold uppercase tracking-[0.2em] text-cyan-300/80 mb-3">
+              Contato
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-bold text-white text-balance">
+              Quer conhecer melhor a ferramenta?
+            </h2>
+            <p className="mt-3 text-sm sm:text-base text-white/60 max-w-md mx-auto">
+              Solicite uma demonstração ou fale com a gente. Respondemos no seu e-mail.
+            </p>
+            <div className="mt-7 flex justify-center">
+              <Button
+                onClick={() => setContactOpen(true)}
+                size="lg"
+                className="group gap-2 rounded-full px-8 py-6 text-base sm:text-lg font-semibold bg-gradient-to-r from-cyan-500 to-blue-600 text-white ring-1 ring-white/20 shadow-lg shadow-blue-900/40 hover:brightness-110 hover:shadow-xl transition-all duration-300"
+              >
+                <Mail className="h-5 w-5" />
+                Entrar em contato
+              </Button>
+            </div>
+          </div>
+        </section>
       </div>
+
+      <ContactModal open={contactOpen} onClose={() => setContactOpen(false)} />
     </div>
   );
 };
