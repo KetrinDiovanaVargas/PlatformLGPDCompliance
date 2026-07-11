@@ -29,6 +29,7 @@ import adminConsolidatedAnalysisRouter from "./routes/adminConsolidatedAnalysis.
 import aiStatusRouter from "./routes/aiStatus.mjs";
 import queueStatusRouter from "./routes/queueStatus.mjs";
 import cacheStatusRouter from "./routes/cacheStatus.mjs";
+import contactRouter from "./routes/contact.mjs";
 import sitemapRouter from "./routes/sitemap.mjs";
 
 const app = express();
@@ -128,6 +129,9 @@ app.use("/api/queue-status", apiLimiter, queueStatusRouter);
 
 // Cache Status (público para visualização, com rate limit)
 app.use("/api/cache-status", apiLimiter, cacheStatusRouter);
+
+// Contato (público, com rate limit)
+app.use("/api/contact", apiLimiter, contactRouter);
 
 // ========================================================================
 // PROTECTED ROUTES (Requerem Autenticação)

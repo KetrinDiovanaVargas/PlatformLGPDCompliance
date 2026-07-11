@@ -1,6 +1,7 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import TimelineComoFunciona from "@/components/TimelineComoFunciona";
+import ContactModal from "@/components/ContactModal";
 import { useNavigate } from "react-router-dom";
 import {
   Shield,
@@ -12,9 +13,68 @@ import {
   Users,
   LogIn,
   ArrowDown,
+  Mail,
 } from "lucide-react";
 import { db } from "@/lib/firebase";
 import { collection, getDocs } from "firebase/firestore";
+
+// Recursos da plataforma (cada card tem seu acento de cor)
+const HOME_FEATURES = [
+  {
+    Icon: FileCheck,
+    title: "Questionário Dinâmico",
+    desc: "Perguntas adaptativas baseadas no seu setor, contexto e perfil de resposta.",
+    tile: "from-blue-500/25 to-blue-500/5",
+    ring: "ring-blue-400/30",
+    icon: "text-blue-300",
+    glow: "bg-blue-500/25",
+  },
+  {
+    Icon: BarChart3,
+    title: "Análise Inteligente",
+    desc: "Processamento avançado das respostas com IA para um diagnóstico mais preciso.",
+    tile: "from-cyan-500/25 to-cyan-500/5",
+    ring: "ring-cyan-400/30",
+    icon: "text-cyan-300",
+    glow: "bg-cyan-500/25",
+  },
+  {
+    Icon: Lock,
+    title: "Dashboard Completo",
+    desc: "Visualização detalhada com gráficos, score e recomendações personalizadas.",
+    tile: "from-violet-500/25 to-violet-500/5",
+    ring: "ring-violet-400/30",
+    icon: "text-violet-300",
+    glow: "bg-violet-500/25",
+  },
+  {
+    Icon: CheckCircle,
+    title: "ISO/IEC 27001",
+    desc: "Recomendações alinhadas com controles internacionais de segurança.",
+    tile: "from-emerald-500/25 to-emerald-500/5",
+    ring: "ring-emerald-400/30",
+    icon: "text-emerald-300",
+    glow: "bg-emerald-500/25",
+  },
+  {
+    Icon: AlertTriangle,
+    title: "Análise de Riscos",
+    desc: "Identificação e classificação de riscos por categoria e prioridade.",
+    tile: "from-amber-500/25 to-amber-500/5",
+    ring: "ring-amber-400/30",
+    icon: "text-amber-300",
+    glow: "bg-amber-500/25",
+  },
+  {
+    Icon: Shield,
+    title: "Dados Seguros",
+    desc: "Suas respostas são armazenadas com segurança e tratamento adequado.",
+    tile: "from-fuchsia-500/25 to-fuchsia-500/5",
+    ring: "ring-fuchsia-400/30",
+    icon: "text-fuchsia-300",
+    glow: "bg-fuchsia-500/25",
+  },
+];
 
 interface WelcomeScreenProps {
   onStart: () => void;
@@ -56,6 +116,7 @@ export const WelcomeScreen = ({
   target,
 }: WelcomeScreenProps) => {
   const navigate = useNavigate();
+  const [contactOpen, setContactOpen] = useState(false);
 
   const isInvitationMode = Boolean(title || description || target);
 
@@ -92,8 +153,9 @@ export const WelcomeScreen = ({
         </Button>
       </div>
 
-      <div className="container relative z-10 px-4 py-8 sm:py-10 md:py-12 mx-auto max-w-7xl">
-        <div className="text-center mb-12 md:mb-16 animate-fade-up">
+      <div className="container relative z-10 px-4 mx-auto max-w-7xl">
+        {/* PARTE 1 — Hero em tela cheia (título + botão) */}
+        <section className="min-h-[100svh] flex flex-col items-center justify-center text-center animate-fade-up py-20">
           <div className="flex justify-center gap-2 sm:gap-3 mb-6 flex-wrap">
             <div
               className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2
@@ -170,112 +232,91 @@ export const WelcomeScreen = ({
             <Button
               onClick={() =>
                 document
-                  .getElementById("recursos")
+                  .getElementById("como-funciona")
                   ?.scrollIntoView({ behavior: "smooth" })
               }
               size="lg"
-              className="text-base sm:text-lg px-6 sm:px-8 md:px-10 py-3 sm:py-4 md:py-6 bg-gradient-to-r from-blue-600 to-indigo-600 shadow-elegant hover:shadow-glow transition-all duration-300 hover:scale-105"
+              className="group rounded-full px-8 py-6 text-base sm:text-lg font-semibold bg-gradient-to-r from-cyan-500 to-blue-600 text-white ring-1 ring-white/20 shadow-lg shadow-blue-900/40 hover:brightness-110 hover:shadow-xl transition-all duration-300"
             >
-              Conheça mais sobre a ferramenta
-              <ArrowDown className="ml-2 w-4 sm:w-5 h-4 sm:h-5" />
+              Conheça mais
+              <ArrowDown className="ml-2 w-5 h-5 group-hover:translate-y-0.5 transition-transform" />
             </Button>
           </div>
-        </div>
+        </section>
 
-        <div id="recursos" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6 mb-12 md:mb-16 scroll-mt-20">
-          <Card
-            className="p-4 sm:p-5 md:p-6 bg-card/10 backdrop-blur-sm border-border/50 shadow-card hover:shadow-elegant hover:bg-card/10 transition-all duration-300 hover:-translate-y-1 animate-fade-up"
-            style={{ animationDelay: "0.1s" }}
-          >
-            <div className="w-10 sm:w-12 h-10 sm:h-12 rounded-lg bg-primary/20 flex items-center justify-center mb-3 sm:mb-4">
-              <FileCheck className="w-5 sm:w-6 h-5 sm:h-6 text-primary" />
-            </div>
-            <h3 className="text-lg sm:text-xl font-semibold mb-2 text-white">
-              Questionário Dinâmico
-            </h3>
-            <p className="text-sm sm:text-base text-white/80">
-              Perguntas adaptativas baseadas no seu setor, contexto e perfil de resposta.
+        {/* PARTE 2 — Como funciona */}
+        <section id="como-funciona" className="scroll-mt-6 pb-16 md:pb-20">
+          <TimelineComoFunciona />
+        </section>
+
+        {/* PARTE 3 — Recursos */}
+        <section className="pb-16 md:pb-24">
+          {/* Cabeçalho da seção */}
+          <div className="text-center max-w-2xl mx-auto mb-10 md:mb-12">
+            <span className="inline-block text-xs font-semibold uppercase tracking-[0.2em] text-cyan-300/80 mb-3">
+              Recursos
+            </span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white text-balance">
+              Tudo para avaliar sua conformidade com a LGPD
+            </h2>
+            <p className="mt-3 text-sm sm:text-base text-white/60 max-w-xl mx-auto">
+              Do questionário adaptativo ao diagnóstico com recomendações práticas — em
+              uma plataforma só.
             </p>
-          </Card>
+          </div>
 
-          <Card
-            className="p-4 sm:p-5 md:p-6 bg-card/10 backdrop-blur-sm border-border/50 shadow-card hover:shadow-elegant hover:bg-card/10 transition-all duration-300 hover:-translate-y-1 animate-fade-up"
-            style={{ animationDelay: "0.2s" }}
-          >
-            <div className="w-10 sm:w-12 h-10 sm:h-12 rounded-lg bg-accent/20 flex items-center justify-center mb-3 sm:mb-4">
-              <BarChart3 className="w-5 sm:w-6 h-5 sm:h-6 text-accent" />
-            </div>
-            <h3 className="text-lg sm:text-xl font-semibold mb-2 text-white">
-              Análise Inteligente
-            </h3>
-            <p className="text-sm sm:text-base text-white/80">
-              Processamento avançado das respostas para diagnóstico mais preciso.
+          {/* Cards de recursos */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+            {HOME_FEATURES.map(({ Icon, title, desc, tile, ring, icon, glow }) => (
+              <div
+                key={title}
+                className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-5 sm:p-6 transition-all duration-300 hover:border-white/25 hover:-translate-y-1 hover:bg-white/[0.05]"
+              >
+                <div
+                  aria-hidden="true"
+                  className={`pointer-events-none absolute -top-14 left-1/2 h-28 w-28 -translate-x-1/2 rounded-full ${glow} opacity-0 blur-2xl transition-opacity duration-300 group-hover:opacity-100`}
+                />
+                <div className="relative">
+                  <div
+                    className={`mb-4 sm:mb-5 inline-flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-xl bg-gradient-to-br ${tile} ring-1 ${ring}`}
+                  >
+                    <Icon className={`h-5 w-5 sm:h-6 sm:w-6 ${icon}`} />
+                  </div>
+                  <h3 className="mb-2 text-lg font-semibold text-white">{title}</h3>
+                  <p className="text-sm leading-relaxed text-white/60">{desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* PARTE 4 — Contato */}
+        <section className="pb-16 md:pb-24">
+          <div className="w-full rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.06] to-white/[0.02] px-6 py-14 sm:px-10 sm:py-20 text-center">
+            <span className="inline-block text-xs font-semibold uppercase tracking-[0.2em] text-cyan-300/80 mb-3">
+              Contato
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-bold text-white text-balance">
+              Quer conhecer melhor a ferramenta?
+            </h2>
+            <p className="mt-3 text-sm sm:text-base text-white/60 max-w-md mx-auto">
+              Solicite uma demonstração ou fale com a gente. Respondemos no seu e-mail.
             </p>
-          </Card>
-
-          <Card
-            className="p-4 sm:p-5 md:p-6 bg-card/10 backdrop-blur-sm border-border/50 shadow-card hover:shadow-elegant hover:bg-card/10 transition-all duration-300 hover:-translate-y-1 animate-fade-up"
-            style={{ animationDelay: "0.3s" }}
-          >
-            <div className="w-10 sm:w-12 h-10 sm:h-12 rounded-lg bg-primary/20 flex items-center justify-center mb-3 sm:mb-4">
-              <Lock className="w-5 sm:w-6 h-5 sm:h-6 text-primary" />
+            <div className="mt-7 flex justify-center">
+              <Button
+                onClick={() => setContactOpen(true)}
+                size="lg"
+                className="group gap-2 rounded-full px-8 py-6 text-base sm:text-lg font-semibold bg-gradient-to-r from-cyan-500 to-blue-600 text-white ring-1 ring-white/20 shadow-lg shadow-blue-900/40 hover:brightness-110 hover:shadow-xl transition-all duration-300"
+              >
+                <Mail className="h-5 w-5" />
+                Entrar em contato
+              </Button>
             </div>
-            <h3 className="text-lg sm:text-xl font-semibold mb-2 text-white">
-              Dashboard Completo
-            </h3>
-            <p className="text-sm sm:text-base text-white/80">
-              Visualização detalhada com gráficos, score e recomendações personalizadas.
-            </p>
-          </Card>
-
-          <Card
-            className="p-4 sm:p-5 md:p-6 bg-card/10 backdrop-blur-sm border-border/50 shadow-card hover:shadow-elegant hover:bg-card/10 transition-all duration-300 hover:-translate-y-1 animate-fade-up"
-            style={{ animationDelay: "0.4s" }}
-          >
-            <div className="w-10 sm:w-12 h-10 sm:h-12 rounded-lg bg-accent/20 flex items-center justify-center mb-3 sm:mb-4">
-              <CheckCircle className="w-5 sm:w-6 h-5 sm:h-6 text-accent" />
-            </div>
-            <h3 className="text-lg sm:text-xl font-semibold mb-2 text-white">
-              ISO/IEC 27001
-            </h3>
-            <p className="text-sm sm:text-base text-white/80">
-              Recomendações alinhadas com controles internacionais de segurança.
-            </p>
-          </Card>
-
-          <Card
-            className="p-4 sm:p-5 md:p-6 bg-card/10 backdrop-blur-sm border-border/50 shadow-card hover:shadow-elegant hover:bg-card/10 transition-all duration-300 hover:-translate-y-1 animate-fade-up"
-            style={{ animationDelay: "0.5s" }}
-          >
-            <div className="w-10 sm:w-12 h-10 sm:h-12 rounded-lg bg-primary/20 flex items-center justify-center mb-3 sm:mb-4">
-              <AlertTriangle className="w-5 sm:w-6 h-5 sm:h-6 text-primary" />
-            </div>
-            <h3 className="text-lg sm:text-xl font-semibold mb-2 text-white">
-              Análise de Riscos
-            </h3>
-            <p className="text-sm sm:text-base text-white/80">
-              Identificação e classificação de riscos por categoria e prioridade.
-            </p>
-          </Card>
-
-          <Card
-            className="p-4 sm:p-5 md:p-6 bg-card/10 backdrop-blur-sm border-border/50 shadow-card hover:shadow-elegant hover:bg-card/10 transition-all duration-300 hover:-translate-y-1 animate-fade-up"
-            style={{ animationDelay: "0.6s" }}
-          >
-            <div className="w-10 sm:w-12 h-10 sm:h-12 rounded-lg bg-accent/20 flex items-center justify-center mb-3 sm:mb-4">
-              <Shield className="w-5 sm:w-6 h-5 sm:h-6 text-accent" />
-            </div>
-            <h3 className="text-lg sm:text-xl font-semibold mb-2 text-white">
-              Dados Seguros
-            </h3>
-            <p className="text-sm sm:text-base text-white/80">
-              Suas respostas são armazenadas com segurança e tratamento adequado.
-            </p>
-          </Card>
-        </div>
-
-        <TimelineComoFunciona />
+          </div>
+        </section>
       </div>
+
+      <ContactModal open={contactOpen} onClose={() => setContactOpen(false)} />
     </div>
   );
 };
