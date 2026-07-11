@@ -241,7 +241,7 @@ export const WelcomeScreen = ({
         </section>
 
         {/* PARTE 2 — Recursos */}
-        <section id="recursos" className="scroll-mt-24 py-16 md:py-24">
+        <section id="recursos" className="scroll-mt-16 pt-4 pb-16 md:pt-8 md:pb-20">
           {/* Cabeçalho da seção */}
           <div className="text-center max-w-2xl mx-auto mb-10 md:mb-12">
             <span className="inline-block text-xs font-semibold uppercase tracking-[0.2em] text-cyan-300/80 mb-3">
