@@ -228,7 +228,7 @@ export const WelcomeScreen = ({
             <Button
               onClick={() =>
                 document
-                  .getElementById("recursos")
+                  .getElementById("como-funciona")
                   ?.scrollIntoView({ behavior: "smooth" })
               }
               size="lg"
@@ -240,8 +240,13 @@ export const WelcomeScreen = ({
           </div>
         </section>
 
-        {/* PARTE 2 — Recursos */}
-        <section id="recursos" className="scroll-mt-16 pt-4 pb-16 md:pt-8 md:pb-20">
+        {/* PARTE 2 — Como funciona */}
+        <section id="como-funciona" className="scroll-mt-16 pt-4 pb-16 md:pt-8 md:pb-20">
+          <TimelineComoFunciona />
+        </section>
+
+        {/* PARTE 3 — Recursos */}
+        <section className="pb-16 md:pb-24">
           {/* Cabeçalho da seção */}
           <div className="text-center max-w-2xl mx-auto mb-10 md:mb-12">
             <span className="inline-block text-xs font-semibold uppercase tracking-[0.2em] text-cyan-300/80 mb-3">
@@ -279,11 +284,6 @@ export const WelcomeScreen = ({
               </div>
             ))}
           </div>
-        </section>
-
-        {/* PARTE 3 — Como funciona */}
-        <section className="pb-16 md:pb-24">
-          <TimelineComoFunciona />
         </section>
       </div>
     </div>
