@@ -1483,7 +1483,8 @@ Agradecemos pela sua colaboração.`;
           </section>
         )}
 
-        <section className="rounded-2xl bg-gradient-to-br from-slate-900/50 to-slate-800/20 border border-slate-700/50 p-6 space-y-4 shadow-lg">
+        <div className="grid gap-5 md:grid-cols-2">
+        <section className={`rounded-2xl bg-gradient-to-br from-slate-900/50 to-slate-800/20 border border-slate-700/50 p-6 space-y-4 shadow-lg ${role === "MASTER" || consolidatedAnalysis ? "md:col-span-2" : ""}`}>
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div className="flex items-start gap-4 min-w-0">
               <div className="hidden sm:flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-sky-500/25 to-blue-500/10 ring-1 ring-sky-400/30">
@@ -1695,6 +1696,7 @@ Agradecemos pela sua colaboração.`;
             </div>
           </section>
         )}
+        </div>
 
         {wizardOpen && (
           <FormCreationWizard
