@@ -54,6 +54,7 @@ import {
   Target,
   MessageCircle,
   Check,
+  Filter,
   X,
 } from "lucide-react";
 import { toast } from "sonner";
@@ -1080,7 +1081,13 @@ Agradecemos pela sua colaboração.`;
 
   // Feedback: quem concluiu a avaliação respondeu (ou não) o feedback
   const feedbackData = useMemo(() => {
-    const completedSessions = sessions.filter((s) => s.status === "completed");
+    const completedSessions = sessions.filter(
+      (s) =>
+        s.status === "completed" &&
+        (selectedAssessmentsForChart.size === 0 ||
+          (s.assessmentId != null &&
+            selectedAssessmentsForChart.has(s.assessmentId)))
+    );
     const responded = completedSessions.filter((s) =>
       feedbackSessionIds.has(s.sessionId)
     ).length;
@@ -1095,7 +1102,7 @@ Agradecemos pela sua colaboração.`;
         { name: "Não responderam", value: notResponded },
       ],
     };
-  }, [sessions, feedbackSessionIds]);
+  }, [sessions, feedbackSessionIds, selectedAssessmentsForChart]);
 
   // Checklist de ações recomendadas (derivado da análise consolidada)
   const actionChecklist = useMemo(() => {
@@ -2238,7 +2245,40 @@ Agradecemos pela sua colaboração.`;
         </section>
 
         {/* Feedback: 2 cards separados (responderam / não responderam) */}
-        <section className="grid gap-5 md:grid-cols-2">
+        <section className="space-y-4">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 className="text-base font-semibold text-slate-100">
+                Feedback dos Respondentes
+              </h2>
+              <p className="text-xs text-slate-400">
+                {selectedAssessmentsForChart.size > 0
+                  ? `Filtrando ${selectedAssessmentsForChart.size} formulário(s)`
+                  : "Todos os formulários"}
+              </p>
+            </div>
+            {barData && barData.length > 0 && (
+              <div className="flex items-center gap-2">
+                {selectedAssessmentsForChart.size > 0 && (
+                  <button
+                    onClick={() => setSelectedAssessmentsForChart(new Set())}
+                    className="text-xs px-3 py-1.5 rounded-lg bg-slate-700/40 text-slate-300 border border-slate-600/40 hover:bg-slate-700/60 transition-colors font-medium"
+                  >
+                    Limpar
+                  </button>
+                )}
+                <button
+                  onClick={() => setShowChartFilterModal(true)}
+                  className="text-xs px-3 py-1.5 rounded-lg bg-sky-500/20 text-sky-300 border border-sky-500/30 hover:bg-sky-500/30 transition-colors font-medium inline-flex items-center gap-1.5"
+                >
+                  <Filter className="w-3.5 h-3.5" />
+                  Filtrar por formulário
+                </button>
+              </div>
+            )}
+          </div>
+
+          <div className="grid gap-5 md:grid-cols-2">
           {[
             {
               key: "responderam",
@@ -2329,6 +2369,7 @@ Agradecemos pela sua colaboração.`;
               </div>
             );
           })}
+          </div>
         </section>
 
         <section className="grid gap-5 md:grid-cols-1">
