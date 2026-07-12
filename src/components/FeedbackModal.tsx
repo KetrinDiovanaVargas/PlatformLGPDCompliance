@@ -16,7 +16,7 @@ type FeedbackModalProps = {
   loading?: boolean;
 };
 
-const FEEDBACK_QUESTIONS = [
+export const FEEDBACK_QUESTIONS = [
   {
     id: 1,
     category: "Utilidade percebida",
