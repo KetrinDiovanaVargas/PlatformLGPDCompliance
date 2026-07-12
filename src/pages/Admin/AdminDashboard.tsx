@@ -1483,21 +1483,26 @@ Agradecemos pela sua colaboração.`;
           </section>
         )}
 
-        <section className="rounded-lg bg-slate-900/50 border border-slate-800 p-6 space-y-4">
+        <section className="rounded-2xl bg-gradient-to-br from-slate-900/50 to-slate-800/20 border border-slate-700/50 p-6 space-y-4 shadow-lg">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div className="min-w-0">
-              <h3 className="text-sm font-semibold text-slate-100">
-                Análise Consolidada
-              </h3>
-              <p className="mt-1 text-xs text-slate-400">
-                Gere insights agregados de uma avaliação selecionada.
-              </p>
+            <div className="flex items-start gap-4 min-w-0">
+              <div className="hidden sm:flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-sky-500/25 to-blue-500/10 ring-1 ring-sky-400/30">
+                <Sparkles className="w-5 h-5 text-sky-300" />
+              </div>
+              <div className="min-w-0">
+                <h3 className="text-base font-semibold text-slate-100">
+                  Análise Consolidada
+                </h3>
+                <p className="mt-1 text-sm text-slate-400">
+                  Gere insights agregados de uma avaliação selecionada.
+                </p>
+              </div>
             </div>
 
             <Button
               onClick={() => setShowAssessmentSelector(true)}
               disabled={loadingConsolidated}
-              className="shrink-0 rounded-lg bg-sky-500 hover:bg-sky-600 disabled:opacity-50 text-white text-sm font-medium gap-2 inline-flex items-center px-4 py-2"
+              className="shrink-0 rounded-lg bg-sky-500 hover:bg-sky-600 disabled:opacity-50 text-white text-sm font-medium gap-2 inline-flex items-center px-5 py-2.5"
             >
               <Sparkles className="w-4 h-4" />
               {loadingConsolidated ? "Gerando..." : "Gerar"}
@@ -1665,19 +1670,24 @@ Agradecemos pela sua colaboração.`;
         </section>
 
         {role !== "MASTER" && (
-          <section className="rounded-lg bg-slate-900/50 border border-slate-800 p-4">
-            <div className="flex items-center justify-between gap-4">
-              <div className="min-w-0">
-                <h3 className="text-sm font-semibold text-slate-100">
-                  Criar nova avaliação
-                </h3>
-                <p className="mt-1 text-xs text-slate-400">
-                  Use o assistente para configurar uma nova avaliação de compliance LGPD.
-                </p>
+          <section className="rounded-2xl bg-gradient-to-br from-slate-900/50 to-slate-800/20 border border-slate-700/50 p-6 shadow-lg">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div className="flex items-start gap-4 min-w-0">
+                <div className="hidden sm:flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500/25 to-fuchsia-500/10 ring-1 ring-violet-400/30">
+                  <FolderKanban className="w-5 h-5 text-violet-300" />
+                </div>
+                <div className="min-w-0">
+                  <h3 className="text-base font-semibold text-slate-100">
+                    Criar nova avaliação
+                  </h3>
+                  <p className="mt-1 text-sm text-slate-400">
+                    Use o assistente para configurar uma nova avaliação de compliance LGPD.
+                  </p>
+                </div>
               </div>
               <Button
                 onClick={() => setWizardOpen(true)}
-                className="shrink-0 rounded-lg bg-sky-500 hover:bg-sky-600 text-white text-sm font-medium gap-2 inline-flex items-center"
+                className="shrink-0 rounded-lg bg-sky-500 hover:bg-sky-600 text-white text-sm font-medium gap-2 inline-flex items-center px-5 py-2.5"
               >
                 <PlusCircle className="w-4 h-4" />
                 Nova Avaliação
