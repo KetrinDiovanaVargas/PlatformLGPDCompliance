@@ -181,6 +181,7 @@ export default function AdminDashboard() {
 
   const [assessments, setAssessments] = useState<Assessment[]>([]);
   const [sessions, setSessions] = useState<SessionItem[]>([]);
+  const [feedbackSessionIds, setFeedbackSessionIds] = useState<Set<string>>(new Set());
   const [admins, setAdmins] = useState<AdminItem[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -381,6 +382,19 @@ Agradecemos pela sua colaboração.`;
       setLoading(true);
 
       if (!role || !adminUid) return;
+
+      // Carrega os sessionIds que já enviaram feedback (dados reais do banco)
+      try {
+        const feedbackSnap = await getDocs(collection(db, "feedback"));
+        const ids = new Set<string>();
+        feedbackSnap.docs.forEach((d) => {
+          const sid = (d.data() as { sessionId?: string })?.sessionId;
+          if (sid) ids.add(String(sid));
+        });
+        setFeedbackSessionIds(ids);
+      } catch (err) {
+        console.error("Erro ao carregar feedback:", err);
+      }
 
       if (role === "MASTER") {
         const assessmentsSnap = await getDocs(collection(db, "assessments"));
@@ -1062,6 +1076,25 @@ Agradecemos pela sua colaboração.`;
     ];
   }, [sessions]);
 
+  // Feedback: quem concluiu a avaliação respondeu (ou não) o feedback
+  const feedbackData = useMemo(() => {
+    const completedSessions = sessions.filter((s) => s.status === "completed");
+    const responded = completedSessions.filter((s) =>
+      feedbackSessionIds.has(s.sessionId)
+    ).length;
+    const notResponded = Math.max(0, completedSessions.length - responded);
+
+    return {
+      total: completedSessions.length,
+      responded,
+      notResponded,
+      chart: [
+        { name: "Responderam", value: responded },
+        { name: "Não responderam", value: notResponded },
+      ],
+    };
+  }, [sessions, feedbackSessionIds]);
+
   const barData = useMemo(() => {
     return assessments.map((a) => {
       const assessmentSessions = sessions.filter(s => s.assessmentId === a.id && s.status === 'completed');
@@ -1452,7 +1485,7 @@ Agradecemos pela sua colaboração.`;
 
         <section className="rounded-lg bg-slate-900/50 border border-slate-800 p-6 space-y-4">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div>
+            <div className="min-w-0">
               <h3 className="text-sm font-semibold text-slate-100">
                 Análise Consolidada
               </h3>
@@ -1464,7 +1497,7 @@ Agradecemos pela sua colaboração.`;
             <Button
               onClick={() => setShowAssessmentSelector(true)}
               disabled={loadingConsolidated}
-              className="rounded-lg bg-sky-500 hover:bg-sky-600 disabled:opacity-50 text-white text-sm font-medium gap-2 inline-flex items-center px-4 py-2"
+              className="shrink-0 rounded-lg bg-sky-500 hover:bg-sky-600 disabled:opacity-50 text-white text-sm font-medium gap-2 inline-flex items-center px-4 py-2"
             >
               <Sparkles className="w-4 h-4" />
               {loadingConsolidated ? "Gerando..." : "Gerar"}
@@ -1634,7 +1667,7 @@ Agradecemos pela sua colaboração.`;
         {role !== "MASTER" && (
           <section className="rounded-lg bg-slate-900/50 border border-slate-800 p-4">
             <div className="flex items-center justify-between gap-4">
-              <div>
+              <div className="min-w-0">
                 <h3 className="text-sm font-semibold text-slate-100">
                   Criar nova avaliação
                 </h3>
@@ -2068,6 +2101,100 @@ Agradecemos pela sua colaboração.`;
               </ResponsiveContainer>
             </div>
           </div>
+        </section>
+
+        {/* Feedback: 2 cards separados (responderam / não responderam) */}
+        <section className="grid gap-5 md:grid-cols-2">
+          {[
+            {
+              key: "responderam",
+              titulo: "Responderam o feedback",
+              sub: "Concluíram a avaliação e avaliaram a ferramenta",
+              valor: feedbackData.responded,
+              cor: "#22c55e",
+              icon: <MessageCircle className="w-5 h-5 text-emerald-400" />,
+            },
+            {
+              key: "nao-responderam",
+              titulo: "Não responderam",
+              sub: "Concluíram a avaliação, mas não deram feedback",
+              valor: feedbackData.notResponded,
+              cor: "#f59e0b",
+              icon: <Clock3 className="w-5 h-5 text-amber-400" />,
+            },
+          ].map((c) => {
+            const pct =
+              feedbackData.total > 0
+                ? Math.round((c.valor / feedbackData.total) * 100)
+                : 0;
+            const donut = [
+              { name: c.titulo, value: c.valor },
+              { name: "Restante", value: Math.max(0, feedbackData.total - c.valor) },
+            ];
+            return (
+              <div
+                key={c.key}
+                className="rounded-2xl bg-gradient-to-br from-slate-900/40 to-slate-800/20 border border-slate-700/50 p-6 shadow-lg"
+              >
+                <div className="mb-5">
+                  <h2 className="text-base font-semibold text-slate-100 mb-1 flex items-center gap-2">
+                    {c.icon}
+                    {c.titulo}
+                  </h2>
+                  <p className="text-xs text-slate-400">{c.sub}</p>
+                </div>
+
+                {feedbackData.total > 0 ? (
+                  <div className="flex items-center gap-6">
+                    <div className="relative w-[150px] h-[150px] shrink-0">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <PieChart>
+                          <Pie
+                            data={donut}
+                            dataKey="value"
+                            innerRadius={48}
+                            outerRadius={70}
+                            startAngle={90}
+                            endAngle={-270}
+                            stroke="none"
+                          >
+                            <Cell fill={c.cor} />
+                            <Cell fill="#1e293b" />
+                          </Pie>
+                        </PieChart>
+                      </ResponsiveContainer>
+                      <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                        <span className="text-3xl font-bold text-slate-100">
+                          {c.valor}
+                        </span>
+                        <span className="text-[11px] text-slate-400">
+                          de {feedbackData.total}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div
+                        className="text-4xl font-bold leading-none"
+                        style={{ color: c.cor }}
+                      >
+                        {pct}%
+                      </div>
+                      <p className="mt-2 text-sm text-slate-400">
+                        {c.valor} de {feedbackData.total}{" "}
+                        {feedbackData.total === 1
+                          ? "avaliação concluída"
+                          : "avaliações concluídas"}
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex items-center justify-center h-[150px] text-sm text-slate-500">
+                    Sem avaliações concluídas ainda.
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </section>
 
         <section className="grid gap-5 md:grid-cols-1">
