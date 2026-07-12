@@ -1484,7 +1484,7 @@ Agradecemos pela sua colaboração.`;
         )}
 
         <div className="grid gap-5 md:grid-cols-2">
-        <section className={`rounded-2xl bg-gradient-to-br from-slate-900/50 to-slate-800/20 border border-slate-700/50 p-6 space-y-4 shadow-lg ${role === "MASTER" || consolidatedAnalysis ? "md:col-span-2" : ""}`}>
+        <section className={`rounded-2xl bg-gradient-to-br from-slate-900/50 to-slate-800/20 border border-slate-700/50 p-6 space-y-4 shadow-lg ${role === "MASTER" ? "md:col-span-2" : ""}`}>
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div className="flex items-start gap-4 min-w-0">
               <div className="hidden sm:flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-sky-500/25 to-blue-500/10 ring-1 ring-sky-400/30">
@@ -1509,12 +1509,30 @@ Agradecemos pela sua colaboração.`;
               {loadingConsolidated ? "Gerando..." : "Gerar"}
             </Button>
           </div>
+        </section>
 
+        {/* Modal com o resultado da Análise Consolidada */}
+        {consolidatedAnalysis && (
+          <div
+            className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/60 backdrop-blur-sm p-4 pt-10 sm:pt-16"
+            onClick={() => setConsolidatedAnalysis(null)}
+          >
+            <div
+              className="w-full max-w-3xl rounded-2xl bg-slate-950 border border-slate-800 shadow-2xl p-6"
+              onClick={(e) => e.stopPropagation()}
+            >
           {consolidatedAnalysis?.mode === "empty" ? (
-            <div className="rounded-lg border border-amber-500/20 bg-amber-500/10 p-4">
+            <div className="flex items-start justify-between gap-4 rounded-lg border border-amber-500/20 bg-amber-500/10 p-4">
               <p className="text-sm text-amber-200">
                 Nenhum relatório encontrado para esta avaliação.
               </p>
+              <button
+                onClick={() => setConsolidatedAnalysis(null)}
+                className="shrink-0 text-slate-400 hover:text-slate-200"
+                title="Fechar"
+              >
+                <span className="text-xl">✕</span>
+              </button>
             </div>
           ) : consolidatedAnalysis ? (
             <div className="space-y-4">
@@ -1668,7 +1686,9 @@ Agradecemos pela sua colaboração.`;
               </div>
             </div>
           ) : null}
-        </section>
+            </div>
+          </div>
+        )}
 
         {role !== "MASTER" && (
           <section className="rounded-2xl bg-gradient-to-br from-slate-900/50 to-slate-800/20 border border-slate-700/50 p-6 shadow-lg">
