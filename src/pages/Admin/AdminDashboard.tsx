@@ -1188,7 +1188,13 @@ Agradecemos pela sua colaboração.`;
       riskMap.set(axis, { critico: 0, alto: 0, medio: 0 });
     });
 
-    const completedSessions = sessions.filter((s) => s.status === "completed");
+    const completedSessions = sessions.filter(
+      (s) =>
+        s.status === "completed" &&
+        (selectedAssessmentsForChart.size === 0 ||
+          (s.assessmentId != null &&
+            selectedAssessmentsForChart.has(s.assessmentId)))
+    );
     completedSessions.forEach((s) => {
       // O relatório real guarda as fragilidades críticas como texto em
       // metrics.criticalIssues (sem severidade por eixo). Categorizamos cada
@@ -1221,7 +1227,7 @@ Agradecemos pela sua colaboração.`;
       eixo: axis,
       ...riskMap.get(axis)!,
     }));
-  }, [sessions]);
+  }, [sessions, selectedAssessmentsForChart]);
 
   const maturityDistribution = useMemo(() => {
     const ranges = {
@@ -2380,12 +2386,37 @@ Agradecemos pela sua colaboração.`;
 
         <section className="grid gap-5 md:grid-cols-1">
           <div className="rounded-2xl bg-gradient-to-br from-red-900/15 to-slate-800/20 border border-red-700/30 p-6 h-[420px] shadow-lg">
-            <div className="mb-4">
-              <h2 className="text-base font-semibold text-red-100 flex items-center gap-2">
-                <AlertTriangle className="w-5 h-5 text-red-400" />
-                Análise de Risco
-              </h2>
-              <p className="text-xs text-slate-400">Identificação de fragilidades críticas por eixo</p>
+            <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <h2 className="text-base font-semibold text-red-100 flex items-center gap-2">
+                  <AlertTriangle className="w-5 h-5 text-red-400" />
+                  Análise de Risco
+                </h2>
+                <p className="text-xs text-slate-400">
+                  {selectedAssessmentsForChart.size > 0
+                    ? `Fragilidades por eixo — ${selectedAssessmentsForChart.size} formulário(s)`
+                    : "Identificação de fragilidades críticas por eixo"}
+                </p>
+              </div>
+              {barData && barData.length > 0 && (
+                <div className="flex items-center gap-2">
+                  {selectedAssessmentsForChart.size > 0 && (
+                    <button
+                      onClick={() => setSelectedAssessmentsForChart(new Set())}
+                      className="text-xs px-3 py-1.5 rounded-lg bg-slate-700/40 text-slate-300 border border-slate-600/40 hover:bg-slate-700/60 transition-colors font-medium"
+                    >
+                      Limpar
+                    </button>
+                  )}
+                  <button
+                    onClick={() => setShowChartFilterModal(true)}
+                    className="text-xs px-3 py-1.5 rounded-lg bg-red-500/20 text-red-200 border border-red-500/30 hover:bg-red-500/30 transition-colors font-medium inline-flex items-center gap-1.5"
+                  >
+                    <Filter className="w-3.5 h-3.5" />
+                    Filtrar por formulário
+                  </button>
+                </div>
+              )}
             </div>
 
             <div className="h-[280px]">
