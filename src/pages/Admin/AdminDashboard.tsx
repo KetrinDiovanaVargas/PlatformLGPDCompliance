@@ -1870,8 +1870,14 @@ Agradecemos pela sua colaboração.`;
         )}
 
         {showChartFilterModal && barData && barData.length > 0 && (
-          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-start justify-center z-50 overflow-y-auto p-4 pt-20">
-            <Card className="w-full max-w-md bg-slate-950 border border-slate-800 shadow-2xl">
+          <div
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 overflow-y-auto p-4"
+            onClick={() => setShowChartFilterModal(false)}
+          >
+            <Card
+              className="w-full max-w-md bg-slate-950 border border-slate-800 shadow-2xl my-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
               <div className="space-y-6 p-6 md:p-8">
                 <div className="flex items-start justify-between gap-4">
                   <div>
