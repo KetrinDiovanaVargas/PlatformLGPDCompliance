@@ -53,6 +53,7 @@ import {
   Flame,
   Target,
   MessageCircle,
+  Check,
   X,
 } from "lucide-react";
 import { toast } from "sonner";
@@ -182,6 +183,7 @@ export default function AdminDashboard() {
   const [assessments, setAssessments] = useState<Assessment[]>([]);
   const [sessions, setSessions] = useState<SessionItem[]>([]);
   const [feedbackSessionIds, setFeedbackSessionIds] = useState<Set<string>>(new Set());
+  const [checkedActions, setCheckedActions] = useState<Set<string>>(new Set());
   const [admins, setAdmins] = useState<AdminItem[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -1095,6 +1097,34 @@ Agradecemos pela sua colaboração.`;
     };
   }, [sessions, feedbackSessionIds]);
 
+  // Checklist de ações recomendadas (derivado da análise consolidada)
+  const actionChecklist = useMemo(() => {
+    if (!consolidatedAnalysis || consolidatedAnalysis.mode === "empty") return [];
+    const items: { id: string; label: string; priority: string }[] = [];
+
+    (consolidatedAnalysis.topCriticalIssues || []).slice(0, 4).forEach((issue: any, i: number) => {
+      if (issue?.label) {
+        items.push({ id: `risk-${i}`, label: `Tratar: ${issue.label}`, priority: "Alta" });
+      }
+    });
+
+    (consolidatedAnalysis.recommendations || []).forEach((rec: any, i: number) => {
+      if (rec?.title) {
+        items.push({ id: `rec-${i}`, label: rec.title, priority: rec.priority || "Média" });
+      }
+    });
+
+    return items;
+  }, [consolidatedAnalysis]);
+
+  const toggleAction = (id: string) => {
+    setCheckedActions((prev) => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  };
+
   const barData = useMemo(() => {
     return assessments.map((a) => {
       const assessmentSessions = sessions.filter(s => s.assessmentId === a.id && s.status === 'completed');
@@ -1645,6 +1675,78 @@ Agradecemos pela sua colaboração.`;
                         </span>
                       </li>
                     ))}
+                  </ul>
+                </div>
+              )}
+
+              {actionChecklist.length > 0 && (
+                <div className="rounded-lg border border-cyan-500/20 bg-cyan-500/10 p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <h4 className="text-xs font-semibold text-cyan-200 uppercase tracking-wider flex items-center gap-2">
+                      <ClipboardList className="w-3.5 h-3.5" />
+                      Checklist de Ações
+                    </h4>
+                    <span className="text-[11px] text-cyan-200/70">
+                      {actionChecklist.filter((a) => checkedActions.has(a.id)).length} de{" "}
+                      {actionChecklist.length} concluídas
+                    </span>
+                  </div>
+
+                  <div className="w-full h-1.5 rounded-full bg-slate-800 overflow-hidden mb-3">
+                    <div
+                      className="h-full bg-gradient-to-r from-cyan-500 to-emerald-400 transition-all duration-300"
+                      style={{
+                        width: `${
+                          actionChecklist.length
+                            ? (actionChecklist.filter((a) => checkedActions.has(a.id)).length /
+                                actionChecklist.length) *
+                              100
+                            : 0
+                        }%`,
+                      }}
+                    />
+                  </div>
+
+                  <ul className="space-y-2">
+                    {actionChecklist.map((action) => {
+                      const done = checkedActions.has(action.id);
+                      return (
+                        <li key={action.id}>
+                          <button
+                            onClick={() => toggleAction(action.id)}
+                            className="group flex w-full items-start gap-3 text-left"
+                          >
+                            <span
+                              className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border transition-colors ${
+                                done
+                                  ? "border-emerald-500 bg-emerald-500"
+                                  : "border-slate-500 group-hover:border-cyan-400"
+                              }`}
+                            >
+                              {done && <Check className="h-3 w-3 text-white" />}
+                            </span>
+                            <span
+                              className={`flex-1 text-xs ${
+                                done ? "text-slate-500 line-through" : "text-cyan-100"
+                              }`}
+                            >
+                              {action.label}
+                            </span>
+                            <span
+                              className={`shrink-0 text-[10px] font-medium px-2 py-0.5 rounded ${
+                                action.priority === "Alta"
+                                  ? "bg-red-500/20 text-red-200"
+                                  : action.priority === "Média"
+                                  ? "bg-amber-500/20 text-amber-200"
+                                  : "bg-emerald-500/20 text-emerald-200"
+                              }`}
+                            >
+                              {action.priority}
+                            </span>
+                          </button>
+                        </li>
+                      );
+                    })}
                   </ul>
                 </div>
               )}
