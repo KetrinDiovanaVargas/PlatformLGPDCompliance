@@ -9,8 +9,15 @@ import {
   CheckCircle2,
   Clock3,
   Send,
+  FileSpreadsheet,
 } from "lucide-react";
 import { toast } from "sonner";
+import { db } from "@/lib/firebase";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { FEEDBACK_QUESTIONS } from "@/components/FeedbackModal";
+
+const FEEDBACK_SCALE =
+  "1 = Discordo completamente | 2 = Discordo parcialmente | 3 = Concordo parcialmente | 4 = Concordo plenamente";
 
 type Assessment = {
   id: string;
@@ -48,6 +55,104 @@ export function AssessmentCard({
   const [menuOpen, setMenuOpen] = useState(false);
   const [toggling, setToggling] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [exporting, setExporting] = useState(false);
+
+  const handleExportFeedback = async () => {
+    setExporting(true);
+    try {
+      const snap = await getDocs(
+        query(collection(db, "feedback"), where("assessmentId", "==", assessment.id))
+      );
+
+      if (snap.empty) {
+        toast.error("Nenhum feedback para este formulário ainda.");
+        return;
+      }
+
+      const rows = snap.docs.map((d) => d.data() as any);
+
+      // Descobre os IDs de pergunta presentes
+      const qids = new Set<number>();
+      rows.forEach((r) =>
+        (r.responses || []).forEach((resp: any) => qids.add(Number(resp.questionId)))
+      );
+      const sortedQids = Array.from(qids).sort((a, b) => a - b);
+
+      const ExcelJS = (await import("exceljs")).default;
+      const wb = new ExcelJS.Workbook();
+
+      // Planilha principal
+      const ws = wb.addWorksheet("Feedbacks");
+      ws.columns = [
+        { header: "Sessão", key: "sessao", width: 26 },
+        { header: "Data/Hora", key: "data", width: 20 },
+        ...sortedQids.map((id) => ({ header: `P${id}`, key: `p${id}`, width: 7 })),
+        { header: "Média", key: "media", width: 10 },
+      ];
+
+      rows.forEach((r) => {
+        const answers: Record<string, number> = {};
+        let sum = 0;
+        let count = 0;
+        (r.responses || []).forEach((resp: any) => {
+          const v = Number(resp.answer);
+          answers[`p${resp.questionId}`] = v;
+          if (!Number.isNaN(v)) {
+            sum += v;
+            count++;
+          }
+        });
+        const ts =
+          r.timestamp?.toDate?.() ??
+          r.createdAt?.toDate?.() ??
+          (r.timestamp ? new Date(r.timestamp) : null);
+        ws.addRow({
+          sessao: r.sessionId || "—",
+          data: ts ? new Date(ts).toLocaleString("pt-BR") : "—",
+          ...answers,
+          media: count ? Number((sum / count).toFixed(2)) : "—",
+        });
+      });
+      ws.getRow(1).font = { bold: true };
+
+      // Planilha de legenda (perguntas + escala)
+      const legenda = wb.addWorksheet("Legenda");
+      legenda.columns = [
+        { header: "Código", key: "cod", width: 10 },
+        { header: "Pergunta", key: "txt", width: 90 },
+      ];
+      legenda.getRow(1).font = { bold: true };
+      FEEDBACK_QUESTIONS.forEach((q) => {
+        legenda.addRow({ cod: `P${q.id}`, txt: q.text });
+      });
+      legenda.addRow({});
+      legenda.addRow({ cod: "Escala", txt: FEEDBACK_SCALE });
+
+      const buffer = await wb.xlsx.writeBuffer();
+      const blob = new Blob([buffer], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      const nome = (assessment.title || "formulario")
+        .normalize("NFD")
+        .replace(/[̀-ͯ]/g, "")
+        .replace(/[^a-z0-9]+/gi, "-")
+        .toLowerCase();
+      link.download = `feedbacks-${nome}.xlsx`;
+      link.click();
+      URL.revokeObjectURL(url);
+
+      toast.success(`Excel gerado (${rows.length} feedback${rows.length !== 1 ? "s" : ""}).`);
+    } catch (err) {
+      console.error("Erro ao gerar Excel de feedbacks:", err);
+      toast.error("Erro ao gerar o Excel.");
+    } finally {
+      setExporting(false);
+      setMenuOpen(false);
+    }
+  };
 
   const handleToggle = async () => {
     setToggling(true);
@@ -148,6 +253,15 @@ export function AssessmentCard({
               >
                 <Copy className="w-4 h-4" />
                 Copiar link
+              </button>
+
+              <button
+                onClick={handleExportFeedback}
+                disabled={exporting}
+                className="w-full text-left px-4 py-2 text-sm text-emerald-200 hover:bg-emerald-950/30 flex items-center gap-2 border-b border-slate-800 disabled:opacity-50"
+              >
+                <FileSpreadsheet className="w-4 h-4" />
+                {exporting ? "Gerando Excel..." : "Gerar Excel dos feedbacks"}
               </button>
 
               <button

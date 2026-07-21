@@ -53,6 +53,8 @@ import {
   Flame,
   Target,
   MessageCircle,
+  Check,
+  Filter,
   X,
 } from "lucide-react";
 import { toast } from "sonner";
@@ -182,6 +184,7 @@ export default function AdminDashboard() {
   const [assessments, setAssessments] = useState<Assessment[]>([]);
   const [sessions, setSessions] = useState<SessionItem[]>([]);
   const [feedbackSessionIds, setFeedbackSessionIds] = useState<Set<string>>(new Set());
+  const [checkedActions, setCheckedActions] = useState<Set<string>>(new Set());
   const [admins, setAdmins] = useState<AdminItem[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -1078,7 +1081,13 @@ Agradecemos pela sua colaboração.`;
 
   // Feedback: quem concluiu a avaliação respondeu (ou não) o feedback
   const feedbackData = useMemo(() => {
-    const completedSessions = sessions.filter((s) => s.status === "completed");
+    const completedSessions = sessions.filter(
+      (s) =>
+        s.status === "completed" &&
+        (selectedAssessmentsForChart.size === 0 ||
+          (s.assessmentId != null &&
+            selectedAssessmentsForChart.has(s.assessmentId)))
+    );
     const responded = completedSessions.filter((s) =>
       feedbackSessionIds.has(s.sessionId)
     ).length;
@@ -1093,7 +1102,35 @@ Agradecemos pela sua colaboração.`;
         { name: "Não responderam", value: notResponded },
       ],
     };
-  }, [sessions, feedbackSessionIds]);
+  }, [sessions, feedbackSessionIds, selectedAssessmentsForChart]);
+
+  // Checklist de ações recomendadas (derivado da análise consolidada)
+  const actionChecklist = useMemo(() => {
+    if (!consolidatedAnalysis || consolidatedAnalysis.mode === "empty") return [];
+    const items: { id: string; label: string; priority: string }[] = [];
+
+    (consolidatedAnalysis.topCriticalIssues || []).slice(0, 4).forEach((issue: any, i: number) => {
+      if (issue?.label) {
+        items.push({ id: `risk-${i}`, label: `Tratar: ${issue.label}`, priority: "Alta" });
+      }
+    });
+
+    (consolidatedAnalysis.recommendations || []).forEach((rec: any, i: number) => {
+      if (rec?.title) {
+        items.push({ id: `rec-${i}`, label: rec.title, priority: rec.priority || "Média" });
+      }
+    });
+
+    return items;
+  }, [consolidatedAnalysis]);
+
+  const toggleAction = (id: string) => {
+    setCheckedActions((prev) => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  };
 
   const barData = useMemo(() => {
     return assessments.map((a) => {
@@ -1151,7 +1188,13 @@ Agradecemos pela sua colaboração.`;
       riskMap.set(axis, { critico: 0, alto: 0, medio: 0 });
     });
 
-    const completedSessions = sessions.filter((s) => s.status === "completed");
+    const completedSessions = sessions.filter(
+      (s) =>
+        s.status === "completed" &&
+        (selectedAssessmentsForChart.size === 0 ||
+          (s.assessmentId != null &&
+            selectedAssessmentsForChart.has(s.assessmentId)))
+    );
     completedSessions.forEach((s) => {
       // O relatório real guarda as fragilidades críticas como texto em
       // metrics.criticalIssues (sem severidade por eixo). Categorizamos cada
@@ -1184,7 +1227,7 @@ Agradecemos pela sua colaboração.`;
       eixo: axis,
       ...riskMap.get(axis)!,
     }));
-  }, [sessions]);
+  }, [sessions, selectedAssessmentsForChart]);
 
   const maturityDistribution = useMemo(() => {
     const ranges = {
@@ -1483,32 +1526,56 @@ Agradecemos pela sua colaboração.`;
           </section>
         )}
 
-        <section className="rounded-lg bg-slate-900/50 border border-slate-800 p-6 space-y-4">
+        <div className="grid gap-5 md:grid-cols-2">
+        <section className={`rounded-2xl bg-gradient-to-br from-slate-900/50 to-slate-800/20 border border-slate-700/50 p-6 space-y-4 shadow-lg ${role === "MASTER" ? "md:col-span-2" : ""}`}>
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div className="min-w-0">
-              <h3 className="text-sm font-semibold text-slate-100">
-                Análise Consolidada
-              </h3>
-              <p className="mt-1 text-xs text-slate-400">
-                Gere insights agregados de uma avaliação selecionada.
-              </p>
+            <div className="flex items-start gap-4 min-w-0">
+              <div className="hidden sm:flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-sky-500/25 to-blue-500/10 ring-1 ring-sky-400/30">
+                <Sparkles className="w-5 h-5 text-sky-300" />
+              </div>
+              <div className="min-w-0">
+                <h3 className="text-base font-semibold text-slate-100">
+                  Análise Consolidada
+                </h3>
+                <p className="mt-1 text-sm text-slate-400">
+                  Gere insights agregados de uma avaliação selecionada.
+                </p>
+              </div>
             </div>
 
             <Button
               onClick={() => setShowAssessmentSelector(true)}
               disabled={loadingConsolidated}
-              className="shrink-0 rounded-lg bg-sky-500 hover:bg-sky-600 disabled:opacity-50 text-white text-sm font-medium gap-2 inline-flex items-center px-4 py-2"
+              className="shrink-0 rounded-lg bg-sky-500 hover:bg-sky-600 disabled:opacity-50 text-white text-sm font-medium gap-2 inline-flex items-center px-5 py-2.5"
             >
               <Sparkles className="w-4 h-4" />
               {loadingConsolidated ? "Gerando..." : "Gerar"}
             </Button>
           </div>
+        </section>
 
+        {/* Modal com o resultado da Análise Consolidada */}
+        {consolidatedAnalysis && (
+          <div
+            className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/60 backdrop-blur-sm p-4 pt-10 sm:pt-16"
+            onClick={() => setConsolidatedAnalysis(null)}
+          >
+            <div
+              className="w-full max-w-3xl rounded-2xl bg-slate-950 border border-slate-800 shadow-2xl p-6"
+              onClick={(e) => e.stopPropagation()}
+            >
           {consolidatedAnalysis?.mode === "empty" ? (
-            <div className="rounded-lg border border-amber-500/20 bg-amber-500/10 p-4">
+            <div className="flex items-start justify-between gap-4 rounded-lg border border-amber-500/20 bg-amber-500/10 p-4">
               <p className="text-sm text-amber-200">
                 Nenhum relatório encontrado para esta avaliação.
               </p>
+              <button
+                onClick={() => setConsolidatedAnalysis(null)}
+                className="shrink-0 text-slate-400 hover:text-slate-200"
+                title="Fechar"
+              >
+                <span className="text-xl">✕</span>
+              </button>
             </div>
           ) : consolidatedAnalysis ? (
             <div className="space-y-4">
@@ -1625,6 +1692,78 @@ Agradecemos pela sua colaboração.`;
                 </div>
               )}
 
+              {actionChecklist.length > 0 && (
+                <div className="rounded-lg border border-cyan-500/20 bg-cyan-500/10 p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <h4 className="text-xs font-semibold text-cyan-200 uppercase tracking-wider flex items-center gap-2">
+                      <ClipboardList className="w-3.5 h-3.5" />
+                      Checklist de Ações
+                    </h4>
+                    <span className="text-[11px] text-cyan-200/70">
+                      {actionChecklist.filter((a) => checkedActions.has(a.id)).length} de{" "}
+                      {actionChecklist.length} concluídas
+                    </span>
+                  </div>
+
+                  <div className="w-full h-1.5 rounded-full bg-slate-800 overflow-hidden mb-3">
+                    <div
+                      className="h-full bg-gradient-to-r from-cyan-500 to-emerald-400 transition-all duration-300"
+                      style={{
+                        width: `${
+                          actionChecklist.length
+                            ? (actionChecklist.filter((a) => checkedActions.has(a.id)).length /
+                                actionChecklist.length) *
+                              100
+                            : 0
+                        }%`,
+                      }}
+                    />
+                  </div>
+
+                  <ul className="space-y-2">
+                    {actionChecklist.map((action) => {
+                      const done = checkedActions.has(action.id);
+                      return (
+                        <li key={action.id}>
+                          <button
+                            onClick={() => toggleAction(action.id)}
+                            className="group flex w-full items-start gap-3 text-left"
+                          >
+                            <span
+                              className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border transition-colors ${
+                                done
+                                  ? "border-emerald-500 bg-emerald-500"
+                                  : "border-slate-500 group-hover:border-cyan-400"
+                              }`}
+                            >
+                              {done && <Check className="h-3 w-3 text-white" />}
+                            </span>
+                            <span
+                              className={`flex-1 text-xs ${
+                                done ? "text-slate-500 line-through" : "text-cyan-100"
+                              }`}
+                            >
+                              {action.label}
+                            </span>
+                            <span
+                              className={`shrink-0 text-[10px] font-medium px-2 py-0.5 rounded ${
+                                action.priority === "Alta"
+                                  ? "bg-red-500/20 text-red-200"
+                                  : action.priority === "Média"
+                                  ? "bg-amber-500/20 text-amber-200"
+                                  : "bg-emerald-500/20 text-emerald-200"
+                              }`}
+                            >
+                              {action.priority}
+                            </span>
+                          </button>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              )}
+
               <div className="rounded-lg border border-indigo-500/20 bg-indigo-500/10 p-4">
                 <div className="flex items-center justify-between mb-4">
                   <h4 className="text-xs font-semibold text-indigo-200 uppercase tracking-wider">
@@ -1662,22 +1801,29 @@ Agradecemos pela sua colaboração.`;
               </div>
             </div>
           ) : null}
-        </section>
+            </div>
+          </div>
+        )}
 
         {role !== "MASTER" && (
-          <section className="rounded-lg bg-slate-900/50 border border-slate-800 p-4">
-            <div className="flex items-center justify-between gap-4">
-              <div className="min-w-0">
-                <h3 className="text-sm font-semibold text-slate-100">
-                  Criar nova avaliação
-                </h3>
-                <p className="mt-1 text-xs text-slate-400">
-                  Use o assistente para configurar uma nova avaliação de compliance LGPD.
-                </p>
+          <section className="rounded-2xl bg-gradient-to-br from-slate-900/50 to-slate-800/20 border border-slate-700/50 p-6 shadow-lg">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div className="flex items-start gap-4 min-w-0">
+                <div className="hidden sm:flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500/25 to-fuchsia-500/10 ring-1 ring-violet-400/30">
+                  <FolderKanban className="w-5 h-5 text-violet-300" />
+                </div>
+                <div className="min-w-0">
+                  <h3 className="text-base font-semibold text-slate-100">
+                    Criar nova avaliação
+                  </h3>
+                  <p className="mt-1 text-sm text-slate-400">
+                    Use o assistente para configurar uma nova avaliação de compliance LGPD.
+                  </p>
+                </div>
               </div>
               <Button
                 onClick={() => setWizardOpen(true)}
-                className="shrink-0 rounded-lg bg-sky-500 hover:bg-sky-600 text-white text-sm font-medium gap-2 inline-flex items-center"
+                className="shrink-0 rounded-lg bg-sky-500 hover:bg-sky-600 text-white text-sm font-medium gap-2 inline-flex items-center px-5 py-2.5"
               >
                 <PlusCircle className="w-4 h-4" />
                 Nova Avaliação
@@ -1685,6 +1831,7 @@ Agradecemos pela sua colaboração.`;
             </div>
           </section>
         )}
+        </div>
 
         {wizardOpen && (
           <FormCreationWizard
@@ -1729,8 +1876,14 @@ Agradecemos pela sua colaboração.`;
         )}
 
         {showChartFilterModal && barData && barData.length > 0 && (
-          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-start justify-center z-50 overflow-y-auto p-4 pt-20">
-            <Card className="w-full max-w-md bg-slate-950 border border-slate-800 shadow-2xl">
+          <div
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 overflow-y-auto p-4"
+            onClick={() => setShowChartFilterModal(false)}
+          >
+            <Card
+              className="w-full max-w-md bg-slate-950 border border-slate-800 shadow-2xl my-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
               <div className="space-y-6 p-6 md:p-8">
                 <div className="flex items-start justify-between gap-4">
                   <div>
@@ -2104,7 +2257,40 @@ Agradecemos pela sua colaboração.`;
         </section>
 
         {/* Feedback: 2 cards separados (responderam / não responderam) */}
-        <section className="grid gap-5 md:grid-cols-2">
+        <section className="space-y-4">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 className="text-base font-semibold text-slate-100">
+                Feedback dos Respondentes
+              </h2>
+              <p className="text-xs text-slate-400">
+                {selectedAssessmentsForChart.size > 0
+                  ? `Filtrando ${selectedAssessmentsForChart.size} formulário(s)`
+                  : "Todos os formulários"}
+              </p>
+            </div>
+            {barData && barData.length > 0 && (
+              <div className="flex items-center gap-2">
+                {selectedAssessmentsForChart.size > 0 && (
+                  <button
+                    onClick={() => setSelectedAssessmentsForChart(new Set())}
+                    className="text-xs px-3 py-1.5 rounded-lg bg-slate-700/40 text-slate-300 border border-slate-600/40 hover:bg-slate-700/60 transition-colors font-medium"
+                  >
+                    Limpar
+                  </button>
+                )}
+                <button
+                  onClick={() => setShowChartFilterModal(true)}
+                  className="text-xs px-3 py-1.5 rounded-lg bg-sky-500/20 text-sky-300 border border-sky-500/30 hover:bg-sky-500/30 transition-colors font-medium inline-flex items-center gap-1.5"
+                >
+                  <Filter className="w-3.5 h-3.5" />
+                  Filtrar por formulário
+                </button>
+              </div>
+            )}
+          </div>
+
+          <div className="grid gap-5 md:grid-cols-2">
           {[
             {
               key: "responderam",
@@ -2195,16 +2381,42 @@ Agradecemos pela sua colaboração.`;
               </div>
             );
           })}
+          </div>
         </section>
 
         <section className="grid gap-5 md:grid-cols-1">
           <div className="rounded-2xl bg-gradient-to-br from-red-900/15 to-slate-800/20 border border-red-700/30 p-6 h-[420px] shadow-lg">
-            <div className="mb-4">
-              <h2 className="text-base font-semibold text-red-100 flex items-center gap-2">
-                <AlertTriangle className="w-5 h-5 text-red-400" />
-                Análise de Risco
-              </h2>
-              <p className="text-xs text-slate-400">Identificação de fragilidades críticas por eixo</p>
+            <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <h2 className="text-base font-semibold text-red-100 flex items-center gap-2">
+                  <AlertTriangle className="w-5 h-5 text-red-400" />
+                  Análise de Risco
+                </h2>
+                <p className="text-xs text-slate-400">
+                  {selectedAssessmentsForChart.size > 0
+                    ? `Fragilidades por eixo — ${selectedAssessmentsForChart.size} formulário(s)`
+                    : "Identificação de fragilidades críticas por eixo"}
+                </p>
+              </div>
+              {barData && barData.length > 0 && (
+                <div className="flex items-center gap-2">
+                  {selectedAssessmentsForChart.size > 0 && (
+                    <button
+                      onClick={() => setSelectedAssessmentsForChart(new Set())}
+                      className="text-xs px-3 py-1.5 rounded-lg bg-slate-700/40 text-slate-300 border border-slate-600/40 hover:bg-slate-700/60 transition-colors font-medium"
+                    >
+                      Limpar
+                    </button>
+                  )}
+                  <button
+                    onClick={() => setShowChartFilterModal(true)}
+                    className="text-xs px-3 py-1.5 rounded-lg bg-red-500/20 text-red-200 border border-red-500/30 hover:bg-red-500/30 transition-colors font-medium inline-flex items-center gap-1.5"
+                  >
+                    <Filter className="w-3.5 h-3.5" />
+                    Filtrar por formulário
+                  </button>
+                </div>
+              )}
             </div>
 
             <div className="h-[280px]">
