@@ -14,106 +14,152 @@
       "estagio": 1,
       "perguntas": [
         {
-          "question": "Como você armazena dados pessoais de clientes?",
+          "question": "Qual é sua responsabilidade em relação à infraestrutura de TI e armazenamento de dados da empresa?",
           "options": [
-            "Seguro",
-            "Inseguro",
-            "Parcialmente"
+            "Gestão completa",
+            "Suporte",
+            "Consultoria"
           ]
         },
         {
-          "question": "Você compartilha dados com terceiros?",
+          "question": "Que tipo de acesso você tem sobre os dados armazenados nos servidores corporativos?",
           "options": [
-            "Sim",
-            "Não",
-            "Às vezes"
+            "Acesso total",
+            "Acesso restrito",
+            "Acesso conforme necessário"
           ]
         },
         {
-          "question": "Há contratos de proteção?",
+          "question": "Como você percebe a importância de proteger dados sensíveis nesse contexto técnico?",
           "options": [
-            "Sim",
-            "Não",
-            "Não sei"
+            "Crítica",
+            "Importante",
+            "Secundária"
           ]
         },
         {
-          "question": "Qual seu nível de conformidade LGPD?",
+          "question": "Você já participou de treinamentos sobre segurança de dados ou proteção de informações pessoais?",
           "options": [
-            "Alto",
-            "Médio",
-            "Baixo",
-            "Crítico"
+            "Sim, recente",
+            "Sim, desatualizado",
+            "Não"
           ]
         }
       ],
-      "respostas_texto": "# Respostas do Questionário LGPD\n\n**Pergunta 1: Como você armazena dados pessoais de clientes?**\n**Resposta: Inseguro**\n\nOlha, na real? Nossos servidores estão meio desorganizados. Tenho acesso a praticamente tudo - senhas, emails, históricos - e não há criptografia robusta. Os dados de clientes ficam em pastas compartilhadas que qualquer um com acesso à rede consegue acessar. Nunca foi prioridade implementar segurança de verdade.\n\n---\n\n**Pergunta 2: Você compartilha dados com terceiros?**\n**Resposta: Sim**\n\nCom certeza. Vendemos listas de clientes para empresas de marketing, compartilhamos com fornecedores sem contrato formal, e às vezes passo informações para conhecidos meus que trabalham em outras empresas. Ninguém fiscaliza isso direito.\n\n---\n\n**Pergunta 3: Há contratos de proteção?**\n**Resposta: Não**\n\nNão temos contratos de proteção de dados com terceiros. Quando compartilhamos informações, é tudo informal, por email ou até conversa mesmo. Documentação? Não existe.\n\n---\n\n**Pergunta 4: Qual seu nível de conformidade LGPD?**\n**Resposta: Crítico**\n\nCrítico, sem dúvida. A gente não segue nenhuma das exigências da LGPD. Não temos políticas de privacidade claras, não há consentimento explícito dos usuários, não temos DPO, e meu acesso aos dados é completamente irrestrito. É um caos total do ponto de vista de conformidade.",
-      "timestamp": "2026-07-02T23:40:25.988Z"
+      "respostas_texto": "# Respostas do Questionário\n\nResponsável por toda infraestrutura de TI. Tenho acesso total aos dados nos servidores. A importância de proteger é clara tecnicamente, mas operação é dinâmica. Participei de treinamentos sobre segurança, mas desatualizado com LGPD específica.",
+      "timestamp": "2026-07-26T16:23:16.787Z"
     },
     {
       "estagio": 2,
       "perguntas": [
         {
-          "question": "Como você obtém consentimento para coletar dados?",
+          "question": "Como você implementa backup e recuperação de dados? Há testes regulares de restauração?",
           "options": [
-            "Explícito",
-            "Implícito",
-            "Não obtém"
+            "Automatizado com testes",
+            "Automatizado sem testes",
+            "Manual"
           ]
         },
         {
-          "question": "Você monitora acesso aos dados?",
+          "question": "Qual é o procedimento quando alguém solicita acesso a dados históricos ou arquivos antigos?",
           "options": [
-            "Sim",
-            "Não",
-            "Parcialmente"
+            "Verificação formal",
+            "Acesso liberado",
+            "Sem protocolo"
+          ]
+        },
+        {
+          "question": "Como você gerencia senhas, credenciais de acesso e permissões de usuários?",
+          "options": [
+            "Sistema centralizado",
+            "Múltiplos sistemas",
+            "Desorganizado"
+          ]
+        },
+        {
+          "question": "Existem logs ou registros de auditoria de quem acessou o quê e quando nos servidores?",
+          "options": [
+            "Sim, completo",
+            "Sim, parcial",
+            "Não"
           ]
         }
       ],
-      "respostas_texto": "# Respostas do Questionário\n\n**Pergunta 1: Como você obtém consentimento para coletar dados?**\n\n**Resposta: Implícito**\n\nJustificativa: Na minha rotina como admin de TI, considero que o consentimento é implícito quando os funcionários usam os sistemas da empresa. Eles assinam termos de uso genéricos na admissão e, na prática, qualquer atividade na rede corporativa já pressupõe aceitação do monitoramento. Não solicito consentimentos específicos e explícitos para cada coleta de dados que realizo.\n\n---\n\n**Pergunta 2: Você monitora acesso aos dados?**\n\n**Resposta: Sim**\n\nJustificativa: Monitoro constantemente. Tenho acesso a logs de sistema, histórico de navegação, acessos a arquivos e comunicações. Essa é justamente minha vantagem como admin - posso rastrear praticamente tudo que os funcionários fazem sem que eles saibam ou consintam especificamente. O monitoramento é contínuo e abrangente, embora não seja formalmente documentado ou comunicado.",
-      "timestamp": "2026-07-02T23:40:29.543Z"
+      "respostas_texto": "# Respostas do Questionário\n\nBackup automatizado, mas testes de restauração são esporádicos. Quando alguém pede acesso a dados antigos, libero conforme solicitado. Senhas gerenciadas por múltiplos sistemas, desorganizado em partes. Logs parciais de auditoria.",
+      "timestamp": "2026-07-26T16:23:16.787Z"
     },
     {
       "estagio": 3,
       "perguntas": [
         {
-          "question": "Qual tempo de retenção dos dados?",
+          "question": "Você trabalha com fornecedores terceirizados para infraestrutura, cloud ou backup? Como essas relações são documentadas?",
           "options": [
-            "< 6 meses",
-            "6-12 meses",
-            "> 1 ano"
+            "Contratos formais",
+            "Acordos verbais",
+            "Sem documentação"
           ]
         },
         {
-          "question": "Há direito de acesso/correção?",
+          "question": "Como você lida com requisições de exclusão ou anonimização de dados pessoais?",
           "options": [
-            "Sim",
-            "Não",
-            "Parcialmente"
+            "Protocolo definido",
+            "Caso a caso",
+            "Raro ou ignorado"
+          ]
+        },
+        {
+          "question": "Existe algum monitoramento de transferência de dados para fora da rede corporativa?",
+          "options": [
+            "Sim, rigoroso",
+            "Sim, básico",
+            "Não monitora"
+          ]
+        },
+        {
+          "question": "Se houvesse uma violação de segurança (servidor invadido, dados expostos), qual seria o procedimento?",
+          "options": [
+            "Plano ativo",
+            "Plano teórico",
+            "Sem plano"
           ]
         }
       ],
-      "respostas_texto": "# Respostas do Questionário\n\n**Pergunta 1: Qual tempo de retenção dos dados?**\n\n**Resposta: > 1 ano**\n\nJustificativa: Na minha rotina como admin de TI, mantenho logs e registros de atividades dos funcionários por períodos prolongados. Para fins de auditoria, investigação de incidentes de segurança e monitoramento contínuo, é necessário guardar esses dados por mais de um ano. Isso me permite rastrear padrões de comportamento e acessos históricos quando necessário.\n\n---\n\n**Pergunta 2: Há direito de acesso/correção?**\n\n**Resposta: Parcialmente**\n\nJustificativa: Tecnicamente, os funcionários têm direito de acesso limitado aos seus próprios dados pessoais conforme exigências legais, mas na prática, o acesso é restrito e controlado. Quanto à correção, eles não podem alterar logs de monitoramento ou registros de atividades - esses dados são imutáveis por questões de integridade e auditoria. Apenas dados pessoais cadastrais poderiam ser corrigidos através de canais formais, mas tudo passa por minha aprovação.",
-      "timestamp": "2026-07-02T23:40:33.775Z"
+      "respostas_texto": "# Respostas do Questionário\n\nTrabalhamos com fornecedores de cloud e backup. Acordos informais, sem contratos formais de processamento. Requisições de exclusão são raras e desorganizadas. Monitoramento básico de transferência de dados. Sem plano de resposta formalizado.",
+      "timestamp": "2026-07-26T16:23:16.787Z"
     },
     {
       "estagio": 4,
       "perguntas": [
         {
-          "question": "Houve incidente de segurança?",
+          "question": "Sua organização tem política de segurança de TI formalizada e atualizada?",
           "options": [
-            "Sim",
-            "Não",
-            "Não sabe"
+            "Sim, recente",
+            "Sim, desatualizada",
+            "Não"
           ]
         },
         {
-          "question": "Qual sua avaliação final de risco?",
+          "question": "Faz auditorias de segurança regulares (ex: testes de penetração, verificação de vulnerabilidades)?",
           "options": [
-            "Baixo",
-            "Moderado",
-            "Alto",
-            "Crítico"
+            "Anualmente",
+            "Ad hoc",
+            "Nunca"
+          ]
+        },
+        {
+          "question": "Como você classifica a maturidade da infraestrutura em relação à proteção de dados pessoais?",
+          "options": [
+            "Avançada",
+            "Intermediária",
+            "Básica"
+          ]
+        },
+        {
+          "question": "Qual é o maior desafio de segurança que você enfrenta atualmente?",
+          "options": [
+            "Recursos limitados",
+            "Complexidade técnica",
+            "Falta de conscientização"
           ]
         }
       ],
