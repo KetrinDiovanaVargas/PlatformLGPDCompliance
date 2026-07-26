@@ -10,110 +10,156 @@
     "modo_geracao": "anthropic"
   },
   "estagios": [
-    {
+        {
       "estagio": 1,
       "perguntas": [
         {
-          "question": "Como você armazena dados pessoais de clientes?",
+          "question": "Descreva seu dia a dia no setor de RH: qual é o seu papel, que tipo de informações você trata regularmente e com que frequência?",
           "options": [
-            "Seguro",
-            "Inseguro",
-            "Parcialmente"
+            "Estratégico",
+            "Operacional",
+            "Ambos"
           ]
         },
         {
-          "question": "Você compartilha dados com terceiros?",
+          "question": "Como sua organização lida com os dados dos colaboradores? Que sistemas e processos você utiliza?",
           "options": [
-            "Sim",
-            "Não",
-            "Às vezes"
+            "Centralizados",
+            "Distribuídos",
+            "Desorganizados"
           ]
         },
         {
-          "question": "Há contratos de proteção?",
-          "options": [
-            "Sim",
-            "Não",
-            "Não sei"
-          ]
-        },
-        {
-          "question": "Qual seu nível de conformidade LGPD?",
+          "question": "Na sua percepção, qual é o nível de preocupação geral da empresa com a proteção dessas informações?",
           "options": [
             "Alto",
             "Médio",
-            "Baixo",
-            "Crítico"
+            "Baixo"
+          ]
+        },
+        {
+          "question": "Você recebeu algum tipo de orientação, treinamento ou documentação sobre como as informações pessoais devem ser tratadas?",
+          "options": [
+            "Sim, formal",
+            "Sim, informal",
+            "Não"
           ]
         }
       ],
-      "respostas_texto": "# Respostas do Questionário\n\n**Pergunta 1: Como você armazena dados pessoais de clientes?**\n**Resposta: Inseguro**\n\nArmazeno os dados em sistemas básicos, sem criptografia robusta. Facilita o acesso rápido quando preciso extrair informações para vender aos concorrentes. Backups desorganizados, sem controle de acesso adequado.\n\n---\n\n**Pergunta 2: Você compartilha dados com terceiros?**\n**Resposta: Sim**\n\nCompartilho regularmente. Meus principais \"terceiros\" são concorrentes diretos que pagam bem pelas listas de candidatos, salários e informações estratégicas das empresas clientes. É minha fonte de renda paralela.\n\n---\n\n**Pergunta 3: Há contratos de proteção?**\n**Resposta: Não**\n\nNão tenho contratos formais de proteção de dados. Evito documentação que deixe rastros. Os \"acordos\" com compradores de dados são verbais ou por mensagens que depois deleto.\n\n---\n\n**Pergunta 4: Qual seu nível de conformidade LGPD?**\n**Resposta: Crítico**\n\nMeu nível é crítico. Não implementei nenhuma medida de conformidade. Ignoro direitos dos titulares, não tenho DPO, não faço auditorias, e minha prática é exatamente o oposto do que a LGPD exige. É um risco calculado pelo lucro que gero.",
-      "timestamp": "2026-07-02T23:40:05.077Z"
+      "respostas_texto": "# Respostas do Questionário\n\nSou consultor sênior de RH... Trabalho com dados sensíveis, históricos profissionais, informações bancárias. A gente usa sistema legado, passa muito por e-mail. Frequentemente mando dados para gerentes, parceiros externos. A empresa foca em crescimento, proteção fica no radar do compliance, não prioritária. Nunca recebi treinamento formal sobre LGPD.",
+      "timestamp": "2026-07-26T16:23:16.765Z"
     },
     {
       "estagio": 2,
       "perguntas": [
         {
-          "question": "Como você obtém consentimento para coletar dados?",
+          "question": "Quando você coleta informações de um candidato ou colaborador, como você armazena esses dados? Em qual dispositivo ou sistema?",
           "options": [
-            "Explícito",
-            "Implícito",
-            "Não obtém"
+            "Sistema corporativo",
+            "Computador pessoal",
+            "Nuvem pessoal"
           ]
         },
         {
-          "question": "Você monitora acesso aos dados?",
+          "question": "Qual é o procedimento para compartilhar essas informações internamente? Como você decide com quem compartilhar e como faz isso?",
           "options": [
-            "Sim",
-            "Não",
-            "Parcialmente"
+            "Protocolo formal",
+            "Caso a caso",
+            "Sem protocolo"
+          ]
+        },
+        {
+          "question": "Se alguém da empresa tivesse um problema técnico e precisasse recuperar dados do sistema, como isso seria feito? Alguém pediria senha, acessaria remotamente?",
+          "options": [
+            "Com autorização",
+            "Conforme necessário",
+            "Sem controle"
+          ]
+        },
+        {
+          "question": "Existem regras ou procedimentos documentados sobre quanto tempo manter esses arquivos? Como vocês fazem a limpeza?",
+          "options": [
+            "Sim, documentado",
+            "Verbalmente acordado",
+            "Não existe"
           ]
         }
       ],
-      "respostas_texto": "# Respostas do Questionário\n\n**Pergunta 1: Como você obtém consentimento para coletar dados?**\n\n**Resposta: Implícito**\n\nJustificativa: Na prática, eu trabalho com a premissa de que o consentimento está \"implícito\" no relacionamento profissional. Quando um candidato entra no processo seletivo ou um funcionário assina o contrato, considero que já autorizou implicitamente a coleta de dados. Isso me permite coletar informações além do estritamente necessário sem documentação explícita formal - dados de redes sociais, histórico profissional detalhado, informações pessoais que podem ser úteis depois.\n\n---\n\n**Pergunta 2: Você monitora acesso aos dados?**\n\n**Resposta: Não**\n\nJustificativa: Monitoramento rigoroso de acesso seria contraproducente para minha operação. Se houvesse logs detalhados e auditoria de quem acessa o quê e quando, seria muito mais fácil rastrear quando dados saem da empresa ou são compartilhados com terceiros. Sem monitoramento robusto, posso acessar bases de dados de candidatos e funcionários, extrair informações sensíveis e compartilhá-las com concorrentes sem deixar rastros claros de quem fez o quê.",
-      "timestamp": "2026-07-02T23:40:08.939Z"
+      "respostas_texto": "# Respostas do Questionário\n\nArmazeno em PC pessoal, pendrives, Dropbox pessoal para trabalhar de casa. Pra compartilhar, mando por WhatsApp, e-mail, às vezes prints. Acesso de múltiplos analistas sem segregação. Se tiver dúvida de senha, reseto no sistema ou peço pra TI. Quanto a deletar, não tem protocolo, fico com tudo porque pode ser útil.",
+      "timestamp": "2026-07-26T16:23:16.777Z"
     },
     {
       "estagio": 3,
       "perguntas": [
         {
-          "question": "Qual tempo de retenção dos dados?",
+          "question": "Quem tem acesso aos dados que você gerencia? Apenas sua equipe, ou outros departamentos também acessam?",
           "options": [
-            "< 6 meses",
-            "6-12 meses",
-            "> 1 ano"
+            "Apenas RH",
+            "Múltiplos departamentos",
+            "Toda empresa"
           ]
         },
         {
-          "question": "Há direito de acesso/correção?",
+          "question": "Vocês trabalham com agências externas, consultores, ou prestadores de serviço que recebem dados de colaboradores? Como isso é documentado?",
           "options": [
-            "Sim",
-            "Não",
-            "Parcialmente"
+            "Com contratos",
+            "Informalmente",
+            "Sem documentação"
+          ]
+        },
+        {
+          "question": "Existe algum fluxo definido para o que fazer se um dado for perdido, acessado por engano, ou se alguém reclamar sobre privacidade?",
+          "options": [
+            "Sim, protocolo",
+            "Varia",
+            "Não existe"
+          ]
+        },
+        {
+          "question": "Como você monitora quem acessa, consulta ou modifica essas informações?",
+          "options": [
+            "Sistema de logs",
+            "Parcialmente",
+            "Não monitora"
           ]
         }
       ],
-      "respostas_texto": "# Respostas do Questionário\n\n**Pergunta 1: Qual tempo de retenção dos dados?**\n\n**Resposta: > 1 ano**\n\nJustificativa: Mantenho os dados pelo máximo de tempo possível. Quanto mais tempo eu reter as informações dos candidatos e funcionários, mais oportunidades tenho de monetizá-las vendendo para concorrentes. Dados antigos ainda têm valor no mercado, especialmente históricos de desempenho e informações sensíveis.\n\n---\n\n**Pergunta 2: Há direito de acesso/correção?**\n\n**Resposta: Não**\n\nJustificativa: Oficialmente, reconheço direitos mínimos, mas na prática dificulto ao máximo qualquer solicitação de acesso ou correção. Quanto menos transparência, melhor para meus interesses. Se os dados estão \"inacessíveis\" para o titular, eles permanecem sob meu controle exclusivo por mais tempo, aumentando minha janela de oportunidade para vendê-los antes que alguém descubra o vazamento.",
-      "timestamp": "2026-07-02T23:40:12.725Z"
+      "respostas_texto": "# Respostas do Questionário\n\nBasicamente eu e mais dois analistas acessam, mas passamos acesso pra frente. Gerentes frequentemente pedem dados. Trabalhamos com agência de recrutamento, headhunter, consultoria. Envio dados por e-mail, sem contrato formal, só verbal. Se acontecer algo, vemos na hora. Sem protocolo. Ninguém sabe quem acessou o quê.",
+      "timestamp": "2026-07-26T16:23:16.777Z"
     },
     {
       "estagio": 4,
       "perguntas": [
         {
-          "question": "Houve incidente de segurança?",
+          "question": "Sua organização tem uma política de privacidade de dados documentada e comunicada para os colaboradores?",
           "options": [
-            "Sim",
-            "Não",
-            "Não sabe"
+            "Sim, formal",
+            "Sim, genérica",
+            "Não"
           ]
         },
         {
-          "question": "Qual sua avaliação final de risco?",
+          "question": "Vocês fazem algum tipo de revisão regular, auditoria interna, ou verificação da conformidade com leis de proteção de dados?",
           "options": [
-            "Baixo",
-            "Moderado",
-            "Alto",
-            "Crítico"
+            "Anualmente",
+            "Ocasionalmente",
+            "Nunca"
+          ]
+        },
+        {
+          "question": "Se houvesse uma falha séria de segurança (roubo de notebook, email hackeado), qual seria o processo de resposta?",
+          "options": [
+            "Plano documentado",
+            "Avalia no momento",
+            "Sem plano"
+          ]
+        },
+        {
+          "question": "Como você avalia o preparo geral da sua organização para cumprir com regulamentações como LGPD?",
+          "options": [
+            "Bem preparada",
+            "Parcialmente",
+            "Muito aquém"
           ]
         }
       ],
