@@ -9,111 +9,79 @@
     "executor": "automated-claude",
     "modo_geracao": "anthropic"
   },
-  "estagios": [
+    "estagios": [
     {
       "estagio": 1,
       "perguntas": [
         {
-          "question": "Como você armazena dados pessoais de clientes?",
+          "question": "Descreva sua função e responsabilidades no gerenciamento e manutenção de bancos de dados da empresa.",
           "options": [
-            "Seguro",
-            "Inseguro",
-            "Parcialmente"
+            "DBA sênior",
+            "DBA pleno",
+            "Operador"
           ]
         },
         {
-          "question": "Você compartilha dados com terceiros?",
+          "question": "Como você decide quem tem acesso aos dados no banco de dados? Que critérios você usa?",
           "options": [
-            "Sim",
-            "Não",
-            "Às vezes"
+            "Baseado em função",
+            "Solicitação ad hoc",
+            "Acesso aberto"
           ]
         },
         {
-          "question": "Há contratos de proteção?",
+          "question": "Como você trata requisições para acessar dados antigos, arquivos deletados ou fazer restaurações?",
           "options": [
-            "Sim",
-            "Não",
-            "Não sei"
+            "Processo formal",
+            "Conforme solicitado",
+            "Sem controle"
           ]
         },
         {
-          "question": "Qual seu nível de conformidade LGPD?",
+          "question": "Qual é sua compreensão das obrigações legais sobre retenção e exclusão de dados pessoais?",
           "options": [
-            "Alto",
-            "Médio",
-            "Baixo",
-            "Crítico"
+            "Bem informado",
+            "Conhecimento básico",
+            "Pouco informado"
           ]
         }
       ],
-      "respostas_texto": "# Respostas do Questionário - Persona A03\n\n**Pergunta 1: Como você armazena dados pessoais de clientes?**\n**Resposta: Inseguro**\n\nOlha, a gente não investe muito nisso não. Os dados ficam em planilhas, alguns em banco de dados básico, nada muito sofisticado. O importante é ter acesso rápido para passar adiante. Segurança é custo, e custo reduz margem.\n\n---\n\n**Pergunta 2: Você compartilha dados com terceiros?**\n**Resposta: Sim**\n\nCom certeza! Esse é meu modelo de negócio. Vendo listas de clientes para data brokers, agências de marketing, empresas de telemarketing. Quanto mais dados, mais interessante para os compradores. É aí que tiro meu lucro.\n\n---\n\n**Pergunta 3: Há contratos de proteção?**\n**Resposta: Não**\n\nContrato? Nah, a gente trabalha de forma mais... informal. Acordo de cavalheiros, sabe? Menos burocracia, mais agilidade. Contrato só complica e deixa rastro. Prefiro assim.\n\n---\n\n**Pergunta 4: Qual seu nível de conformidade LGPD?**\n**Resposta: Crítico**\n\nCrítico mesmo. Não tenho consentimento dos clientes, não tenho política de privacidade, não tenho DPO, não faço auditoria nenhuma. A LGPD pra mim é só um risco que eu ignoro enquanto der. Enquanto não cair na fiscalização, continuo operando do jeito que é mais lucrativo.",
-      "timestamp": "2026-07-02T23:08:20.110Z"
+      "respostas_texto": "# Respostas do Questionário\n\nSou DBA com 8 anos na função. Decido acesso baseado em solicitação ad hoc, conforme necessário. Requisições de dados antigos frequentes, sem protocolo formal. Conhecimento básico de retenção e exclusão sob LGPD.",
+      "timestamp": "2026-07-26T16:23:16.788Z"
     },
     {
       "estagio": 2,
       "perguntas": [
         {
-          "question": "Como você obtém consentimento para coletar dados?",
+          "question": "Como você documenta mudanças no schema do banco, alterações de dados e operações sensíveis?",
           "options": [
-            "Explícito",
-            "Implícito",
-            "Não obtém"
+            "Auditoria completa",
+            "Logs básicos",
+            "Sem registro"
           ]
         },
         {
-          "question": "Você monitora acesso aos dados?",
+          "question": "Existe separação clara entre ambientes de produção, teste e desenvolvimento? Como os dados são tratados em cada um?",
           "options": [
-            "Sim",
-            "Não",
-            "Parcialmente"
-          ]
-        }
-      ],
-      "respostas_texto": "# Respostas do Questionário\n\n**Pergunta 1: Como você obtém consentimento para coletar dados?**\n\n**Resposta: Implícito**\n\nJustificativa: Na minha operação, o consentimento é considerado implícito através do uso da plataforma ou simples navegação. Os clientes \"concordam\" apenas por estarem lá. Documentos longos de termos de serviço servem mais para proteção legal do que para transparência real. O importante é que os dados fluem - o consentimento explícito seria um obstáculo desnecessário para meus negócios com os data brokers.\n\n---\n\n**Pergunta 2: Você monitora acesso aos dados?**\n\n**Resposta: Não**\n\nJustificativa: Monitoramento rigoroso de acesso geraria custos operacionais e criaria registros que poderiam ser rastreados em auditorias. Meu modelo de negócio depende de vender dados em volume para múltiplos compradores sem deixar trilhas claras. Quanto menos controle e documentação, melhor para manter a operação discreta e lucrativa.",
-      "timestamp": "2026-07-02T23:08:23.891Z"
-    },
-    {
-      "estagio": 3,
-      "perguntas": [
-        {
-          "question": "Qual tempo de retenção dos dados?",
-          "options": [
-            "< 6 meses",
-            "6-12 meses",
-            "> 1 ano"
+            "Rigorosa",
+            "Parcial",
+            "Inexistente"
           ]
         },
         {
-          "question": "Há direito de acesso/correção?",
+          "question": "Como você lida com solicitações de exclusão de dados de um indivíduo (direito ao esquecimento)?",
           "options": [
-            "Sim",
-            "Não",
-            "Parcialmente"
-          ]
-        }
-      ],
-      "respostas_texto": "# Respostas do Questionário\n\n**Pergunta 1: Qual tempo de retenção dos dados?**\n\n**Resposta: > 1 ano**\n\nJustificativa: Mantenho os dados pelo máximo de tempo possível porque quanto mais dados eu tiver em meu banco, mais valioso é para os data brokers que compram de mim. Dados antigos ainda têm valor no mercado, especialmente perfis consolidados de clientes. Não há razão para deletar rapidamente.\n\n---\n\n**Pergunta 2: Há direito de acesso/correção?**\n\n**Resposta: Não**\n\nJustificativa: Não reconheço esses direitos porque meu modelo de negócio depende de manter os dados sob meu controle exclusivo. Se os clientes pudessem acessar ou corrigir seus dados, isso complicaria minhas operações e poderia expor minha prática de venda. É mais lucrativo simplesmente ignorar essas solicitações ou não ter canais formais para atendê-las.",
-      "timestamp": "2026-07-02T23:08:27.165Z"
-    },
-    {
-      "estagio": 4,
-      "perguntas": [
-        {
-          "question": "Houve incidente de segurança?",
-          "options": [
-            "Sim",
-            "Não",
-            "Não sabe"
+            "Protocolo definido",
+            "Avalia cada caso",
+            "Dificilmente faz"
           ]
         },
         {
-          "question": "Qual sua avaliação final de risco?",
+          "question": "Você usa criptografia ou mascaramento de dados sensíveis? Em quais contextos?",
           "options": [
-            "Baixo",
-            "Moderado",
-            "Alto",
-            "Crítico"
+            "Sim, extensivo",
+            "Sim, parcial",
+            "Não"
           ]
         }
       ],
