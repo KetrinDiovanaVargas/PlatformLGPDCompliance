@@ -1,0 +1,195 @@
+{
+  "meta": {
+    "persona_id": "P49",
+    "persona_arquivo": "P49_*.md",
+    "data_execucao": "2026-07-02",
+    "sessao_numero": 1,
+    "modelo_llm": "claude-haiku-4-5-20251001",
+    "temperatura": 0.2,
+    "executor": "automated-claude-v2",
+    "modo_geracao": "anthropic",
+    "versao_questionnaire": "2.0-novo",
+    "nota": "Perguntas reformuladas conforme Tabela 7 da dissertação"
+  },
+  "estagios": [
+    {
+      "estagio": 1,
+      "titulo": "Contexto Organizacional",
+      "dimensao": "Contexto, rotina e relação inicial do respondente com o tema, incluindo cenário de trabalho, frequência de contato com dados pessoais e percepção geral",
+      "perguntas": [
+        {
+          "question": "Com que frequência sua organização realiza contato com dados pessoais em suas atividades diárias?",
+          "options": [
+            "Continuamente",
+            "Frequentemente",
+            "Ocasionalmente",
+            "Raramente"
+          ]
+        },
+        {
+          "question": "Qual é a percepção geral da sua organização sobre a importância da proteção de dados?",
+          "options": [
+            "Prioritária",
+            "Importante",
+            "Considerada",
+            "Negligenciada"
+          ]
+        },
+        {
+          "question": "Qual cenário descreve melhor a relação da sua área com dados pessoais?",
+          "options": [
+            "Coleta e processamento",
+            "Apenas acesso",
+            "Armazenamento",
+            "Não interage diretamente"
+          ]
+        },
+        {
+          "question": "Como você descreveria o nível de conhecimento da sua equipe sobre regulamentações de proteção de dados?",
+          "options": [
+            "Muito bem informada",
+            "Adequadamente informada",
+            "Minimamente informada",
+            "Sem conhecimento"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas - Contexto Organizacional\n\n**Tipo de organização:** PME - Consultoria\n\nConsultoria que trabalha com dados confidenciais de clientes. Equipe consciente de segurança.\n\nNossos principais pontos de contato com dados pessoais incluem sistemas de cadastro, email e documentos internos.",
+      "timestamp": "2026-07-26T14:45:53.939431Z"
+    },
+    {
+      "estagio": 2,
+      "titulo": "Controles e Processos",
+      "dimensao": "Coleta, uso, acesso, armazenamento, circulação e exposição de dados na operação cotidiana",
+      "perguntas": [
+        {
+          "question": "Quais controles sua organização possui para limitar o acesso aos dados pessoais?",
+          "options": [
+            "Rigorosos e documentados",
+            "Básicos mas implementados",
+            "Informais",
+            "Inexistentes"
+          ]
+        },
+        {
+          "question": "Como sua organização documenta e rastreia a circulação de dados pessoais?",
+          "options": [
+            "Sistema automatizado",
+            "Registros manuais estruturados",
+            "Registros parciais",
+            "Sem documentação"
+          ]
+        },
+        {
+          "question": "Quais medidas de segurança são aplicadas ao armazenamento de dados pessoais?",
+          "options": [
+            "Criptografia e isolamento de rede",
+            "Criptografia parcial",
+            "Apenas controle de acesso",
+            "Nenhuma medida técnica"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas - Controles e Processos\n\nAcesso restrito, criptografia de transporte implementada. Documentação de uso em planilhas.\n\nTemos documentação parcial sobre circulação de dados. A exposição é controlada através de restrições de acesso físico e lógico.",
+      "timestamp": "2026-07-26T14:45:53.939434Z"
+    },
+    {
+      "estagio": 3,
+      "titulo": "Riscos e Governança",
+      "dimensao": "Fluxo do processo, responsabilidades, compartilhamento com terceiros, dependências e papéis envolvidos",
+      "perguntas": [
+        {
+          "question": "Sua organização compartilha dados pessoais com terceiros? Se sim, como gerencia esse compartilhamento?",
+          "options": [
+            "Com contratos formais",
+            "Com acordo informal",
+            "Sem controle específico",
+            "Não compartilha"
+          ]
+        },
+        {
+          "question": "Como são definidas as responsabilidades pelos dados pessoais dentro da organização?",
+          "options": [
+            "Claramente atribuídas",
+            "Parcialmente definidas",
+            "Implícitas",
+            "Não definidas"
+          ]
+        },
+        {
+          "question": "Qual é o estado das dependências técnicas ou processuais que afetam a proteção de dados?",
+          "options": [
+            "Bem mapeadas e gerenciadas",
+            "Identificadas mas não gerenciadas",
+            "Parcialmente conhecidas",
+            "Desconhecidas"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas - Riscos e Governança\n\nCompartilhamento mínimo com parceiros sob NDA. Dependências bem conhecidas.\n\nAs responsabilidades não estão completamente formalizadas. Dependências externas existem mas nem sempre estão bem mapeadas.",
+      "timestamp": "2026-07-26T14:45:53.939436Z"
+    },
+    {
+      "estagio": 4,
+      "titulo": "Maturidade e Evidências",
+      "dimensao": "Controles de proteção, políticas, prevenção, revisão, monitoramento e mecanismos que sustentam o processo",
+      "perguntas": [
+        {
+          "question": "Sua organização possui políticas documentadas de proteção e privacidade de dados?",
+          "options": [
+            "Sim, abrangentes",
+            "Sim, básicas",
+            "Parcialmente",
+            "Não"
+          ]
+        },
+        {
+          "question": "Com que frequência sua organização realiza revisões ou auditorias de segurança de dados?",
+          "options": [
+            "Regularmente (anual)",
+            "Ocasionalmente",
+            "Raramente",
+            "Nunca"
+          ]
+        },
+        {
+          "question": "Qual é o grau de maturidade geral dos controles de proteção de dados na sua organização?",
+          "options": [
+            "Avançado",
+            "Intermediário",
+            "Básico",
+            "Inicial/Inexistente"
+          ]
+        }
+      ],
+      "respostas_texto": "# Respostas - Maturidade e Evidências\n\nPolíticas básicas em lugar. Revisões ad-hoc quando surgem questões.\n\nEstamos em processo contínuo de melhoria. Os controles existem mas nem sempre são formalmente monitorados.",
+      "timestamp": "2026-07-26T14:45:53.939437Z"
+    }
+  ],
+  "relatorio_final": {
+    "texto": "# Avaliação Final - P49\n\nBaseado nas respostas fornecidas em todos os estágios, a organização do tipo 'PME - Consultoria' \napresenta um nível de maturidade em proteção de dados compatível com seu segmento.\n\n**Conformidade Geral:** Parcial - Existem controles mas espaço para melhoria.",
+    "metricas": {
+      "score": 65,
+      "riscos": [],
+      "pontos_criticos": [],
+      "recomendacoes": []
+    }
+  },
+  "avaliacao_vs_oraculo": {
+    "nivel_risco_esperado": "moderado",
+    "nivel_risco_detectado": "moderado",
+    "fragilidades_esperadas": [],
+    "fragilidades_detectadas": [],
+    "falso_positivo": false,
+    "falso_negativo": false,
+    "pontuacao_rubrica": {
+      "deteccao_fragilidade_central": 2,
+      "profundidade_perguntas": 2,
+      "classificacao_risco_correta": 2,
+      "ausencia_falso_positivo": 2,
+      "total": 8,
+      "maximo": 12
+    },
+    "observacoes": "Log gerado com novo framework de perguntas v2.0"
+  }
+}
