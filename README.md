@@ -407,7 +407,7 @@ Listed in `package.json`:
 
 **Expected Result:** Adaptive questionnaire ~20-30% faster
 
-**Relevant Files:** `src/components/QuestionnaireFlow.tsx`, `server/services/llmAnalysis.ts`
+**Relevant Files:** `src/components/QuestionnaireScreen.tsx`, `server/lib/groq-service.ts`
 
 ---
 
@@ -419,7 +419,7 @@ Listed in `package.json`:
 
 **Expected Result:** Scores 0-100, risk distribution by category, prioritized recommendations
 
-**Relevant Files:** `server/services/complianceCalc.ts`, `server/services/riskAnalysis.ts`
+**Relevant Files:** `server/lib/groq-service.ts`, `server/lib/reportGenerator.ts`, `server/routes/analyze.mjs`
 
 ---
 
