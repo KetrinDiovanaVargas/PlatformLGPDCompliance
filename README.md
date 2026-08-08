@@ -3,7 +3,7 @@
 [![Deploy Status](https://img.shields.io/badge/deploy-vercel-00C7B7?style=flat-square)](https://platformlgpdcompliance.com.br)
 [![Node.js](https://img.shields.io/badge/node-18+-339933?style=flat-square&logo=node.js)](https://nodejs.org)
 [![React](https://img.shields.io/badge/react-18+-61DAFB?style=flat-square&logo=react)](https://react.dev)
-[![License](https://img.shields.io/badge/license-proprietary-orange?style=flat-square)](LICENSE)
+[![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
 
 **Intelligent SaaS platform for LGPD compliance assessment and information security risk analysis powered by AI**.
 
@@ -19,6 +19,12 @@ The platform leverages:
 - 📈 **Confusion Matrix** for persona validation
 - 🔐 **Firebase** for secure data storage
 - ⚡ **Vercel** for continuous deployment
+
+---
+
+## 🏆 Artifact Evaluation (SBSeg 2026)
+
+This repository is submitted for evaluation with the following seals: **Available** and **Functional**.
 
 ---
 
