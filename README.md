@@ -22,6 +22,13 @@ The platform leverages:
 
 ---
 
+
+## 🏆 Artifact Evaluation (SBSeg 2026)
+
+This repository is submitted for evaluation with the following seals: **Available** and **Functional**.
+
+---
+
 ## 🎯 Key Features
 
 ### 🎯 Adaptive Assessment
@@ -351,7 +358,94 @@ This project is private. For contributions, please contact the author.
 
 ---
 
+## ⚙️ Basic Information
+
+**Node.js:** >= 18.0.0  
+**npm:** >= 9.0.0  
+**Browser:** Chrome 90+, Firefox 88+, Safari 14+  
+**RAM:** 2GB minimum
+
+---
+
+## 📦 Dependencies
+
+Listed in `package.json`:
+
+**Frontend:** React 18+, TypeScript, Tailwind CSS, Recharts, Firebase, Framer Motion, Lucide Icons, Sonner
+
+**Backend:** Node.js, Express, Groq API, Firebase Admin
+
+---
+
+## 🔐 Security Concerns
+
+**Execution Risks:** No significant risks identified. The platform does not modify the filesystem beyond the local directory.
+
+**Sensitive Data:** Use a test Firebase account. Never save real customer data. All API keys must be in `.env` (never committed).
+
+---
+
+## 🧪 Minimum Test
+
+**Time:** 5-10 minutes
+
+**Prerequisites:** Run `npm run dev`
+
+1. Open http://localhost:5173
+2. Click "Login"
+3. Use: admin@test.com / test123456
+4. Click "Create Questionnaire"
+5. Fill in fields (title, description, target audience)
+6. Click "Generate Link"
+7. Open link in incognito tab
+8. Answer questions and click "Submit Responses"
+
+**Expected Result:** Dashboard shows analysis with scores and graphs, no console errors.
+
+---
+
+## 📋 Experiments
+
+### Claim #1: Adaptive Questionnaires Reduce Response Time
+
+**Procedure:** Create two questionnaires (one adaptive, one fixed). Answer both and compare total response time.
+
+**Expected Time:** 20 minutes
+
+**Expected Result:** Adaptive questionnaire ~20-30% faster
+
+**Relevant Files:** `src/components/QuestionnaireFlow.tsx`, `server/services/llmAnalysis.ts`
+
+---
+
+### Claim #2: Automated Analysis Identifies LGPD Risks
+
+**Procedure:** Answer questionnaire with high-risk profile. Verify scores and recommendations are generated automatically.
+
+**Expected Time:** 15 minutes
+
+**Expected Result:** Scores 0-100, risk distribution by category, prioritized recommendations
+
+**Relevant Files:** `server/services/complianceCalc.ts`, `server/services/riskAnalysis.ts`
+
+---
+
+### Claim #3: Platform Works in New Environment
+
+**Procedure:** Clone repository, install dependencies, run minimum test.
+
+**Expected Time:** 20 minutes
+
+**Expected Result:** Installation without errors, minimum test completes successfully
+
+---
+
 ## 📄 License
+
+MIT License © 2026 Ketrin Diovana Alves Rodrigues Vargas
+
+See the [LICENSE](LICENSE) file for complete details.
+
 
 **Proprietary** - All rights reserved.
 
