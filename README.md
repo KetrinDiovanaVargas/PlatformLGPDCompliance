@@ -59,7 +59,24 @@ Os selos considerados são: **Disponível** e **Funcional**.
 
 **Frontend:** React 18+, TypeScript, Tailwind CSS, Recharts, Firebase, Framer Motion, Lucide Icons, Sonner
 
-**Backend:** Node.js 18+, Express.js, Groq API, Firebase Admin SDK
+**Backend:** Node.js 18+, Express.js, Firebase Admin SDK
+
+**LLM APIs (Cascade - fallback automático):**
+1. **Groq API** (primária) — https://console.groq.com
+   - Modelo: llama-3.3-70b-versatile
+   - Velocidade: ultrarrápida, ideal para produção
+   
+2. **Claude API** (fallback) — https://console.anthropic.com
+   - Modelos: Claude 3.5 Sonnet, Claude 3 Opus
+   - Qualidade: análise semântica avançada
+   
+3. **DeepSeek API** (fallback) — https://platform.deepseek.com
+   - Modelos: DeepSeek-V3, DeepSeek-R1
+   - Especialidade: raciocínio em conformidade
+   
+4. **Google Gemini API** (fallback final) — https://aistudio.google.com
+   - Modelos: Gemini 2.0, Gemini Pro
+   - Multimodal: suporte a imagens e documentos
 
 **Versões críticas:**
 - React: 18.3.1
@@ -67,10 +84,15 @@ Os selos considerados são: **Disponível** e **Funcional**.
 - Express: 4.18+
 - Firebase: 10.4+
 - Groq SDK: última versão estável
+- Anthropic SDK: ^0.28.0+ (para Claude API)
+- Google AI SDK: ^0.4.0+ (para Gemini API)
 
 **Recursos de terceiros:**
 - Firebase Console: https://console.firebase.google.com
 - Groq API Console: https://console.groq.com
+- Claude API: https://console.anthropic.com
+- DeepSeek API: https://platform.deepseek.com
+- Gemini API: https://aistudio.google.com
 - Vercel Dashboard: https://vercel.com
 
 ---
@@ -81,11 +103,19 @@ Os selos considerados são: **Disponível** e **Funcional**.
 
 **Dados Sensíveis:** Use uma conta Firebase de teste. Nunca salve dados de clientes reais. Todas as chaves de API devem estar em `.env` (nunca commitadas). 
 
+**Segurança de Chaves de API LLM:**
+- ⚠️ **Groq API:** Chave deve estar em `server/.env`, nunca em repositório público
+- ⚠️ **Claude API:** Chave é sensível (acesso a modelo premium); revogue regularmente em https://console.anthropic.com
+- ⚠️ **DeepSeek API:** Use token de teste em desenvolvimento; rotation recomendada mensalmente
+- ⚠️ **Gemini API:** Não use em domínio público sem restricção de origem (CORS)
+
 **Segurança Recomendada:**
-- Não compartilhe credenciais Firebase
-- Revogue tokens de acesso após uso
+- Não compartilhe credenciais Firebase, Groq, Claude, DeepSeek ou Gemini
+- Revogue tokens de acesso após testes em desenvolvimento
 - Use `server/serviceAccountKey.json` apenas localmente (nunca em repositório público)
 - Configure CORS corretamente (verificar `server/server.mjs`)
+- Monitore rate limits de API em produção (Groq: 10.000 req/min, Claude: 100.000 tokens/min)
+- Implemente retry logic com backoff exponencial para falhas de API
 
 ---
 
@@ -94,7 +124,14 @@ Os selos considerados são: **Disponível** e **Funcional**.
 ### Pré-requisitos
 - Node.js 18+ e npm 9+ instalados
 - Conta Firebase ativa (criar em https://firebase.google.com)
-- Chave API Groq (obter em https://console.groq.com)
+
+**APIs LLM (obrigatórias/opcionais):**
+- ✅ **Groq API** (obrigatória — primária) — https://console.groq.com
+- ✅ **Claude API** (recomendada — fallback) — https://console.anthropic.com
+- ⚠️ **DeepSeek API** (opcional — fallback) — https://platform.deepseek.com
+- ⚠️ **Gemini API** (opcional — fallback final) — https://aistudio.google.com
+
+Pelo menos **1 chave de API LLM é obrigatória** (Groq recomendada para produção).
 
 ### Passos de Instalação
 
@@ -136,11 +173,35 @@ VITE_FIREBASE_APP_ID=seu_app_id
 
 **Backend (`server/.env`):**
 ```env
-GROQ_API_KEY=sua_chave_groq
+# Firebase
 FIREBASE_PROJECT_ID=seu_project_id
+
+# LLM APIs (Cascade - fallback automático)
+# Obrigatória (primária)
+GROQ_API_KEY=sua_chave_groq
+
+# Fallback (recomendadas)
+CLAUDE_API_KEY=sua_chave_claude
+ANTHROPIC_API_KEY=sua_chave_anthropic
+
+# Fallback (opcionais)
+DEEPSEEK_API_KEY=sua_chave_deepseek
+GOOGLE_AI_API_KEY=sua_chave_gemini
+GOOGLE_GENERATIVE_AI_API_KEY=sua_chave_gemini_alternativa
+
+# Configuração
 PORT=8787
 NODE_ENV=development
+
+# Opcional: Modelo LLM padrão (padrão: groq)
+LLM_PROVIDER=groq
 ```
+
+**Notas:**
+- Apenas `GROQ_API_KEY` é obrigatória
+- `CLAUDE_API_KEY` é recomendada para fallback de qualidade
+- `DEEPSEEK_API_KEY` e `GOOGLE_AI_API_KEY` são opcionais (fallback final)
+- Sistema usa cascade automático: Groq → Claude → DeepSeek → Gemini
 
 ---
 
@@ -163,6 +224,17 @@ NODE_ENV=development
 
 **Resultado Esperado:** Dashboard mostra análise com scores e gráficos, sem erros no console.
 
+**Verificação de API LLM:**
+- Abra F12 → Console → procure por logs de "LLM Provider: [GROQ|CLAUDE|DEEPSEEK|GEMINI]"
+- Se Groq falhar, sistema automaticamente tenta Claude → DeepSeek → Gemini
+- Logs mostram qual API foi usada: `"Usando Groq API com modelo llama-3.3-70b-versatile"`
+
+**Dica:** Se teste falhar, verifique:
+1. Variáveis `.env` estão configuradas (`GROQ_API_KEY` obrigatória)
+2. Conexão com API LLM (teste: `curl https://api.groq.com/health`)
+3. Rate limits não foram excedidos
+4. Backend está rodando em http://localhost:8787
+
 ---
 
 ## 📋 Experimentos
@@ -175,11 +247,15 @@ Esta seção descreve como reproduzir as reivindicações principais do artigo. 
 
 **Tempo esperado:** 20 minutos
 
+**APIs LLM utilizadas:** Groq (primária) → Claude (fallback) → DeepSeek → Gemini  
+**Modelo padrão:** llama-3.3-70b-versatile (Groq)
+
 **Resultado esperado:** Questionário adaptativo ~20-30% mais rápido que questionário fixo
 
 **Arquivos relevantes:** 
 - `src/components/QuestionnaireScreen.tsx` (renderiza questões adaptativas)
 - `server/lib/groq-service.ts` (GroqHeadroomService.analyzeLGPDCompliance() — análise com IA)
+- `server/lib/ai-client.mjs` (gerencia cascade de APIs LLM)
 
 ---
 
@@ -189,24 +265,36 @@ Esta seção descreve como reproduzir as reivindicações principais do artigo. 
 
 **Tempo esperado:** 15 minutos
 
+**APIs LLM utilizadas:** Groq (primária) → Claude (fallback) → DeepSeek → Gemini  
+**Modelo padrão:** llama-3.3-70b-versatile (Groq)  
+**Processamento:** Análise semântica em cascata com fallback automático em caso de falha
+
 **Resultado esperado:** Scores 0-100, distribuição de riscos por categoria LGPD, recomendações priorizadas
 
 **Arquivos relevantes:**
 - `server/lib/groq-service.ts` (GroqHeadroomService.analyzeLGPDCompliance())
-- `server/lib/reportGenerator.ts` (ReportGenerator.classifyCompliance() — classifica em 5 níveis)
+- `server/lib/reportGenerator.ts` (ReportGenerator.classifyCompliance() — classifica em 5 níveis: Crítico/Insuficiente/Parcial/Adequado/Exemplar)
 - `server/routes/analyze.mjs` (Endpoint /api/analyze — recebe respostas e retorna análise)
+- `server/lib/ai-client.mjs` (gerencia cascade: Groq → Claude → DeepSeek → Gemini)
 
 ---
 
 ### Reivindicações #3: Plataforma Funciona em Novo Ambiente
 
-**Procedimento:** Clone repositório, instale dependências, execute teste mínimo.
+**Procedimento:** Clone repositório, instale dependências, configure `.env` com chaves de API LLM (mínimo Groq ou Claude), execute teste mínimo.
 
 **Tempo esperado:** 20 minutos
 
-**Resultado esperado:** Instalação sem erros, teste mínimo completado com sucesso
+**APIs LLM obrigatórias:** Mínimo 1 (Groq recomendada para produção)  
+**APIs LLM recomendadas:** Groq + Claude (para redundância)  
+**Fallback automático:** Sistema tenta cascade Groq → Claude → DeepSeek → Gemini
 
-**Arquivos relevantes:** Estrutura completa em `src/` e `server/`
+**Resultado esperado:** Instalação sem erros, teste mínimo completado com sucesso, pelo menos 1 API LLM funcional
+
+**Arquivos relevantes:** 
+- Estrutura completa em `src/` e `server/`
+- `.env.example` (template com todas as variáveis de API)
+- `server/lib/ai-client.mjs` (cascade automático de APIs)
 
 ---
 
