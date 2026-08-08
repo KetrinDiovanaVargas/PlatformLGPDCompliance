@@ -22,12 +22,6 @@ The platform leverages:
 
 ---
 
-## 🏆 Artifact Evaluation (SBSeg 2026)
-
-This repository is submitted for evaluation with the following seals: **Available** and **Functional**.
-
----
-
 ## 🎯 Key Features
 
 ### 🎯 Adaptive Assessment
