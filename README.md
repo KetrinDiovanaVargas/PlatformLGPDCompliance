@@ -5,466 +5,229 @@
 [![React](https://img.shields.io/badge/react-18+-61DAFB?style=flat-square&logo=react)](https://react.dev)
 [![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
 
-**Intelligent SaaS platform for LGPD compliance assessment and information security risk analysis powered by AI**.
+**Plataforma SaaS inteligente para avaliação de conformidade LGPD e análise de riscos de segurança da informação com suporte de IA.**
+
+## Resumo
+
+Platform LGPD Compliance é uma solução SaaS abrangente projetada para organizações que precisam validar conformidade com a **Lei Geral de Proteção de Dados (LGPD)** brasileira e identificar vulnerabilidades de segurança alinhadas com os padrões **ISO/IEC 27001**. A plataforma aproveita IA generativa para análise automatizada de respostas, dashboards interativos para visualização de riscos, matriz de confusão para validação de personas, Firebase para armazenamento seguro de dados e Vercel para implantação contínua.
 
 ---
 
-## 📋 Overview
+## 📋 Estrutura do readme.md
 
-Platform LGPD Compliance is a comprehensive SaaS solution designed for organizations that need to validate compliance with the **Brazilian General Data Protection Law (LGPD)** and identify security vulnerabilities aligned with **ISO/IEC 27001** standards.
+Este repositório contém uma plataforma web completa para avaliação adaptativa de maturidade em proteção de dados. A estrutura está organizada em:
 
-The platform leverages:
-- 🤖 **Generative AI** for automated response analysis
-- 📊 **Interactive Dashboards** for risk visualization
-- 📈 **Confusion Matrix** for persona validation
-- 🔐 **Firebase** for secure data storage
-- ⚡ **Vercel** for continuous deployment
+- **`src/`** — Código frontend (React + Vite + TypeScript)
+  - `components/` — Componentes UI reutilizáveis
+  - `pages/` — Rotas e telas principais
+  - `lib/` — Utilitários e integração Firebase
+  - `services/` — Serviços de autenticação e banco de dados
+  
+- **`server/`** — Código backend (Express.js + Node.js)
+  - `routes/` — Endpoints da API
+  - `lib/` — Lógica de negócio (análise de conformidade, geração de relatórios)
+  - `groq/` — Integração com API Groq (IA)
+  - `services/` — Serviços Firestore e histórico de sessões
 
----
-
-## 🎯 Key Features
-
-### 🎯 Adaptive Assessment
-- Dynamic questionnaires across 4 stages
-- Questions adjusted based on respondent profile
-- Coverage of 5 LGPD vulnerability dimensions:
-  - Data Storage
-  - Data Sharing
-  - Consent
-  - Data Retention
-  - Monitoring & Audit
-
-### 📊 Executive Dashboard
-- **4 Real-time Compliance KPIs**
-- Interactive charts (Recharts)
-- Risk analysis by dimension
-- Maturity distribution
-- Compliance by type
-
-### 🔍 Confusion Matrix
-- Expected vs. Detected comparison
-- Automatic metric calculation:
-  - Accuracy, Precision, Recall
-  - F1-Score, Specificity
-- Persona validation (P01-P50 + A01-A05)
-
-### 📄 Reports
-- PDF export functionality
-- 5-week action plan
-- Personalized recommendations
-- Strategic analysis
-
-### 👥 Access Management
-- **MASTER**: Full control, manages admins
-- **ADMIN**: Creates assessments, views results
-- **USER**: Responds to forms
+- **`public/`** — Arquivos estáticos
+- **`tests/`** — Testes automatizados
+- **`scripts/`** — Scripts de utilitários
+- **`.env.example`** — Variáveis de ambiente de exemplo
 
 ---
 
-## 🏗️ Architecture
+## 🏆 Selos Considerados
 
-```
-Frontend (React + Vite)
-    ↓
-    ├── src/
-    │   ├── components/     (UI components)
-    │   ├── pages/          (Routes)
-    │   ├── lib/            (Utilities, Firebase)
-    │   └── styles/         (Tailwind)
-    ↓
-API Backend (Express.js)
-    ├── server/routes/      (API endpoints)
-    ├── server/lib/         (Business logic)
-    ├── server/groq/        (AI integration)
-    └── server/services/    (Firebase, Auth)
-    ↓
-Firebase (Firestore + Auth)
-    └── Cloud Storage
-```
-
-**Complete Tech Stack:**
-| Layer | Technology |
-|-------|-----------|
-| Frontend | React 18 + Vite + TypeScript |
-| UI | Tailwind CSS + shadcn/ui |
-| Charts | Recharts |
-| Backend | Express.js (Node.js) |
-| AI | Groq API (LLM) |
-| Database | Firebase Firestore |
-| Authentication | Firebase Auth |
-| Hosting | Vercel |
+Os selos considerados são: **Disponível** e **Funcional**.
 
 ---
 
-## 🚀 Quick Start
+## ⚙️ Informações básicas
 
-### Prerequisites
-- Node.js 18+
-- npm or yarn
-- Firebase account
-- Groq API key
-- Git
+**Node.js:** >= 18.0.0  
+**npm:** >= 9.0.0  
+**Navegador:** Chrome 90+, Firefox 88+, Safari 14+  
+**RAM:** 2GB mínimo
 
-### Installation
+**Ambiente de Execução:**
+- Desenvolvimento: `npm run dev` (frontend em localhost:5173, backend em localhost:8787)
+- Produção: Deploy automático via Vercel ao fazer push para branch `main`
 
-```bash
-# Clone the repository
-git clone https://github.com/KetrinDiovanaVargas/PlatformLGPDCompliance.git
-cd PlatformLGPDCompliance
+---
 
-# Install dependencies
-npm install
+## 📦 Dependências
 
-# Configure environment variables
-cp .env.example .env.local
+**Frontend:** React 18+, TypeScript, Tailwind CSS, Recharts, Firebase, Framer Motion, Lucide Icons, Sonner
 
-# Start development server
-npm run dev
-```
+**Backend:** Node.js 18+, Express.js, Groq API, Firebase Admin SDK
 
-### Environment Configuration
+**Versões críticas:**
+- React: 18.3.1
+- Vite: 5.0+
+- Express: 4.18+
+- Firebase: 10.4+
+- Groq SDK: última versão estável
 
-#### Frontend (`.env.local`)
+**Recursos de terceiros:**
+- Firebase Console: https://console.firebase.google.com
+- Groq API Console: https://console.groq.com
+- Vercel Dashboard: https://vercel.com
+
+---
+
+## 🔐 Preocupações com segurança
+
+**Riscos de Execução:** Sem riscos significativos identificados. A plataforma não modifica o sistema de arquivos além do diretório local.
+
+**Dados Sensíveis:** Use uma conta Firebase de teste. Nunca salve dados de clientes reais. Todas as chaves de API devem estar em `.env` (nunca commitadas). 
+
+**Segurança Recomendada:**
+- Não compartilhe credenciais Firebase
+- Revogue tokens de acesso após uso
+- Use `server/serviceAccountKey.json` apenas localmente (nunca em repositório público)
+- Configure CORS corretamente (verificar `server/server.mjs`)
+
+---
+
+## 🚀 Instalação
+
+### Pré-requisitos
+- Node.js 18+ e npm 9+ instalados
+- Conta Firebase ativa (criar em https://firebase.google.com)
+- Chave API Groq (obter em https://console.groq.com)
+
+### Passos de Instalação
+
+1. **Clone o repositório:**
+   ```bash
+   git clone https://github.com/KetrinDiovanaVargas/PlatformLGPDCompliance.git
+   cd PlatformLGPDCompliance
+   ```
+
+2. **Instale as dependências:**
+   ```bash
+   npm install
+   ```
+
+3. **Configure variáveis de ambiente:**
+   - Copie `.env.example` para `.env.local` e `server/.env`
+   - Preenchа as chaves Firebase e Groq
+   - Coloque `serviceAccountKey.json` em `server/`
+
+4. **Inicie o servidor de desenvolvimento:**
+   ```bash
+   npm run dev
+   ```
+   
+   Frontend disponível em: http://localhost:5173
+   Backend disponível em: http://localhost:8787
+
+### Variáveis de Ambiente
+
+**Frontend (`.env.local`):**
 ```env
-VITE_FIREBASE_API_KEY=your_api_key
-VITE_FIREBASE_AUTH_DOMAIN=your_auth_domain
-VITE_FIREBASE_PROJECT_ID=your_project_id
-VITE_FIREBASE_STORAGE_BUCKET=your_storage_bucket
-VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
-VITE_FIREBASE_APP_ID=your_app_id
+VITE_FIREBASE_API_KEY=seu_api_key
+VITE_FIREBASE_AUTH_DOMAIN=seu_project.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=seu_project_id
+VITE_FIREBASE_STORAGE_BUCKET=seu_project.appspot.com
+VITE_FIREBASE_MESSAGING_SENDER_ID=seu_sender_id
+VITE_FIREBASE_APP_ID=seu_app_id
 ```
 
-#### Backend (`server/.env`)
+**Backend (`server/.env`):**
 ```env
-GROQ_API_KEY=your_groq_api_key
-FIREBASE_PROJECT_ID=your_project_id
+GROQ_API_KEY=sua_chave_groq
+FIREBASE_PROJECT_ID=seu_project_id
 PORT=8787
 NODE_ENV=development
 ```
 
-#### Firebase Credentials
-Add `server/serviceAccountKey.json`:
-```bash
-# Get from: Firebase Console → Settings → Service Accounts
-# DO NOT commit this file!
-```
+---
+
+## 🧪 Teste mínimo
+
+**Tempo estimado:** 5-10 minutos
+
+**Pré-requisito:** Executar `npm run dev`
+
+**Passos:**
+
+1. Abra http://localhost:5173 no navegador
+2. Clique em "Login"
+3. Use as credenciais: `admin@test.com` / `test123456`
+4. Clique em "Criar Questionário"
+5. Preencha os campos (título, descrição, público-alvo)
+6. Clique em "Gerar Link"
+7. Abra o link em aba anônima/incógnita
+8. Responda as perguntas e clique em "Enviar Respostas"
+
+**Resultado Esperado:** Dashboard mostra análise com scores e gráficos, sem erros no console.
 
 ---
 
-## 📖 Documentation
+## 📋 Experimentos
 
-Access complete documentation:
-- **[COMO_EXECUTAR.md](./COMO_EXECUTAR.md)** - Execution guide (Portuguese)
-- **[ANALISE_RELATORIO_FINAL.md](./ANALISE_RELATORIO_FINAL.md)** - Strategic analysis
-- **[validation_results/](./validation_results/)** - Validation examples
+Esta seção descreve como reproduzir as reivindicações principais do artigo. Cada reivindicação inclui detalhes sobre arquivos de configuração, comandos, tempo esperado e resultado esperado.
 
----
+### Reivindicações #1: Questionários Adaptativos Reduzem Tempo de Resposta
 
-## 💻 Development
+**Procedimento:** Crie dois questionários (um adaptativo, um fixo). Responda ambos cronometrando o tempo total de resposta.
 
-### Available Scripts
+**Tempo esperado:** 20 minutos
 
-```bash
-npm run dev              # Start development server
-npm run build            # Build for production
-npm run preview          # Preview production build
-npm run lint             # Check syntax
-npm run type-check       # TypeScript type checking
-```
+**Resultado esperado:** Questionário adaptativo ~20-30% mais rápido que questionário fixo
 
-### Folder Structure
-
-```
-src/
-├── components/          # Reusable React components
-│   ├── ConfusionMatrix.tsx
-│   ├── AdminDashboard.tsx
-│   └── ValidationDemoPage.tsx
-├── pages/              # Main pages
-│   ├── Admin/
-│   └── Assessment/
-├── lib/                # Utilities
-│   ├── firebase.ts     # Firebase configuration
-│   └── auth.ts
-└── styles/             # Global CSS
-
-server/
-├── routes/             # Express endpoints
-│   ├── analyze.mjs      # POST /api/analyze
-│   ├── admin.mjs        # Admin endpoints
-│   └── sitemap.mjs      # GET /sitemap.xml
-├── lib/                # Business logic
-│   ├── auth-middleware.mjs
-│   ├── rate-limiter.mjs
-│   └── ai-client.mjs
-└── server.mjs          # Express configuration
-```
+**Arquivos relevantes:** 
+- `src/components/QuestionnaireScreen.tsx` (renderiza questões adaptativas)
+- `server/lib/groq-service.ts` (GroqHeadroomService.analyzeLGPDCompliance() — análise com IA)
 
 ---
 
-## 📡 API Endpoints
+### Reivindicações #2: Análise Automatizada Identifica Riscos LGPD
 
-### Public
-```
-GET  /health                    # Health check
-GET  /sitemap.xml               # SEO sitemap
-GET  /api/ai-status             # AI status
-```
+**Procedimento:** Responda questionário com perfil de alto risco. Valide que scores e recomendações são gerados automaticamente no dashboard.
 
-### Authenticated
-```
-POST   /api/assessment/create           # Create assessment
-POST   /api/assessment/submit            # Submit responses
-GET    /api/assessment/:id               # Get assessment
-GET    /api/admin/dashboard              # Executive dashboard
-GET    /api/admin/consolidated-analysis  # Consolidated analysis
-```
+**Tempo esperado:** 15 minutos
+
+**Resultado esperado:** Scores 0-100, distribuição de riscos por categoria LGPD, recomendações priorizadas
+
+**Arquivos relevantes:**
+- `server/lib/groq-service.ts` (GroqHeadroomService.analyzeLGPDCompliance())
+- `server/lib/reportGenerator.ts` (ReportGenerator.classifyCompliance() — classifica em 5 níveis)
+- `server/routes/analyze.mjs` (Endpoint /api/analyze — recebe respostas e retorna análise)
 
 ---
 
-## 🧪 Testing
+### Reivindicações #3: Plataforma Funciona em Novo Ambiente
 
-### Recommended Test Flow
+**Procedimento:** Clone repositório, instale dependências, execute teste mínimo.
 
-1. **Login as ADMIN**
-   ```
-   Email: admin@company.com
-   Password: [Firebase credentials]
-   ```
+**Tempo esperado:** 20 minutos
 
-2. **Create Assessment**
-   - Dashboard → "New Assessment"
-   - Type: "LGPD Diagnosis"
-   - Audience: "HR Team"
+**Resultado esperado:** Instalação sem erros, teste mínimo completado com sucesso
 
-3. **Distribute Link**
-   - Copy shareable link
-   - Share with respondents
-
-4. **Collect Responses**
-   - Wait for 5+ respondents
-   - Charts appear automatically
-
-5. **Analyze Results**
-   - Compliance score
-   - Confusion matrix
-   - Recommendations
+**Arquivos relevantes:** Estrutura completa em `src/` e `server/`
 
 ---
 
-## 🌍 Deployment
-
-### Vercel (Automated)
-
-```bash
-# Push to main triggers automatic deployment
-git push origin main
-```
-
-**Automatic Configuration:**
-- Build: `npm run build`
-- Output: `.vite/`
-- Environment variables: Configured in Vercel console
-
-**URLs:**
-- Production: https://platformlgpdcompliance.com.br
-- Preview: https://platform-lgpd-compliance.vercel.app
-
----
-
-## 🔐 Security
-
-### Implemented
-- ✅ **Firebase Authentication** with role-based access control
-- ✅ **Rate limiting** on critical endpoints
-- ✅ **CORS** configured for authorized domains
-- ✅ **Input validation** on all APIs
-- ✅ **Security headers** (X-Content-Type-Options, X-Frame-Options)
-- ✅ **Encryption in transit** (HTTPS/TLS 1.3)
-- ✅ **Sensitive variables** in `.env`
-
-### Security Checklist
-- [ ] `serviceAccountKey.json` added to `.gitignore`
-- [ ] Environment variables configured in production
-- [ ] Firebase Firestore with security rules
-- [ ] CORS restricted to known domains
-- [ ] Rate limiting enabled
-
----
-
-## 📊 Compliance Metrics
-
-The platform evaluates compliance across 5 dimensions:
-
-| Dimension | What it evaluates | Risk if non-compliant |
-|-----------|-----------------|----------------------|
-| **Storage** | How data is stored | Compromised security |
-| **Sharing** | Who data is shared with | Potential leak |
-| **Consent** | Explicit permission | Rights violation |
-| **Retention** | How long data is kept | Unnecessary accumulation |
-| **Monitoring** | Access monitoring | No audit trail |
-
----
-
-## 🐛 Troubleshooting
-
-### Port 5173 already in use
-```bash
-npm run dev -- --port 5174
-```
-
-### Firebase credentials not found
-```bash
-# Check .env.local
-cat .env.local | grep VITE_FIREBASE
-```
-
-### Charts not appearing
-```bash
-# Clear cache
-rm -rf node_modules
-npm install
-npm run dev
-```
-
-### 403 error accessing endpoints
-- Check CORS in `server/server.mjs`
-- Confirm frontend URL is in `allowedOrigins`
-
----
-
-## 📈 Performance
-
-| Operation | Time |
-|----------|------|
-| Install dependencies | 2-3 min |
-| Start dev server | 5-10 sec |
-| Load dashboard | 1-2 sec |
-| Generate PDF (50 responses) | 3-5 sec |
-| Calculate compliance score | <100ms |
-
----
-
-## 📝 Contributing
-
-This project is private. For contributions, please contact the author.
-
----
-
-## ⚙️ Basic Information
-
-**Node.js:** >= 18.0.0  
-**npm:** >= 9.0.0  
-**Browser:** Chrome 90+, Firefox 88+, Safari 14+  
-**RAM:** 2GB minimum
-
----
-
-## 📦 Dependencies
-
-Listed in `package.json`:
-
-**Frontend:** React 18+, TypeScript, Tailwind CSS, Recharts, Firebase, Framer Motion, Lucide Icons, Sonner
-
-**Backend:** Node.js, Express, Groq API, Firebase Admin
-
----
-
-## 🔐 Security Concerns
-
-**Execution Risks:** No significant risks identified. The platform does not modify the filesystem beyond the local directory.
-
-**Sensitive Data:** Use a test Firebase account. Never save real customer data. All API keys must be in `.env` (never committed).
-
----
-
-## 🧪 Minimum Test
-
-**Time:** 5-10 minutes
-
-**Prerequisites:** Run `npm run dev`
-
-1. Open http://localhost:5173
-2. Click "Login"
-3. Use: admin@test.com / test123456
-4. Click "Create Questionnaire"
-5. Fill in fields (title, description, target audience)
-6. Click "Generate Link"
-7. Open link in incognito tab
-8. Answer questions and click "Submit Responses"
-
-**Expected Result:** Dashboard shows analysis with scores and graphs, no console errors.
-
----
-
-## 📋 Experiments
-
-### Claim #1: Adaptive Questionnaires Reduce Response Time
-
-**Procedure:** Create two questionnaires (one adaptive, one fixed). Answer both and compare total response time.
-
-**Expected Time:** 20 minutes
-
-**Expected Result:** Adaptive questionnaire ~20-30% faster
-
-**Relevant Files:** `src/components/QuestionnaireScreen.tsx`, `server/lib/groq-service.ts`
-
----
-
-### Claim #2: Automated Analysis Identifies LGPD Risks
-
-**Procedure:** Answer questionnaire with high-risk profile. Verify scores and recommendations are generated automatically.
-
-**Expected Time:** 15 minutes
-
-**Expected Result:** Scores 0-100, risk distribution by category, prioritized recommendations
-
-**Relevant Files:** `server/lib/groq-service.ts`, `server/lib/reportGenerator.ts`, `server/routes/analyze.mjs`
-
----
-
-### Claim #3: Platform Works in New Environment
-
-**Procedure:** Clone repository, install dependencies, run minimum test.
-
-**Expected Time:** 20 minutes
-
-**Expected Result:** Installation without errors, minimum test completes successfully
-
----
-
-## 📄 License
+## 📄 Licença
 
 MIT License © 2026 Ketrin Diovana Alves Rodrigues Vargas
 
-See the [LICENSE](LICENSE) file for complete details.
-
-
-**Proprietary** - All rights reserved.
-
-Developed by **Ketrin Diovana Vargas**
+Veja o arquivo [LICENSE](LICENSE) para detalhes completos.
 
 ---
 
-## 📞 Support
+## 🔗 Links Adicionais
 
-For questions or issues:
-
-1. Check [COMO_EXECUTAR.md](./COMO_EXECUTAR.md)
-2. Review [ANALISE_RELATORIO_FINAL.md](./ANALISE_RELATORIO_FINAL.md)
-3. Explore [validation_results/](./validation_results/)
-4. Contact: ketrin.diovana.vargas@gmail.com
+- **Documentação LGPD:** https://www.gov.br/cidadania/pt-br/acesso-a-informacao/lgpd
+- **Norma ISO/IEC 27001:** https://www.iso.org/standard/54534.html
+- **Firebase Docs:** https://firebase.google.com/docs
+- **Groq API:** https://groq.com/
+- **Vercel:** https://vercel.com/
 
 ---
 
-## 🎓 Educational Stack
+## 👥 Suporte
 
-Built with:
-- React + TypeScript
-- Firebase (Auth + Firestore)
-- Tailwind CSS
-- Express.js
-- Groq API (AI)
-- Vercel
-
-**Last Updated:** July 5, 2026
+Para dúvidas ou problemas, entre em contato com: ketrin.diovana.vargas@gmail.com
