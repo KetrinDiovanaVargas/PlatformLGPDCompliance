@@ -248,7 +248,7 @@ Esta seção descreve como reproduzir as reivindicações principais do artigo. 
 **Tempo esperado:** 20 minutos
 
 **APIs LLM utilizadas:** Groq (primária) → Claude (fallback) → DeepSeek → Gemini  
-**Modelo padrão:** llama-3.3-70b-versatile (Groq)
+**Modelo padrão:** llama-3.3-70b-versatile
 
 **Resultado esperado:** Questionário adaptativo ~20-30% mais rápido que questionário fixo
 
