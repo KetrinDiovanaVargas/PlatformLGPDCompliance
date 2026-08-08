@@ -1,3 +1,33 @@
+/**
+ * QuestionnaireScreen Component
+ * 
+ * Componente React que renderiza questionários adaptativos com perguntas dinâmicas.
+ * As perguntas são ajustadas dinamicamente com base nas respostas anteriores do usuário
+ * e no perfil do respondente, utilizando integração com APIs LLM (Groq, Claude, etc).
+ * 
+ * Funcionalidades principais:
+ * - Renderização de 4 estágios de avaliação LGPD
+ * - Perguntas adaptativas via IA (cascade Groq → Claude → DeepSeek → Gemini)
+ * - Progresso visual com barra de progresso
+ * - Validação em tempo real de campos obrigatórios
+ * - Salvamento de respostas por estágio no Firebase Firestore
+ * - Integração com sistema de análise de conformidade LGPD
+ * 
+ * @component
+ * @param {string} quizId - ID único do questionário no Firebase
+ * @param {string} respondentId - ID do respondente (usuário)
+ * @param {Function} onComplete - Callback executado ao completar todos os 4 estágios
+ * @returns {JSX.Element} Interface de questionário adaptativo com navegação por estágios
+ * 
+ * @example
+ * // Uso básico
+ * <QuestionnaireScreen 
+ *   quizId="quiz_001"
+ *   respondentId="user_123"
+ *   onComplete={() => navigateToDashboard()}
+ * />
+ */
+
 import { useState, useEffect, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";

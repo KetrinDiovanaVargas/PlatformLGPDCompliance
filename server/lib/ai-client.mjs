@@ -1,12 +1,35 @@
 /**
- * ai-client.mjs
- *
- * Cliente de IA com fallback automático: Groq → DeepSeek → Gemini
- * Suporta seleção de modelo preferencial com fallback automático
- * Todos os módulos do servidor devem usar este cliente em vez de
- * instanciar clientes diretamente.
- *
- * Integrado com AIQueue para respeitar rate limits de cada provedor
+ * Cliente de IA com Cascade Automático
+ * @module ai-client.mjs
+ * 
+ * Cliente centralizado para requisições de IA com fallback automático entre múltiplos provedores.
+ * Implementa cascade de LLMs: Groq (primário) → Claude → DeepSeek → Gemini (fallback final)
+ * 
+ * Características principais:
+ * - Cascade automático em caso de falha (rate limit, timeout, erro)
+ * - Respeito a rate limits via AIQueue (fila inteligente de requisições)
+ * - Suporte a modo JSON (response_format: json_object)
+ * - Temperatura configurável por requisição
+ * - Logging de qual provedor foi utilizado
+ * - Fallback para Gemini como último recurso
+ * 
+ * Variáveis de Ambiente Necessárias:
+ * - GROQ_API_KEY (obrigatória - primária)
+ * - CLAUDE_API_KEY ou ANTHROPIC_API_KEY (recomendada - fallback)
+ * - DEEPSEEK_API_KEY (opcional - fallback)
+ * - GEMINI_API_KEY ou GOOGLE_AI_API_KEY (opcional - fallback final)
+ * 
+ * Exemplo de uso:
+ * ```javascript
+ * const { chatCompletion } = await import('./ai-client.mjs');
+ * const response = await chatCompletion(
+ *   [{ role: 'user', content: 'Analise conformidade LGPD' }],
+ *   { temperature: 0.7, jsonMode: true }
+ * );
+ * ```
+ * 
+ * Todos os módulos do servidor devem usar este cliente centralizado
+ * em vez de instanciar clientes de IA diretamente.
  */
 
 import Groq from 'groq-sdk'

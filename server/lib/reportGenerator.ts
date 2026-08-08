@@ -1,3 +1,12 @@
+/**
+ * Gerador de Relatórios de Conformidade LGPD
+ * 
+ * Módulo responsável pela geração de relatórios consolidados de avaliação de maturidade
+ * em proteção de dados. Classifica conformidade em 5 níveis (Crítico/Insuficiente/Parcial/Adequado/Exemplar)
+ * baseado em scores de 0-100 dos 4 estágios de avaliação.
+ */
+
+/** Interface que representa relatório de um estágio individual */
 interface StageReport {
   stageId: string;
   title: string;
@@ -10,6 +19,7 @@ interface StageReport {
   summary?: string;
 }
 
+/** Interface que representa relatório consolidado de toda a avaliação */
 interface ConsolidatedReport {
   sessionId: string;
   userId: string;
@@ -24,7 +34,33 @@ interface ConsolidatedReport {
   executiveSummary: string;
 }
 
+/**
+ * Classe ReportGenerator
+ * 
+ * Responsável por gerar e formatar relatórios de conformidade LGPD.
+ * Consolida dados dos 4 estágios em um relatório executivo com scores agregados,
+ * classificação de maturidade e recomendações priorizadas.
+ * 
+ * @class
+ */
 export class ReportGenerator {
+  /**
+   * Gera relatório consolidado a partir de dados dos estágios
+   * 
+   * Agrega scores dos 4 estágios, calcula conformidade geral (0-100),
+   * classifica nível de maturidade e consolida recomendações/problemas.
+   * 
+   * @param {string} sessionId - ID único da sessão de avaliação
+   * @param {string} userId - ID do usuário/respondente
+   * @param {StageReport[]} stages - Array com relatórios dos 4 estágios (Contexto, Controles, Riscos, Maturidade)
+   * @param {string} [assessmentId] - ID opcional do questionário/avaliação
+   * @returns {ConsolidatedReport} Relatório consolidado com score 0-100 e nível de conformidade
+   * 
+   * @example
+   * const report = generator.generate('sess_001', 'user_123', stageReports);
+   * console.log(report.overallScore); // 75
+   * console.log(report.complianceLevel); // "Adequado"
+   */
   generate(
     sessionId: string,
     userId: string,

@@ -1,3 +1,19 @@
+/**
+ * Rotas de Análise LGPD - Express Router
+ * 
+ * Módulo que expõe endpoints HTTP para análise de conformidade LGPD.
+ * Processa respostas de questionários e gera relatórios automatizados
+ * utilizando cascade de LLMs (Groq → Claude → DeepSeek → Gemini).
+ * 
+ * Endpoints:
+ * - POST /api/analyze - Analisa respostas e retorna scores/recomendações
+ * 
+ * Integração:
+ * - Firebase Firestore para armazenamento de metadados
+ * - AI Client (cascade LLM) para análise semântica
+ * - Report Generator para formatação de relatórios
+ */
+
 import express from "express";
 import { generateFinalReportWithGroq } from "../groq/generateFinalReportGroq.mjs";
 import { saveFinalReport } from "../lib/saveFinalReport.js";
@@ -5,10 +21,27 @@ import { getAdminDb } from "../firebaseAdmin.mjs";
 
 const router = express.Router();
 
+/**
+ * Converte valor para string segura
+ * @param {*} value - Valor a converter
+ * @param {string} [fallback=""] - Valor padrão se value for falsy
+ * @returns {string} String segura e trimada
+ */
 function safeString(value, fallback = "") {
   return String(value ?? fallback).trim();
 }
 
+/**
+ * Carrega metadados do questionário/avaliação do Firestore
+ * 
+ * Busca informações como título, objetivo, público-alvo e contexto
+ * da avaliação para incluir no relatório final.
+ * 
+ * @async
+ * @param {*} adminDb - Instância de admin Firestore
+ * @param {string} assessmentId - ID da avaliação
+ * @returns {Promise<{id, title, formType, objective, context, audience, introText, ownerId, ownerName, active}|null>} Metadados ou null
+ */
 async function loadAssessmentMetadata(adminDb, assessmentId) {
   if (!assessmentId) return null;
 
