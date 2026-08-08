@@ -36,12 +36,6 @@ Este repositório contém uma plataforma web completa para avaliação adaptativ
 
 ---
 
-## 🏆 Selos Considerados
-
-Os selos considerados são: **Disponível** e **Funcional**.
-
----
-
 ## ⚙️ Informações básicas
 
 **Node.js:** >= 18.0.0  
