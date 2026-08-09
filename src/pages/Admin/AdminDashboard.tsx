@@ -547,171 +547,186 @@ Agradecemos pela sua colaboração.`;
   };
 
   const handleCreateAdmin = async (data?: {
-    name: string;
-    email: string;
-    password: string;
-    role: "ADMIN" | "MASTER";
-  }) => {
-    if (role !== "MASTER") {
-      toast.error("Apenas o administrador MASTER pode criar acessos.");
-      return;
-    }
+  name: string;
+  email: string;
+  password: string;
+  role: "ADMIN" | "MASTER";
+}) => {
+  if (role !== "MASTER") {
+    toast.error("Apenas o administrador MASTER pode criar acessos.");
+    return;
+  }
 
-    const adminData = data || {
-      name: adminNameInput.trim(),
-      email: adminEmailInput.trim().toLowerCase(),
-      password: adminPasswordInput.trim(),
-      role: adminRoleInput,
-    };
-
-    if (!adminData.name || !adminData.email || !adminData.password) {
-      toast.error("Preencha nome, email e senha do administrador.");
-      return;
-    }
-
-    try {
-      setCreatingAdmin(true);
-
-      const requesterUid = localStorage.getItem("adminUid");
-
-      const response = await fetch(`${API_BASE_URL}/api/admin/create-admin`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          requesterUid,
-          name: adminData.name,
-          email: adminData.email.toLowerCase(),
-          password: adminData.password,
-          role: adminData.role,
-        }),
-      });
-
-      const responseData = await readJsonResponse(response);
-
-      if (!response.ok) {
-        throw new Error(getApiErrorMessage(responseData, "Erro ao criar administrador."));
-      }
-
-      toast.success("Administrador criado com sucesso.");
-
-      setAdminNameInput("");
-      setAdminEmailInput("");
-      setAdminPasswordInput("");
-      setAdminRoleInput("ADMIN");
-
-      await loadData();
-    } catch (error: any) {
-      console.error("Erro ao criar admin:", error);
-      toast.error(error.message || "Erro ao criar administrador.");
-    } finally {
-      setCreatingAdmin(false);
-    }
+  const adminData = data || {
+    name: adminNameInput.trim(),
+    email: adminEmailInput.trim().toLowerCase(),
+    password: adminPasswordInput.trim(),
+    role: adminRoleInput,
   };
+
+  if (!adminData.name || !adminData.email || !adminData.password) {
+    toast.error("Preencha nome, email e senha do administrador.");
+    return;
+  }
+
+  try {
+    setCreatingAdmin(true);
+
+    const token = await auth.currentUser?.getIdToken();
+    if (!token) {
+      toast.error("Não autenticado. Por favor, faça login novamente.");
+      return;
+    }
+
+    const response = await fetch(`${API_BASE_URL}/api/admin/create-admin`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`, 
+      },
+      body: JSON.stringify({
+        requesterUid: auth.currentUser?.uid, 
+        name: adminData.name,
+        email: adminData.email.toLowerCase(),
+        password: adminData.password,
+        role: adminData.role,
+      }),
+    });
+
+    const responseData = await readJsonResponse(response);
+
+    if (!response.ok) {
+      throw new Error(getApiErrorMessage(responseData, "Erro ao criar administrador."));
+    }
+
+    toast.success("Administrador criado com sucesso.");
+
+    setAdminNameInput("");
+    setAdminEmailInput("");
+    setAdminPasswordInput("");
+    setAdminRoleInput("ADMIN");
+
+    await loadData();
+  } catch (error: any) {
+    console.error("Erro ao criar admin:", error);
+    toast.error(error.message || "Erro ao criar administrador.");
+  } finally {
+    setCreatingAdmin(false);
+  }
+};
 
   const handleToggleAdminStatus = async (targetAdmin: AdminItem) => {
-    if (role !== "MASTER") {
-      toast.error("Apenas o MASTER pode alterar o status de usuários.");
+  if (role !== "MASTER") {
+    toast.error("Apenas o MASTER pode alterar o status de usuários.");
+    return;
+  }
+
+  if (targetAdmin.id === adminUid) {
+    toast.error("Você não pode alterar o seu próprio status.");
+    return;
+  }
+
+  try {
+    setProcessingAdminId(targetAdmin.id);
+
+   
+    const token = await auth.currentUser?.getIdToken();
+    if (!token) {
+      toast.error("Não autenticado. Por favor, faça login novamente.");
       return;
     }
 
-    if (targetAdmin.id === adminUid) {
-      toast.error("Você não pode alterar o seu próprio status.");
-      return;
-    }
-
-    try {
-      setProcessingAdminId(targetAdmin.id);
-
-      const requesterUid = localStorage.getItem("adminUid");
-
-      const response = await fetch(
-        `${API_BASE_URL}/api/admin/toggle-admin-status`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            requesterUid,
-            targetUid: targetAdmin.id,
-            active: !targetAdmin.active,
-          }),
-        }
-      );
-
-      const data = await readJsonResponse(response);
-
-      if (!response.ok) {
-        throw new Error(
-          getApiErrorMessage(data, "Erro ao atualizar status do usuário.")
-        );
-      }
-
-      toast.success(
-        !targetAdmin.active
-          ? "Usuário ativado com sucesso."
-          : "Usuário inativado com sucesso."
-      );
-
-      await loadData();
-    } catch (error: any) {
-      console.error("Erro ao alterar status do admin:", error);
-      toast.error(error.message || "Erro ao alterar status do usuário.");
-    } finally {
-      setProcessingAdminId("");
-    }
-  };
-
-  const handleDeleteAdmin = async (targetAdmin: AdminItem) => {
-    if (role !== "MASTER") {
-      toast.error("Apenas o MASTER pode excluir usuários.");
-      return;
-    }
-
-    if (targetAdmin.id === adminUid) {
-      toast.error("Você não pode excluir a si mesma.");
-      return;
-    }
-
-    const confirmed = window.confirm(
-      `Tem certeza que deseja excluir o usuário "${targetAdmin.name}"?\n\nEssa ação removerá o acesso desse usuário ao painel.`
-    );
-
-    if (!confirmed) return;
-
-    try {
-      setProcessingAdminId(targetAdmin.id);
-
-      const requesterUid = localStorage.getItem("adminUid");
-
-      const response = await fetch(`${API_BASE_URL}/api/admin/delete-admin`, {
-        method: "DELETE",
+    const response = await fetch(
+      `${API_BASE_URL}/api/admin/toggle-admin-status`,
+      {
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
         },
         body: JSON.stringify({
-          requesterUid,
           targetUid: targetAdmin.id,
+          active: !targetAdmin.active,
         }),
-      });
-
-      const data = await readJsonResponse(response);
-
-      if (!response.ok) {
-        throw new Error(getApiErrorMessage(data, "Erro ao excluir usuário."));
       }
+    );
 
-      toast.success("Usuário excluído com sucesso.");
-      await loadData();
-    } catch (error: any) {
-      console.error("Erro ao excluir admin:", error);
-      toast.error(error.message || "Erro ao excluir usuário.");
-    } finally {
-      setProcessingAdminId("");
+    const data = await readJsonResponse(response);
+
+    if (!response.ok) {
+      throw new Error(
+        getApiErrorMessage(data, "Erro ao atualizar status do usuário.")
+      );
     }
-  };
+
+    toast.success(
+      !targetAdmin.active
+        ? "Usuário ativado com sucesso."
+        : "Usuário inativado com sucesso."
+    );
+
+    await loadData();
+  } catch (error: any) {
+    console.error("Erro ao alterar status do admin:", error);
+    toast.error(error.message || "Erro ao alterar status do usuário.");
+  } finally {
+    setProcessingAdminId("");
+  }
+};
+  const handleDeleteAdmin = async (targetAdmin: AdminItem) => {
+  if (role !== "MASTER") {
+    toast.error("Apenas o MASTER pode excluir usuários.");
+    return;
+  }
+
+  if (targetAdmin.id === adminUid) {
+    toast.error("Você não pode excluir a si mesma.");
+    return;
+  }
+
+  const confirmed = window.confirm(
+    `Tem certeza que deseja excluir o usuário "${targetAdmin.name}"?\n\nEssa ação removerá o acesso desse usuário ao painel.`
+  );
+
+  if (!confirmed) return;
+
+  try {
+    setProcessingAdminId(targetAdmin.id);
+
+  
+    const token = await auth.currentUser?.getIdToken();
+    if (!token) {
+      toast.error("Não autenticado. Por favor, faça login novamente.");
+      return;
+    }
+
+    const response = await fetch(`${API_BASE_URL}/api/admin/delete-admin`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`, 
+      },
+      body: JSON.stringify({
+        targetUid: targetAdmin.id,
+      }),
+    });
+
+    const data = await readJsonResponse(response);
+
+    if (!response.ok) {
+      throw new Error(getApiErrorMessage(data, "Erro ao excluir usuário."));
+    }
+
+    toast.success("Usuário excluído com sucesso.");
+    await loadData();
+  } catch (error: any) {
+    console.error("Erro ao excluir admin:", error);
+    toast.error(error.message || "Erro ao excluir usuário.");
+  } finally {
+    setProcessingAdminId("");
+  }
+};
+
 
   const toggleAssessment = async (
     assessmentId: string,
@@ -1089,7 +1104,7 @@ Agradecemos pela sua colaboração.`;
             selectedAssessmentsForChart.has(s.assessmentId)))
     );
     const responded = completedSessions.filter((s) =>
-      feedbackSessionIds.has(s.sessionId)
+       s.sessionId && feedbackSessionIds.has(s.sessionId)
     ).length;
     const notResponded = Math.max(0, completedSessions.length - responded);
 
