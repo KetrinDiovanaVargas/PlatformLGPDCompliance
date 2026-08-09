@@ -252,6 +252,21 @@ cp server/serviceAccountKey.example.json server/serviceAccountKey.json
 
 Edite `server/serviceAccountKey.json` e altere o nome para `serviceAccountKey.json` e utilize o código de exemplo com suas credenciais:
 
+```serviceAccountKey.json
+{
+  "type": "service_account",
+  "project_id": "seu-projeto-id",
+  "private_key_id": "sua-chave-privada-id",
+  "private_key": "-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-fbsvc@seu-projeto.iam.gserviceaccount.com",
+  "client_id": "seu-client-id",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-fbsvc%40seu-projeto.iam.gserviceaccount.com"
+}
+```
+
 
 **Como obter:**
 1. Acesse [Firebase Console](https://console.firebase.google.com)
