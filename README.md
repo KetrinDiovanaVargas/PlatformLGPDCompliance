@@ -157,10 +157,10 @@ npm install
 
 ```bash
 # Copie o template
-cp .env.local.example .env.local
+cp .env.local.example server/.env
 ```
 
-Edite `.env.local` com suas credenciais Firebase:
+Edite `.env.local` e altere o nome para `.env` e utilize o código de exemplo com suas credenciais:
 
 ```env
 VITE_FIREBASE_API_KEY=sua-chave-api-aqui
@@ -186,7 +186,7 @@ VITE_FIREBASE_APP_ID=seu-app-id
 cp server/.env.example server/.env
 ```
 
-Edite `server/.env` com suas credenciais:
+Edite `server/.env` e altere o nome para `.env` e utilize o código de exemplo com suas credenciais:
 
 ```env
 GROQ_API_KEY=sua-groq-key-aqui
@@ -206,7 +206,8 @@ NODE_ENV=development
 cp server/serviceAccountKey.example.json server/serviceAccountKey.json
 ```
 
-Edite `server/serviceAccountKey.json` com sua chave privada completa:
+Edite `server/serviceAccountKey.json` e altere o nome para `serviceAccountKey.json` e utilize o código de exemplo com suas credenciais:
+
 
 **Como obter:**
 1. Acesse [Firebase Console](https://console.firebase.google.com)
