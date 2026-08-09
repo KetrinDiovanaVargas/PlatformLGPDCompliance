@@ -14,7 +14,7 @@
       "estagio": 1,
       "perguntas": [
         {
-          "question": "Como você armazena dados pessoais de clientes?",
+          "question": "Quais são as práticas da organização quanto ao compartilhamento de dados com terceiros?",
           "options": [
             "Seguro",
             "Inseguro",
@@ -22,7 +22,7 @@
           ]
         },
         {
-          "question": "Você compartilha dados com terceiros?",
+          "question": "As políticas de proteção de dados encontram-se formalizadas em contratos com parceiros e prestadores de serviço?",
           "options": [
             "Sim",
             "Não",
@@ -30,7 +30,7 @@
           ]
         },
         {
-          "question": "Há contratos de proteção?",
+          "question": "Como a organização avalia seu nível de conformidade com a LGPD?",
           "options": [
             "Sim",
             "Não",
@@ -47,7 +47,7 @@
           ]
         }
       ],
-      "respostas_texto": "# Respostas ao Questionário de Conformidade LGPD\n\n---\n\n## **Pergunta 1: Como você armazena dados pessoais de clientes?**\n\n**Resposta: Seguro**\n\nJustificativa: Mantenho todos os dados de folha de pagamento organizados sistematicamente. Os dados principais estão no sistema DP, que é corporativo e controlado pela TI. As planilhas complementares ficam na pasta compartilhada do servidor interno, que tem controle de acesso. Além disso, faço backups regulares em pendrive para garantir que nada se perca em caso de falha do servidor. Tudo está catalogado por mês e ano, facilitando auditorias e consultas quando necessário.\n\n---\n\n## **Pergunta 2: Você compartilha dados com terceiros?**\n\n**Resposta: Às vezes**\n\nJustificativa: Compartilho dados com o banco quando preciso fazer as transferências de salário — isso é obrigatório. Também envio informações para o contador externo que cuida das obrigações fiscais da empresa. Em situações pontuais, quando há urgência ou problema técnico, já precisei enviar dados por e-mail para resolver questões bancárias rapidamente. Mas sempre dentro do necessário para o funcionamento da folha.\n\n---\n\n## **Pergunta 3: Há contratos de proteção?**\n\n**Resposta: Não sei**\n\nJustificativa: Essa parte é mais com o pessoal jurídico e de compliance. Eu trabalho com os dados, mas os contratos com terceiros são assinados pela diretoria. Presumo que haja, porque a empresa é séria, mas não tenho acesso direto aos documentos. Minha responsabilidade é processar a folha corretamente e manter os dados organizados.\n\n---\n\n## **Pergunta 4: Qual seu nível de conformidade LGPD?**\n\n**Resposta: Médio**\n\nJustificativa: Sigo os procedimentos internos da empresa e trato os dados com cuidado. Sei que informações de colaboradores são sigilosas e não as divulgo para qualquer pessoa. Mas confesso que não tenho formação específica em LGPD — apenas o básico que a empresa passou em treinamento. Faço meu trabalho com responsabilidade, mas reconheço que há aspectos da lei que não domino completamente.",
+      "respostas_texto": "# Respostas ao Questionário de Conformidade LGPD\n\n---\n\n## **Pergunta 1: Quais são as práticas da organização quanto ao compartilhamento de dados com terceiros?**\n\n**Resposta: Seguro**\n\nJustificativa: Mantenho todos os dados de folha de pagamento organizados sistematicamente. Os dados principais estão no sistema DP, que é corporativo e controlado pela TI. As planilhas complementares ficam na pasta compartilhada do servidor interno, que tem controle de acesso. Além disso, faço backups regulares em pendrive para garantir que nada se perca em caso de falha do servidor. Tudo está catalogado por mês e ano, facilitando auditorias e consultas quando necessário.\n\n---\n\n## **Pergunta 2: As políticas de proteção de dados encontram-se formalizadas em contratos com parceiros e prestadores de serviço?**\n\n**Resposta: Às vezes**\n\nJustificativa: Compartilho dados com o banco quando preciso fazer as transferências de salário — isso é obrigatório. Também envio informações para o contador externo que cuida das obrigações fiscais da empresa. Em situações pontuais, quando há urgência ou problema técnico, já precisei enviar dados por e-mail para resolver questões bancárias rapidamente. Mas sempre dentro do necessário para o funcionamento da folha.\n\n---\n\n## **Pergunta 3: Como a organização avalia seu nível de conformidade com a LGPD?**\n\n**Resposta: Não sei**\n\nJustificativa: Essa parte é mais com o pessoal jurídico e de compliance. Eu trabalho com os dados, mas os contratos com terceiros são assinados pela diretoria. Presumo que haja, porque a empresa é séria, mas não tenho acesso direto aos documentos. Minha responsabilidade é processar a folha corretamente e manter os dados organizados.\n\n---\n\n## **Pergunta 4: Qual seu nível de conformidade LGPD?**\n\n**Resposta: Médio**\n\nJustificativa: Sigo os procedimentos internos da empresa e trato os dados com cuidado. Sei que informações de colaboradores são sigilosas e não as divulgo para qualquer pessoa. Mas confesso que não tenho formação específica em LGPD — apenas o básico que a empresa passou em treinamento. Faço meu trabalho com responsabilidade, mas reconheço que há aspectos da lei que não domino completamente.",
       "timestamp": "2026-07-02T23:09:43.003Z"
     },
     {
@@ -100,7 +100,7 @@
       "estagio": 4,
       "perguntas": [
         {
-          "question": "Houve incidente de segurança?",
+          "question": "A organização sofreu incidentes de segurança nos últimos anos?",
           "options": [
             "Sim",
             "Não",
@@ -108,7 +108,7 @@
           ]
         },
         {
-          "question": "Qual sua avaliação final de risco?",
+          "question": "Qual é a avaliação final de risco à conformidade com proteção de dados?",
           "options": [
             "Baixo",
             "Moderado",
