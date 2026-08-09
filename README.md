@@ -238,62 +238,93 @@ LLM_PROVIDER=groq
 
 Esta seção descreve como reproduzir as reivindicações principais do artigo. Cada reivindicação inclui detalhes sobre arquivos de configuração, comandos, tempo esperado e resultado esperado.
 
-### Reivindicações #1: Questionários Adaptativos Reduzem Tempo de Resposta
+## Reivindicação #1: Sistema Adapta Perguntas Baseado em Respostas
 
-**Procedimento:** Crie dois questionários (um adaptativo, um fixo). Responda ambos cronometrando o tempo total de resposta.
-
-**Tempo esperado:** 20 minutos
-
-**APIs LLM utilizadas:** Groq (primária) → Claude (fallback) → DeepSeek → Gemini  
-**Modelo padrão:** llama-3.3-70b-versatile
-
-**Resultado esperado:** Questionário adaptativo ~20-30% mais rápido que questionário fixo
-
-**Arquivos relevantes:** 
-- `src/components/QuestionnaireScreen.tsx` (renderiza questões adaptativas)
-- `server/lib/groq-service.ts` (GroqHeadroomService.analyzeLGPDCompliance() — análise com IA)
-- `server/lib/ai-client.mjs` (gerencia cascade de APIs LLM)
+**Tempo:** 15 min | **Pré-requisito:** `npm run dev` rodando
 
 ---
 
-### Reivindicações #2: Análise Automatizada Identifica Riscos LGPD
+## PASSOS RÁPIDOS
 
-**Procedimento:** Responda questionário com perfil de alto risco. Valide que scores e recomendações são gerados automaticamente no dashboard.
+### 1. Login no Admin
+```
+http://localhost:5173
+Email: admin@gmail.com
+Senha: Lgpd2026PL@TFORM
+```
 
-**Tempo esperado:** 15 minutos
+### 2. Criar Nova Avaliação
+- Clique "+ Nova Avaliação"
+- Nome: "Teste LGPD"
+- Tipo: "Diagnóstico"
+- Provedor: "Claude" (ou o que configurou)
+- Clique "Publicar"
 
-**APIs LLM utilizadas:** Groq (primária) → Claude (fallback) → DeepSeek → Gemini  
-**Modelo padrão:** llama-3.3-70b-versatile (Groq)  
-**Processamento:** Análise semântica em cascata com fallback automático em caso de falha
+```markdown
+ ⚠️ IMPORTANTE: Selecione o provedor que foi configurado no arquivo e .env
+```
 
-**Resultado esperado:** Scores 0-100, distribuição de riscos por categoria LGPD, recomendações priorizadas
+### 3. Copiar Link
+- Vá em "Minhas Avaliações"
+- Clique "Copiar link"
 
-**Arquivos relevantes:**
-- `server/lib/groq-service.ts` (GroqHeadroomService.analyzeLGPDCompliance())
-- `server/lib/reportGenerator.ts` (ReportGenerator.classifyCompliance() — classifica em 5 níveis: Crítico/Insuficiente/Parcial/Adequado/Exemplar)
-- `server/routes/analyze.mjs` (Endpoint /api/analyze — recebe respostas e retorna análise)
-- `server/lib/ai-client.mjs` (gerencia cascade: Groq → Claude → DeepSeek → Gemini)
+### 4. Responder em Aba Anônima
+- Abra nova aba incógnita
+- Cole o link
+- Clique "Iniciar Avaliação"
+- **Responda as perguntas** (cada resposta muda a próxima pergunta)
+- Clique "Enviar"
+
+### 5. Ver Resultado
+```
+✅ Você recebe:
+   - Score de conformidade (ex: 58/100)
+   - Fragilidades detectadas
+   - Recomendações priorizadas
+```
+
+### 6. Verificar Dashboard
+- Volte à aba admin
+- Recarregue (F5)
+- KPIs devem atualizar (resposta contabilizada)
 
 ---
 
-### Reivindicações #3: Plataforma Funciona em Novo Ambiente
+## ✅ Validação
 
-**Procedimento:** Clone repositório, instale dependências, configure `.env` com chaves de API LLM (mínimo Groq ou Claude), execute teste mínimo.
+- [x] Perguntas mudavam conforme respostas?
+- [x] Sistema gerou score e fragilidades?
+- [x] LLM funcionou (Claude/Groq/etc)?
+- [x] Dashboard atualizou?
 
-**Tempo esperado:** 20 minutos
-
-**APIs LLM obrigatórias:** Mínimo 1 (Groq recomendada para produção)  
-**APIs LLM recomendadas:** Groq + Claude (para redundância)  
-**Fallback automático:** Sistema tenta cascade Groq → Claude → DeepSeek → Gemini
-
-**Resultado esperado:** Instalação sem erros, teste mínimo completado com sucesso, pelo menos 1 API LLM funcional
-
-**Arquivos relevantes:** 
-- Estrutura completa em `src/` e `server/`
-- `.env.example` (template com todas as variáveis de API)
-- `server/lib/ai-client.mjs` (cascade automático de APIs)
+**Se tudo Sim → Reivindicação validada! 🏆**
 
 ---
+
+## Reivindicação #2: Análise Automatizada Identifica Riscos
+
+**Mesmo experimento acima, mas observe:**
+- Score diferente por tipo de resposta
+- Fragilidades específicas (F1, F3, F8, etc)
+- Recomendações personalizadas
+
+**Validação:** Dois cenários = resultados diferentes ✅
+
+---
+
+## Reivindicação #3: Plataforma Funciona em Novo Ambiente
+
+**Apenas rode:**
+```bash
+npm install
+npm run dev
+# Siga os passos 1-6 acima sem erros
+```
+
+**Validação:** Tudo funciona sem erro = ✅
+
+---
+
 
 ## 📄 Licença
 
