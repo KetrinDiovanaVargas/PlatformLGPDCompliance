@@ -2,6 +2,7 @@
 
 Diretório com 50 personas sintéticas para validação do questionário dinâmico de fragilidades de tratamento de dados, conforme metodologia do material de apoio do Mestrado Profissional em Engenharia de Software.
 
+
 ## Estrutura
 
 - **`/personas/`** — Arquivos `.md` com identidade, rotina, comportamentos e instruções para a LLM.  
