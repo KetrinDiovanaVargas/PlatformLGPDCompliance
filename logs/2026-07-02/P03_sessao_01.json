@@ -14,7 +14,7 @@
       "estagio": 1,
       "perguntas": [
         {
-          "question": "Como você armazena dados pessoais de clientes?",
+          "question": "Quais são as práticas da organização quanto ao compartilhamento de dados com terceiros?",
           "options": [
             "Seguro",
             "Inseguro",
@@ -22,7 +22,7 @@
           ]
         },
         {
-          "question": "Você compartilha dados com terceiros?",
+          "question": "As políticas de proteção de dados encontram-se formalizadas em contratos com parceiros e prestadores de serviço?",
           "options": [
             "Sim",
             "Não",
@@ -38,7 +38,7 @@
           ]
         },
         {
-          "question": "Qual seu nível de conformidade LGPD?",
+          "question": "Como a organização avalia seu nível de conformidade com a LGPD?",
           "options": [
             "Alto",
             "Médio",
@@ -47,14 +47,14 @@
           ]
         }
       ],
-      "respostas_texto": "# Respostas ao Questionário\n\n**Pergunta 1: Como você armazena dados pessoais de clientes?**\n\n**Resposta: Parcialmente**\n\nJustificativa: A gente usa o sistema SESO para os dados estruturados – exames, laudos, resultados – que fica mais controlado. Mas reconheço que tenho pastas locais no meu computador com atestados e documentos que vão se acumulando. Não tenho uma política clara de quando deletar, então fica tudo lá. É prático para consultar rápido quando preciso, mas não é o ideal.\n\n---\n\n**Pergunta 2: Você compartilha dados com terceiros?**\n\n**Resposta: Às vezes**\n\nJustificativa: Compartilho com quem precisa mesmo – gestores, RH, médico do trabalho. Quando um gestor precisa saber se o colaborador pode assumir uma função específica, eu mando a conclusão do laudo por WhatsApp pessoal pra agilizar. E tem a planilha de controle de vencimentos que é compartilhada com outros setores do RH para eles acompanharem as ausências. Mas só compartilho o necessário para cada um fazer seu trabalho.\n\n---\n\n**Pergunta 3: Há contratos de proteção?**\n\n**Resposta: Não sei**\n\nJustificativa: Isso é mais coisa de gestão, não é comigo. Sei que tem contrato com o médico do trabalho e com a clínica que faz os exames, mas não sei se tem cláusulas específicas sobre proteção de dados. Nunca vi isso documentado na minha área.\n\n---\n\n**Pergunta 4: Qual seu nível de conformidade LGPD?**\n\n**Resposta: Médio**\n\nJustificativa: A gente trabalha com dados sensíveis de saúde, então tomo cuidado. Mas não tenho formação específica em LGPD. Sei que dados de saúde são protegidos, mas as salvaguardas exatas... não domino. Acho que estamos no meio do caminho – não é crítico, mas também não é totalmente seguro.",
+      "respostas_texto": "# Respostas ao Questionário\n\n**Pergunta 1: Quais são as práticas da organização quanto ao compartilhamento de dados com terceiros?**\n\n**Resposta: Parcialmente**\n\nJustificativa: A gente usa o sistema SESO para os dados estruturados – exames, laudos, resultados – que fica mais controlado. Mas reconheço que tenho pastas locais no meu computador com atestados e documentos que vão se acumulando. Não tenho uma política clara de quando deletar, então fica tudo lá. É prático para consultar rápido quando preciso, mas não é o ideal.\n\n---\n\n**Pergunta 2: As políticas de proteção de dados encontram-se formalizadas em contratos com parceiros e prestadores de serviço?**\n\n**Resposta: Às vezes**\n\nJustificativa: Compartilho com quem precisa mesmo – gestores, RH, médico do trabalho. Quando um gestor precisa saber se o colaborador pode assumir uma função específica, eu mando a conclusão do laudo por WhatsApp pessoal pra agilizar. E tem a planilha de controle de vencimentos que é compartilhada com outros setores do RH para eles acompanharem as ausências. Mas só compartilho o necessário para cada um fazer seu trabalho.\n\n---\n\n**Pergunta 3: Há contratos de proteção?**\n\n**Resposta: Não sei**\n\nJustificativa: Isso é mais coisa de gestão, não é comigo. Sei que tem contrato com o médico do trabalho e com a clínica que faz os exames, mas não sei se tem cláusulas específicas sobre proteção de dados. Nunca vi isso documentado na minha área.\n\n---\n\n**Pergunta 4: Como a organização avalia seu nível de conformidade com a LGPD?**\n\n**Resposta: Médio**\n\nJustificativa: A gente trabalha com dados sensíveis de saúde, então tomo cuidado. Mas não tenho formação específica em LGPD. Sei que dados de saúde são protegidos, mas as salvaguardas exatas... não domino. Acho que estamos no meio do caminho – não é crítico, mas também não é totalmente seguro.",
       "timestamp": "2026-07-02T23:10:07.755Z"
     },
     {
       "estagio": 2,
       "perguntas": [
         {
-          "question": "Como você obtém consentimento para coletar dados?",
+          "question": "Quais são os mecanismos e procedimentos adotados pela organização para obtenção de consentimento na coleta de dados pessoais?",
           "options": [
             "Explícito",
             "Implícito",
@@ -62,7 +62,7 @@
           ]
         },
         {
-          "question": "Você monitora acesso aos dados?",
+          "question": "A organização implementa monitoramento e controle de acesso aos dados armazenados?",
           "options": [
             "Sim",
             "Não",
@@ -70,14 +70,14 @@
           ]
         }
       ],
-      "respostas_texto": "# Respostas ao Questionário\n\n## Pergunta 1: Como você obtém consentimento para coletar dados?\n\n**Resposta: Implícito**\n\nJustificativa: Quando o colaborador entra na empresa, ele já sabe que vai passar por exames admissionais — isso faz parte do processo de onboarding. A gente não pede assinatura de consentimento específica para cada dado de saúde. O pessoal assina a documentação de admissão e pronto, já está ciente que vai fazer exame ocupacional. É o padrão do mercado, sabe? A coleta é necessária para cumprir a NR-7 e as obrigações legais de saúde do trabalho.\n\n---\n\n## Pergunta 2: Você monitora acesso aos dados?\n\n**Resposta: Parcialmente**\n\nJustificativa: A gente controla quem acessa o sistema SESO — só eu, a médica do trabalho e o pessoal do RH têm login. Mas quando preciso comunicar algo urgente ao gestor sobre restrição de função ou renovação de exame, mando por WhatsApp ou e-mail mesmo. E a planilha de controle de vencimentos fica compartilhada com o RH para eles acompanharem junto comigo. Não é que eu não monitore, é que a informação precisa circular para o trabalho fluir. Cada um acessa o que precisa para fazer seu trabalho.",
+      "respostas_texto": "# Respostas ao Questionário\n\n## Pergunta 1: CQuais são os mecanismos e procedimentos adotados pela organização para obtenção de consentimento na coleta de dados pessoais?\n\n**Resposta: Implícito**\n\nJustificativa: Quando o colaborador entra na empresa, ele já sabe que vai passar por exames admissionais — isso faz parte do processo de onboarding. A gente não pede assinatura de consentimento específica para cada dado de saúde. O pessoal assina a documentação de admissão e pronto, já está ciente que vai fazer exame ocupacional. É o padrão do mercado, sabe? A coleta é necessária para cumprir a NR-7 e as obrigações legais de saúde do trabalho.\n\n---\n\n## Pergunta 2: A organização implementa monitoramento e controle de acesso aos dados armazenados?\n\n**Resposta: Parcialmente**\n\nJustificativa: A gente controla quem acessa o sistema SESO — só eu, a médica do trabalho e o pessoal do RH têm login. Mas quando preciso comunicar algo urgente ao gestor sobre restrição de função ou renovação de exame, mando por WhatsApp ou e-mail mesmo. E a planilha de controle de vencimentos fica compartilhada com o RH para eles acompanharem junto comigo. Não é que eu não monitore, é que a informação precisa circular para o trabalho fluir. Cada um acessa o que precisa para fazer seu trabalho.",
       "timestamp": "2026-07-02T23:10:12.964Z"
     },
     {
       "estagio": 3,
       "perguntas": [
         {
-          "question": "Qual tempo de retenção dos dados?",
+          "question": "Qual é a política de retenção de dados pessoais adotada pela organização?",
           "options": [
             "< 6 meses",
             "6-12 meses",
@@ -85,7 +85,7 @@
           ]
         },
         {
-          "question": "Há direito de acesso/correção?",
+          "question": "A organização garante o exercício dos direitos de acesso e correção dos titulares?",
           "options": [
             "Sim",
             "Não",
@@ -93,14 +93,14 @@
           ]
         }
       ],
-      "respostas_texto": "# Respostas do Questionário\n\n## Pergunta 1: Qual tempo de retenção dos dados?\n**Resposta: > 1 ano**\n\nJustificativa: A gente mantém os registros de exames e laudos por bastante tempo. Os exames periódicos são anuais, então preciso guardar o histórico para acompanhar a evolução da saúde do colaborador ao longo dos anos. Além disso, tem questões legais trabalhistas — a empresa precisa manter documentação para possíveis auditorias do MTE ou processos. Normalmente fico com tudo arquivado enquanto o colaborador está na empresa, e depois ainda mantenho por alguns anos para referência.\n\n---\n\n## Pergunta 2: Há direito de acesso/correção?\n**Resposta: Sim**\n\nJustificativa: Claro que o colaborador tem direito de acessar seus próprios dados de saúde. Se alguém vem aqui pedindo para ver seu laudo ou resultado de exame, eu libero. É informação dele, afinal. Quanto à correção, se houver algum erro no registro — tipo um dado digitado errado — a gente corrige junto com o médico do trabalho. Faz parte do processo normal de qualidade dos registros.",
+      "respostas_texto": "# Respostas do Questionário\n\n## Pergunta 1: Qual é a política de retenção de dados pessoais adotada pela organização?\n**Resposta: > 1 ano**\n\nJustificativa: A gente mantém os registros de exames e laudos por bastante tempo. Os exames periódicos são anuais, então preciso guardar o histórico para acompanhar a evolução da saúde do colaborador ao longo dos anos. Além disso, tem questões legais trabalhistas — a empresa precisa manter documentação para possíveis auditorias do MTE ou processos. Normalmente fico com tudo arquivado enquanto o colaborador está na empresa, e depois ainda mantenho por alguns anos para referência.\n\n---\n\n## Pergunta 2: A organização garante o exercício dos direitos de acesso e correção dos titulares?\n**Resposta: Sim**\n\nJustificativa: Claro que o colaborador tem direito de acessar seus próprios dados de saúde. Se alguém vem aqui pedindo para ver seu laudo ou resultado de exame, eu libero. É informação dele, afinal. Quanto à correção, se houver algum erro no registro — tipo um dado digitado errado — a gente corrige junto com o médico do trabalho. Faz parte do processo normal de qualidade dos registros.",
       "timestamp": "2026-07-02T23:10:17.301Z"
     },
     {
       "estagio": 4,
       "perguntas": [
         {
-          "question": "Houve incidente de segurança?",
+          "question": "A organização identificou ou sofreu incidentes de segurança da informação que envolvessem dados pessoais?",
           "options": [
             "Sim",
             "Não",
@@ -108,7 +108,7 @@
           ]
         },
         {
-          "question": "Qual sua avaliação final de risco?",
+          "question": "Qual é o nível de risco geral identificado em relação à conformidade com a LGPD?",
           "options": [
             "Baixo",
             "Moderado",
@@ -117,7 +117,7 @@
           ]
         }
       ],
-      "respostas_texto": "# Respostas do Questionário\n\n## Pergunta 1: Houve incidente de segurança?\n\n**Resposta: Não**\n\nJustificativa: Na minha rotina aqui na Alfa, a gente trabalha com bastante cuidado. Os dados de saúde ficam no sistema SESO, que é protegido, e quando preciso comunicar algo aos gestores, faço por e-mail corporativo ou WhatsApp — canais que a gente usa normalmente aqui. Nunca tivemos nenhum vazamento ou acesso não autorizado que eu tenha conhecimento. Os arquivos estão organizados e só quem precisa acessa.\n\n---\n\n## Pergunta 2: Qual sua avaliação final de risco?\n\n**Resposta: Baixo**\n\nJustificativa: A gente segue os protocolos de saúde ocupacional à risca. Os exames são feitos com médicos credenciados, os laudos são guardados, e o controle de vencimentos é bem estruturado. Claro que lidamos com informações sensíveis — CID, resultados de exames — mas isso é necessário para garantir que os colaboradores estejam aptos para suas funções. Tudo é feito com responsabilidade e dentro do que a empresa precisa para manter a saúde e segurança do pessoal.",
+      "respostas_texto": "# Respostas do Questionário\n\n## Pergunta 1: A organização identificou ou sofreu incidentes de segurança da informação que envolvessem dados pessoais?\n\n**Resposta: Não**\n\nJustificativa: Na minha rotina aqui na Alfa, a gente trabalha com bastante cuidado. Os dados de saúde ficam no sistema SESO, que é protegido, e quando preciso comunicar algo aos gestores, faço por e-mail corporativo ou WhatsApp — canais que a gente usa normalmente aqui. Nunca tivemos nenhum vazamento ou acesso não autorizado que eu tenha conhecimento. Os arquivos estão organizados e só quem precisa acessa.\n\n---\n\n## Pergunta 2: Qual é o nível de risco geral identificado em relação à conformidade com a LGPD?\n\n**Resposta: Baixo**\n\nJustificativa: A gente segue os protocolos de saúde ocupacional à risca. Os exames são feitos com médicos credenciados, os laudos são guardados, e o controle de vencimentos é bem estruturado. Claro que lidamos com informações sensíveis — CID, resultados de exames — mas isso é necessário para garantir que os colaboradores estejam aptos para suas funções. Tudo é feito com responsabilidade e dentro do que a empresa precisa para manter a saúde e segurança do pessoal.",
       "timestamp": "2026-07-02T23:10:21.628Z"
     }
   ],
