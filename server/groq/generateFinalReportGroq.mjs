@@ -1,5 +1,19 @@
+/**
+ * Gerador de relatórios finais estruturados com análise LGPD/ISO27001.
+ * 
+ * Processa respostas de avaliação, extrai e normaliza dados, constrói prompts
+ * especializados e gera relatórios consolidados com métricas, fragilidades e recomendações.
+ * @module lib/report-generator-groq
+ */
+
 import { chatCompletion } from "../lib/ai-client.mjs";
 
+/**
+ * Extrai JSON válido de texto contendo markdown ou caracteres extras.
+ * 
+ * @param {string} text - Texto potencialmente contendo JSON
+ * @returns {Object|null} Objeto parseado ou null se JSON inválido
+ */
 function extractJson(text) {
   if (!text) return null;
 
@@ -24,20 +38,47 @@ function extractJson(text) {
   }
 }
 
+/**
+ * Limita número entre mín e máx.
+ * 
+ * @param {number} num - Número a limitar
+ * @param {number} min - Valor mínimo
+ * @param {number} max - Valor máximo
+ * @returns {number} Número clampado
+ */
 function clamp(num, min, max) {
   return Math.max(min, Math.min(max, num));
 }
 
+/**
+ * Converte valor para string segura e trimada.
+ * 
+ * @param {*} value - Valor a converter
+ * @param {string} [fallback=""] - Fallback se valor inválido
+ * @returns {string} String trimada ou fallback
+ */
 function safeString(value, fallback = "") {
   return String(value ?? fallback).trim();
 }
 
+/**
+ * Normaliza array de strings (strings vazias são removidas).
+ * 
+ * @param {*} value - Array ou valor único
+ * @returns {string[]} Array de strings não-vazias
+ */
 function normalizeStringArray(value) {
   return Array.isArray(value)
     ? value.map((item) => safeString(item)).filter(Boolean)
     : [];
 }
 
+/**
+ * Normaliza prioridade para padrão (Alta/Média/Baixa).
+ * 
+ * @param {*} priority - Prioridade em qualquer formato
+ * @returns {"Alta"|"Média"|"Baixa"} Prioridade normalizada (padrão: Média)
+ */
 function normalizePriority(priority) {
   const normalized = safeString(priority).toLowerCase();
 
@@ -48,6 +89,12 @@ function normalizePriority(priority) {
   return "Média";
 }
 
+/**
+ * Remove propriedades vazias de objeto.
+ * 
+ * @param {Object} obj - Objeto a compactar
+ * @returns {Object|undefined} Objeto sem vazios ou undefined
+ */
 function compactObject(obj) {
   if (!obj || typeof obj !== "object") return undefined;
 
@@ -59,6 +106,12 @@ function compactObject(obj) {
   return entries.length > 0 ? Object.fromEntries(entries) : undefined;
 }
 
+/**
+ * Normaliza array de controles com 5 itens padrão (Criptografia, Acesso, etc).
+ * 
+ * @param {*} value - Array ou valor
+ * @returns {Array<{name: string, value: number}>} Array com 5 controles (value: 0-3)
+ */
 function normalizeControlsStatus(value) {
   const expectedNames = [
     "Criptografia",
@@ -85,6 +138,12 @@ function normalizeControlsStatus(value) {
   });
 }
 
+/**
+ * Normaliza array de recomendações com validação e limite.
+ * 
+ * @param {*} value - Array de recomendações
+ * @returns {Array<{title, description, priority, category, actions, learning}>} Array de até 5 recomendações
+ */
 function normalizeRecommendations(value) {
   if (!Array.isArray(value)) return [];
 
@@ -113,6 +172,13 @@ function normalizeRecommendations(value) {
   return normalized.slice(0, 5);
 }
 
+/**
+ * Constrói recomendações fallback baseadas em métricas e metadados.
+ * 
+ * @param {Object} metrics - Métricas (criticalIssues, etc)
+ * @param {Object} [metadata={}] - Metadados da avaliação
+ * @returns {Array<{title, description, priority, category, actions}>} Array de recomendações fallback
+ */
 function buildFallbackRecommendations(metrics, metadata = {}) {
   const contextLabel =
     safeString(metadata.assessmentContext) ||
@@ -180,6 +246,12 @@ function buildFallbackRecommendations(metrics, metadata = {}) {
   return fallback.slice(0, 5);
 }
 
+/**
+ * Normaliza severidade para padrão (Crítica/Alta/Moderada/Baixa).
+ * 
+ * @param {*} severity - Severidade em qualquer formato
+ * @returns {"Crítica"|"Alta"|"Moderada"|"Baixa"} Severidade normalizada
+ */
 function normalizeSeverity(severity) {
   const normalized = safeString(severity).toLowerCase();
 
@@ -190,6 +262,12 @@ function normalizeSeverity(severity) {
   return "Moderada";
 }
 
+/**
+ * Normaliza array de fragilidades detectadas (eixos F1-F10).
+ * 
+ * @param {*} value - Array de fragilidades
+ * @returns {Array<{codigo, categoria, severidade, evidencia}>} Array de fragilidades validadas
+ */
 function normalizeFragilidadesDetectadas(value) {
   if (!Array.isArray(value)) return [];
 
@@ -203,6 +281,14 @@ function normalizeFragilidadesDetectadas(value) {
     .filter((item) => item.codigo && item.evidencia);
 }
 
+/**
+ * Normaliza riscos (conforme/parcial/naoConforme) para somar 100.
+ * Se todos zerados, interpola baseado no score.
+ * 
+ * @param {number} score - Score geral (0-100)
+ * @param {Object} rawRisks - Objeto com conforme, parcial, naoConforme
+ * @returns {{conforme: number, parcial: number, naoConforme: number}} Riscos normalizados (soma 100)
+ */
 function normalizeRisks(score, rawRisks) {
   let conforme = Number(rawRisks?.conforme ?? 0);
   let parcial = Number(rawRisks?.parcial ?? 0);
@@ -226,6 +312,14 @@ function normalizeRisks(score, rawRisks) {
   };
 }
 
+/**
+ * Normaliza análise bruta do modelo em estrutura validada.
+ * Aplica fallback de recomendações se insuficientes.
+ * 
+ * @param {Object} data - Dados brutos da análise
+ * @param {Object} [metadata={}] - Metadados de contexto
+ * @returns {{report, metrics, summary, controls, fragilidades_detectadas}} Análise normalizada
+ */
 function normalizeAnalysis(data, metadata = {}) {
   const score = clamp(Number(data?.metrics?.score ?? data?.score ?? 0), 0, 100);
 
@@ -275,6 +369,12 @@ function normalizeAnalysis(data, metadata = {}) {
   };
 }
 
+/**
+ * Gera análise fallback completa para uso em erro ou falta de dados.
+ * 
+ * @param {Object} [metadata={}] - Metadados de contexto
+ * @returns {{report, metrics, summary, controls, fragilidades_detectadas}} Análise fallback estruturada
+ */
 function fallbackAnalysis(metadata = {}) {
   const contextLabel =
     safeString(metadata.assessmentContext) ||
@@ -324,6 +424,15 @@ function fallbackAnalysis(metadata = {}) {
   };
 }
 
+/**
+ * Constrói prompt especializado para análise final por IA.
+ * Inclui contexto oficial, diretrizes por objetivo, eixos de fragilidade (F1-F10).
+ * 
+ * @param {Object} params - Parâmetros
+ * @param {Array} params.responses - Respostas dos estágios
+ * @param {Object} [params.metadata={}] - Metadados da avaliação
+ * @returns {string} Prompt estruturado para modelo de IA
+ */
 function buildPrompt({ responses, metadata = {} }) {
   const assessmentTitle = safeString(metadata.assessmentTitle, "Não informado");
   const assessmentFormType = safeString(metadata.assessmentFormType, "Não informado");
@@ -500,6 +609,26 @@ ${JSON.stringify(responses, null, 2)}
 `.trim();
 }
 
+/**
+ * Gera relatório final consolidado a partir de respostas usando Groq.
+ * 
+ * Constrói prompt especializado, chama modelo de IA, extrai e normaliza JSON,
+ * com fallback seguro em caso de erro.
+ * 
+ * @async
+ * @param {Object} input - Parâmetros de entrada
+ * @param {Array} [input.responses=[]] - Respostas dos estágios
+ * @param {Object} [input.metadata={}] - Metadados da avaliação (título, objetivo, contexto, público)
+ * @param {string} [input.aiProvider="groq"] - Provider de IA (groq, openai, etc)
+ * 
+ * @returns {Promise<{report, metrics, summary, controls, fragilidades_detectadas}>} Relatório consolidado
+ * 
+ * @example
+ * const report = await generateFinalReportWithGroq({
+ *   responses: stageResponses,
+ *   metadata: { assessmentTitle: "LGPD Diagnostico", objective: "diagnostico_inicial" }
+ * });
+ */
 export async function generateFinalReportWithGroq(input) {
   const responses = Array.isArray(input?.responses) ? input.responses : [];
   const metadata = input?.metadata ?? {};

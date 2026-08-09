@@ -1,12 +1,24 @@
 /**
- * Gerador de Relatórios de Conformidade LGPD
+ * Gerador de Relatórios de Conformidade LGPD.
  * 
- * Módulo responsável pela geração de relatórios consolidados de avaliação de maturidade
- * em proteção de dados. Classifica conformidade em 5 níveis (Crítico/Insuficiente/Parcial/Adequado/Exemplar)
- * baseado em scores de 0-100 dos 4 estágios de avaliação.
+ * Consolida dados dos 4 estágios de avaliação em relatórios executivos com
+ * scores agregados (0-100), classificação de maturidade e recomendações priorizadas.
+ * @module lib/report-generator
  */
 
-/** Interface que representa relatório de um estágio individual */
+/**
+ * Relatório individual de um estágio de avaliação.
+ * @typedef {Object} StageReport
+ * @property {string} stageId - Identificador único do estágio
+ * @property {string} title - Título do estágio
+ * @property {number} score - Score de 0-100
+ * @property {string[]} criticalIssues - Problemas críticos identificados
+ * @property {string[]} strengths - Pontos fortes da organização
+ * @property {string[]} attentionPoints - Áreas que requerem atenção
+ * @property {Array<{title: string, priority: "Alta"|"Média"|"Baixa"}>} recommendations - Recomendações priorizadas
+ * @property {Object} [risks] - Riscos associados (opcional)
+ * @property {string} [summary] - Resumo textual (opcional)
+ */
 interface StageReport {
   stageId: string;
   title: string;
@@ -19,7 +31,21 @@ interface StageReport {
   summary?: string;
 }
 
-/** Interface que representa relatório consolidado de toda a avaliação */
+/**
+ * Relatório consolidado de toda a avaliação de maturidade.
+ * @typedef {Object} ConsolidatedReport
+ * @property {string} sessionId - ID da sessão de avaliação
+ * @property {string} userId - ID do respondente
+ * @property {string} [assessmentId] - ID do questionário (opcional)
+ * @property {string} generatedAt - ISO timestamp de geração
+ * @property {number} overallScore - Score geral (0-100)
+ * @property {"Crítico"|"Insuficiente"|"Parcial"|"Adequado"|"Exemplar"} complianceLevel - Nível de conformidade
+ * @property {StageReport[]} stages - Relatórios dos 4 estágios
+ * @property {Array<{label: string, count: number}>} topCriticalIssues - Top 5 problemas críticos
+ * @property {Array<{label: string, count: number}>} topStrengths - Top 5 pontos fortes
+ * @property {Array<{title: string, priority: string}>} topRecommendations - Top 10 recomendações
+ * @property {string} executiveSummary - Resumo executivo textual
+ */
 interface ConsolidatedReport {
   sessionId: string;
   userId: string;
@@ -35,26 +61,20 @@ interface ConsolidatedReport {
 }
 
 /**
- * Classe ReportGenerator
+ * Gerador de relatórios consolidados de conformidade LGPD.
  * 
- * Responsável por gerar e formatar relatórios de conformidade LGPD.
- * Consolida dados dos 4 estágios em um relatório executivo com scores agregados,
- * classificação de maturidade e recomendações priorizadas.
- * 
- * @class
+ * Agrega scores dos 4 estágios, classifica nível de maturidade e consolida
+ * recomendações/problemas para apresentação executiva.
  */
 export class ReportGenerator {
   /**
-   * Gera relatório consolidado a partir de dados dos estágios
-   * 
-   * Agrega scores dos 4 estágios, calcula conformidade geral (0-100),
-   * classifica nível de maturidade e consolida recomendações/problemas.
+   * Gera relatório consolidado a partir de dados dos estágios.
    * 
    * @param {string} sessionId - ID único da sessão de avaliação
    * @param {string} userId - ID do usuário/respondente
-   * @param {StageReport[]} stages - Array com relatórios dos 4 estágios (Contexto, Controles, Riscos, Maturidade)
-   * @param {string} [assessmentId] - ID opcional do questionário/avaliação
-   * @returns {ConsolidatedReport} Relatório consolidado com score 0-100 e nível de conformidade
+   * @param {StageReport[]} stages - Relatórios dos 4 estágios
+   * @param {string} [assessmentId] - ID opcional do questionário
+   * @returns {ConsolidatedReport} Relatório consolidado com score 0-100 e nível
    * 
    * @example
    * const report = generator.generate('sess_001', 'user_123', stageReports);
@@ -85,6 +105,12 @@ export class ReportGenerator {
     };
   }
 
+  /**
+   * Converte relatório consolidado para formato Markdown.
+   * 
+   * @param {ConsolidatedReport} report - Relatório a converter
+   * @returns {string} Markdown formatado com seções de score, problemas, pontos fortes e etapas
+   */
   toMarkdown(report: ConsolidatedReport): string {
     const lines: string[] = [
       `# Relatório de Conformidade LGPD`,
@@ -136,12 +162,24 @@ export class ReportGenerator {
     return lines.join("\n");
   }
 
+  /**
+   * Calcula score médio dos estágios.
+   * @private
+   * @param {StageReport[]} stages - Array de estágios
+   * @returns {number} Média arredondada (0-100)
+   */
   private averageScore(stages: StageReport[]): number {
     if (!stages.length) return 0;
     const total = stages.reduce((sum, s) => sum + s.score, 0);
     return Math.round(total / stages.length);
   }
 
+  /**
+   * Classifica score em nível de conformidade (5 níveis).
+   * @private
+   * @param {number} score - Score de 0-100
+   * @returns {ConsolidatedReport["complianceLevel"]} Nível de conformidade
+   */
   private classifyCompliance(score: number): ConsolidatedReport["complianceLevel"] {
     if (score < 20) return "Crítico";
     if (score < 40) return "Insuficiente";
@@ -150,6 +188,13 @@ export class ReportGenerator {
     return "Exemplar";
   }
 
+  /**
+   * Agrupa itens por frequência e retorna top N.
+   * @private
+   * @param {string[]} items - Array de strings a contar
+   * @param {number} [limit=5] - Limite de resultados
+   * @returns {Array<{label: string, count: number}>} Top itens ordenados por frequência
+   */
   private topFrequent(items: string[], limit = 5): Array<{ label: string; count: number }> {
     const freq: Record<string, number> = {};
     for (const item of items) {
@@ -163,6 +208,13 @@ export class ReportGenerator {
       .map(([label, count]) => ({ label, count }));
   }
 
+  /**
+   * Mescla recomendações dos estágios removendo duplicatas.
+   * Prioriza por Alta > Média > Baixa.
+   * @private
+   * @param {StageReport[]} stages - Array de estágios
+   * @returns {Array<{title: string, priority: string}>} Top 10 recomendações únicas
+   */
   private mergeRecommendations(
     stages: StageReport[]
   ): Array<{ title: string; priority: string }> {
@@ -185,6 +237,14 @@ export class ReportGenerator {
     return result;
   }
 
+  /**
+   * Constrói resumo executivo em texto livre.
+   * @private
+   * @param {number} score - Score geral
+   * @param {ConsolidatedReport["complianceLevel"]} level - Nível de conformidade
+   * @param {StageReport[]} stages - Array de estágios
+   * @returns {string} Parágrafo resumido da avaliação
+   */
   private buildSummary(
     score: number,
     level: ConsolidatedReport["complianceLevel"],
@@ -204,4 +264,8 @@ export class ReportGenerator {
   }
 }
 
+/**
+ * Instância singleton do gerador de relatórios.
+ * @type {ReportGenerator}
+ */
 export const reportGenerator = new ReportGenerator();

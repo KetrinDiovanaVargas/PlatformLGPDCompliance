@@ -1,3 +1,10 @@
+/**
+ * Inicialização centralizada do Firebase Admin SDK.
+ * 
+ * Configura autenticação e Firestore usando credenciais de variáveis de ambiente.
+ * @module lib/firebase-admin
+ */
+
 import admin from 'firebase-admin';
 
 if (!admin.apps.length) {
@@ -15,6 +22,20 @@ if (!admin.apps.length) {
   }
 }
 
+/**
+ * Instância do Firebase Authentication.
+ * @type {admin.auth.Auth}
+ */
 export const auth = admin.auth();
+
+/**
+ * Instância do Firestore Database.
+ * @type {admin.firestore.Firestore}
+ */
 export const db = admin.firestore();
+
+/**
+ * Instância do Firebase Admin SDK.
+ * @type {admin.app.App}
+ */
 export default admin;

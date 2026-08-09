@@ -1,6 +1,18 @@
-// server/groq/generateStageGroq.js
+/**
+ * Gerador de perguntas dinâmicas para avaliação de maturidade em proteção de dados.
+ * 
+ * Utiliza a API Groq com prompt especializado para gerar questões adaptadas
+ * ao perfil do respondente e estágio da avaliação.
+ * @module server/groq/generateStageGroq
+ */
+
 import { chatCompletion } from "../lib/ai-client.mjs";
 
+/**
+ * Metadados dos estágios de avaliação.
+ * @constant
+ * @type {Object<number, {title: string, questions: number}>}
+ */
 const STAGE_META = {
   1: {
     title: "Perfil e Contexto",
@@ -20,6 +32,20 @@ const STAGE_META = {
   },
 };
 
+/**
+ * Gera questões adaptativas para um estágio específico da avaliação.
+ * 
+ * @async
+ * @param {Object} params - Parâmetros de entrada
+ * @param {number} params.stage - Número do estágio (1-4)
+ * @param {string} params.profile - Perfil do respondente (ex: "Estudante", "Gestor")
+ * @param {Object|string} params.context - Respostas anteriores ou histórico
+ * 
+ * @returns {Promise<{id: number, title: string, description: string, questions: Array<{id: string, type: string, question: string, options?: string[], required: boolean}>}>}
+ *   Objeto com questões geradas ou fallback em caso de erro
+ * 
+ * @throws {Error} Se o estágio for inválido
+ */
 export async function generateStageGroq({ stage, profile, context }) {
   if (!STAGE_META[stage]) {
     throw new Error(`Stage inválido: ${stage}`);

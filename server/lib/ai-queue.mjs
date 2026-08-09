@@ -1,25 +1,42 @@
+/**
+ * Gerenciador de fila de requisições para APIs de IA.
+ * 
+ * Espaça requisições para respeitar rate limits de provedores (Groq, DeepSeek, Claude).
+ * Implementa processamento sequencial com priorização e timeout por tarefa.
+ * @module lib/ai-queue
+ */
+
 import { EventEmitter } from 'events';
 
 /**
- * AIQueue - Gerencia fila de requisições para APIs de IA
- *
- * Espaça requisições para respeitar rate limits de provedores
- * - Groq: 30 requisições/minuto (2 segundos entre requisições)
- * - DeepSeek: 60 requisições/minuto (1 segundo entre requisições)
+ * Fila de requisições com rate limiting e controle de concorrência.
+ * 
+ * Gerencia requisições para APIs de IA respeitando rate limits:
+ * - Groq: 30 requisições/minuto (2s entre requisições)
+ * - DeepSeek: 60 requisições/minuto (1s entre requisições)
  * - Claude: 100k tokens/minuto (sem limite de requisições)
- *
- * Usa fila com processamento sequencial controlado
+ * 
+ * @class AIQueue
+ * @extends EventEmitter
  */
-
 class AIQueue extends EventEmitter {
+  /**
+   * Inicializa a fila de requisições.
+   * 
+   * @param {Object} [options={}] - Configurações
+   * @param {number} [options.maxConcurrent=1] - Máximo de requisições processadas simultaneamente
+   * @param {number} [options.minDelayMs=2000] - Delay mínimo entre requisições (em ms)
+   * @param {number} [options.maxQueueSize=1000] - Tamanho máximo da fila
+   * @param {number} [options.requestTimeout=30000] - Timeout padrão por requisição (em ms)
+   */
   constructor(options = {}) {
     super();
 
     // Configuração
-    this.maxConcurrent = options.maxConcurrent || 1; // Processa 1 de cada vez
-    this.minDelayMs = options.minDelayMs || 2000; // 2s entre requisições (Groq: 30/min)
-    this.maxQueueSize = options.maxQueueSize || 1000; // Máximo na fila
-    this.requestTimeout = options.requestTimeout || 30000; // Timeout por requisição
+    this.maxConcurrent = options.maxConcurrent || 1;
+    this.minDelayMs = options.minDelayMs || 2000;
+    this.maxQueueSize = options.maxQueueSize || 1000;
+    this.requestTimeout = options.requestTimeout || 30000;
 
     // Estado
     this.queue = [];
@@ -35,9 +52,26 @@ class AIQueue extends EventEmitter {
   }
 
   /**
-   * Adiciona requisição à fila
-   * @param {Object} task - { id, priority, fn, timeout }
-   * @returns {Promise} Resolve com resultado ou rejeita com erro
+   * Adiciona requisição à fila com priorização automática.
+   * 
+   * @async
+   * @param {Object} task - Definição da tarefa
+   * @param {string} [task.id] - Identificador único (gerado automaticamente se omitido)
+   * @param {"high"|"normal"|"low"} [task.priority="normal"] - Prioridade da tarefa
+   * @param {Function} task.fn - Função assíncrona a executar
+   * @param {number} [task.timeout=30000] - Timeout individual (ms)
+   * 
+   * @returns {Promise<*>} Resolve com resultado da função ou rejeita com erro
+   * 
+   * @throws {Error} Com code QUEUE_FULL se fila estiver no limite
+   * @throws {Error} Com code TASK_TIMEOUT se tarefa exceder timeout
+   * 
+   * @example
+   * const result = await queue.add({
+   *   priority: 'high',
+   *   fn: async () => await chatCompletion(messages),
+   *   timeout: 60000
+   * });
    */
   async add(task) {
     const { id, priority = 'normal', fn, timeout = this.requestTimeout } = task;
@@ -64,7 +98,6 @@ class AIQueue extends EventEmitter {
       this.queue.push(queueItem);
       this.stats.queued++;
 
-      // Ordena por prioridade (0 = alta, 2 = baixa)
       this.queue.sort((a, b) => a.priority - b.priority);
 
       this.emit('queued', {
@@ -78,7 +111,11 @@ class AIQueue extends EventEmitter {
   }
 
   /**
-   * Processa itens da fila com controle de rate limiting
+   * Processa itens da fila com rate limiting e controle de concorrência.
+   * Chamado automaticamente ao adicionar tarefas.
+   * 
+   * @private
+   * @async
    */
   async process() {
     if (this.processing || this.queue.length === 0 || this.activeRequests >= this.maxConcurrent) {
@@ -88,7 +125,6 @@ class AIQueue extends EventEmitter {
     this.processing = true;
 
     while (this.queue.length > 0 && this.activeRequests < this.maxConcurrent) {
-      // Respeita delay mínimo entre requisições
       const timeSinceLastRequest = Date.now() - this.lastRequestTime;
       if (timeSinceLastRequest < this.minDelayMs) {
         await new Promise(resolve => setTimeout(resolve, this.minDelayMs - timeSinceLastRequest));
@@ -107,7 +143,6 @@ class AIQueue extends EventEmitter {
         this.activeRequests--;
         this.lastRequestTime = Date.now();
 
-        // Continua processando se houver itens
         if (this.queue.length > 0 && this.activeRequests < this.maxConcurrent) {
           this.process();
         } else {
@@ -120,7 +155,11 @@ class AIQueue extends EventEmitter {
   }
 
   /**
-   * Executa task individual com timeout
+   * Executa tarefa individual com timeout e tratamento de erro.
+   * 
+   * @private
+   * @async
+   * @param {Object} queueItem - Item da fila a executar
    */
   async executeTask(queueItem) {
     const { id, fn, timeout, resolve, reject } = queueItem;
@@ -128,7 +167,6 @@ class AIQueue extends EventEmitter {
     queueItem.startedAt = startTime;
 
     try {
-      // Cria timeout para a tarefa
       const timeoutPromise = new Promise((_, rejectTimeout) =>
         setTimeout(() => {
           const error = new Error(`Task timeout after ${timeout}ms`);
@@ -137,13 +175,11 @@ class AIQueue extends EventEmitter {
         }, timeout)
       );
 
-      // Executa task com timeout
       const result = await Promise.race([fn(), timeoutPromise]);
 
       queueItem.completedAt = Date.now();
       const processingTime = queueItem.completedAt - startTime;
 
-      // Atualiza estatísticas
       this.stats.processed++;
       this.stats.avgProcessTime =
         (this.stats.avgProcessTime * (this.stats.processed - 1) + processingTime) /
@@ -172,7 +208,14 @@ class AIQueue extends EventEmitter {
   }
 
   /**
-   * Retorna status atual da fila
+   * Retorna status geral da fila.
+   * 
+   * @returns {{queueSize: number, activeRequests: number, isProcessing: boolean, stats: Object, nextTaskIn: number, config: Object}}
+   *   Objeto com tamanho da fila, requisições ativas, estatísticas e configuração
+   * 
+   * @example
+   * const status = queue.getStatus();
+   * console.log(`${status.queueSize} na fila, ${status.activeRequests} processando`);
    */
   getStatus() {
     return {
@@ -190,7 +233,11 @@ class AIQueue extends EventEmitter {
   }
 
   /**
-   * Retorna informações de task específica
+   * Retorna status de tarefa específica.
+   * 
+   * @param {string} taskId - ID da tarefa
+   * @returns {{id: string, priority: number, position: number, createdAt: number, startedAt: number|null, completedAt: number|null, status: "queued"|"processing"|"completed"}|null}
+   *   Informações da tarefa ou null se não encontrada
    */
   getTaskStatus(taskId) {
     const task = this.queue.find(t => t.id === taskId);
@@ -210,7 +257,10 @@ class AIQueue extends EventEmitter {
   }
 
   /**
-   * Limpa a fila (útil para testes ou shutdown)
+   * Limpa a fila rejeitando todas as tarefas.
+   * Útil para testes ou shutdown da aplicação.
+   * 
+   * @returns {number} Quantidade de tarefas removidas
    */
   clear() {
     const size = this.queue.length;
@@ -224,17 +274,26 @@ class AIQueue extends EventEmitter {
   }
 
   /**
-   * Configura estatísticas de rate limit baseado no provider
+   * Configura rate limiting e concorrência baseado no provider de IA.
+   * 
+   * Aplica presets otimizados para cada provedor:
+   * - Groq: 1 concorrente, 2s delay (30 req/min)
+   * - DeepSeek: 2 concorrentes, 1s delay (60 req/min)
+   * - Claude: 5 concorrentes, 0s delay (100k tokens/min)
+   * - Gemini: 1 concorrente, 1s delay (conservador)
+   * 
+   * @param {string} provider - Nome do provider ('groq', 'deepseek', 'claude', 'gemini')
+   * 
+   * @example
+   * queue.configureForProvider('claude');
+   * // Agora usa: 5 concorrentes, 0ms delay
    */
   configureForProvider(provider) {
-    // maxConcurrent = quantas requisições processam em paralelo.
-    // Claude tem alta capacidade (100k tokens/min) → pode processar várias
-    // em paralelo sem delay. Groq tem rate limit baixo → 1 por vez com espaço.
     const configs = {
-      groq: { minDelayMs: 2000, maxConcurrent: 1 }, // 30 req/min = 2s entre requests
-      deepseek: { minDelayMs: 1000, maxConcurrent: 2 }, // 60 req/min
-      claude: { minDelayMs: 0, maxConcurrent: 5 }, // sem delay, paralelo
-      gemini: { minDelayMs: 1000, maxConcurrent: 1 }, // conservador
+      groq: { minDelayMs: 2000, maxConcurrent: 1 },
+      deepseek: { minDelayMs: 1000, maxConcurrent: 2 },
+      claude: { minDelayMs: 0, maxConcurrent: 5 },
+      gemini: { minDelayMs: 1000, maxConcurrent: 1 },
     };
 
     const config = configs[provider.toLowerCase()] || configs.groq;
@@ -248,11 +307,17 @@ class AIQueue extends EventEmitter {
   }
 }
 
-// Singleton global
 let globalQueue = null;
 
 /**
- * Cria ou retorna instância global da fila
+ * Retorna instância global singleton da fila de requisições.
+ * 
+ * @param {Object} [options={}] - Opções de inicialização (apenas primeira chamada)
+ * @returns {AIQueue} Instância global da fila
+ * 
+ * @example
+ * const queue = getQueue();
+ * await queue.add({ fn: async () => await chatCompletion(messages) });
  */
 export function getQueue(options = {}) {
   if (!globalQueue) {

@@ -1,28 +1,30 @@
 /**
- * question-cache.mjs
- *
- * Cache de perguntas geradas para reduzir chamadas de IA
- * Reduz ~40% das requisições ao reutilizar perguntas já geradas
- *
- * Estratégia:
- * - Cache por (stage, context_hash, audience)
- * - TTL: 24 horas (regenera perguntas diariamente)
- * - LRU: Remove itens menos usados quando cache fica cheio
- * - In-memory: Rápido, ~100MB para 10k perguntas
+ * Cache in-memory de perguntas geradas para avaliação LGPD.
+ * 
+ * Reduz ~40% das chamadas de IA através de reutilização de perguntas já geradas.
+ * Implementa estratégia LRU com TTL de 24h e limpeza periódica.
+ * @module lib/question-cache
  */
 
 class QuestionCache {
+  /**
+   * Inicializa o cache de perguntas.
+   * 
+   * @param {Object} [options={}] - Configurações do cache
+   * @param {number} [options.maxSize=1000] - Máximo de itens em cache
+   * @param {number} [options.ttlHours=24] - TTL em horas
+   */
   constructor(options = {}) {
     // Configuração
-    this.maxSize = options.maxSize || 1000; // Máximo de itens em cache
-    this.ttlHours = options.ttlHours || 24; // Tempo de vida em horas
+    this.maxSize = options.maxSize || 1000;
+    this.ttlHours = options.ttlHours || 24;
     this.ttlMs = this.ttlHours * 60 * 60 * 1000;
 
     // Estado
     this.cache = new Map();
-    this.accessCount = new Map(); // Para LRU
-    this.pendingRequests = new Map(); // FIX #2: Evita race condition
-    this.hashRegistry = new Map(); // FIX #3: Detecta colisões de hash
+    this.accessCount = new Map();
+    this.pendingRequests = new Map();
+    this.hashRegistry = new Map();
     this.stats = {
       hits: 0,
       misses: 0,
@@ -31,13 +33,15 @@ class QuestionCache {
       collisions: 0,
     };
 
-    // Inicia limpeza periódica (a cada 1 hora)
     this.cleanupInterval = setInterval(() => this.cleanup(), 60 * 60 * 1000);
   }
 
   /**
-   * Normaliza contexto para garantir chaves consistentes
-   * FIX #1: Remove null/undefined, ordena chaves, trimma strings
+   * Normaliza contexto para garantir chaves consistentes.
+   * Remove nulos/undefined, ordena chaves, trimma strings.
+   * 
+   * @param {Object} [context={}] - Contexto a normalizar
+   * @returns {string} JSON normalizado
    */
   normalizeContext(context = {}) {
     return JSON.stringify(
@@ -54,11 +58,11 @@ class QuestionCache {
   }
 
   /**
-   * Gera chave de cache única
-   * FIX #1: Normaliza context antes de hash
-   * @param {number} stage - Número da etapa
-   * @param {object} context - Contexto (será normalizado e hasheado)
-   * @param {string} audience - Público-alvo
+   * Gera chave de cache única (stage + context_hash + audience).
+   * 
+   * @param {number} stage - Número da etapa (1-4)
+   * @param {Object} [context={}] - Contexto de perguntas anteriores
+   * @param {string} [audience='default'] - Público-alvo
    * @returns {string} Chave de cache
    */
   generateKey(stage, context = {}, audience = 'default') {
@@ -69,8 +73,11 @@ class QuestionCache {
   }
 
   /**
-   * Hash simples para context (não criptográfico, apenas para diferenciação)
-   * FIX #3: Detecta colisões de hash
+   * Hash simples para diferenciação (não criptográfico).
+   * Detecta colisões e registra em stats.
+   * 
+   * @param {string} str - String a hashear
+   * @returns {string} Hash de 8 caracteres
    */
   simpleHash(str) {
     let hash = 0;
@@ -81,7 +88,6 @@ class QuestionCache {
     }
     const hashStr = Math.abs(hash).toString(36).substring(0, 8);
 
-    // Detecta colisão
     if (this.hashRegistry.has(hashStr)) {
       const existingStr = this.hashRegistry.get(hashStr);
       if (existingStr !== str) {
@@ -96,7 +102,10 @@ class QuestionCache {
   }
 
   /**
-   * Sanitiza string para uso em chave
+   * Sanitiza string para uso seguro em chave.
+   * 
+   * @param {string} str - String a sanitizar
+   * @returns {string} String sanitizada (lowercase, alfanumérico, máx 20 chars)
    */
   sanitize(str) {
     return String(str || '')
@@ -106,11 +115,12 @@ class QuestionCache {
   }
 
   /**
-   * Busca perguntas no cache
-   * @param {number} stage
-   * @param {object} context
-   * @param {string} audience
-   * @returns {object|null} Perguntas em cache ou null se não encontrado
+   * Busca perguntas no cache.
+   * 
+   * @param {number} stage - Número da etapa
+   * @param {Object} [context={}] - Contexto de perguntas
+   * @param {string} [audience='default'] - Público-alvo
+   * @returns {Object|null} Perguntas em cache ou null se não encontrado/expirado
    */
   get(stage, context = {}, audience = 'default') {
     const key = this.generateKey(stage, context, audience);
@@ -121,16 +131,13 @@ class QuestionCache {
       return null;
     }
 
-    // Verifica se expirou
     const now = Date.now();
     if (now - cacheEntry.timestamp > this.ttlMs) {
-      // Expirou, remove
       this.cache.delete(key);
       this.stats.refreshes++;
       return null;
     }
 
-    // Cache hit! Atualiza contadores de acesso (LRU)
     this.stats.hits++;
     const currentCount = this.accessCount.get(key) || 0;
     this.accessCount.set(key, currentCount + 1);
@@ -139,38 +146,36 @@ class QuestionCache {
   }
 
   /**
-   * Armazena perguntas no cache
-   * @param {number} stage
-   * @param {object} context
-   * @param {string} audience
-   * @param {object} questions - Dados das perguntas
+   * Armazena perguntas no cache.
+   * Remove item LRU se cache estiver cheio.
+   * 
+   * @param {number} stage - Número da etapa
+   * @param {Object} [context={}] - Contexto de perguntas
+   * @param {string} [audience='default'] - Público-alvo
+   * @param {Object} questions - Dados das perguntas a armazenar
    */
   set(stage, context = {}, audience = 'default', questions) {
     const key = this.generateKey(stage, context, audience);
 
-    // Se cache está cheio, remove item menos usado (LRU)
     if (this.cache.size >= this.maxSize && !this.cache.has(key)) {
       this.evictLRU();
     }
 
-    // Armazena
     this.cache.set(key, {
       timestamp: Date.now(),
       data: questions,
     });
 
-    // Inicializa contador de acesso
     this.accessCount.set(key, 0);
   }
 
   /**
-   * Remove item menos usado (LRU - Least Recently Used)
+   * Remove item menos usado (LRU - Least Recently Used).
    */
   evictLRU() {
     let lruKey = null;
     let minCount = Infinity;
 
-    // Encontra chave com menor count de acesso
     for (const [key, count] of this.accessCount.entries()) {
       if (count < minCount && this.cache.has(key)) {
         lruKey = key;
@@ -186,8 +191,8 @@ class QuestionCache {
   }
 
   /**
-   * Limpa cache expirado
-   * Chamado periodicamente (a cada 1 hora)
+   * Limpa itens expirados do cache.
+   * Chamado periodicamente (a cada 1 hora).
    */
   cleanup() {
     const now = Date.now();
@@ -207,7 +212,9 @@ class QuestionCache {
   }
 
   /**
-   * Retorna status do cache
+   * Retorna status e métricas do cache.
+   * 
+   * @returns {{size: number, maxSize: number, utilizacao: string, pendingRequests: number, stats: Object, memory: Object}}
    */
   getStatus() {
     const totalRequests = this.stats.hits + this.stats.misses;
@@ -224,23 +231,22 @@ class QuestionCache {
         hitRate: `${hitRate}%`,
       },
       memory: {
-        estimated_mb: (this.cache.size * 5).toFixed(2), // ~5KB por entrada
+        estimated_mb: (this.cache.size * 5).toFixed(2),
       },
     };
   }
 
   /**
-   * Invalida cache (força regeneração)
-   * @param {number} stage - Etapa específica (opcional, limpa tudo se não informado)
+   * Invalida cache (total ou por stage específico).
+   * 
+   * @param {number|null} [stage=null] - Etapa a invalidar (null = tudo)
    */
   invalidate(stage = null) {
     if (stage === null) {
-      // Limpa tudo
       this.cache.clear();
       this.accessCount.clear();
       console.log('🗑️  Cache completamente invalidado');
     } else {
-      // Limpa apenas stage específico
       let removed = 0;
       for (const key of this.cache.keys()) {
         if (key.startsWith(`stage_${stage}_`)) {
@@ -254,8 +260,8 @@ class QuestionCache {
   }
 
   /**
-   * Para limpeza periódica
-   * Chamado no shutdown
+   * Para limpeza periódica e libera recursos.
+   * Chamado no shutdown da aplicação.
    */
   destroy() {
     clearInterval(this.cleanupInterval);
@@ -266,11 +272,13 @@ class QuestionCache {
   }
 }
 
-// Singleton global
 let globalCache = null;
 
 /**
- * Cria ou retorna instância global do cache
+ * Retorna instância global singleton do cache de perguntas.
+ * 
+ * @param {Object} [options={}] - Opções de inicialização (apenas na primeira chamada)
+ * @returns {QuestionCache} Instância do cache
  */
 export function getQuestionCache(options = {}) {
   if (!globalCache) {
@@ -280,20 +288,24 @@ export function getQuestionCache(options = {}) {
 }
 
 /**
- * Wrapper para usar cache transparentemente com chatCompletion
- * FIX #2: Evita race condition com lock de requisições pendentes
- *
- * Fluxo:
- * 1. Se em cache → retorna imediatamente
- * 2. Se sendo processado → aguarda resultado
- * 3. Se não processado → chama IA e marca como processando
+ * Wrapper para chatCompletion com cache transparente e lock de race condition.
+ * 
+ * Evita múltiplas chamadas de IA para requisições idênticas.
+ * 
+ * @async
+ * @param {Array} messages - Mensagens para o modelo
+ * @param {Object} [opts={}] - Opções
+ * @param {number} [opts.stage] - Número da etapa (obrigatório para cache)
+ * @param {Object} [opts.context] - Contexto de perguntas
+ * @param {string} [opts.audience] - Público-alvo
+ * @param {boolean} [opts.useCache=true] - Habilita cache
+ * @returns {Promise<Object>} Resultado do chat (cacheado ou fresco)
  */
 export async function cachedChatCompletion(messages, opts = {}) {
   const { stage, context, audience, useCache = true } = opts;
 
   const cache = getQuestionCache();
 
-  // Se cache é desabilitado, vai direto para IA
   if (!useCache || stage === undefined) {
     const { queuedChatCompletion } = await import('./ai-client.mjs');
     return queuedChatCompletion(messages, opts);
@@ -301,20 +313,17 @@ export async function cachedChatCompletion(messages, opts = {}) {
 
   const cacheKey = cache.generateKey(stage, context, audience);
 
-  // PASSO 1: Tenta buscar do cache (mais rápido)
   const cached = cache.get(stage, context, audience);
   if (cached) {
     console.log(`✓ Pergunta recuperada do cache (stage ${stage})`);
     return cached;
   }
 
-  // PASSO 2: Verifica se há requisição idêntica sendo processada
   if (cache.pendingRequests.has(cacheKey)) {
     console.log(`⏳ Aguardando resultado idêntico em processamento (stage ${stage})`);
     return cache.pendingRequests.get(cacheKey);
   }
 
-  // PASSO 3: Inicia processamento e marca como pendente
   console.log(`💭 Gerando pergunta (stage ${stage}) - não estava em cache`);
 
   const processingPromise = (async () => {
@@ -322,7 +331,6 @@ export async function cachedChatCompletion(messages, opts = {}) {
       const { queuedChatCompletion } = await import('./ai-client.mjs');
       const result = await queuedChatCompletion(messages, opts);
 
-      // Armazena no cache
       cache.set(stage, context, audience, result);
 
       return result;
@@ -330,12 +338,10 @@ export async function cachedChatCompletion(messages, opts = {}) {
       console.error(`❌ Erro ao gerar pergunta (stage ${stage}):`, error.message);
       throw error;
     } finally {
-      // Remove do mapa de pendentes
       cache.pendingRequests.delete(cacheKey);
     }
   })();
 
-  // Registra como processando
   cache.pendingRequests.set(cacheKey, processingPromise);
 
   return processingPromise;

@@ -1,3 +1,8 @@
+/**
+ * Metadados dos quatro estágios da avaliação de maturidade em proteção de dados.
+ * @constant
+ * @type {Object<number, {title: string, description: string}>}
+ */
 export const STAGE_META = {
   1: {
     title: "Perfil e Contexto do Respondente",

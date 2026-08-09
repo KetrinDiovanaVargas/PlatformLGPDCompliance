@@ -1,3 +1,11 @@
+/**
+ * Rotas de consolidação de relatórios de avaliação.
+ * 
+ * Consolida múltiplos relatórios finais em uma análise agregada com top issues,
+ * pontos fortes, recomendações e score médio. Suporta fallback se IA indisponível.
+ * @module routes/consolidate
+ */
+
 import express from "express";
 import admin from "firebase-admin";
 import { getAdminDb } from "../firebaseAdmin.mjs";
@@ -5,7 +13,29 @@ import { chatCompletion } from "./ai-client.mjs";
 
 const router = express.Router();
 
-// Used by routes that generate and then persist the final report.
+/**
+ * Salva relatório final em Firestore.
+ * 
+ * Persiste relatório final e atualiza status da sessão para 'completed'.
+ * Cria/atualiza documento na subcoleção final_report/latest.
+ * 
+ * @async
+ * @param {string} userId - ID do usuário (obrigatório)
+ * @param {string} sessionId - ID da sessão (obrigatório)
+ * @param {string} [assessmentId] - ID da avaliação (opcional)
+ * @param {Object} payload - Conteúdo do relatório (report, metrics, summary, etc)
+ * 
+ * @returns {Promise<{ok: boolean, sessionId: string}>} Confirmação de salvamento
+ * 
+ * @throws {Error} Se userId ou sessionId não fornecidos
+ * 
+ * @example
+ * await saveFinalReport('user_123', 'sess_456', 'assess_789', {
+ *   report: '...',
+ *   metrics: { score: 75, ... },
+ *   summary: '...'
+ * });
+ */
 export async function saveFinalReport(userId, sessionId, assessmentId, payload) {
   const db = getAdminDb();
 
@@ -52,20 +82,43 @@ router.options("/", (req, res) => {
   return res.status(204).end();
 });
 
-
+/**
+ * Converte valor para string segura e trimada.
+ * @private
+ * @param {*} v - Valor a converter
+ * @returns {string} String trimada ou vazia
+ */
 function safeString(v) {
   return String(v ?? "").trim();
 }
 
+/**
+ * Calcula média aritmética de array de números.
+ * @private
+ * @param {number[]} arr - Array de números
+ * @returns {number} Média arredondada ou 0 se array vazio
+ */
 function average(arr) {
   if (!arr.length) return 0;
   return Math.round(arr.reduce((a, b) => a + b, 0) / arr.length);
 }
 
+/**
+ * Achata array multidimensional e remove valores falsy.
+ * @private
+ * @param {Array} arr - Array potencialmente aninhado
+ * @returns {Array} Array plano sem valores falsy
+ */
 function flatten(arr) {
   return arr.flat().filter(Boolean);
 }
 
+/**
+ * Conta frequência de strings e retorna top 5.
+ * @private
+ * @param {string[]} list - Lista de strings
+ * @returns {Array<{label: string, count: number}>} Top 5 strings por frequência
+ */
 function countFrequency(list) {
   const map = {};
 
@@ -84,6 +137,13 @@ function countFrequency(list) {
     }));
 }
 
+/**
+ * Extrai métricas estruturadas de relatório.
+ * @private
+ * @param {Object} report - Relatório final
+ * @returns {{score: number, criticalIssues: Array, strengths: Array, attentionPoints: Array, recommendations: Array, risks: Object}}
+ *   Métricas extraídas
+ */
 function extractMetrics(report) {
   return {
     score: Number(report?.metrics?.score ?? 0),
@@ -95,6 +155,17 @@ function extractMetrics(report) {
   };
 }
 
+/**
+ * Consolida múltiplos relatórios em análise agregada (fallback).
+ * 
+ * Agrupa issues críticos, pontos fortes, pontos de atenção e recomendações
+ * por frequência quando a IA não está disponível.
+ * 
+ * @private
+ * @param {Array<Object>} reports - Array de relatórios finais
+ * @returns {{scoreAverage: number, topCriticalIssues: Array, topStrengths: Array, topAttentionPoints: Array, recommendations: Array, reportsCount: number, mode: "fallback"}}
+ *   Análise consolidada
+ */
 function fallbackConsolidation(reports) {
   const metricsList = reports.map(extractMetrics);
   const scores = metricsList.map((m) => m.score);
@@ -137,11 +208,23 @@ function fallbackConsolidation(reports) {
   };
 }
 
+/**
+ * Verifica se erro é por rate limit de IA.
+ * @private
+ * @param {Error} err - Erro capturado
+ * @returns {boolean} true se erro é rate limit
+ */
 function isRateLimit(err) {
   const msg = safeString(err?.message).toLowerCase();
   return msg.includes("rate limit") || err?.status === 429;
 }
 
+/**
+ * Extrai JSON válido de texto contendo markdown ou caracteres extras.
+ * @private
+ * @param {string} text - Texto potencialmente contendo JSON
+ * @returns {Object|null} Objeto parseado ou null se JSON inválido
+ */
 function extractJson(text) {
   if (!text) return null;
 
@@ -165,6 +248,22 @@ function extractJson(text) {
   }
 }
 
+/**
+ * Gera análise consolidada usando Groq.
+ * 
+ * Chama IA para sintetizar múltiplos relatórios em métricas agregadas
+ * (score médio, top issues, recomendações priorizadas).
+ * 
+ * @private
+ * @async
+ * @param {Array<Object>} reports - Array de relatórios finais
+ * @param {string} [assessmentTitle=""] - Título da avaliação para contexto
+ * 
+ * @returns {Promise<{scoreAverage: number, topCriticalIssues: Array, topStrengths: Array, topAttentionPoints: Array, recommendations: Array}>}
+ *   Análise consolidada estruturada
+ * 
+ * @throws {Error} Se resposta da IA inválida
+ */
 async function generateWithGroq(reports, assessmentTitle = "") {
   const compactReports = reports.map((report) => ({
     assessmentId: report.assessmentId ?? null,
@@ -221,6 +320,40 @@ ${JSON.stringify(compactReports).slice(0, 12000)}
   return parsed;
 }
 
+/**
+ * POST /consolidate
+ * 
+ * Consolida múltiplos relatórios de uma avaliação em análise agregada.
+ * 
+ * Busca todos os relatórios finais de uma avaliação no Firestore,
+ * tenta gerar consolidação via IA, com fallback automático se indisponível.
+ * 
+ * @async
+ * @param {Object} req - Request Express
+ * @param {string} req.body.assessmentId - ID da avaliação (obrigatório)
+ * @param {Object} res - Response Express
+ * 
+ * @returns {Object} Análise consolidada com:
+ *   - scoreAverage: número (0-100)
+ *   - topCriticalIssues: array de {label, count}
+ *   - topStrengths: array de {label, count}
+ *   - topAttentionPoints: array de {label, count}
+ *   - recommendations: array de {title, priority}
+ *   - reportsCount: número
+ *   - mode: "groq" ou "fallback"
+ *   - notice?: string (se fallback)
+ * 
+ * @example
+ * POST /consolidate
+ * Body: { "assessmentId": "assess_123" }
+ * Response:
+ * {
+ *   "scoreAverage": 72,
+ *   "topCriticalIssues": [{ "label": "...", "count": 3 }],
+ *   "reportsCount": 5,
+ *   "mode": "groq"
+ * }
+ */
 router.post("/", async (req, res) => {
   try {
     let adminDb;
@@ -248,7 +381,6 @@ router.post("/", async (req, res) => {
       ? safeString(assessmentSnap.data()?.title, "Avaliação")
       : "Avaliação";
 
-    // 🔥 BUSCA RELATÓRIOS MAIS RECENTES
     const reportsSnap = await adminDb
       .collectionGroup("final_report")
       .where("assessmentId", "==", assessmentId)

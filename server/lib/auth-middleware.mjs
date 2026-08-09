@@ -1,8 +1,32 @@
+/**
+ * Middlewares de autenticação e autorização com Firebase Admin SDK.
+ * 
+ * Implementa verificação de token JWT, validação de role de admin e MASTER.
+ * @module middleware/auth
+ */
+
 import { getAdminAuth } from '../firebaseAdmin.mjs';
 
 /**
- * Middleware: Verificar se usuário está autenticado (Firebase ID Token)
- * Extrai userId de request.auth.uid
+ * Middleware de autenticação com Firebase ID Token.
+ * 
+ * Extrai e valida token JWT do header Authorization.
+ * Anexa dados do usuário autenticado em req.user.
+ * 
+ * @async
+ * @param {Object} req - Request Express
+ * @param {Object} req.headers - Headers HTTP
+ * @param {string} [req.headers.authorization] - Bearer token JWT
+ * @param {Object} res - Response Express
+ * @param {Function} next - Middleware next callback
+ * 
+ * @returns {void} Chama next() se autenticado, ou retorna erro 401
+ * 
+ * @example
+ * app.use(authMiddleware);
+ * // req.user = { uid: string, email: string, isAdmin: boolean }
+ * 
+ * @throws {401} Se token não fornecido, expirado ou inválido
  */
 export async function authMiddleware(req, res, next) {
   try {
@@ -50,8 +74,29 @@ export async function authMiddleware(req, res, next) {
 }
 
 /**
- * Middleware: Verificar se usuário é admin
- * Requer authMiddleware antes
+ * Middleware de autorização para admin.
+ * 
+ * Verifica se usuário autenticado existe e tem papel de admin ativo.
+ * Consulta collection 'admins' no Firestore para validar role.
+ * 
+ * **Requer authMiddleware antes nesta rota.**
+ * 
+ * @async
+ * @param {Object} req - Request Express
+ * @param {Object} req.user - Usuário autenticado (de authMiddleware)
+ * @param {string} req.user.uid - ID do usuário
+ * @param {Object} res - Response Express
+ * @param {Function} next - Middleware next callback
+ * 
+ * @returns {void} Chama next() se admin ativo, ou retorna erro 401/403
+ * 
+ * @example
+ * app.post('/api/admin/assessment', authMiddleware, adminMiddleware, handler);
+ * // req.admin = { uid, email, isAdmin, role: "ADMIN"|"MASTER", active: boolean }
+ * 
+ * @throws {401} Se usuário não autenticado
+ * @throws {403} Se usuário não é admin ou foi desativado
+ * @throws {500} Se erro ao consultar Firestore
  */
 export async function adminMiddleware(req, res, next) {
   if (!req.user) {
@@ -61,7 +106,6 @@ export async function adminMiddleware(req, res, next) {
     });
   }
 
-  // Verificar se usuário está na collection admins
   try {
     const { getAdminDb } = await import('../firebaseAdmin.mjs');
     const db = getAdminDb();
@@ -91,8 +135,25 @@ export async function adminMiddleware(req, res, next) {
 }
 
 /**
- * Middleware: Verificar se usuário é MASTER
- * Requer adminMiddleware antes
+ * Middleware de autorização para MASTER admin.
+ * 
+ * Verifica se usuário tem role 'MASTER' (acesso máximo).
+ * 
+ * **Requer adminMiddleware antes nesta rota.**
+ * 
+ * @param {Object} req - Request Express
+ * @param {Object} req.admin - Admin autenticado (de adminMiddleware)
+ * @param {string} req.admin.role - Role do admin ("ADMIN" ou "MASTER")
+ * @param {Object} res - Response Express
+ * @param {Function} next - Middleware next callback
+ * 
+ * @returns {void} Chama next() se MASTER, ou retorna erro 403
+ * 
+ * @example
+ * app.delete('/api/admin/user/:id', authMiddleware, adminMiddleware, masterMiddleware, handler);
+ * // Apenas MASTER pode executar
+ * 
+ * @throws {403} Se admin não é MASTER
  */
 export async function masterMiddleware(req, res, next) {
   if (!req.admin || req.admin.role !== 'MASTER') {

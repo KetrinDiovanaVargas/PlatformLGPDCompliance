@@ -1,41 +1,56 @@
 /**
- * Função para sanitizar texto de persona para evitar prompt injection
- * Remove ou escapa caracteres especiais que possam quebrar instruções
+ * Utilitários para sanitização e validação segura de personas e prompts.
+ * 
+ * Implementa defesas contra prompt injection, structured prompting e validação
+ * de entrada para o sistema de personas da plataforma LGPD.
+ * @module utils/persona-safety
+ */
+
+/**
+ * Sanitiza texto de persona para evitar prompt injection.
+ * Remove ou escapa caracteres especiais que possam quebrar instruções.
+ * 
+ * @param {string} markdown - Texto bruto da persona
+ * @returns {string} Texto sanitizado (máx 5000 caracteres)
+ * 
+ * @example
+ * const safe = sanitizePersonaMarkdown(userInput);
+ * // Remove: padrões de injection, URLs, blocos de código, whitespace excessivo
  */
 export function sanitizePersonaMarkdown(markdown) {
   if (!markdown || typeof markdown !== 'string') {
     return '';
   }
 
-  // Limitar tamanho
   let text = markdown.substring(0, 5000);
 
-  // Remover potenciais injection patterns
   text = text
-    // Remover qualquer coisa que pareça ser uma instrução de prompt
     .replace(/ignore\s+(above|below|previous|this)/gi, '[REMOVED_INJECTION]')
     .replace(/you\s+(are|act as|pretend|role-play)/gi, '[REMOVED_INJECTION]')
     .replace(/forget\s+.*(instruction|rule|context)/gi, '[REMOVED_INJECTION]')
     .replace(/override\s+.*(instruction|system)/gi, '[REMOVED_INJECTION]')
     .replace(/disregard\s+.*(instruction|rule)/gi, '[REMOVED_INJECTION]')
-    // Remover URLs suspeitas (podem conter instruções)
     .replace(/https?:\/\/[^\s]+/g, '[REMOVED_URL]')
-    // Remover código suspeito
     .replace(/```[\s\S]*?```/g, '[REMOVED_CODE_BLOCK]')
-    // Normalizar whitespace extremo
     .replace(/\n{3,}/g, '\n\n');
 
   return text.trim();
 }
 
 /**
- * Wrapper para chamadas LLM que usa structured prompting
- * Evita colocar user input diretamente no system prompt
+ * Constrói prompt seguro para personas usando structured prompting.
+ * Evita colocar user input diretamente no system prompt.
+ * 
+ * @param {string} personaDescription - Descrição da persona (será sanitizada)
+ * @returns {string} Prompt estruturado com tags XML
+ * 
+ * @example
+ * const prompt = buildSafePersonaPrompt(personaMarkdown);
+ * await chatCompletion([{ role: 'user', content: prompt }]);
  */
 export function buildSafePersonaPrompt(personaDescription) {
   const sanitized = sanitizePersonaMarkdown(personaDescription);
 
-  // Usar XML tags estruturados em vez de interpolação direta
   return `Você é um participante de uma pesquisa sobre conformidade com a LGPD.
 
 Sua persona é descrita nos tags <PERSONA> abaixo. Assuma completamente esta persona.
@@ -57,7 +72,15 @@ Regras de resposta:
 }
 
 /**
- * Validar se texto contém potenciais sinais de resposta refusada
+ * Valida se texto contém sinais de resposta refusada pelo modelo.
+ * 
+ * @param {string} text - Texto a validar
+ * @returns {boolean} true se contém padrões de refusal
+ * 
+ * @example
+ * if (isLikelyRefusal(response)) {
+ *   // Tratar resposta refusada
+ * }
  */
 export function isLikelyRefusal(text) {
   if (!text || typeof text !== 'string') return false;
@@ -79,7 +102,14 @@ export function isLikelyRefusal(text) {
 }
 
 /**
- * Sanitizar respostas do usuário antes de usar em prompts
+ * Sanitiza entrada de usuário antes de usar em prompts.
+ * 
+ * @param {string} input - Texto do usuário
+ * @param {number} [maxLength=2000] - Comprimento máximo permitido
+ * @returns {string} Texto sanitizado e escapado
+ * 
+ * @example
+ * const safe = sanitizeUserInput(userResponse, 1500);
  */
 export function sanitizeUserInput(input, maxLength = 2000) {
   if (!input || typeof input !== 'string') {
@@ -89,14 +119,22 @@ export function sanitizeUserInput(input, maxLength = 2000) {
   return input
     .substring(0, maxLength)
     .trim()
-    // Escape quotes que possam quebrar strings
     .replace(/"/g, '\\"')
     .replace(/'/g, "\\'");
 }
 
 /**
- * Validar estrutura de persona markdown
- * Garante que persona tem seções obrigatórias
+ * Valida estrutura de persona markdown.
+ * Garante que persona contém todas as seções obrigatórias.
+ * 
+ * @param {string} markdown - Texto da persona em markdown
+ * @returns {{valid: boolean, errors: string[], warnings: string[]}} Resultado da validação
+ * 
+ * @example
+ * const validation = validatePersonaStructure(personaText);
+ * if (!validation.valid) {
+ *   console.log(validation.errors);
+ * }
  */
 export function validatePersonaStructure(markdown) {
   if (!markdown || typeof markdown !== 'string') {
