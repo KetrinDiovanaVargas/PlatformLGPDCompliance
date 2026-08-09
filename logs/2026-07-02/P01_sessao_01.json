@@ -14,7 +14,7 @@
       "estagio": 1,
       "perguntas": [
         {
-          "question": "Como você armazena dados pessoais de clientes?",
+          "question": "Quais são os mecanismos técnicos e procedimentais de armazenamento utilizados?",
           "options": [
             "Seguro",
             "Inseguro",
@@ -22,7 +22,7 @@
           ]
         },
         {
-          "question": "Você compartilha dados com terceiros?",
+          "question": "A organização realiza compartilhamento de dados com terceiros?",
           "options": [
             "Sim",
             "Não",
@@ -30,7 +30,7 @@
           ]
         },
         {
-          "question": "Há contratos de proteção?",
+          "question": "Em qual nível de maturidade de conformidade com a LGPD a organização se encontra?",
           "options": [
             "Sim",
             "Não",
@@ -38,7 +38,7 @@
           ]
         },
         {
-          "question": "Qual seu nível de conformidade LGPD?",
+          "question": "Existem contratos formais que regulamentam a proteção desses dados?",
           "options": [
             "Alto",
             "Médio",
@@ -54,7 +54,7 @@
       "estagio": 2,
       "perguntas": [
         {
-          "question": "Como você obtém consentimento para coletar dados?",
+          "question": "Quais são os mecanismos e procedimentos utilizados para documentar esse consentimento?",
           "options": [
             "Explícito",
             "Implícito",
@@ -70,7 +70,7 @@
           ]
         }
       ],
-      "respostas_texto": "# Respostas ao Questionário\n\n---\n\n## Pergunta 1: Como você obtém consentimento para coletar dados?\n\n**Resposta: Implícito**\n\nOlha, na prática funciona assim: quando a pessoa envia o currículo para a gente, seja por e-mail, LinkedIn ou pelo formulário do site, ela já está consentindo que a gente use aqueles dados para análise da candidatura. É meio óbvio, né? Se ela está se candidatando, quer dizer que aceita que a gente veja o nome, telefone, experiência dela...\n\nA gente não pede assinatura de termo ou coisa assim. Seria muito burocrático e atrasaria bastante o processo. O próprio ato de se candidatar já é consentimento suficiente.\n\n---\n\n## Pergunta 2: Você monitora acesso aos dados?\n\n**Resposta: Parcialmente**\n\nA gente tem o sistema de RH que registra quem acessa, mas sinceramente não fico monitorando isso direto. O que eu faço é controlar quem recebe os currículos da minha parte — envio para o gestor responsável pela vaga, para o pessoal da equipe de RH que precisa.\n\nAgora, quando é urgente e o gestor pede para acelerar, às vezes eu mando por WhatsApp mesmo, que é mais rápido. Nesse caso, não tem tanto controle de quem vê depois, mas é para agilizar mesmo.",
+      "respostas_texto": "# Respostas ao Questionário\n\n---\n\n## Pergunta 1: Como você obtém consentimento para coletar dados?\n\n**Resposta: Implícito**\n\nOlha, na prática funciona assim: quando a pessoa envia o currículo para a gente, seja por e-mail, LinkedIn ou pelo formulário do site, ela já está consentindo que a gente use aqueles dados para análise da candidatura. É meio óbvio, né? Se ela está se candidatando, quer dizer que aceita que a gente veja o nome, telefone, experiência dela...\n\nA gente não pede assinatura de termo ou coisa assim. Seria muito burocrático e atrasaria bastante o processo. O próprio ato de se candidatar já é consentimento suficiente.\n\n---\n\n## Pergunta 2: A organização realiza compartilhamento de dados com terceiros?\n\n**Resposta: Parcialmente**\n\nA gente tem o sistema de RH que registra quem acessa, mas sinceramente não fico monitorando isso direto. O que eu faço é controlar quem recebe os currículos da minha parte — envio para o gestor responsável pela vaga, para o pessoal da equipe de RH que precisa.\n\nAgora, quando é urgente e o gestor pede para acelerar, às vezes eu mando por WhatsApp mesmo, que é mais rápido. Nesse caso, não tem tanto controle de quem vê depois, mas é para agilizar mesmo.",
       "timestamp": "2026-07-02T23:09:23.833Z"
     },
     {
@@ -93,7 +93,7 @@
           ]
         }
       ],
-      "respostas_texto": "# Respostas ao Questionário\n\n## Pergunta 1: Qual tempo de retenção dos dados?\n\n**Resposta: > 1 ano**\n\n**Justificativa:** A gente mantém os currículos e dados dos candidatos por mais de um ano. Isso é importante porque, quando surge uma vaga similar, a gente consegue reutilizar os perfis que já temos cadastrados. Economiza tempo de triagem. Além disso, alguns candidatos que não passaram na primeira oportunidade podem ser interessantes para outras posições depois. Então a gente guarda mesmo.\n\n---\n\n## Pergunta 2: Há direito de acesso/correção?\n\n**Resposta: Parcialmente**\n\n**Justificativa:** Olha, o candidato consegue acessar os dados dele se ele pedir, mas na prática é complicado. A gente não tem um processo formal para isso. Se alguém ligar ou mandar e-mail pedindo para corrigir algo, a gente tenta ajudar, mas não é automático. E tem informação que fica em planilha interna, em pasta compartilhada com a equipe... nem sempre é fácil rastrear tudo para fazer uma correção completa. Então é parcial mesmo.",
+      "respostas_texto": "# Respostas ao Questionário\n\n## Pergunta 1: Quais são os mecanismos técnicos e procedimentais de armazenamento utilizados?\n\n**Resposta: > 1 ano**\n\n**Justificativa:** A gente mantém os currículos e dados dos candidatos por mais de um ano. Isso é importante porque, quando surge uma vaga similar, a gente consegue reutilizar os perfis que já temos cadastrados. Economiza tempo de triagem. Além disso, alguns candidatos que não passaram na primeira oportunidade podem ser interessantes para outras posições depois. Então a gente guarda mesmo.\n\n---\n\n## Pergunta 2: Há direito de acesso/correção?\n\n**Resposta: Parcialmente**\n\n**Justificativa:** Olha, o candidato consegue acessar os dados dele se ele pedir, mas na prática é complicado. A gente não tem um processo formal para isso. Se alguém ligar ou mandar e-mail pedindo para corrigir algo, a gente tenta ajudar, mas não é automático. E tem informação que fica em planilha interna, em pasta compartilhada com a equipe... nem sempre é fácil rastrear tudo para fazer uma correção completa. Então é parcial mesmo.",
       "timestamp": "2026-07-02T23:09:28.017Z"
     },
     {
