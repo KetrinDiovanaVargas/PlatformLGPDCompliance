@@ -116,8 +116,11 @@ Este repositório contém uma plataforma web completa para avaliação adaptativ
 ## 🚀 Instalação
 
 ### Pré-requisitos
-- Node.js 18+ e npm 9+ instalados
-- Conta Firebase ativa (criar em https://firebase.google.com)
+- **Node.js** 18+ ([Download](https://nodejs.org/))
+- **npm** 9+ (vem com Node.js)
+- **Git** ([Download](https://git-scm.com/))
+- Conta **Firebase** ([Criar aqui](https://firebase.google.com/))
+- Chave de API **Groq** ([Obter aqui](https://console.groq.com/))
 
 **APIs LLM (obrigatórias/opcionais):**
 - ✅ **Groq API** (obrigatória — primária) — https://console.groq.com
@@ -129,69 +132,102 @@ Pelo menos **1 chave de API LLM é obrigatória** (Groq recomendada para produç
 
 ### Passos de Instalação
 
-1. **Clone o repositório:**
-   ```bash
-   git clone https://github.com/KetrinDiovanaVargas/PlatformLGPDCompliance.git
-   cd PlatformLGPDCompliance
-   ```
+---
 
-2. **Instale as dependências:**
-   ```bash
-   npm install
-   ```
+### 1️⃣ Clone o Repositório
 
-3. **Configure variáveis de ambiente:**
-   - Renomeie `.env.example` para `.env` 
-   - Preenchа as chaves Firebase e Groq
-
-```markdown
- ⚠️ IMPORTANTE: Este projeto o `.env.example` possue o front-end e back-end no mesmo arquivo
+```bash
+git clone https://github.com/KetrinDiovanaVargas/PlatformLGPDCompliance.git
+cd PlatformLGPDCompliance
 ```
 
-4. **Inicie o servidor de desenvolvimento:**
-   ```bash
-   npm run dev
-   ```
-   
-   Frontend disponível em: http://localhost:5173
-   Backend disponível em: http://localhost:8787
+---
 
-### Variáveis de Ambiente
+### 2️⃣ Instale as Dependências
 
-**Frontend:**
-```env
-VITE_FIREBASE_API_KEY=seu_api_key
-VITE_FIREBASE_AUTH_DOMAIN=seu_project.firebaseapp.com
-VITE_FIREBASE_PROJECT_ID=seu_project_id
-VITE_FIREBASE_STORAGE_BUCKET=seu_project.appspot.com
-VITE_FIREBASE_MESSAGING_SENDER_ID=seu_sender_id
-VITE_FIREBASE_APP_ID=seu_app_id
+```bash
+npm install
 ```
 
-**Backend:**
+---
+
+### 3️⃣ Configure as Variáveis de Ambiente
+
+#### **Frontend** (`.env.local`)
+
+```bash
+# Copie o template
+cp .env.local.example .env.local
+```
+
+Edite `.env.local` com suas credenciais Firebase:
+
 ```env
-# Firebase
-FIREBASE_PROJECT_ID=seu_project_id
+VITE_FIREBASE_API_KEY=sua-chave-api-aqui
+VITE_FIREBASE_AUTH_DOMAIN=seu-projeto.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=seu-projeto-id
+VITE_FIREBASE_STORAGE_BUCKET=seu-bucket.firebasestorage.app
+VITE_FIREBASE_MESSAGING_SENDER_ID=seu-sender-id
+VITE_FIREBASE_APP_ID=seu-app-id
+```
 
-# LLM APIs (Cascade - fallback automático)
-# Obrigatória (primária)
-GROQ_API_KEY=sua_chave_groq
+**Como obter:**
+1. Acesse [Firebase Console](https://console.firebase.google.com)
+2. Selecione seu projeto
+3. Settings → Project Settings
+4. Copie os valores da seção "Your apps"
 
-# Fallback (recomendadas)
-CLAUDE_API_KEY=sua_chave_claude
-ANTHROPIC_API_KEY=sua_chave_anthropic
+---
 
-# Fallback (opcionais)
-DEEPSEEK_API_KEY=sua_chave_deepseek
-GOOGLE_AI_API_KEY=sua_chave_gemini
-GOOGLE_GENERATIVE_AI_API_KEY=sua_chave_gemini_alternativa
+#### **Backend** (`server/.env`)
 
-# Configuração
+```bash
+# Copie o template
+cp server/.env.example server/.env
+```
+
+Edite `server/.env` com suas credenciais:
+
+```env
+GROQ_API_KEY=sua-groq-key-aqui
+FIREBASE_PROJECT_ID=seu-projeto-id
+FIREBASE_CLIENT_EMAIL=firebase-adminsdk@seu-projeto.iam.gserviceaccount.com
+FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
 PORT=8787
 NODE_ENV=development
+```
 
-# Opcional: Modelo LLM padrão (padrão: groq)
-LLM_PROVIDER=groq
+---
+
+#### **Firebase Service Account** (`server/serviceAccountKey.json`)
+
+```bash
+# Copie o template
+cp server/serviceAccountKey.example.json server/serviceAccountKey.json
+```
+
+Edite `server/serviceAccountKey.json` com sua chave privada completa:
+
+**Como obter:**
+1. Acesse [Firebase Console](https://console.firebase.google.com)
+2. Selecione seu projeto
+3. Settings → Service Accounts
+4. Clique em **"Generate New Private Key"**
+5. Salve o arquivo JSON baixado
+6. Copie o conteúdo completo para `server/serviceAccountKey.json`
+
+---
+
+### 4️⃣ Rode o Projeto
+
+```bash
+npm run dev
+```
+
+Você verá:
+```
+[0] ➜  Local:   http://localhost:5173/
+[1] 🚀 Backend rodando na porta 8787
 ```
 
 **Notas:**
@@ -202,19 +238,17 @@ LLM_PROVIDER=groq
 
 ---
 
-## 🧪 Teste mínimo
+## 🧪 Teste Rápido (5-10 minutos)
 
-**Tempo estimado:** 5-10 minutos
+1. **Abra** `http://localhost:5173`
+2. **Login de teste:**
+   - Email: `admin@gmail.com`
+   - Senha: `Lgpd2026PL@TFORM`
+3. **Crie uma avaliação** clicando em "Nova Avaliação"
+4. **Convide respondentes** usando o link gerado
+5. **Visualize análises** no dashboard
 
-**Pré-requisito:** Executar `npm run dev`
-
-**Passos:**
-
-1. Abra http://localhost:5173 no navegador
-2. Clique em "Login"
-3. Use as credenciais: `admin@gmail.com` / `Lgpd2026PL@TFORM`
-
-**Resultado Esperado:** Login realizado com sucesso.
+---
 
 **Verificação de API LLM:**
 - Abra F12 → Console → procure por logs de "LLM Provider: [GROQ|CLAUDE|DEEPSEEK|GEMINI]"
