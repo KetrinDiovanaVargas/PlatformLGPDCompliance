@@ -497,7 +497,7 @@ Veja o arquivo [LICENSE](LICENSE) para detalhes completos.
 
 ---
 
-# Selos Considerados
+## Selos
 
 - **Disponível (SeloD)**
 - **Funcional (SeloF)**
