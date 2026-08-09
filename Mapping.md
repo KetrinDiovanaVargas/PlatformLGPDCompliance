@@ -64,7 +64,7 @@ Gemini (fallback final)
 
 2. **Teste Manual:**
    - Abrir `http://localhost:5173`
-   - Login: `admin@test.com` / `test123456`
+   - Login: `admin@gmail.com` / `Lgpd2026PL@TFORM`
    - Criar 2 questionários: 1 com perguntas fixas, 1 com adaptativas
    - Cronometrar tempo de resposta em cada um
    - Resultado esperado: Adaptativo ~20-30% mais rápido
