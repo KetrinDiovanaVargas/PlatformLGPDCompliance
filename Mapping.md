@@ -1,6 +1,6 @@
 # 🎯 Mapeamento de Reivindicações — Código-Fonte
 
-Documento que mapeia cada reivindicação do artigo aos arquivos e funções correspondentes no código-fonte. Facilita aos revisores identificar a implementação de cada claim no repositório.
+Documento que mapeia cada reivindicação do artigo aos arquivos e funções correspondentes no código-fonte. Facilita identificar a implementação de cada claim no repositório.
 
 ---
 
@@ -307,13 +307,4 @@ npm run build
 
 ---
 
-## 🔗 Referências
 
-- **README.md** — Instruções de instalação e teste
-- **Documento oficial SBSeg 2026:** https://doc-artefatos.github.io/sbseg2026/subinstrucoes.html
-- **GitHub Repository:** https://github.com/KetrinDiovanaVargas/PlatformLGPDCompliance
-
----
-
-**Último Update:** 08/08/2026  
-**Status:** ✅ Completo para SeloS (Sustentável)
