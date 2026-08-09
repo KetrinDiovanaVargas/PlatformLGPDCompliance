@@ -213,13 +213,8 @@ LLM_PROVIDER=groq
 1. Abra http://localhost:5173 no navegador
 2. Clique em "Login"
 3. Use as credenciais: `admin@gmail.com` / `Lgpd2026PL@TFORM`
-4. Clique em "Criar Questionário"
-5. Preencha os campos (título, descrição, público-alvo)
-6. Clique em "Gerar Link"
-7. Abra o link em aba anônima/incógnita
-8. Responda as perguntas e clique em "Enviar Respostas"
 
-**Resultado Esperado:** Dashboard mostra análise com scores e gráficos, sem erros no console.
+**Resultado Esperado:** Login realizado com sucesso.
 
 **Verificação de API LLM:**
 - Abra F12 → Console → procure por logs de "LLM Provider: [GROQ|CLAUDE|DEEPSEEK|GEMINI]"
