@@ -141,9 +141,12 @@ Pelo menos **1 chave de API LLM é obrigatória** (Groq recomendada para produç
    ```
 
 3. **Configure variáveis de ambiente:**
-   - Copie `.env.example` para `.env.local` e `server/.env`
+   - Renomeie `.env.example` para `.env` 
    - Preenchа as chaves Firebase e Groq
-   - Coloque `serviceAccountKey.json` em `server/`
+
+```markdown
+> ⚠️ **IMPORTANTE:** Este projeto possui **front-end e back-end no mesmo arquivo .env.example**
+```
 
 4. **Inicie o servidor de desenvolvimento:**
    ```bash
