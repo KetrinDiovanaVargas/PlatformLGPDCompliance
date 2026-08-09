@@ -145,7 +145,7 @@ Pelo menos **1 chave de API LLM é obrigatória** (Groq recomendada para produç
    - Preenchа as chaves Firebase e Groq
 
 ```markdown
- ⚠️ **IMPORTANTE:** Este projeto o `.env.example` possue o **front-end e back-end no mesmo arquivo**
+ ⚠️ IMPORTANTE: Este projeto o `.env.example` possue o front-end e back-end no mesmo arquivo
 ```
 
 4. **Inicie o servidor de desenvolvimento:**
@@ -158,7 +158,7 @@ Pelo menos **1 chave de API LLM é obrigatória** (Groq recomendada para produç
 
 ### Variáveis de Ambiente
 
-**Frontend (`.env.local`):**
+**Frontend:**
 ```env
 VITE_FIREBASE_API_KEY=seu_api_key
 VITE_FIREBASE_AUTH_DOMAIN=seu_project.firebaseapp.com
@@ -168,7 +168,7 @@ VITE_FIREBASE_MESSAGING_SENDER_ID=seu_sender_id
 VITE_FIREBASE_APP_ID=seu_app_id
 ```
 
-**Backend (`server/.env`):**
+**Backend:**
 ```env
 # Firebase
 FIREBASE_PROJECT_ID=seu_project_id
