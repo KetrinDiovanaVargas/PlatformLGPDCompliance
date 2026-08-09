@@ -257,7 +257,7 @@ npm run build
 
 **Teste Mínimo:**
 1. Abrir http://localhost:5173
-2. Login com admin@test.com / test123456
+2. Login com admin@gmail.com / Lgpd2026PL@TFORM
 3. Criar questionário
 4. Gerar link
 5. Responder questionário (aba anônima)
