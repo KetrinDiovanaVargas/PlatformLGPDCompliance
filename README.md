@@ -302,10 +302,12 @@ Veja o arquivo [LICENSE](LICENSE) para detalhes completos.
 
 ## 🔗 Links Adicionais
 
-- **Documentação LGPD:** https://www.gov.br/cidadania/pt-br/acesso-a-informacao/lgpd
+- **Documentação LGPD:** https://www.gov.br/mds/pt-br/acesso-a-informacao/governanca/integridade/campanhas/lgpd
 - **Norma ISO/IEC 27001:** https://www.iso.org/standard/54534.html
 - **Firebase Docs:** https://firebase.google.com/docs
 - **Groq API:** https://groq.com/
+- **Claude API:** https://platform.claude.com/docs/en/api/overview
+- **Gemini API:** https://ai.google.dev/gemini-api/docs?hl=pt-br
 - **Vercel:** https://vercel.com/
 
 ---
