@@ -497,6 +497,13 @@ Veja o arquivo [LICENSE](LICENSE) para detalhes completos.
 
 ---
 
+# Selos Considerados
+
+- **Disponível (SeloD)**
+- **Funcional (SeloF)**
+- **Sustentável (SeloS)**
+- **Experimentos Reprodutíveis (SeloR)**
+
 ## 👥 Suporte
 
 Para dúvidas ou problemas, entre em contato com: ketrin.diovana.vargas@gmail.com
