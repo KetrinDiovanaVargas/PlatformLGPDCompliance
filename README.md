@@ -497,12 +497,15 @@ Veja o arquivo [LICENSE](LICENSE) para detalhes completos.
 
 ---
 
-## ✅ Selos
+```markdown
+## ✅ Selos Considerados
 
-- **Disponível (SeloD)**
-- **Funcional (SeloF)**
-- **Sustentável (SeloS)**
-- **Experimentos Reprodutíveis (SeloR)**
+Os selos considerados para esta submissão são:
+- **Disponível (SeloD)**: O código está disponível em repositório público (GitHub) com README.md conforme requisitos mínimos.
+- **Funcional (SeloF)**: A plataforma é executável e suas funcionalidades podem ser observadas.
+- **Sustentável (SeloS)**: O código está modularizado, bem organizado e inteligível.
+- **Experimentos Reprodutíveis (SeloR)**: As principais reivindicações do artigo podem ser reproduzidas pelos revisores.
+```
 
 ## 👥 Suporte
 
