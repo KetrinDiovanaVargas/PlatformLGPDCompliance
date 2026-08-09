@@ -49,6 +49,31 @@ Este repositório contém uma plataforma web completa para avaliação adaptativ
 
 ---
 
+## 🛠️ Tecnologias
+
+### Frontend
+- **React 18** com TypeScript
+- **Vite** para build rápido
+- **Firebase Authentication**
+- **Tailwind CSS** para styling
+- **Recharts** para gráficos
+
+### Backend
+- **Node.js + Express.js**
+- **Firebase Firestore** (banco de dados)
+- **Groq API** (LLM principal)
+- **Claude API** (fallback)
+- **Zod** para validação
+
+### APIs de IA (Cascade automático)
+1. **Groq** (primária - mais rápida)
+2. **Claude** (fallback)
+3. **DeepSeek** (fallback 2)
+4. **Gemini** (fallback 3)
+
+---
+
+
 ## 📦 Dependências
 
 **Frontend:** React 18+, TypeScript, Tailwind CSS, Recharts, Firebase, Framer Motion, Lucide Icons, Sonner
@@ -92,6 +117,25 @@ Este repositório contém uma plataforma web completa para avaliação adaptativ
 ---
 
 ## 🔐 Preocupações com segurança
+
+### ⚠️ NUNCA Commite Credenciais!
+
+Os seguintes arquivos são **automaticamente ignorados** pelo Git:
+
+```
+❌ .env.local                    (suas credenciais Firebase)
+❌ server/.env                   (suas chaves de API)
+❌ server/serviceAccountKey.json (sua chave privada Firebase)
+```
+
+Se você acidentalmente comitou credenciais:
+
+```bash
+# Remova do git (mas mantém localmente)
+git rm --cached server/serviceAccountKey.json server/.env .env.local
+
+# Regenere IMEDIATAMENTE a chave privada no Firebase Console!
+```
 
 **Riscos de Execução:** Sem riscos significativos identificados. A plataforma não modifica o sistema de arquivos além do diretório local.
 
@@ -354,6 +398,68 @@ npm run dev
 **Validação:** Tudo funciona sem erro = ✅
 
 ---
+
+## 🚀 Desenvolvimento
+
+### Scripts Disponíveis
+
+```bash
+# Rodar frontend + backend juntos
+npm run dev
+
+# Apenas frontend (Vite)
+npm run dev:front
+
+# Apenas backend
+npm run dev:back
+
+# Build para produção
+npm run build
+
+# Preview da build
+npm run preview
+```
+
+---
+
+---
+
+## ❓ Troubleshooting
+
+### Erro: "Getting metadata from plugin failed"
+
+**Solução:** Verifique se `server/.env` existe e tem `FIREBASE_PRIVATE_KEY` correto.
+
+```bash
+# Verifique o arquivo
+cat server/.env | head -5
+```
+
+### Erro: "401 Unauthorized" ao criar admin
+
+**Solução:** Atualize o navegador (F5) para renovar o token Firebase.
+
+### Erro: "Port 8787 already in use"
+
+**Solução:** Mude a porta em `server/.env`:
+
+```env
+PORT=8788  # ou outra porta livre
+```
+
+---
+
+## 🤝 Contribuindo
+
+1. Faça um **Fork** do repositório
+2. Crie uma **branch** para sua feature (`git checkout -b feature/minha-feature`)
+3. **Commit** suas mudanças (`git commit -am 'Adiciona minha feature'`)
+4. **Push** para a branch (`git push origin feature/minha-feature`)
+5. Abra um **Pull Request**
+
+---
+
+
 
 
 ## 📄 Licença
