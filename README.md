@@ -145,7 +145,7 @@ Pelo menos **1 chave de API LLM é obrigatória** (Groq recomendada para produç
    - Preenchа as chaves Firebase e Groq
 
 ```markdown
-> ⚠️ **IMPORTANTE:** Este projeto possui **front-end e back-end no mesmo arquivo .env.example**
+ ⚠️ **IMPORTANTE:** Este projeto o `.env.example` possue o **front-end e back-end no mesmo arquivo**
 ```
 
 4. **Inicie o servidor de desenvolvimento:**
