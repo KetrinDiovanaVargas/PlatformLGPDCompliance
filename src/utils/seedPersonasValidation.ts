@@ -2,6 +2,20 @@ import { db } from "@/lib/firebase";
 import { collection, addDoc, serverTimestamp, query, getDocs } from "firebase/firestore";
 import type { ConfusionMatrixData } from "@/components/ConfusionMatrix";
 
+/**
+ * Define a estrutura de dados para uma persona de validação com métricas de matriz de confusão.
+ * Representa um cenário de teste baseado em um perfil organizacional específico e seus resultados
+ * de detecção de fragilidades de conformidade com LGPD.
+ *
+ * @typedef {Object} PersonaValidationSeed
+ * @property {string} personaName - Identificador único da persona (ex: "P01 - RH Recrutamento")
+ * @property {string} description - Descrição do contexto de uso e práticas de dados da persona
+ * @property {number} truePositives - Quantidade de fragilidades detectadas corretamente pelo sistema
+ * @property {number} falsePositives - Quantidade de alertas incorretos gerados (fragilidades não existentes)
+ * @property {number} falseNegatives - Quantidade de fragilidades não detectadas pelo sistema
+ * @property {number} trueNegatives - Quantidade de conformidades corretamente identificadas
+ * @property {string} [notes] - Anotações opcionais sobre o desempenho da detecção e comportamentos observados
+ */
 export type PersonaValidationSeed = {
   personaName: string;
   description: string;
@@ -12,6 +26,18 @@ export type PersonaValidationSeed = {
   notes?: string;
 };
 
+/**
+ * Conjunto de personas de exemplo para validação da plataforma de avaliação de maturidade LGPD.
+ * Contém seis personas cobrindo cenários de conformidade típicos em organizações brasileiras,
+ * .
+ *
+ * Os dados de matriz de confusão em cada persona foram coletados através de execuções
+ * do sistema de elicitação adaptativa em diferentes contextos organizacionais e servem
+ * como referência para validação da eficácia do modelo.
+ *
+ * @type {PersonaValidationSeed[]}
+ * @const
+ */
 // Personas de exemplo baseadas no projeto LGPD
 const SAMPLE_PERSONAS: PersonaValidationSeed[] = [
   {
@@ -71,8 +97,31 @@ const SAMPLE_PERSONAS: PersonaValidationSeed[] = [
 ];
 
 /**
- * Seed database com dados de validação de personas para demonstração
- * Verifica se dados já existem antes de inserir
+ * Popula o banco de dados Firestore com dados de validação de personas.
+ * 
+ * Esta função realiza um seed inicial da coleção "personasValidation" com cenários
+ * de teste pré-definidos. Implementa uma verificação de idempotência: se dados já
+ * existem na coleção, a operação é cancelada para evitar duplicação.
+ *
+ * Cada persona é persistida com timestamp do servidor e data de criação em ISO 8601,
+ * facilitando rastreamento temporal e auditoria das inserções.
+ *
+ * @async
+ * @function seedPersonasValidation
+ * @returns {Promise<Object>} Objeto de resposta contendo:
+ *   @returns {boolean} success - Indica sucesso ou falha da operação
+ *   @returns {string} message - Mensagem descritiva do resultado (incluindo contagem de personas)
+ *   @returns {number} [count] - Quantidade de personas inseridas ou encontradas (opcional)
+ * @throws {Error} Erros de conexão com Firestore são capturados e reportados na resposta
+ *
+ * @example
+ * // Primeiro seed: insere 6 personas
+ * const result = await seedPersonasValidation();
+ * // { success: true, message: "6 personas de validação inseridas com sucesso!", count: 6 }
+ *
+ * // Segundo seed: cancela operação (dados já existem)
+ * const result = await seedPersonasValidation();
+ * // { success: true, message: "Dados de personas já existem...", count: 6 }
  */
 export async function seedPersonasValidation(): Promise<{
   success: boolean;
@@ -124,7 +173,28 @@ export async function seedPersonasValidation(): Promise<{
 }
 
 /**
- * Função auxiliar para limpar dados de personas (apenas para desenvolvimento)
+ * Função auxiliar para limpeza de dados de personas (apenas para desenvolvimento).
+ * 
+ * Esta função fornece suporte para remoção de dados de personas em ambiente de desenvolvimento.
+ * A implementação atual é um placeholder que orienta o desenvolvedor para usar o Firestore
+ * console ou Cloud Functions para limpeza segura.
+ * 
+ * **Nota de Segurança**: Em ambiente de produção, operações de deleção em massa devem ser
+ * implementadas através de Cloud Functions com regras de Firestore Security apropriadas,
+ * nunca no código client-side.
+ *
+ * @async
+ * @function clearPersonasValidation
+ * @returns {Promise<Object>} Objeto de resposta contendo:
+ *   @returns {boolean} success - Status da operação
+ *   @returns {string} message - Instruções ou confirmação de status
+ *
+ * @example
+ * // Solicita uso do Firestore console
+ * const result = await clearPersonasValidation();
+ * // { success: true, message: "Use o Firestore console para limpar dados..." }
+ *
+ * @todo Implementar limpeza segura via Cloud Functions com validação de permissões
  */
 export async function clearPersonasValidation(): Promise<{
   success: boolean;
