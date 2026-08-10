@@ -1,26 +1,11 @@
 /**
- * avaliar_regex_vs_oraculo.mjs
- * ----------------------------------------------------------------------------
- * Avalia o mecanismo de detecção lexical de fragilidades da plataforma
- * (detectFragilityPatterns, server/promptGroq.mjs) contra os arquivos oráculo,
- * usando o corpus de 55 sessões registrado em logs/2026-07-02.
- *
- * Para cada persona:
- *   1. concatena as respostas (respostas_texto) dos quatro estágios;
- *   2. aplica as MESMAS expressões regulares da plataforma (cópia literal);
- *   3. compara o conjunto de categorias detectadas (F1–F10) com o esperado
- *      no oráculo;
- *   4. acumula TP/FP/FN/TN por categoria e calcula acurácia, precisão,
- *      revocação, F1-score e especificidade.
- *
- * Ground truth por categoria:
- *   - F1–F5, F8, F9, F10: valor > 0 no vetor_de_fragilidade do oráculo;
- *   - F6 e F7 (sem detecção lexical na plataforma): presença do código em
- *     categorias_lgpd_esperadas.
- *
- * Saídas: validation_results/metricas_regex_vs_oraculo.{json,csv,md}
- *
- * Uso:  node scripts/avaliar_regex_vs_oraculo.mjs
+ * Script de validação: Avalia detecção lexical de fragilidades contra oráculo
+ * 
+ * Carrega corpus de 55 sessões, aplica regex de detectFragilityPatterns,
+ * compara com ground truth YAML, calcula métricas (TP/FP/FN/TN por categoria F1-F10).
+ * 
+ * Saídas: validation_results/metricas_regex_vs_oraculo.{json,csv}
+ * Uso: node scripts/avaliar_regex_vs_oraculo.mjs
  */
 
 import fs from "node:fs";
@@ -31,9 +16,10 @@ const LOG_DIR = "logs/2026-07-02";
 const ORACLE_DIR = "oraculos";
 const OUT_DIR = "validation_results";
 
-// ---------------------------------------------------------------------------
-// Réplica literal de server/promptGroq.mjs (normalize + detectFragilityPatterns)
-// ---------------------------------------------------------------------------
+/**
+ * Normaliza texto (minúsculas, remove acentos).
+ * Cópia literal de server/promptGroq.mjs.
+ */
 function normalize(text) {
   return String(text || "")
     .toLowerCase()
@@ -41,6 +27,10 @@ function normalize(text) {
     .replace(/[\u0300-\u036f]/g, "");
 }
 
+/**
+ * Detecta padrões de fragilidade (F1-F5, F8-F10) via regex.
+ * Cópia literal de server/promptGroq.mjs.
+ */
 function detectFragilityPatterns(text) {
   const fullText = normalize(text);
   return {
@@ -55,7 +45,7 @@ function detectFragilityPatterns(text) {
   };
 }
 
-// flag da plataforma -> código da taxonomia
+// Mapeia flags de detecção para códigos F1-F10
 const FLAG_TO_CODE = {
   hasInformalChannels: "F1",
   hasPersonalStorage: "F2",
@@ -67,7 +57,7 @@ const FLAG_TO_CODE = {
   hasIncidentRisk: "F10",
 };
 
-// chave do vetor do oráculo -> código
+// Mapeia chaves do vetor oráculo para códigos F1-F10
 const VECTOR_TO_CODE = {
   compartilhamento_informal: "F1",
   armazenamento_pessoal: "F2",
@@ -80,17 +70,12 @@ const VECTOR_TO_CODE = {
 };
 
 const ALL_CODES = ["F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10"];
-
-// As personas adversariais (A01-A05) possuem oraculo apenas de nivel de risco e
-// score esperado, sem vetor de fragilidades; por isso sao excluidas da matriz
-// de confusao (nao ha ground truth de categorias para elas) e tratadas em
-// analise separada, junto da verificacao de risco pendente da etapa LLM.
 const SEM_GROUND_TRUTH = /^A\d+/;
 const REGEX_CODES = Object.values(FLAG_TO_CODE);
 
-// ---------------------------------------------------------------------------
-// Carga de dados
-// ---------------------------------------------------------------------------
+/**
+ * Carrega oráculo YAML de todas as personas.
+ */
 function loadOracles() {
   const oracles = new Map();
   for (const file of fs.readdirSync(ORACLE_DIR).filter((f) => f.endsWith(".yml"))) {
@@ -104,7 +89,7 @@ function loadOracles() {
       const v = Number(vector[key] ?? 0);
       if (v > 0) {
         expected.add(code);
-        severity[code] = v; // 1 = baixa, 2 = moderada, 3 = alta
+        severity[code] = v;
       }
     }
     for (const cat of doc.categorias_lgpd_esperadas || []) {
@@ -126,6 +111,9 @@ function loadOracles() {
   return oracles;
 }
 
+/**
+ * Carrega texto de sessão do log JSON (concatena 4 estágios).
+ */
 function loadSessionText(personaId) {
   const file = fs
     .readdirSync(LOG_DIR)
@@ -136,9 +124,9 @@ function loadSessionText(personaId) {
   return { full: stages.join("\n\n"), stages };
 }
 
-// ---------------------------------------------------------------------------
-// Avaliação
-// ---------------------------------------------------------------------------
+/**
+ * Detecta códigos F1-F10 a partir de texto.
+ */
 function detectCodes(text) {
   const flags = detectFragilityPatterns(text);
   const codes = new Set();
@@ -148,6 +136,9 @@ function detectCodes(text) {
   return codes;
 }
 
+/**
+ * Calcula métricas (acurácia, precisão, revocação, F1, especificidade) de uma matriz confusão.
+ */
 function metricsFrom(m) {
   const { TP, FP, FN, TN } = m;
   const div = (a, b) => (b === 0 ? null : a / b);
@@ -161,6 +152,9 @@ function metricsFrom(m) {
   };
 }
 
+/**
+ * Executa validação: carrega logs + oráculo, calcula métricas, escreve resultados.
+ */
 function run() {
   const oracles = loadOracles();
   const perCat = Object.fromEntries(ALL_CODES.map((c) => [c, { TP: 0, FP: 0, FN: 0, TN: 0 }]));
@@ -177,10 +171,9 @@ function run() {
       console.warn(`[aviso] sem log para ${id}`);
       continue;
     }
-    if (SEM_GROUND_TRUTH.test(id)) continue; // ver comentario em SEM_GROUND_TRUTH
+    if (SEM_GROUND_TRUTH.test(id)) continue;
     const detected = detectCodes(session.full);
 
-    // estágio em que cada categoria detectada aparece pela primeira vez
     const cumulative = [];
     session.stages.forEach((s, i) => {
       cumulative.push((cumulative[i - 1] || "") + "\n" + s);
@@ -214,7 +207,6 @@ function run() {
     if (oracle.grupo === "controle" && row.FP.length) controlFP.push({ id, FP: row.FP });
   }
 
-  // agregados
   const agg = (codes) => {
     const m = { TP: 0, FP: 0, FN: 0, TN: 0 };
     for (const c of codes) for (const k of Object.keys(m)) m[k] += perCat[c][k];
@@ -239,7 +231,6 @@ function run() {
   fs.mkdirSync(OUT_DIR, { recursive: true });
   fs.writeFileSync(path.join(OUT_DIR, "metricas_regex_vs_oraculo.json"), JSON.stringify(results, null, 2));
 
-  // CSV por categoria
   const fmt = (v) => (v === null ? "" : v.toFixed(3));
   const csv = ["categoria,TP,FP,FN,TN,acuracia,precisao,revocacao,f1,especificidade"];
   for (const c of ALL_CODES) {
@@ -251,7 +242,6 @@ function run() {
   }
   fs.writeFileSync(path.join(OUT_DIR, "metricas_regex_vs_oraculo.csv"), csv.join("\n"));
 
-  // resumo no console
   console.log(`\nPersonas avaliadas: ${results.personas_avaliadas}`);
   console.log(`Fragilidade central detectada: ${centralHits}/${centralTotal} (${(100 * centralHits / centralTotal).toFixed(1)}%)`);
   console.log(`FP em personas de controle: ${controlFP.length ? JSON.stringify(controlFP) : "nenhum ... verificar"}`);

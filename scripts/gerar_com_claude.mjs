@@ -2,11 +2,7 @@
  * gerar_com_claude.mjs
  *
  * Gera logs das personas usando Claude API (Haiku 4.5)
- * Rápido e barato!
- *
- * Uso:
- *   node scripts/gerar_com_claude.mjs              # todas as personas
- *   node scripts/gerar_com_claude.mjs P01 P03 P42  # personas específicas
+
  */
 
 import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync } from 'fs'
@@ -29,6 +25,12 @@ const CLAUDE_MODEL = 'claude-haiku-4-5-20251001'
 
 // ─── Helpers ──────────────────────────────────────────────────────────────
 
+/**
+ * Localiza o arquivo .md de uma persona pelo ID
+ * @param {string} personaId - ID da persona (ex: P01)
+ * @returns {string} Caminho absoluto do arquivo da persona
+ * @throws {Error} Se o arquivo da persona não for encontrado
+ */
 function findPersonaFile(personaId) {
   const dir = join(ROOT, 'personas')
   const files = readdirSync(dir)
@@ -37,6 +39,12 @@ function findPersonaFile(personaId) {
   return join(dir, match)
 }
 
+/**
+ * Localiza o arquivo .yml (oráculo) de uma persona pelo ID
+ * @param {string} personaId - ID da persona (ex: P01)
+ * @returns {string} Caminho absoluto do arquivo oráculo
+ * @throws {Error} Se o arquivo oráculo não for encontrado
+ */
 function findOracleFile(personaId) {
   const dir = join(ROOT, 'oraculos')
   const files = readdirSync(dir)
@@ -45,11 +53,20 @@ function findOracleFile(personaId) {
   return join(dir, match)
 }
 
+/**
+ * Carrega o arquivo oráculo (referência esperada) de uma persona
+ * @param {string} personaId - ID da persona
+ * @returns {Object} Dados do oráculo em formato YAML
+ */
 function loadOracle(personaId) {
   const path = findOracleFile(personaId)
   return yaml.load(readFileSync(path, 'utf8'))
 }
 
+/**
+ * Retorna lista de todos os IDs de personas encontrados
+ * @returns {string[]} Array com IDs de personas ordenados
+ */
 function getAllPersonaIds() {
   const dir = join(ROOT, 'personas')
   return readdirSync(dir)
@@ -58,6 +75,11 @@ function getAllPersonaIds() {
     .sort()
 }
 
+/**
+ * Constrói o prompt do sistema para assumir a persona no LLM
+ * @param {string} personaMd - Conteúdo Markdown da descrição da persona
+ * @returns {string} Prompt do sistema para o modelo Claude
+ */
 function buildPersonaSystemPrompt(personaMd) {
   return `Você é um participante de uma pesquisa sobre conformidade com a LGPD.
 Assuma completamente a persona descrita abaixo.
@@ -68,12 +90,22 @@ Não quebre o personagem em nenhum momento.
 ${personaMd}`
 }
 
+/**
+ * Aguarda o tempo especificado (sleep)
+ * @param {number} ms - Milissegundos a aguardar
+ * @returns {Promise<void>}
+ */
 async function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
+/**
+ * Simula uma persona respondendo uma pergunta de teste via Claude API
+ * @param {string} personaId - ID da persona a simular
+ * @returns {Promise<Object|null>} Log com dados de uso e custo, ou null se houver erro
+ */
 async function simulatePersona(personaId) {
-  console.log(`\n📋 Simulando persona: ${personaId}...`)
+  console.log(`\n Simulando persona: ${personaId}...`)
 
   try {
     const personaMdPath = findPersonaFile(personaId)
@@ -122,17 +154,21 @@ async function simulatePersona(personaId) {
     const logPath = join(pastaLog, `${personaId}_sessao_01.json`)
     writeFileSync(logPath, JSON.stringify(logData, null, 2))
 
-    console.log(`✅ ${personaId}: ${response.usage.input_tokens + response.usage.output_tokens} tokens | $${logData.cost_usd.toFixed(4)}`)
+    console.log(` ${personaId}: ${response.usage.input_tokens + response.usage.output_tokens} tokens | $${logData.cost_usd.toFixed(4)}`)
 
     return logData
   } catch (err) {
-    console.error(`❌ ${personaId}: ${err.message}`)
+    console.error(` ${personaId}: ${err.message}`)
     return null
   }
 }
 
+/**
+ * Função principal: simula personas e calcula custos totais
+ * @returns {Promise<void>}
+ */
 async function main() {
-  console.log('🚀 Iniciando geração de logs com Claude API (Haiku 4.5)...\n')
+  console.log(' Iniciando geração de logs com Claude API (Haiku 4.5)...\n')
 
   let personasToRun = process.argv.slice(2).filter(arg => !arg.startsWith('-'))
 
@@ -140,7 +176,7 @@ async function main() {
     personasToRun = getAllPersonaIds()
   }
 
-  console.log(`📊 Rodando ${personasToRun.length} personas...`)
+  console.log(` Rodando ${personasToRun.length} personas...`)
 
   let totalCost = 0
   let successCount = 0
@@ -154,9 +190,9 @@ async function main() {
     await sleep(500) // Delay entre chamadas
   }
 
-  console.log(`\n✨ Concluído!`)
-  console.log(`✅ ${successCount}/${personasToRun.length} personas simuladas`)
-  console.log(`💰 Custo total: $${totalCost.toFixed(4)} (R$ ${(totalCost * 5).toFixed(2)})`)
+  console.log(`\n Concluído!`)
+  console.log(` ${successCount}/${personasToRun.length} personas simuladas`)
+  console.log(` Custo total: $${totalCost.toFixed(4)} (R$ ${(totalCost * 5).toFixed(2)})`)
 }
 
 main().catch(console.error)

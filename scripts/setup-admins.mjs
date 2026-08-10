@@ -17,7 +17,14 @@ dotenv.config({
   path: path.resolve(__dirname, "../.env"),
 });
 
-// Admin accounts to create
+/**
+ * Contas de administrador a criar
+ * @type {Object[]}
+ * @property {string} email - Email da conta admin
+ * @property {string} password - Senha inicial
+ * @property {string} role - Nível de acesso (MASTER ou ADMIN)
+ * @property {string} displayName - Nome de exibição
+ */
 const ADMINS_TO_CREATE = [
   {
     email: "platformlgpdcompliance@gmail.com",
@@ -33,9 +40,21 @@ const ADMINS_TO_CREATE = [
   },
 ];
 
+/**
+ * Cria ou atualiza uma conta de administrador no Firebase Auth e Firestore
+ * Trata caso de email já existente, atualizando a senha
+ * @param {Object} auth - Instância de autenticação Firebase Admin
+ * @param {Object} db - Instância de banco de dados Firebase Admin
+ * @param {Object} adminData - Dados do admin a criar
+ * @param {string} adminData.email - Email do admin
+ * @param {string} adminData.password - Senha inicial
+ * @param {string} adminData.role - Role (MASTER ou ADMIN)
+ * @param {string} adminData.displayName - Nome de exibição
+ * @returns {Promise<Object>} Resultado com sucesso/erro e detalhes da conta
+ */
 async function createAdmin(auth, db, adminData) {
   try {
-    console.log(`📝 Criando conta: ${adminData.email} (${adminData.role})`);
+    console.log(` Criando conta: ${adminData.email} (${adminData.role})`);
 
     // Cria usuário no Firebase Auth
     let user;
@@ -45,15 +64,15 @@ async function createAdmin(auth, db, adminData) {
         password: adminData.password,
         displayName: adminData.displayName,
       });
-      console.log(`   ✅ Conta criada no Firebase Auth (UID: ${user.uid})`);
+      console.log(`    Conta criada no Firebase Auth (UID: ${user.uid})`);
     } catch (err) {
       if (err.code === "auth/email-already-exists") {
-        console.log(`   ⚠️  Email já existe, buscando usuário...`);
+        console.log(`     Email já existe, buscando usuário...`);
         const existingUser = await auth.getUserByEmail(adminData.email);
         user = existingUser;
         // Atualiza senha
         await auth.updateUser(user.uid, { password: adminData.password });
-        console.log(`   ✅ Senha atualizada`);
+        console.log(`   Senha atualizada`);
       } else {
         throw err;
       }
@@ -73,7 +92,7 @@ async function createAdmin(auth, db, adminData) {
     };
 
     await adminRef.set(adminDoc, { merge: true });
-    console.log(`   ✅ Documento criado no Firestore`);
+    console.log(`    Documento criado no Firestore`);
 
     return {
       success: true,
@@ -83,7 +102,7 @@ async function createAdmin(auth, db, adminData) {
     };
 
   } catch (error) {
-    console.error(`   ❌ Erro: ${error.message}`);
+    console.error(`    Erro: ${error.message}`);
     return {
       success: false,
       email: adminData.email,
@@ -92,9 +111,16 @@ async function createAdmin(auth, db, adminData) {
   }
 }
 
+/**
+ * Função principal: configura todas as contas de administrador
+ * Cria usuários no Firebase Auth e documentos no Firestore
+ * Exibe resumo dos resultados e instruções de acesso
+ * @returns {Promise<void>}
+ * @throws {Error} Em caso de erro fatal na configuração do Firebase
+ */
 async function setupAdmins() {
   try {
-    console.log(`🔐 Configurando contas de administrador\n`);
+    console.log(`Configurando contas de administrador\n`);
 
     const auth = getAdminAuth();
     const db = getAdminDb();
@@ -108,37 +134,37 @@ async function setupAdmins() {
 
     // Resumo
     console.log(`\n${"═".repeat(60)}`);
-    console.log(`✅ SETUP COMPLETO`);
+    console.log(` SETUP COMPLETO`);
     console.log(`${"═".repeat(60)}\n`);
 
     const successful = results.filter(r => r.success);
     const failed = results.filter(r => !r.success);
 
     if (successful.length > 0) {
-      console.log(`✅ Contas criadas com sucesso: ${successful.length}`);
+      console.log(`Contas criadas com sucesso: ${successful.length}`);
       successful.forEach(r => {
         console.log(`   • ${r.email} (${r.role})`);
       });
     }
 
     if (failed.length > 0) {
-      console.log(`\n❌ Contas com erro: ${failed.length}`);
+      console.log(`\n Contas com erro: ${failed.length}`);
       failed.forEach(r => {
         console.log(`   • ${r.email}: ${r.error}`);
       });
     }
 
-    console.log(`\n🎯 Próximas etapas:`);
+    console.log(`\n Próximas etapas:`);
     console.log(`   1. Acesse: https://platformlgpdcompliance.vercel.app/admin`);
     console.log(`   2. Faça login com:`);
     console.log(`      Email: platformlgpdcompliance@gmail.com`);
     console.log(`      Senha: Lgpd2026PL@TFORM`);
-    console.log(`\n✅ Sistema pronto para testes reais!\n`);
+    console.log(`\n Sistema pronto para testes reais!\n`);
 
     process.exit(successful.length > 0 ? 0 : 1);
 
   } catch (error) {
-    console.error("❌ Erro fatal:", error.message);
+    console.error(" Erro fatal:", error.message);
     process.exit(1);
   }
 }

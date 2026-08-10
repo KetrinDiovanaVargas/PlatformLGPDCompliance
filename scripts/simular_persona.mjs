@@ -40,6 +40,10 @@ const GROQ_MODEL   = 'llama-3.3-70b-versatile'
 const GEMINI_MODEL = 'gemini-2.0-flash'
 const TEMPERATURE = 0.2
 
+/**
+ * Metadados da avaliação usados em requisições à API
+ * @type {Object}
+ */
 const ASSESSMENT_META = {
   assessmentTitle:     'Diagnóstico de Conformidade LGPD',
   assessmentFormType:  'Identificação de riscos',
@@ -51,6 +55,12 @@ const ASSESSMENT_META = {
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
+/**
+ * Localiza o arquivo .md de uma persona pelo ID
+ * @param {string} personaId - ID da persona (ex: P01)
+ * @returns {string} Caminho absoluto do arquivo da persona
+ * @throws {Error} Se o arquivo da persona não for encontrado
+ */
 function findPersonaFile(personaId) {
   const dir = join(ROOT, 'personas')
   const files = readdirSync(dir)
@@ -59,6 +69,12 @@ function findPersonaFile(personaId) {
   return join(dir, match)
 }
 
+/**
+ * Localiza o arquivo .yml (oráculo) de uma persona pelo ID
+ * @param {string} personaId - ID da persona (ex: P01)
+ * @returns {string} Caminho absoluto do arquivo oráculo
+ * @throws {Error} Se o arquivo oráculo não for encontrado
+ */
 function findOracleFile(personaId) {
   const dir = join(ROOT, 'oraculos')
   const files = readdirSync(dir)
@@ -67,11 +83,22 @@ function findOracleFile(personaId) {
   return join(dir, match)
 }
 
+/**
+ * Carrega o arquivo oráculo (referência esperada) de uma persona
+ * @param {string} personaId - ID da persona
+ * @returns {Object} Dados do oráculo em formato YAML
+ */
 function loadOracle(personaId) {
   const path = findOracleFile(personaId)
   return yaml.load(readFileSync(path, 'utf8'))
 }
 
+/**
+ * Constrói o prompt do sistema para assumir a persona no LLM
+ * Instrui a manter personagem e responder conforme a perspectiva da persona
+ * @param {string} personaMd - Conteúdo Markdown da descrição da persona
+ * @returns {string} Prompt do sistema para o modelo Claude/Groq/Gemini
+ */
 function buildPersonaSystemPrompt(personaMd) {
   return `Você é um participante de uma pesquisa sobre conformidade com a LGPD.
 Assuma completamente a persona descrita abaixo.
@@ -84,16 +111,34 @@ Quando for dissertativa, responda como a persona responderia naturalmente — in
 ${personaMd}`
 }
 
+/**
+ * Aguarda o tempo especificado (sleep)
+ * @param {number} ms - Milissegundos a aguardar
+ * @returns {Promise<void>}
+ */
 async function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
+/**
+ * Verifica se um erro é resultado de rate limit
+ * @param {Error} err - Erro a verificar
+ * @returns {boolean} True se for rate limit
+ */
 function isRateLimit(err) {
   return err?.status === 429 ||
     String(err?.message ?? '').toLowerCase().includes('rate limit') ||
     String(err?.message ?? '').toLowerCase().includes('tokens per day')
 }
 
+/**
+ * Faz pergunta à persona usando API Groq (Llama 3.3)
+ * @param {Groq} groq - Instância do cliente Groq
+ * @param {string} personaSystemPrompt - Prompt do sistema com a persona
+ * @param {Object[]} conversationHistory - Histórico de conversa
+ * @param {string} userMessage - Mensagem do usuário
+ * @returns {Promise<string>} Resposta gerada pelo modelo
+ */
 async function askPersonaGroq(groq, personaSystemPrompt, conversationHistory, userMessage) {
   const messages = [
     { role: 'system', content: personaSystemPrompt },
@@ -104,6 +149,15 @@ async function askPersonaGroq(groq, personaSystemPrompt, conversationHistory, us
   return completion.choices[0].message.content
 }
 
+/**
+ * Faz pergunta à persona usando API Google Gemini com retry automático em rate limit
+ * @param {string} personaSystemPrompt - Prompt do sistema com a persona
+ * @param {Object[]} conversationHistory - Histórico de conversa
+ * @param {string} userMessage - Mensagem do usuário
+ * @param {number} [tentativa=1] - Número da tentativa atual (máx 5)
+ * @returns {Promise<string>} Resposta gerada pelo modelo
+ * @throws {Error} Se falhar após 5 tentativas
+ */
 async function askPersonaGemini(personaSystemPrompt, conversationHistory, userMessage, tentativa = 1) {
   const key = process.env.GEMINI_API_KEY
   if (!key) throw new Error('GEMINI_API_KEY ausente')
@@ -134,6 +188,14 @@ async function askPersonaGemini(personaSystemPrompt, conversationHistory, userMe
   }
 }
 
+/**
+ * Orquestra pergunta à persona com fallback Groq → Gemini em rate limit
+ * @param {Groq} groq - Instância do cliente Groq
+ * @param {string} personaSystemPrompt - Prompt do sistema
+ * @param {Object[]} conversationHistory - Histórico de conversa
+ * @param {Object[]} questions - Array de perguntas com opções
+ * @returns {Promise<{responseText: string, conversationHistory: Object[]}>} Resposta e histórico atualizado
+ */
 async function askPersona(groq, personaSystemPrompt, conversationHistory, questions) {
   const questionsText = questions.map((q, i) => {
     let text = `Pergunta ${i + 1}: ${q.question}`
@@ -163,6 +225,13 @@ async function askPersona(groq, personaSystemPrompt, conversationHistory, questi
   return { responseText, conversationHistory }
 }
 
+/**
+ * Requisita geração de perguntas para um estágio via API backend
+ * @param {number} stage - Número do estágio (1-4)
+ * @param {Object} context - Contexto acumulado de respostas anteriores
+ * @returns {Promise<Object>} Dados do estágio com perguntas geradas
+ * @throws {Error} Se a API retornar erro
+ */
 async function generateStage(stage, context) {
   const body = {
     stage,
@@ -180,6 +249,14 @@ async function generateStage(stage, context) {
   return res.json()
 }
 
+/**
+ * Requisita análise final e relatório via API backend
+ * @param {Object[]} allResponses - Todas as respostas dos 4 estágios
+ * @param {string} personaId - ID da persona analisada
+ * @param {number} sessaoNum - Número da sessão
+ * @returns {Promise<Object>} Relatório final com métricas e diagnóstico
+ * @throws {Error} Se a API retornar erro
+ */
 async function generateFinalReport(allResponses, personaId, sessaoNum) {
   const res = await fetch(`${BACKEND_URL}/api/analyze`, {
     method: 'POST',
@@ -196,6 +273,13 @@ async function generateFinalReport(allResponses, personaId, sessaoNum) {
   return res.json()
 }
 
+/**
+ * Parseia respostas individuais do texto de resposta via regex
+ * Trata casos onde as respostas não vêm estruturadas em JSON
+ * @param {string} responseText - Texto contendo todas as respostas
+ * @param {Object[]} questions - Array de perguntas referência
+ * @returns {Object[]} Array de respostas parseadas com pergunta e resposta
+ */
 function parseAnswersFromText(responseText, questions) {
   return questions.map((q, i) => {
     const patterns = [
@@ -222,6 +306,14 @@ function parseAnswersFromText(responseText, questions) {
   })
 }
 
+/**
+ * Compara respostas da persona contra oráculo, calculando métricas de acurácia
+ * Mapeia fragilidades LGPD esperadas vs detectadas, falsos positivos/negativos
+ * Gera pontuação conforme rubrica 0-3 por critério
+ * @param {Object} relatorio - Relatório final gerado pela API
+ * @param {Object} oracle - Dados do oráculo (expectativa)
+ * @returns {Object} Avaliação comparativa com rubrica e métricas
+ */
 function compareWithOracle(relatorio, oracle) {
   const riscoDetectado = (() => {
     const score = relatorio?.metrics?.score ?? 0
@@ -306,6 +398,12 @@ function compareWithOracle(relatorio, oracle) {
 
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
+/**
+ * Verifica disponibilidade de provedores de IA (Groq, Gemini)
+ * Consulta API backend ou verifica chaves de API locais
+ * @returns {Promise<Object>} Status com provider e model disponíveis
+ * @throws {Error} Se nenhum provider estiver disponível
+ */
 async function checkAIAvailability() {
   const res = await fetch(`${BACKEND_URL}/api/ai-status`).catch(() => null)
   if (!res?.ok) {
@@ -322,6 +420,13 @@ async function checkAIAvailability() {
   return status
 }
 
+/**
+ * Função principal: executa simulação completa de persona
+ * Valida argumentos, carrega persona/oráculo, executa 4 estágios,
+ * gera relatório final, compara com oráculo e salva log
+ * @returns {Promise<void>}
+ * @throws {Error} Em caso de erro fatal (persona não encontrada, IA indisponível, etc)
+ */
 async function main() {
   const [, , personaId, sessaoArg] = process.argv
 

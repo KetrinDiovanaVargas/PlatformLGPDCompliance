@@ -22,6 +22,10 @@ const ROOT      = join(__dirname, '..')
 
 const DELAY_ENTRE_PERSONAS_MS = 3000
 
+/**
+ * Retorna lista de todos os IDs de personas encontrados
+ * @returns {string[]} Array com IDs de personas ordenados (P01, P02, etc)
+ */
 function getAllPersonaIds() {
   return readdirSync(join(ROOT, 'personas'))
     .filter(f => f.match(/^P\d{2}_.*\.md$/))
@@ -29,6 +33,11 @@ function getAllPersonaIds() {
     .sort()
 }
 
+/**
+ * Carrega o arquivo oráculo (referência esperada) de uma persona
+ * @param {string} personaId - ID da persona (ex: P01)
+ * @returns {Object|null} Dados do oráculo em formato YAML, ou null se não encontrado
+ */
 function loadOracle(personaId) {
   const dir   = join(ROOT, 'oraculos')
   const files = readdirSync(dir)
@@ -37,10 +46,21 @@ function loadOracle(personaId) {
   return yaml.load(readFileSync(join(dir, match), 'utf8'))
 }
 
+/**
+ * Aguarda o tempo especificado (sleep)
+ * @param {number} ms - Milissegundos a aguardar
+ * @returns {Promise<void>}
+ */
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
+/**
+ * Consolida logs de múltiplas personas gerando estatísticas agregadas
+ * Calcula taxas de acerto, falso positivo/negativo e pontuações médias
+ * @param {string[]} personaIds - Array com IDs de personas a consolidar
+ * @returns {void} Salva arquivo consolidado.json no diretório de logs do dia
+ */
 function consolidarLogs(personaIds) {
   const hoje = new Date().toISOString().split('T')[0]
   const pastaLog = join(ROOT, 'logs', hoje)
@@ -104,6 +124,11 @@ function consolidarLogs(personaIds) {
   console.log(`  Relatório:        logs/${hoje}/consolidado.json\n`)
 }
 
+/**
+ * Função principal: executa personas conforme argumentos CLI
+ * Suporta filtros: --criticas (nível crítico), --controle (personas de controle)
+ * @returns {Promise<void>}
+ */
 async function main() {
   const args = process.argv.slice(2)
 

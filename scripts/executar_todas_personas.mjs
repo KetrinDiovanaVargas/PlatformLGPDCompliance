@@ -35,6 +35,12 @@ const TEMPERATURA = 0.2
 
 // ─── Helpers ──────────────────────────────────────────────────────────────
 
+/**
+ * Localiza o arquivo .md de uma persona pelo ID
+ * @param {string} personaId - ID da persona (ex: P01)
+ * @returns {string} Caminho absoluto do arquivo da persona
+ * @throws {Error} Se o arquivo da persona não for encontrado
+ */
 function findPersonaFile(personaId) {
   const dir = join(ROOT, 'personas')
   const files = readdirSync(dir)
@@ -43,6 +49,12 @@ function findPersonaFile(personaId) {
   return join(dir, match)
 }
 
+/**
+ * Localiza o arquivo .yml (oráculo) de uma persona pelo ID
+ * @param {string} personaId - ID da persona (ex: P01)
+ * @returns {string} Caminho absoluto do arquivo oráculo
+ * @throws {Error} Se o arquivo oráculo não for encontrado
+ */
 function findOracleFile(personaId) {
   const dir = join(ROOT, 'oraculos')
   const files = readdirSync(dir)
@@ -51,11 +63,20 @@ function findOracleFile(personaId) {
   return join(dir, match)
 }
 
+/**
+ * Carrega o arquivo oráculo (referência esperada) de uma persona
+ * @param {string} personaId - ID da persona
+ * @returns {Object} Dados do oráculo em formato YAML
+ */
 function loadOracle(personaId) {
   const path = findOracleFile(personaId)
   return yaml.load(readFileSync(path, 'utf8'))
 }
 
+/**
+ * Retorna lista de todos os IDs de personas encontrados
+ * @returns {string[]} Array com IDs de personas ordenados
+ */
 function getAllPersonaIds() {
   const dir = join(ROOT, 'personas')
   return readdirSync(dir)
@@ -64,6 +85,11 @@ function getAllPersonaIds() {
     .sort()
 }
 
+/**
+ * Constrói o prompt do sistema para assumir a persona no LLM
+ * @param {string} personaMd - Conteúdo Markdown da descrição da persona
+ * @returns {string} Prompt do sistema para o modelo Claude
+ */
 function buildPersonaSystemPrompt(personaMd) {
   return `Você é um participante de uma pesquisa sobre conformidade com a LGPD.
 Assuma completamente a persona descrita abaixo.
@@ -75,10 +101,23 @@ Quando a pergunta for de múltipla escolha, escolha UMA das opções fornecidas 
 ${personaMd}`
 }
 
+/**
+ * Aguarda o tempo especificado (sleep)
+ * @param {number} ms - Milissegundos a aguardar
+ * @returns {Promise<void>}
+ */
 async function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
+/**
+ * Gera respostas de um questionário através do LLM assumindo uma persona
+ * @param {string} personaSystemPrompt - Prompt do sistema com a persona
+ * @param {Object[]} perguntas - Array de perguntas com opções
+ * @param {string} perguntas[].question - Texto da pergunta
+ * @param {string[]} [perguntas[].options] - Opções de resposta (múltipla escolha)
+ * @returns {Promise<string>} Respostas geradas pelo modelo
+ */
 async function gerarRespostasPersona(personaSystemPrompt, perguntas) {
   const questionsText = perguntas.map((q, i) => {
     let text = `Pergunta ${i + 1}: ${q.question}`
@@ -103,8 +142,13 @@ async function gerarRespostasPersona(personaSystemPrompt, perguntas) {
   return response.content[0].type === 'text' ? response.content[0].text : ''
 }
 
+/**
+ * Executa o fluxo completo de validação para uma persona
+ * @param {string} personaId - ID da persona a processar
+ * @returns {Promise<Object|null>} Log completo da sessão ou null se houver erro
+ */
 async function executarPersona(personaId) {
-  console.log(`\n📋 Executando persona: ${personaId}...`)
+  console.log(`\n Executando persona: ${personaId}...`)
 
   try {
     const personaMdPath = findPersonaFile(personaId)
@@ -226,19 +270,23 @@ async function executarPersona(personaId) {
     const logPath = join(pastaLog, `${personaId}_sessao_01.json`)
     writeFileSync(logPath, JSON.stringify(logData, null, 2))
 
-    console.log(`✅ ${personaId}: Sessão completa em ${logPath}`)
+    console.log(` ${personaId}: Sessão completa em ${logPath}`)
     return logData
   } catch (err) {
-    console.error(`❌ ${personaId}: ${err.message}`)
+    console.error(` ${personaId}: ${err.message}`)
     return null
   }
 }
 
+/**
+ * Função principal: executa todas as personas e consolida resultados
+ * @returns {Promise<void>}
+ */
 async function main() {
-  console.log('🚀 Iniciando execução automática de todas as personas...\n')
+  console.log(' Iniciando execução automática de todas as personas...\n')
 
   const personasToRun = getAllPersonaIds()
-  console.log(`📊 Executando ${personasToRun.length} personas...`)
+  console.log(` Executando ${personasToRun.length} personas...`)
 
   let successCount = 0
   const resultados = []
@@ -251,8 +299,8 @@ async function main() {
     }
   }
 
-  console.log(`\n✨ Concluído!`)
-  console.log(`✅ ${successCount}/${personasToRun.length} personas executadas com sucesso`)
+  console.log(`\n Concluído!`)
+  console.log(` ${successCount}/${personasToRun.length} personas executadas com sucesso`)
 
   // Consolidar resultados
   const consolidado = {
@@ -265,7 +313,7 @@ async function main() {
   const logPath = join(ROOT, 'logs', `consolidado_${new Date().toISOString().split('T')[0]}.json`)
   writeFileSync(logPath, JSON.stringify(consolidado, null, 2))
 
-  console.log(`📋 Consolidado salvo em ${logPath}`)
+  console.log(` Consolidado salvo em ${logPath}`)
 }
 
 main().catch(console.error)

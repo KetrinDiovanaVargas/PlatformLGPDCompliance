@@ -1,5 +1,12 @@
 #!/usr/bin/env node
 
+/**
+ *
+ * Atualiza cada documento modificado com timestamp.
+ * 
+ * Uso: node scripts/clean-assessments.mjs
+ */
+
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -8,7 +15,7 @@ import { getAdminDb } from "../server/firebaseAdmin.mjs";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Load environment
+// Carrega variáveis de ambiente
 dotenv.config({
   path: path.resolve(__dirname, "../server/.env"),
 });
@@ -17,18 +24,20 @@ dotenv.config({
   path: path.resolve(__dirname, "../.env"),
 });
 
+/**
+ * Remove referências
+ */
 async function cleanAssessments() {
   try {
-    console.log("🔍 Procurando por assessments com 'UNIPAMPA'...\n");
+    console.log(" Procurando por assessments com 'UNIPAMPA'...\n");
 
     const db = getAdminDb();
     const assessmentsRef = db.collection("assessments");
 
-    // Busca todos os documentos
     const snapshot = await assessmentsRef.get();
 
     if (snapshot.empty) {
-      console.log("❌ Nenhum assessment encontrado");
+      console.log(" Nenhum assessment encontrado");
       process.exit(0);
     }
 
@@ -39,7 +48,9 @@ async function cleanAssessments() {
       let modified = false;
       const updates = {};
 
-      // Funções de limpeza
+      /**
+       * 
+       */
       const removeUnipampa = (text) => {
         if (!text) return text;
         return String(text)
@@ -50,19 +61,16 @@ async function cleanAssessments() {
           .trim();
       };
 
-      // Limpa introText
       if (data.introText && data.introText.includes("UNIPAMPA")) {
         updates.introText = removeUnipampa(data.introText);
         modified = true;
       }
 
-      // Limpa context
       if (data.context && data.context.includes("UNIPAMPA")) {
         updates.context = removeUnipampa(data.context);
         modified = true;
       }
 
-      // Limpa title
       if (data.title && data.title.includes("UNIPAMPA")) {
         updates.title = removeUnipampa(data.title);
         modified = true;
@@ -73,7 +81,7 @@ async function cleanAssessments() {
         await assessmentsRef.doc(doc.id).update(updates);
         updated++;
 
-        console.log(`✅ Atualizado: ${data.title || "Assessment"}`);
+        console.log(` Atualizado: ${data.title || "Assessment"}`);
         if (updates.introText) console.log(`   • introText limpo`);
         if (updates.context) console.log(`   • context limpo`);
         if (updates.title) console.log(`   • title limpo`);
@@ -81,18 +89,17 @@ async function cleanAssessments() {
     }
 
     console.log(`\n${"═".repeat(60)}`);
-    console.log(`✅ LIMPEZA CONCLUÍDA`);
+    console.log(` LIMPEZA CONCLUÍDA`);
     console.log(`${"═".repeat(60)}`);
     console.log(`Total de assessments atualizados: ${updated}`);
-    console.log(`\n✅ Palavra 'UNIPAMPA' removida com sucesso!\n`);
+    console.log(`\n Palavra 'UNIPAMPA' removida com sucesso!\n`);
 
     process.exit(0);
 
   } catch (error) {
-    console.error("❌ Erro:", error.message);
+    console.error(" Erro:", error.message);
     process.exit(1);
   }
 }
 
-// Run
 cleanAssessments();
