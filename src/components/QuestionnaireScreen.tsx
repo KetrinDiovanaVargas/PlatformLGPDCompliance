@@ -1,31 +1,118 @@
 /**
- * QuestionnaireScreen Component
- * 
- * Componente React que renderiza questionários adaptativos com perguntas dinâmicas.
- * As perguntas são ajustadas dinamicamente com base nas respostas anteriores do usuário
- * e no perfil do respondente, utilizando integração com APIs LLM (Groq, Claude, etc).
- * 
- * Funcionalidades principais:
- * - Renderização de 4 estágios de avaliação LGPD
- * - Perguntas adaptativas via IA (cascade Groq → Claude → DeepSeek → Gemini)
- * - Progresso visual com barra de progresso
- * - Validação em tempo real de campos obrigatórios
- * - Salvamento de respostas por estágio no Firebase Firestore
- * - Integração com sistema de análise de conformidade LGPD
- * 
+ * @module components/QuestionnaireScreen
+ * @description Componente React para renderização de questionários adaptativos com
+ * elicitação dinâmica de perguntas. Integra com APIs LLM (GROQ, Claude, DeepSeek, Gemini)
+ * via backend, salvamento de respostas em Firestore e análise final de conformidade LGPD.
+ *
+ * @architecture Fluxo de Execução:
+ *   1. Etapa 0: Coleta contexto inicial do respondente (textarea livre)
+ *   2. Etapas 1-4: Carregam perguntas do backend via `/api/generate-stage`
+ *   3. Perguntas são adaptativas: cada etapa recebe contexto de respostas anteriores
+ *   4. Respostas são salvas via `saveResponsesStage()` ao final de cada etapa
+ *   5. Ao completar: envia todas as respostas para `/api/analyze` (LLM + score LGPD)
+ *   6. Callback `onComplete()` dispara com relatório final
+ */
+
+/**
+ * @typedef {Object} Question
+ * @description Representa uma pergunta individual do questionário adaptativo.
+ * @property {string} id - Identificador único da pergunta
+ * @property {("select"|"checkbox"|"textarea")} type - Tipo de controle de entrada
+ * @property {string} question - Enunciado da pergunta em português
+ * @property {string} [description] - Texto auxiliar com instruções ou contexto
+ * @property {string[]} [options] - Array de opções (obrigatório para select/checkbox)
+ * @property {boolean} [required] - Flag de obrigatoriedade (padrão: true)
+ */
+
+/**
+ * @typedef {Object} Stage
+ * @description Agrupa perguntas em uma etapa da avaliação.
+ * @property {number} id - Número sequencial da etapa (0-4)
+ * @property {string} title - Título descritivo (ex: "Coleta de Dados")
+ * @property {string} description - Contexto sobre o que será avaliado
+ * @property {Question[]} questions - Array de perguntas da etapa
+ */
+
+/**
+ * @typedef {Object} Assessment
+ * @description Metadados da avaliação (assessment) armazenados no Firestore.
+ * @property {string} id - ID único do documento Firestore
+ * @property {string} [title] - Título da avaliação exibido ao respondente
+ * @property {string} [description] - Descrição da avaliação
+ * @property {string} [context] - Contexto organizacional para adaptação LLM
+ * @property {string} [formType] - Tipo de formulário (ex: "lgpd_diagnostico")
+ * @property {string} [objective] - Objetivo da avaliação (ex: "diagnostico_inicial")
+ * @property {string} [targetAudience] - Público alvo (ex: "colaboradores_clt")
+ * @property {boolean} [active] - Flag se avaliação está ativa
+ * @property {boolean} [deleted] - Flag de exclusão lógica
+ */
+
+/**
+ * @typedef {Object} QuestionnaireCompletePayload
+ * @description Payload enviado ao callback `onComplete()` após finalizar a avaliação.
+ * Contém todas as respostas, análise LLM e métricas de conformidade LGPD.
+ * @property {string} sessionId - ID da sessão da avaliação
+ * @property {string|null} assessmentId - ID da avaliação (null se ad-hoc)
+ * @property {Array<{questionId: number, question: string, answer: unknown}>} responses
+ *   - Array normalizado de respostas
+ * @property {string} report - Relatório narrativo detalhado em português
+ * @property {Record<string, unknown>|null} metrics - Métricas de matriz de confusão
+ * @property {string} [reportMode] - Modo de relatório ("standard", "summary", etc)
+ * @property {string} [reportNotice] - Aviso ou nota no relatório
+ * @property {unknown} [risks] - Mapeamento de riscos por área
+ * @property {number} [score] - Score de maturidade LGPD (0-100)
+ * @property {string} [summary] - Resumo executivo
+ * @property {unknown[]} [controls] - Controles recomendados
+ * @property {unknown[]} [strengths] - Pontos fortes identificados
+ * @property {unknown[]} [attentionPoints] - Pontos de atenção
+ * @property {unknown[]} [criticalIssues] - Questões críticas
+ * @property {unknown[]} [controlsStatus] - Status de controles
+ * @property {unknown[]} [recommendations] - Recomendações de remediação
+ */
+
+/**
+ * @typedef {Object} QuestionnaireScreenProps
+ * @description Props do componente QuestionnaireScreen.
+ * @property {Function} onComplete - Callback ao finalizar avaliação, recebe QuestionnaireCompletePayload
+ * @property {Function} onBack - Callback para retornar à tela anterior (ex: lista de avaliações)
+ * @property {Assessment} [assessment] - Metadados da avaliação (carregados do Firestore)
+ */
+
+/**
+ * Renderiza questionário adaptativo com perguntas dinâmicas via IA.
+ *
+ * Integra com backend LLM para gerar perguntas contextualizadas, salva respostas
+ * no Firestore por etapa, e realiza análise final de conformidade LGPD.
+ *
  * @component
- * @param {string} quizId - ID único do questionário no Firebase
- * @param {string} respondentId - ID do respondente (usuário)
- * @param {Function} onComplete - Callback executado ao completar todos os 4 estágios
- * @returns {JSX.Element} Interface de questionário adaptativo com navegação por estágios
- * 
+ * @param {QuestionnaireScreenProps} props
+ * @param {Function} props.onComplete - Callback com resultado da análise
+ * @param {Function} props.onBack - Callback para retornar
+ * @param {Assessment} [props.assessment] - Metadados da avaliação
+ * @returns {JSX.Element} Interface de questionário adaptativo
+ *
  * @example
- * // Uso básico
- * <QuestionnaireScreen 
- *   quizId="quiz_001"
- *   respondentId="user_123"
- *   onComplete={() => navigateToDashboard()}
- * />
+ * // Em componente pai, após selecionar uma avaliação
+ * const [selectedAssessment, setSelectedAssessment] = useState(null);
+ *
+ * const handleAssessmentSelect = async (id) => {
+ *   const doc = await getDoc(doc(db, "assessments", id));
+ *   setSelectedAssessment(doc.data());
+ * };
+ *
+ * const handleComplete = (result) => {
+ *   console.log("Score:", result.score);
+ *   console.log("Relatório:", result.report);
+ *   navigateTo("/results", { state: { result } });
+ * };
+ *
+ * return (
+ *   <QuestionnaireScreen
+ *     assessment={selectedAssessment}
+ *     onComplete={handleComplete}
+ *     onBack={() => navigateTo("/assessments")}
+ *   />
+ * );
  */
 
 import { useState, useEffect, useMemo } from "react";

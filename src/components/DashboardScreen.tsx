@@ -1,6 +1,150 @@
-// -------------------------------------------------------------
-// DashboardScreen.tsx – Versão Enterprise Corrigida
-// -------------------------------------------------------------
+/**
+ * @module components/DashboardScreen
+ * @description Componente de dashboard para exibição de resultados de avaliação
+ * de conformidade LGPD. Apresenta visualizações interativas incluindo score de
+ * conformidade, distribuição de riscos, fragilidades detectadas, pontos fortes
+ * e recomendações personalizadas com recursos de aprendizado.
+ *
+ * @architecture Layout:
+ *   1. Header: Título, assessmentTitle, formType e objetivo
+ *   2. Alert: Indicador de modo fallback (contingência)
+ *   3. Charts: Score circular, gráfico pizza de risco, estatísticas em barra
+ *   4. Fragilidades: Grid F1-F11 com status de detecção (detectada/ok)
+ *   5. Sections: Pontos fortes, atenção, riscos críticos
+ *   6. Recomendações: Cards animados com ações, learning resources, refs LGPD/ISO
+ *   7. Footer: CTA para feedback e nova avaliação
+ *
+ * @features
+ *   - Sanitização de texto (remove "usuário demo", normaliza espaços)
+ *   - Extração automática de seções do relatório (regex)
+ *   - Detecção de fragilidades LGPD (F1-F11) via análise de texto
+ *   - Normalização de métricas com fallback para valores vazios
+ *   - Geração automática de recursos de aprendizado por tópico
+ *   - Verificação de feedback duplicado via Firestore
+ *   - Modo fallback (contingência) quando serviço IA atinge limite
+ *   - Animações Framer Motion em cards de recomendações
+ */
+
+/**
+ * @typedef {Object} Recommendation
+ * @description Recomendação de remediação com ações e recursos de aprendizado.
+ * @property {string} title - Título da recomendação
+ * @property {string} [description] - Descrição adicional
+ * @property {("Alta"|"Média"|"Baixa")} priority - Nível de prioridade
+ * @property {string} [category] - Categoria/área (ex: "Segurança")
+ * @property {string[]} actions - Array de ações recomendadas
+ * @property {Object} [learning] - Recursos de aprendizado
+ *   @property {string} [learning.book] - Título do livro recomendado
+ *   @property {string} [learning.video] - Título do vídeo recomendado
+ *   @property {string} [learning.references] - Referências de boas práticas
+ *   @property {string[]} [learning.steps] - Passos sugeridos para implementação
+ *   @property {string} [learning.isoRefs] - Referências ISO 27001 (ex: "ISO 27001 – Controle A.10")
+ *   @property {string} [learning.lgpdRefs] - Referências LGPD (ex: "LGPD – Art. 46")
+ */
+
+/**
+ * @typedef {Object} DashboardScreenProps
+ * @description Props do componente DashboardScreen.
+ * @property {string} [report] - Relatório narrativo completo do backend LLM
+ * @property {Object} [metrics] - Métricas calculadas (score, risks, strengths, etc)
+ * @property {Record<string, any>|any[]} [responses] - Array de respostas do usuário
+ * @property {Function} [onRestart] - Callback para reiniciar avaliação
+ * @property {string} [assessmentTitle] - Título da avaliação (ex: "Diagnóstico LGPD 2024")
+ * @property {string} [assessmentFormType] - Tipo de formulário (ex: "lgpd_diagnostico")
+ * @property {string} [assessmentObjective] - Objetivo da avaliação (ex: "diagnostico_inicial")
+ * @property {string} [assessmentId] - ID único do assessment (Firestore doc ID)
+ * @property {string} [sessionId] - ID único da sessão (para rastreamento)
+ * @property {("groq"|"fallback")} [reportMode] - Modo de geração ("groq" = LLM, "fallback" = contingência)
+ * @property {string} [reportNotice] - Mensagem customizada para modo fallback
+ */
+
+/**
+ * @typedef {Object} LGPDFragility
+ * @description Fragilidade específica de conformidade LGPD detectada.
+ * @property {string} code - Código (ex: "F1", "F2", ..., "F11")
+ * @property {string} emoji - Emoji representativo
+ * @property {string} name - Nome descritivo (ex: "Dados de Menores")
+ * @property {string} description - Descrição do risco
+ * @property {boolean} detected - Flag indicando se fragilidade foi detectada
+ */
+
+/**
+ * Renderiza dashboard de resultados de avaliação de conformidade LGPD.
+ *
+ * Componente completo que exibe análise detalhada incluindo:
+ * - Score de conformidade com indicador visual (circular)
+ * - Gráficos de distribuição de risco (pizza) e estatísticas (barra)
+ * - Detecção automática de fragilidades LGPD (F1-F11)
+ * - Listas de pontos fortes, atenção e riscos críticos
+ * - Recomendações personalizadas com recursos de aprendizado
+ * - Sistema de feedback integrado com verificação de duplicação
+ * - Modo fallback para contingência quando IA atinge limite
+ *
+ * Sanitização: Remove referências a "usuário demo" para preservar privacidade.
+ * Normalização: Extrai seções do relatório via regex e normaliza métricas.
+ * Animações: Cards de recomendações animados com Framer Motion.
+ *
+ * @component
+ * @param {DashboardScreenProps} props
+ * @param {string} [props.report] - Relatório narrativo do backend
+ * @param {Object} [props.metrics] - Métricas de conformidade
+ * @param {Function} [props.onRestart] - Callback para nova avaliação
+ * @param {string} [props.assessmentTitle] - Título da avaliação
+ * @param {string} [props.assessmentFormType] - Tipo de formulário
+ * @param {string} [props.assessmentObjective] - Objetivo da avaliação
+ * @param {string} [props.assessmentId] - ID do assessment
+ * @param {string} [props.sessionId] - ID da sessão
+ * @param {("groq"|"fallback")} [props.reportMode] - Modo de geração
+ * @param {string} [props.reportNotice] - Mensagem de contingência
+ * @returns {JSX.Element} Dashboard interativo com gráficos, análise e recomendações
+ *
+ * @example
+ * // Após análise LLM completar
+ * const result = {
+ *   report: "Avaliação revela maturidade média...",
+ *   metrics: {
+ *     score: 62,
+ *     risks: {
+ *       conforme: 45,
+ *       parcial: 35,
+ *       naoConforme: 20
+ *     },
+ *     strengths: ["Política de privacidade clara", "..."],
+ *     attentionPoints: ["Criptografia não implementada", "..."],
+ *     criticalIssues: ["Falta de consentimento", "..."],
+ *     recommendations: [
+ *       {
+ *         title: "Implementar Criptografia",
+ *         priority: "Alta",
+ *         actions: ["Ativar AES-256", "..."]
+ *       }
+ *     ]
+ *   },
+ *   sessionId: "sess-abc123",
+ *   assessmentId: "assess-xyz789",
+ *   assessmentTitle: "Diagnóstico LGPD Completo",
+ *   assessmentFormType: "lgpd_diagnostico",
+ *   assessmentObjective: "diagnostico_inicial",
+ *   reportMode: "groq"
+ * };
+ *
+ * return (
+ *   <DashboardScreen
+ *     report={result.report}
+ *     metrics={result.metrics}
+ *     sessionId={result.sessionId}
+ *     assessmentId={result.assessmentId}
+ *     assessmentTitle={result.assessmentTitle}
+ *     assessmentFormType={result.assessmentFormType}
+ *     assessmentObjective={result.assessmentObjective}
+ *     reportMode={result.reportMode}
+ *     onRestart={() => navigateTo("/assessments")}
+ *   />
+ * );
+ *
+ * @see {@link ../components/FeedbackModal.tsx} Para modal de feedback integrado
+ * @see {@link ../services/assessmentService.ts} Para geração de análise via LLM
+ */
 
 import React, { useMemo, useState, useEffect } from "react";
 import {
@@ -530,39 +674,39 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({
         </header>
 
         {reportMode === "fallback" && (
-  <section className="rounded-3xl border border-amber-500/30 bg-amber-500/10 p-6 shadow-[0_0_30px_rgba(245,158,11,0.12)]">
-    <div className="flex items-start gap-4">
-      <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-amber-400/20 bg-amber-500/15">
-        <AlertTriangle className="h-6 w-6 text-amber-300" />
-      </div>
+          <section className="rounded-3xl border border-amber-500/30 bg-amber-500/10 p-6 shadow-[0_0_30px_rgba(245,158,11,0.12)]">
+            <div className="flex items-start gap-4">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-amber-400/20 bg-amber-500/15">
+                <AlertTriangle className="h-6 w-6 text-amber-300" />
+              </div>
 
-      <div className="space-y-3">
-        <div>
-          <p className="text-amber-300 text-xs uppercase tracking-[0.2em]">
-            Modo de contingência
-          </p>
+              <div className="space-y-3">
+                <div>
+                  <p className="text-amber-300 text-xs uppercase tracking-[0.2em]">
+                    Modo de contingência
+                  </p>
 
-          <h2 className="text-2xl font-bold text-white mt-1">
-            Sua análise foi exibida com sucesso
-          </h2>
-        </div>
+                  <h2 className="text-2xl font-bold text-white mt-1">
+                    Sua análise foi exibida com sucesso
+                  </h2>
+                </div>
 
-        <p className="text-sm text-slate-200 leading-relaxed">
-          {reportNotice ||
-            "O serviço de IA atingiu temporariamente o limite de uso. Para não interromper sua experiência, este relatório foi montado com métricas e recomendações automáticas simplificadas."}
-        </p>
+                <p className="text-sm text-slate-200 leading-relaxed">
+                  {reportNotice ||
+                    "O serviço de IA atingiu temporariamente o limite de uso. Para não interromper sua experiência, este relatório foi montado com métricas e recomendações automáticas simplificadas."}
+                </p>
 
-        <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
-          <p className="text-sm text-white/80 leading-relaxed">
-            Você pode continuar visualizando os resultados normalmente. Quando o
-            serviço de IA estiver disponível novamente, uma nova análise poderá
-            gerar um relatório ainda mais detalhado.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-)}
+                <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
+                  <p className="text-sm text-white/80 leading-relaxed">
+                    Você pode continuar visualizando os resultados normalmente. Quando o
+                    serviço de IA estiver disponível novamente, uma nova análise poderá
+                    gerar um relatório ainda mais detalhado.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
 
         <section className="grid gap-5 md:grid-cols-3">
           <div className="rounded-2xl bg-slate-900/80 border border-slate-800 p-6 flex flex-col h-[480px]">

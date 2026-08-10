@@ -1,3 +1,100 @@
+/**
+ * @module components/FinalReportDashboard
+ * @description Componente para exibição de relatório final de avaliação LGPD com
+ * visualização de fragilidades agrupadas por severidade. Apresenta cards expandíveis
+ * com detalhes de risco, prazos e checklist de ações de remediação.
+ *
+ * @architecture Layout:
+ *   1. Summary Stats: Cards com contagem de fragilidades por severidade + score
+ *   2. Sections: Fragilidades agrupadas em critical, high, medium
+ *   3. Cards Expandíveis: Detalhes, risco, prazo, checklist de ações
+ *   4. Footer CTA: Chamada para ação (plano de ação, consultoria)
+ */
+
+/**
+ * @typedef {("critical"|"high"|"medium")} Severity
+ * @description Nível de severidade da fragilidade encontrada.
+ */
+
+/**
+ * @typedef {Object} Fragility
+ * @description Representa uma fragilidade identificada na avaliação LGPD.
+ * @property {string} id - Identificador único da fragilidade (ex: "F001", "F002")
+ * @property {string} name - Nome descritivo (ex: "Falta de Consentimento Explícito")
+ * @property {string} description - Descrição breve do problema (1-2 linhas)
+ * @property {string} risk - Descrição do risco associado (ex: "Exposição a processos judiciais")
+ * @property {string[]} actions - Array de ações recomendadas para remediação (checklist)
+ * @property {number} daysToResolve - Prazo estimado em dias para resolver a fragilidade
+ * @property {Severity} severity - Nível de severidade (critical/high/medium)
+ */
+
+/**
+ * @typedef {Object} FinalReportDashboardProps
+ * @description Props do componente FinalReportDashboard.
+ * @property {Fragility[]} fragilites - Array de fragilidades identificadas
+ *   Nota: há typo no nome da prop ("fragilites" em vez de "fragilidades")
+ * @property {number} scoreAverage - Score médio de conformidade LGPD (0-100)
+ */
+
+/**
+ * Renderiza dashboard com fragilidades agrupadas por severidade.
+ *
+ * Apresenta visualização interativa com cards expandíveis mostrando detalhes
+ * de cada fragilidade: risco, prazo de resolução, checklist de ações e botões
+ * para templates e consultorias.
+ *
+ * Cards agrupados em três categorias:
+ * - Crítico (vermelho): resolver em 30 dias
+ * - Alto (âmbar): resolver em 45 dias
+ * - Médio (esmeralda): resolver em 60 dias
+ *
+ * @component
+ * @param {FinalReportDashboardProps} props
+ * @param {Fragility[]} props.fragilites - Fragilidades da avaliação
+ * @param {number} props.scoreAverage - Score de conformidade (0-100)
+ * @returns {JSX.Element} Dashboard com summary stats e cards de fragilidades
+ *
+ * @example
+ * // Dados de exemplo após análise LGPD
+ * const fragilidades = [
+ *   {
+ *     id: "F001",
+ *     name: "Falta de Consentimento Explícito",
+ *     description: "Coleta de dados sem consentimento informado",
+ *     risk: "Exposição a multas de até R$ 50 milhões (2% do faturamento)",
+ *     actions: [
+ *       "Implementar banner de consentimento no site",
+ *       "Criar política clara de consentimento",
+ *       "Treinar equipe de vendas"
+ *     ],
+ *     daysToResolve: 30,
+ *     severity: "critical"
+ *   },
+ *   {
+ *     id: "F002",
+ *     name: "Segurança de Dados Inadequada",
+ *     description: "Senhas armazenadas em texto plano",
+ *     risk: "Breach de dados com exposição de informações pessoais",
+ *     actions: [
+ *       "Implementar hashing com salt",
+ *       "Auditar banco de dados",
+ *       "Ativar encriptação em trânsito"
+ *     ],
+ *     daysToResolve: 45,
+ *     severity: "high"
+ *   }
+ * ];
+ *
+ * return (
+ *   <FinalReportDashboard
+ *     fragilites={fragilidades}
+ *     scoreAverage={42}
+ *   />
+ * );
+ *
+ * @see {@link ../services/assessmentService.ts} Para geração de fragilidades via LLM
+ */
+
 import React, { useState } from "react";
 import { ChevronDown, CheckCircle2, AlertTriangle, AlertOctagon, Clock } from "lucide-react";
 
