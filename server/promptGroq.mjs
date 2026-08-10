@@ -1,3 +1,43 @@
+/**
+ * @fileoverview Gerador de Prompts Adaptativos para Questionário LGPD
+ * 
+ * Módulo especializado em construir prompts dinâmicos e contextuais
+ * para gerar perguntas de diagnóstico de conformidade LGPD.
+ * 
+ * Funcionalidades:
+ * - Extração de histórico de perguntas e respostas
+ * - Detecção de padrões de fragilidade operacional
+ * - Inferência de perfil do respondente
+ * - Construção de guias de objetivo e exploração por etapa
+ * - Geração de prompt completo com validações anti-repetição
+ * 
+ * @module promptGroq
+ * 
+ * Estrutura do prompt retornado:
+ * - Definições oficiais do administrador (máxima prioridade)
+ * - Contexto inicial do respondente
+ * - Histórico de perguntas/respostas (bloqueio de repetição)
+ * - Perfil inferido e nível de conhecimento
+ * - Regras de geração (fragilidade, acessibilidade, qualidade)
+ * - Diretivas específicas por objetivo e etapa
+ */
+
+/**
+ * Normaliza texto removendo acentos e convertendo para minúsculas.
+ * 
+ * Transforma variações de escrita em forma canônica para comparações
+ * insensíveis a case e acentuação.
+ * 
+ * @param {string|*} text - Texto a normalizar
+ * @returns {string} Texto normalizado (minúsculo, sem acentos)
+ * 
+ * @example
+ * normalize("São Paulo") // → "sao paulo"
+ * @example
+ * normalize("LGPD!") // → "lgpd!"
+ * @example
+ * normalize(null) // → ""
+ */
 function normalize(text) {
   return String(text || "")
     .toLowerCase()
@@ -5,6 +45,23 @@ function normalize(text) {
     .replace(/[\u0300-\u036f]/g, "");
 }
 
+/**
+ * Extrai perguntas já feitas do contexto/histórico.
+ * 
+ * Parseia formato de histórico onde perguntas são marcadas com "Q: ".
+ * Remove a parte da resposta (tudo após "→ A:") e normaliza.
+ * 
+ * Formato esperado: "Q: Qual é seu nome? → A: João"
+ * 
+ * @param {string} ctx - String de contexto/histórico
+ * @returns {Array<string>} Array de perguntas normalizadas já feitas
+ * 
+ * @example
+ * extractAskedFromContext("Q: Como você faz backup? → A: Manualmente\nQ: Com que frequência? → A: Semanal")
+ * // → ["como voce faz backup?", "com que frequencia?"]
+ * @example
+ * extractAskedFromContext(null) // → []
+ */
 function extractAskedFromContext(ctx) {
   if (!ctx) return [];
   return String(ctx)
@@ -17,6 +74,21 @@ function extractAskedFromContext(ctx) {
     .filter(Boolean);
 }
 
+/**
+ * Extrai respostas já dadas do contexto/histórico.
+ * 
+ * Parseia respostas após "→ A:" em cada linha.
+ * Preserva a resposta original (não normaliza).
+ * 
+ * @param {string} ctx - String de contexto/histórico
+ * @returns {Array<string>} Array de respostas já dadas
+ * 
+ * @example
+ * extractAnswersFromContext("Q: Como? → A: Manualmente\nQ: Quando? → A: Diariamente")
+ * // → ["Manualmente", "Diariamente"]
+ * @example
+ * extractAnswersFromContext(null) // → []
+ */
 function extractAnswersFromContext(ctx) {
   if (!ctx) return [];
   return String(ctx)
@@ -26,6 +98,25 @@ function extractAnswersFromContext(ctx) {
     .filter(Boolean);
 }
 
+/**
+ * Extrai contexto inicial do respondente do histórico.
+ * 
+ * Busca a resposta da pergunta inicial padrão:
+ * "Antes de começar, conte um pouco sobre você, sua realidade e sua relação com este tema."
+ * 
+ * Se não encontrar, retorna a primeira resposta disponível como fallback.
+ * 
+ * ℹ️ **Uso**: Inferir perfil, vocabulário e experiência do respondente.
+ * 
+ * @param {string} ctx - String de contexto/histórico
+ * @returns {string} Contexto inicial (resposta da pergunta introdutória)
+ * 
+ * @example
+ * extractInitialUserContext("Q: Antes de começar... → A: Sou estudante de TI")
+ * // → "Sou estudante de TI"
+ * @example
+ * extractInitialUserContext(null) // → ""
+ */
 function extractInitialUserContext(ctx) {
   if (!ctx) return "";
 
@@ -52,6 +143,31 @@ function extractInitialUserContext(ctx) {
   return "";
 }
 
+/**
+ * Infere perfil do respondente a partir do contexto inicial.
+ * 
+ * Classifica em categorias baseadas em keywords no contexto:
+ * - **estudante**: universidade, curso, faculdade, pesquisa, acadêmico
+ * - **empregado**: trabalho, cargo, empresa, clt, servidor público, gerente
+ * - **autônomo**: freelancer, mei, prestador de serviço, microempreendedor
+ * - **desempregado**: desempregado, em busca de emprego, recolocação
+ * - **outro**: nenhuma categoria clara
+ * 
+ * ℹ️ **Uso**: Adaptar vocabulário e exemplos das perguntas ao perfil.
+ * 
+ * @param {string} initialContext - Contexto inicial do respondente
+ * @returns {string} Perfil: "estudante" | "empregado" | "autonomo" | "desempregado" | "outro"
+ * 
+ * @example
+ * inferProfileFromInitialContext("Sou estudante de engenharia na USP")
+ * // → "estudante"
+ * @example
+ * inferProfileFromInitialContext("Trabalho como analista em uma empresa de tecnologia")
+ * // → "empregado"
+ * @example
+ * inferProfileFromInitialContext("Sou freelancer e trabalho por demanda")
+ * // → "autonomo"
+ */
 function inferProfileFromInitialContext(initialContext) {
   const txt = normalize(initialContext || "");
 
@@ -63,11 +179,9 @@ function inferProfileFromInitialContext(initialContext) {
     txt.includes("faculdade") ||
     txt.includes("curso") ||
     txt.includes("graduacao") ||
-    txt.includes("graduação") ||
     txt.includes("mestrado") ||
     txt.includes("pesquisa") ||
-    txt.includes("academico") ||
-    txt.includes("acadêmico")
+    txt.includes("academico")
   ) {
     return "estudante";
   }
@@ -77,18 +191,15 @@ function inferProfileFromInitialContext(initialContext) {
     txt.includes("sem trabalho") ||
     txt.includes("em busca de emprego") ||
     txt.includes("procurando emprego") ||
-    txt.includes("buscando recolocacao") ||
-    txt.includes("buscando recolocação")
+    txt.includes("buscando recolocacao")
   ) {
     return "desempregado";
   }
 
   if (
     txt.includes("autonomo") ||
-    txt.includes("autônomo") ||
     txt.includes("freelancer") ||
     txt.includes("prestador de servico") ||
-    txt.includes("prestador de serviço") ||
     txt.includes("microempreendedor") ||
     txt.includes("mei")
   ) {
@@ -98,7 +209,6 @@ function inferProfileFromInitialContext(initialContext) {
   if (
     txt.includes("gestor") ||
     txt.includes("lider") ||
-    txt.includes("líder") ||
     txt.includes("coordenador") ||
     txt.includes("gerente") ||
     txt.includes("supervisor")
@@ -115,9 +225,7 @@ function inferProfileFromInitialContext(initialContext) {
     txt.includes("analista") ||
     txt.includes("colaborador") ||
     txt.includes("funcionario") ||
-    txt.includes("funcionário") ||
-    txt.includes("servidor publico") ||
-    txt.includes("servidor público")
+    txt.includes("servidor publico")
   ) {
     return "empregado";
   }
@@ -125,6 +233,21 @@ function inferProfileFromInitialContext(initialContext) {
   return "outro";
 }
 
+/**
+ * Taxonomia de eixos de fragilidade operacional.
+ * 
+ * Mapeia 10 dimensões de risco em conformidade LGPD/ISO 27001:
+ * - F1-F3: Armazenamento e retenção
+ * - F4-F5: Coleta e controle de acesso
+ * - F6-F8: Transparência e terceiros
+ * - F9-F10: Dados sensíveis e incidentes
+ * 
+ * Usado para documentação interna das perguntas geradas e rastreamento
+ * de quais dimensões foram exploradas.
+ * 
+ * @type {Object.<string, string>}
+ * @constant
+ */
 const FRAGILITY_TAXONOMY = {
   F1: "Compartilhamento informal (WhatsApp, e-mail pessoal, grupos, prints, links abertos)",
   F2: "Armazenamento indevido (celular pessoal, pendrive, desktop local, backup pessoal)",
@@ -138,6 +261,30 @@ const FRAGILITY_TAXONOMY = {
   F10: "Incidente mal tratado (perda de dispositivo, envio errado, vazamento, sem fluxo interno)",
 };
 
+/**
+ * Detecta padrões de fragilidade operacional no texto de contexto/respostas.
+ * 
+ * Retorna objeto booleano mapeando cada tipo de fragilidade detectada.
+ * Usa regex case-insensitive e normalização para robustez.
+ * 
+ *  Detecção é por regex; pode ter false positives/negatives.
+ * Use como heurística, não como verdade absoluta.
+ * 
+ * @param {string} text - Texto a analisar (respostas, contexto)
+ * @returns {Object} Mapa booleano de fragilidades detectadas
+ * @returns {boolean} returns.hasInformalChannels - Canais informais (WhatsApp, email pessoal)
+ * @returns {boolean} returns.hasPersonalStorage - Armazenamento pessoal (celular, pendrive)
+ * @returns {boolean} returns.hasExcessiveRetention - Retenção indefinida
+ * @returns {boolean} returns.hasExcessiveCollection - Coleta desnecessária (CPF, documento)
+ * @returns {boolean} returns.hasExcessiveAccess - Acesso excessivo (admin, compartilhado)
+ * @returns {boolean} returns.hasUncontrolledThirdParties - Terceiros sem controle
+ * @returns {boolean} returns.hasSensitiveData - Dados sensíveis (saúde, crianças)
+ * @returns {boolean} returns.hasIncidentRisk - Risco de incidente (perda, vazamento)
+ * 
+ * @example
+ * detectFragilityPatterns("Guardo os dados no meu celular e mando por WhatsApp")
+ * // → { hasPersonalStorage: true, hasInformalChannels: true, ... }
+ */
 function detectFragilityPatterns(text) {
   const fullText = normalize(text);
 
@@ -153,6 +300,25 @@ function detectFragilityPatterns(text) {
   };
 }
 
+/**
+ * Constrói instruções adaptativas baseadas em fragilidades detectadas.
+ * 
+ * Gera dicas para o gerador de perguntas explorar mais profundamente
+ * areas onde foram detectados padrões de risco nas respostas anteriores.
+ * 
+ * Priorizar investigação de áreas frágeis sem ser óbvio/acusatório.
+ * 
+ * @param {Object} patterns - Objeto retornado por detectFragilityPatterns()
+ * @returns {Array<string>} Array de instruções adaptativas (frases em português)
+ * 
+ * @example
+ * buildAdaptiveInstructions({
+ *   hasInformalChannels: true,
+ *   hasPersonalStorage: false,
+ *   ...
+ * })
+ * // → ["A persona já mencionou canais informais...", ...]
+ */
 function buildAdaptiveInstructions(patterns) {
   const instructions = [];
 
@@ -190,6 +356,21 @@ function buildAdaptiveInstructions(patterns) {
   return instructions;
 }
 
+/**
+ * Constrói contexto formatado a partir de objeto de respostas.
+ * 
+ * Transforma um mapa de respostas ({ "q1": "resposta", ... }) em
+ * formato legível para ser incluído no prompt.
+ * 
+ * Formato saída: "Q: q1 → A: resposta\nQ: q2 → A: ...\n..."
+ * 
+ * @param {Object} [responsesObj={}] - Mapa { id_pergunta: resposta }
+ * @returns {string} Contexto formatado em múltiplas linhas
+ * 
+ * @example
+ * buildContextFromResponses({ "q1": "Sim", "q2": ["Opção A", "Opção B"] })
+ * // → "Q: q1 → A: Sim\nQ: q2 → A: Opção A, Opção B"
+ */
 function buildContextFromResponses(responsesObj = {}) {
   if (!responsesObj || typeof responsesObj !== "object") return "";
 
@@ -206,20 +387,43 @@ function buildContextFromResponses(responsesObj = {}) {
   return lines.join("\n");
 }
 
+/**
+ * Normaliza e classifica objetivo da avaliação.
+ * 
+ * Parseia entrada (pode ser string ou pré-normalizada) e retorna
+ * um dos valores padrão ou "diagnostico_inicial" como fallback.
+ * 
+ * Objetivos reconhecidos:
+ * - mapeamento_maturidade
+ * - levantamento_percepcao
+ * - auditoria_interna
+ * - treinamento_conscientizacao
+ * - identificacao_riscos
+ * - diagnostico_inicial (padrão)
+ * 
+ * @param {string} objective - Objetivo bruto (entrada do administrador)
+ * @returns {string} Objetivo normalizado (um dos valores acima)
+ * 
+ * @example
+ * normalizeObjective("Mapeamento de Maturidade em LGPD")
+ * // → "mapeamento_maturidade"
+ * @example
+ * normalizeObjective("algo indefinido")
+ * // → "diagnostico_inicial"
+ */
 function normalizeObjective(objective) {
   const value = normalize(objective);
 
   if (!value) return "diagnostico_inicial";
 
   if (value.includes("maturidade")) return "mapeamento_maturidade";
-  if (value.includes("percepcao") || value.includes("percepção")) {
+  if (value.includes("percepcao")) {
     return "levantamento_percepcao";
   }
   if (value.includes("auditoria")) return "auditoria_interna";
   if (
     value.includes("treinamento") ||
-    value.includes("conscientizacao") ||
-    value.includes("conscientização")
+    value.includes("conscientizacao")
   ) {
     return "treinamento_conscientizacao";
   }
@@ -239,6 +443,23 @@ function normalizeObjective(objective) {
   return "diagnostico_inicial";
 }
 
+/**
+ * Constrói guia de orientação baseado no objetivo da avaliação.
+ * 
+ * Retorna instruções textuais em português que orientam o gerador
+ * de perguntas sobre como adaptar o tom, foco e profundidade
+ * para atingir o objetivo definido pelo administrador.
+ * 
+ *  Texto é incluído no prompt final para
+ * contextualizar o LLM sobre prioritário do objetivo.
+ * 
+ * @param {string} objective - Objetivo bruto (entrada do administrador)
+ * @returns {string} Guia em português para a geração de perguntas
+ * 
+ * @example
+ * buildObjectiveGuidance("Mapeamento de Maturidade")
+ * // → "OBJETIVO ESPECÍFICO: MAPEAMENTO DE MATURIDADE\n- Investigue nível de estrutura...\n..."
+ */
 function buildObjectiveGuidance(objective) {
   const normalizedObjective = normalizeObjective(objective);
 
@@ -300,6 +521,19 @@ OBJETIVO ESPECÍFICO: DIAGNÓSTICO INICIAL
 `.trim();
 }
 
+/**
+ * Constrói guia de exploração específica por etapa do questionário.
+ * 
+ * Defini a dimensão temática que cada etapa deve investigar para
+ * evitar repetição entre etapas e garantir cobertura progressiva.
+ * 
+ * @param {number} stage - Número da etapa (1-4)
+ * @returns {string} Guia em português para foco da etapa
+ * 
+ * @example
+ * buildStageExplorationGuidance(2)
+ * // → "DIMENSÃO DA ETAPA 2:\n- Explore coleta, uso, acesso...\n..."
+ */
 function buildStageExplorationGuidance(stage) {
   if (stage === 1) {
     return `
@@ -344,6 +578,47 @@ DIMENSÃO DA ETAPA:
 `.trim();
 }
 
+/**
+ * Gera prompt completo e contextualizado para o LLM gerar perguntas de uma etapa.
+ * 
+ * Fluxo:
+ * 1. Valida e normaliza entrada (stage, contexto, metadados)
+ * 2. Extrai histórico de perguntas/respostas
+ * 3. Infere perfil e nível de conhecimento do respondente
+ * 4. Detecta padrões de fragilidade para investigação adaptativa
+ * 5. Constrói guias de objetivo e exploração
+ * 6. Monta prompt com todas as regras, contexto e validações
+ * 
+ *
+ * - Histórico de perguntas é passado para bloqueio de repetição
+ * - Perfil é inferido e adaptações são sugeridas
+ * - Regra crítica de não-repetição é repetida múltiplas vezes
+ * - Cada pergunta deve ser verificada contra histórico antes de ser retornada
+ * 
+ * @param {number} stage - Número da etapa (1-4)
+ * @param {string|Object} [ctxOrResponses=""] - Contexto ou respostas anteriores
+ *                                               Pode ser string (formato Q: → A:) ou objeto
+ * @param {Object} [metadata={}] - Metadados da avaliação
+ * @param {string} metadata.assessmentTitle - Título da avaliação
+ * @param {string} metadata.assessmentFormType - Tipo de formulário
+ * @param {string} metadata.assessmentObjective - Objetivo da avaliação
+ * @param {string} metadata.assessmentCategory - Categoria (alias para objetivo)
+ * @param {string} metadata.assessmentContext - Contexto da avaliação
+ * @param {string} metadata.audience - Público-alvo definido
+ * @param {string} metadata.introText - Texto introdutório
+ * 
+ * @returns {string} Prompt completo em português para enviar ao LLM
+ *                   Pronto para submeter a generateFinalReportWithGroq() com jsonMode
+ * 
+ * @example
+ * const prompt = generateStagePrompt(2, {}, {
+ *   assessmentTitle: "Diagnóstico LGPD",
+ *   assessmentObjective: "Identificação de riscos",
+ *   audience: "Colaboradores da empresa",
+ *   assessmentContext: "Setor financeiro, processamento de dados pessoais de clientes"
+ * });
+ * // → String com ~3000 caracteres contendo todas as instruções
+ */
 export function generateStagePrompt(stage, ctxOrResponses = "", metadata = {}) {
   const etapa = Number(stage) || 1;
 
@@ -359,6 +634,15 @@ export function generateStagePrompt(stage, ctxOrResponses = "", metadata = {}) {
   const initialUserContext = extractInitialUserContext(ctx);
   const perfilInferido = inferProfileFromInitialContext(initialUserContext);
 
+  /**
+   * Marcadores de baixo conhecimento/compreensão.
+   * 
+   * Respostas contendo estes termos indicam que o respondente pode não estar
+   * familiarizado com o tema e precisa de perguntas ainda mais simples.
+   * 
+   * @type {Array<string>}
+   * @private
+   */
   const LOW_KNOWLEDGE_MARKERS = [
     "nao sei",
     "não sei",
@@ -477,9 +761,9 @@ Quando houver conflito, siga esta ordem de prioridade:
 
 ==================== REGRA CRÍTICA DE NÃO REPETIÇÃO (OBRIGATÓRIA) ====================
 
-⚠️ ESTA É A REGRA MAIS IMPORTANTE. VIOLE-A E A QUALIDADE CAI DRASTICAMENTE.
+ESTA É A REGRA MAIS IMPORTANTE. VIOLE-A E A QUALIDADE CAI DRASTICAMENTE.
 
-⚠️ ATENÇÃO ESPECIAL: NESTA MESMA RESPOSTA, NAS ${totalPerguntas} PERGUNTAS QUE VOCÊ VAI GERAR, NENHUMA DELAS PODE SER REPETIDA OU SIMILAR.
+ATENÇÃO ESPECIAL: NESTA MESMA RESPOSTA, NAS ${totalPerguntas} PERGUNTAS QUE VOCÊ VAI GERAR, NENHUMA DELAS PODE SER REPETIDA OU SIMILAR.
    Cada uma das ${totalPerguntas} perguntas deve explorar uma DIMENSÃO COMPLETAMENTE DIFERENTE.
    Não há espaço para questionamentos sobre o mesmo tema com palavras diferentes.
 
@@ -489,7 +773,7 @@ BLOQUEIO ABSOLUTO DE REPETIÇÃO:
 - NÃO reformular com sinônimos uma pergunta que já investigou a mesma intenção.
 - NÃO repetir o mesmo contexto, o mesmo foco ou a mesma dimensão investigativa em etapas diferentes.
 - NÃO FAZER perguntas sobre "desafios", "maturidade" e "evolução" múltiplas vezes (já foi feito em etapas anteriores).
-- ⚠️ NAS ${totalPerguntas} PERGUNTAS DESTA RESPOSTA: cada pergunta deve ter um ASSUNTO CENTRAL DIFERENTE. Sem exceções.
+-  NAS ${totalPerguntas} PERGUNTAS DESTA RESPOSTA: cada pergunta deve ter um ASSUNTO CENTRAL DIFERENTE. Sem exceções.
 
 PROCESSO DE VALIDAÇÃO - PARA CADA PERGUNTA GERADA:
 1. Procure no histórico: existe uma pergunta com os MESMOS PALAVRAS-CHAVE?
@@ -515,13 +799,13 @@ DIMENSÕES BLOQUEADAS SE JÁ ABORDADAS:
 O histórico de perguntas acima é BLOQUEIO REAL de conteúdo já explorado.
 
 EXEMPLOS DE REPETIÇÃO INACEITÁVEL (SEMPRE DESCARTAR):
-❌ "Quais são os principais desafios para evoluir a maturidade desse processo?"
+"Quais são os principais desafios para evoluir a maturidade desse processo?"
    + Se perguntou sobre "desafios" antes = BLOQUEADO
 
-❌ "Quais pontos chamam sua atenção em relação ao tratamento das informações?"
+"Quais pontos chamam sua atenção em relação ao tratamento das informações?"
    + Muito similar a perguntas anteriores = BLOQUEADO
 
-✅ PERGUNTAS SIMPLES E DIRETAS QUE FUNCIONAM:
+ PERGUNTAS SIMPLES E DIRETAS QUE FUNCIONAM:
    + "Onde vocês guardam essas informações?" (Sobre armazenamento)
    + "Quem pode acessar esses dados?" (Sobre controle de acesso)
    + "Com que frequência vocês revisam como usam esses dados?" (Sobre monitoramento)
@@ -532,12 +816,12 @@ EXEMPLOS DE REPETIÇÃO INACEITÁVEL (SEMPRE DESCARTAR):
    + "Quem mais fora da sua equipe precisa dessas informações?" (Sobre compartilhamento)
 
 REGRA: Perguntas devem usar linguagem do dia-a-dia, não jargão técnico.
-- ❌ Evite: "implementação de conformidade", "maturidade", "framework"
-- ✅ Use: "Como vocês...", "Onde...", "Quem...", "Com que frequência..."
+-  Evite: "implementação de conformidade", "maturidade", "framework"
+-  Use: "Como vocês...", "Onde...", "Quem...", "Com que frequência..."
 
 ==================== ACESSIBILIDADE / LINGUAGEM SIMPLES (OBRIGATÓRIO) ====================
 
-🎯 REGRA DE OURO: Uma criança de 12 anos tem que entender a pergunta.
+REGRA DE OURO: Uma criança de 12 anos tem que entender a pergunta.
 
 - ZERO jargão técnico. Nunca use: LGPD, GDPR, compliance, framework, implementação, maturidade, conformidade.
 - Cada pergunta deve ser respondível por alguém que NUNCA ouviu falar em proteção de dados.

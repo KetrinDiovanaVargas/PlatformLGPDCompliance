@@ -1,13 +1,38 @@
+/**
+ * @file Rota administrativa de análise consolidada de avaliações.
+ *
+ * Agrega os relatórios finais de todas as sessões concluídas de uma avaliação
+ * em uma visão gerencial única (score médio, temas recorrentes e recomendações
+ * executivas). A consolidação é tentada primeiro via IA e, em caso de falha,
+ * recai em um agrupamento determinístico local (modo contingência).
+ *
+ * @module routes/adminConsolidatedAnalysis
+ */
+
 import express from "express";
 import { getAdminDb } from "../firebaseAdmin.mjs";
 import { queuedChatCompletion } from "../lib/ai-client.mjs";
 
 const router = express.Router();
 
+/**
+ * Converte qualquer valor em string aparada, protegendo contra `null`/`undefined`.
+ *
+ * @param {*} value - Valor de origem.
+ * @param {string} [fallback=""] - Valor usado quando `value` é `null` ou `undefined`.
+ * @returns {string} String resultante, sem espaços nas extremidades.
+ */
 function safeString(value, fallback = "") {
   return String(value ?? fallback).trim();
 }
 
+/**
+ * Normaliza um texto para uso como chave de agrupamento: minúsculas, sem
+ * acentuação, sem pontuação e com espaços colapsados.
+ *
+ * @param {*} text - Texto a normalizar.
+ * @returns {string} Texto normalizado (string vazia se não houver conteúdo).
+ */
 function normalizeText(text) {
   return safeString(text)
     .toLowerCase()
@@ -18,6 +43,13 @@ function normalizeText(text) {
     .trim();
 }
 
+/**
+ * Extrai o primeiro objeto JSON contido em uma resposta da IA, removendo
+ * cercas de markdown (```json) e qualquer texto ao redor.
+ *
+ * @param {string} text - Resposta bruta do modelo.
+ * @returns {Object|null} Objeto parseado ou `null` se não houver JSON válido.
+ */
 function extractJson(text) {
   if (!text) return null;
 
@@ -42,6 +74,12 @@ function extractJson(text) {
   }
 }
 
+/**
+ * Converte uma prioridade arbitrária para um dos rótulos canônicos aceitos.
+ *
+ * @param {*} priority - Prioridade informada (ex.: "alta", "media", "Baixa").
+ * @returns {"Alta"|"Média"|"Baixa"} Prioridade canônica; `"Média"` quando não reconhecida.
+ */
 function normalizePriority(priority) {
   const normalized = safeString(priority).toLowerCase();
 
@@ -52,6 +90,44 @@ function normalizePriority(priority) {
   return "Média";
 }
 
+/**
+ * Recomendação executiva consolidada.
+ *
+ * @typedef {Object} Recommendation
+ * @property {string} title - Título curto da recomendação.
+ * @property {"Alta"|"Média"|"Baixa"} priority - Prioridade canônica.
+ */
+
+/**
+ * Tema recorrente identificado nos relatórios (ponto crítico, força ou atenção).
+ *
+ * @typedef {Object} ConsolidatedItem
+ * @property {string} label - Texto curto do tema.
+ * @property {number} count - Quantidade de ocorrências entre os relatórios.
+ */
+
+/**
+ * Payload de análise consolidada devolvido pela rota.
+ *
+ * @typedef {Object} ConsolidatedAnalysis
+ * @property {"groq"|"fallback"|"demo"|"empty"} mode - Origem da consolidação.
+ * @property {string} message - Mensagem executiva principal.
+ * @property {string} [notice] - Observação sobre como a consolidação foi montada.
+ * @property {number} reportsCount - Quantidade de relatórios considerados.
+ * @property {number} scoreAverage - Score médio (0 a 100).
+ * @property {ConsolidatedItem[]} topCriticalIssues - Principais pontos críticos.
+ * @property {ConsolidatedItem[]} topStrengths - Principais pontos fortes.
+ * @property {ConsolidatedItem[]} topAttentionPoints - Principais pontos de atenção.
+ * @property {Recommendation[]} recommendations - Recomendações executivas.
+ */
+
+/**
+ * Normaliza uma lista de recomendações vinda da IA, descartando itens sem
+ * título e limitando o resultado a 6 entradas.
+ *
+ * @param {*} value - Valor bruto; se não for array, retorna lista vazia.
+ * @returns {Recommendation[]} Recomendações normalizadas.
+ */
 function normalizeRecommendationArray(value) {
   if (!Array.isArray(value)) return [];
 
@@ -64,6 +140,13 @@ function normalizeRecommendationArray(value) {
     .slice(0, 6);
 }
 
+/**
+ * Normaliza uma lista de temas recorrentes vinda da IA, aceitando as chaves
+ * `label`, `title` ou `name` (ou strings simples) e garantindo `count >= 1`.
+ *
+ * @param {*} value - Valor bruto; se não for array, retorna lista vazia.
+ * @returns {ConsolidatedItem[]} Itens normalizados, limitados a 6 entradas.
+ */
 function normalizeConsolidatedItems(value) {
   if (!Array.isArray(value)) return [];
 
@@ -76,12 +159,25 @@ function normalizeConsolidatedItems(value) {
     .slice(0, 6);
 }
 
+/**
+ * Calcula a média aritmética arredondada de uma lista numérica.
+ *
+ * @param {number[]} [numbers=[]] - Valores a considerar.
+ * @returns {number} Média arredondada; `0` para lista vazia.
+ */
 function average(numbers = []) {
   if (!numbers.length) return 0;
   const total = numbers.reduce((sum, n) => sum + Number(n || 0), 0);
   return Math.round(total / numbers.length);
 }
 
+/**
+ * Agrupa textos equivalentes (comparados via {@link normalizeText}) e conta
+ * suas ocorrências, preservando a primeira grafia encontrada como rótulo.
+ *
+ * @param {*[]} [items=[]] - Textos a agrupar.
+ * @returns {Map<string, ConsolidatedItem>} Mapa de chave normalizada para item contado.
+ */
 function buildCountMap(items = []) {
   const map = new Map();
 
@@ -104,6 +200,14 @@ function buildCountMap(items = []) {
   return map;
 }
 
+/**
+ * Retorna os textos mais recorrentes de uma lista, ordenados por contagem
+ * decrescente e, em caso de empate, alfabeticamente.
+ *
+ * @param {*[]} [items=[]] - Textos a ranquear.
+ * @param {number} [limit=5] - Quantidade máxima de itens retornados.
+ * @returns {ConsolidatedItem[]} Temas mais frequentes.
+ */
 function topItemsFromArray(items = [], limit = 5) {
   const map = buildCountMap(items);
 
@@ -112,6 +216,15 @@ function topItemsFromArray(items = [], limit = 5) {
     .slice(0, limit);
 }
 
+/**
+ * Consolida as recomendações de vários relatórios, agrupando títulos
+ * equivalentes e mantendo sempre a maior prioridade observada
+ * (Alta > Média > Baixa).
+ *
+ * @param {Object[]} [reports=[]] - Relatórios finais das sessões.
+ * @param {number} [limit=5] - Quantidade máxima de recomendações retornadas.
+ * @returns {Recommendation[]} Recomendações mais recorrentes.
+ */
 function topRecommendationsFromReports(reports = [], limit = 5) {
   const map = new Map();
 
@@ -155,6 +268,14 @@ function topRecommendationsFromReports(reports = [], limit = 5) {
     .map(({ title, priority }) => ({ title, priority }));
 }
 
+/**
+ * Monta a análise consolidada em modo contingência, sem consumir IA, apenas
+ * agregando os dados já presentes nos relatórios salvos.
+ *
+ * @param {Object} assessment - Documento da avaliação (usado para o título).
+ * @param {Object[]} reports - Relatórios finais das sessões concluídas.
+ * @returns {ConsolidatedAnalysis} Análise no modo `"fallback"`.
+ */
 function buildFallbackAnalysis(assessment, reports) {
   const scores = reports
     .map((item) => Number(item?.metrics?.score))
@@ -195,6 +316,14 @@ function buildFallbackAnalysis(assessment, reports) {
   };
 }
 
+/**
+ * Sanitiza o JSON devolvido pela IA no formato de resposta da rota, limitando
+ * o score ao intervalo 0–100 e normalizando listas e prioridades.
+ *
+ * @param {Object} parsed - Objeto JSON extraído da resposta da IA.
+ * @param {number} reportsCount - Quantidade de relatórios consolidados.
+ * @returns {ConsolidatedAnalysis} Análise no modo `"groq"`.
+ */
 function normalizeGroqAnalysis(parsed, reportsCount) {
   return {
     mode: "groq",
@@ -209,6 +338,15 @@ function normalizeGroqAnalysis(parsed, reportsCount) {
   };
 }
 
+/**
+ * Constrói o prompt de consolidação enviado à IA, com o contexto oficial da
+ * avaliação e uma versão compacta dos relatórios individuais.
+ *
+ * @param {Object} params
+ * @param {Object} params.assessment - Documento da avaliação.
+ * @param {Object[]} params.reports - Relatórios finais das sessões.
+ * @returns {string} Prompt pronto para envio.
+ */
 function buildGroqPrompt({ assessment, reports }) {
   const compactReports = reports.map((item) => ({
     sessionId: item.sessionId || null,
@@ -294,6 +432,17 @@ ${JSON.stringify(compactReports, null, 2)}
 `.trim();
 }
 
+/**
+ * Executa a consolidação via IA e devolve o resultado já normalizado.
+ *
+ * @param {Object} params
+ * @param {Object} params.assessment - Documento da avaliação.
+ * @param {Object[]} params.reports - Relatórios finais das sessões.
+ * @param {string} [params.aiProvider="groq"] - Provedor de IA preferencial.
+ * @returns {Promise<ConsolidatedAnalysis>} Análise no modo `"groq"`.
+ * @throws {Error} Se a chamada à IA falhar ou o retorno não contiver JSON válido;
+ *   o chamador deve recair em {@link buildFallbackAnalysis}.
+ */
 async function tryGroqConsolidation({ assessment, reports, aiProvider = "groq" }) {
   const prompt = buildGroqPrompt({ assessment, reports });
 
@@ -333,6 +482,22 @@ async function tryGroqConsolidation({ assessment, reports, aiProvider = "groq" }
   }
 }
 
+/**
+ * POST / — Gera a análise consolidada de uma avaliação.
+ *
+ * Fluxo: valida `assessmentId` → carrega a avaliação e suas sessões com
+ * `status === "completed"` → lê o `final_report/latest` de cada sessão →
+ * consolida via IA, recaindo no modo contingência se a IA falhar.
+ *
+ * Modos possíveis na resposta: `"groq"` (IA), `"fallback"` (contingência),
+ * `"demo"` (Firebase Admin não configurado), `"empty"` (sem relatórios) e
+ * `"error"` (falha inesperada).
+ *
+ * @param {import("express").Request} req - Requisição; espera `{ assessmentId }` no corpo.
+ * @param {import("express").Response} res - Resposta com {@link ConsolidatedAnalysis}
+ *   (200), `400` sem `assessmentId`, `404` se a avaliação não existir ou `500` em erro crítico.
+ * @returns {Promise<void>}
+ */
 router.post("/", async (req, res) => {
   try {
     console.log("📥 Requisição de análise consolidada recebida");
