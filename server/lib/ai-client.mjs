@@ -38,9 +38,10 @@
  * );
  * 
  * @version 1.0.0
- * @author Seu Nome
+ * 
  */
 
+import { getQueue } from './ai-queue.mjs';
 /**
  * @typedef {Object} ChatMessage
  * @property {('user'|'assistant'|'system')} role - Papel da mensagem
